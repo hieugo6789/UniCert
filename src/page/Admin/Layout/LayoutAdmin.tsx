@@ -3,7 +3,7 @@ import AdminHeader from "../../../components/Header/AdminHeader";
 
 const LayoutAdmin = () => {
   return (
-    <div>
+    <div className="flex">
       <AdminHeader />
       <Outlet />
     </div>
