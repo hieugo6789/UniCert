@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
+import AdminHeader from "../../../components/Header/AdminHeader";
 
 const LayoutAdmin = () => {
   return (
     <div>
-      LayoutAdmin
+      <AdminHeader />
       <Outlet />
     </div>
   );
