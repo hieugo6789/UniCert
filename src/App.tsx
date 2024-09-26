@@ -1,49 +1,54 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-import { Button } from "antd";
+import { Outlet } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import HomePage from "./page/Student/HomePage";
+import CertificatePage from "./page/Student/CertificatePage";
+import LayoutAdmin from "./page/Admin/LayoutAdmin";
+import Dashboard from "./page/Admin/Dashboard";
+import Certificate from "./page/Admin/Certificate";
+import Decentralization from "./page/Admin/Decentralization";
+import Exam from "./page/Admin/Exam";
+import JobPosition from "./page/Admin/JobPosition";
+import Major from "./page/Admin/Major";
+import Organizations from "./page/Admin/Organizations";
+import Students from "./page/Admin/Students";
 
-function App() {
-  const [count, setCount] = useState(0);
-
+const Layout = () => {
   return (
     <>
-      <div>
-        <Button>COn chó An súc vâtj</Button>
-        <a
-          href="https://vitejs.dev"
-          target="_blank"
-        >
-          <img
-            src={viteLogo}
-            className="logo"
-            alt="Vite logo"
-          />
-        </a>
-        <a
-          href="https://react.dev"
-          target="_blank"
-        >
-          <img
-            src={reactLogo}
-            className="logo react"
-            alt="React logo"
-          />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Outlet />
+    </>
+  );
+};
+
+function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      // errorElement : <Not
+      children: [
+        { index: true, element: <HomePage /> },
+        { path: "certificate", element: <CertificatePage /> },
+      ],
+    },
+    {
+      path: "/admin",
+      element: <LayoutAdmin />,
+      children: [
+        { index: true, element: <Dashboard /> },
+        { path: "certificate", element: <Certificate /> },
+        { path: "decentralization", element: <Decentralization /> },
+        { path: "exam", element: <Exam /> },
+        { path: "jobPosition", element: <JobPosition /> },
+        { path: "major", element: <Major /> },
+        { path: "organizations", element: <Organizations /> },
+        { path: "students", element: <Students /> },
+      ],
+    },
+  ]);
+  return (
+    <>
+      <RouterProvider router={router} />
     </>
   );
 }
