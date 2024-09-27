@@ -13,12 +13,12 @@ const Register = () => {
       <img
         src={image}
         alt="Image"
-        className="w-1/2"
+        className="w-2/3"
       />
     </div>
     <div className="flex-1">
-      <div className="max-w-sm mx-auto  p-8 ">
-        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+      <div className="max-w-md mx-auto  p-8 ">
+        <h2 className="text-3xl font-bold mb-6 text-center">Register</h2>
         <form>
           <CustomInput type="text" placeholder="Username" width="w-full" height="px-4 py-2"/>
           <CustomInput type="email" placeholder="Email" width="w-full" height="px-4 py-2"/>
