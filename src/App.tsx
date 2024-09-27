@@ -16,6 +16,7 @@ import Register from "./page/Login&Register/Register";
 import Header from "./components/Header/Header";
 import AboutPage from "./page/User/AboutPage";
 import Footer from "./components/Footer/Footer";
+import InternalCourses from "./page/Admin/InternalCourses";
 
 const Layout = () => {
   return (
@@ -53,6 +54,7 @@ function App() {
         { path: "major", element: <Major /> },
         { path: "organizations", element: <Organizations /> },
         { path: "students", element: <Students /> },
+        { path: "internalCourses", element: <InternalCourses /> },
       ],
     },
   ]);
