@@ -59,7 +59,7 @@ const AboutPage = () => {
           <img
             src={leader.image}
             alt={leader.name}
-            className="absolute top-10 clip-hexagon w-full"
+            className="absolute top-10 clip-hexagon w-full mr-5"
           />
         <img
             src={LeaderShipBadgeFrame}
