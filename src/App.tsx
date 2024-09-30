@@ -17,6 +17,9 @@ import Header from "./components/Header/Header";
 import AboutPage from "./page/User/AboutPage";
 import Footer from "./components/Footer/Footer";
 import InternalCourses from "./page/Admin/InternalCourses";
+import PracticalExam from "./page/User/PracticalExam/PracticalExam";
+import Majors from "./page/User/Majors/Majors";
+import Job from "./page/User/Job/Job";
 
 const Layout = () => {
   return (
@@ -38,6 +41,9 @@ function App() {
         { index: true, element: <HomePage /> },
         { path: "about", element: <AboutPage /> },
         { path: "certificate", element: <CertificatePage /> },
+        { path: "practicalExam", element: <PracticalExam /> },
+        { path: "majors", element: <Majors /> },
+        { path: "job", element: <Job /> },
       ],
     },
     { path: "/login", element: <Login /> },
