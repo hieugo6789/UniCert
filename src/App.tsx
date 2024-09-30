@@ -20,6 +20,8 @@ import InternalCourses from "./page/Admin/InternalCourses";
 import PracticalExam from "./page/User/PracticalExam/PracticalExam";
 import Majors from "./page/User/Majors/Majors";
 import Job from "./page/User/Job/Job";
+import Profile from "./page/Profile/Profile";
+import NotFound from "./page/NotFound/NotFound";
 
 const Layout = () => {
   return (
@@ -36,7 +38,7 @@ function App() {
     {
       path: "/",
       element: <Layout />,
-      // errorElement : <Not
+      errorElement: <NotFound />,
       children: [
         { index: true, element: <HomePage /> },
         { path: "about", element: <AboutPage /> },
@@ -48,6 +50,7 @@ function App() {
     },
     { path: "/login", element: <Login /> },
     { path: "/register", element: <Register /> },
+    { path: "/profile", element: <Profile /> },
     {
       path: "/admin",
       element: <LayoutAdmin />,
