@@ -4,6 +4,7 @@ interface CustomButtonProps {
   disabled?: boolean;
   width?: string;
   height?: string;
+  type?: "button" | "submit" | "reset";
 }
 
 const CustomButton = (props: CustomButtonProps) => {
@@ -18,6 +19,7 @@ const CustomButton = (props: CustomButtonProps) => {
           : "bg-purple-500 hover:bg-purple-600"
       } shadow-lg`}
       disabled={props.disabled}
+      type={props.type || "button"}
     >
       {props.label}
     </button>
