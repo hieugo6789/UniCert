@@ -2,9 +2,106 @@ import CustomButton from "../../components/UI/CustomButton";
 import image from "../../assets/images/login.png";
 import CustomInput from "../../components/UI/CustomInput";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { jwtDecode, JwtPayload } from "jwt-decode";
+import * as Yup from "yup";
+import { useAppDispatch } from "../../redux/hook";
+import { loginFailure, loginStart } from "../../redux/slice/authSlice";
+import baseApi from "../../utils/baseApi";
+import { ROLE } from "../../constants/role";
+import { LoginInput } from "../../models/authentication";
+import { AxiosError } from "axios";
+import { LoginError } from "../../utils/authUtils/loginValidation";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { Field, Form, Formik } from "formik";
+import { MyInputEmail, MyInputPassword } from "../../components/UI/LoginInput";
+
+interface roleJwt extends JwtPayload {
+  "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
+  userId: string;
+}
+
 const Login = () => {
-  const handleLogin = () => {
-    console.log("login");
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .required("Tên người dùng là bắt buộc")
+      .min(3, "Tên người dùng phải có ít nhất 3 ký tự")
+      .max(20, "Tên người dùng không được vượt quá 20 ký tự"),
+    password: Yup.string()
+      .required("Mật khẩu là bắt buộc")
+      .min(6, "Mật khẩu phải có ít nhất 6 ký tự")
+      .max(20, "Mật khẩu không được vượt quá 20 ký tự"),
+  });
+  const dispatch = useAppDispatch();
+
+  const handleLogin = async (value: LoginInput) => {
+    setIsLoading(true);
+    dispatch(loginStart());
+    try {
+      const { data } = await baseApi.post(`api/v1/Login`, {
+        email: value.email,
+        password: value.password,
+      });
+      // const token = data.accessToken;
+
+      const decodeToken = jwtDecode(data.data.accessToken) as roleJwt;
+      // const expirationTime = Math.floor(Date.now() / 1000) + 20 * 60;
+      // localStorage.setItem("exp", expirationTime.toString());
+
+      Cookies.set("token", data.data.accessToken, { expires: 1 });
+      Cookies.set(
+        "role",
+        decodeToken[
+          "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        ],
+        { expires: 1 }
+      );
+      Cookies.set("userId", decodeToken?.userId, { expires: 1 });
+
+      switch (
+        decodeToken[
+          "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        ]
+      ) {
+        case ROLE.role1:
+          navigate(`/admin`);
+          break;
+        case ROLE.role2:
+          navigate(`/admin`);
+          break;
+        case ROLE.role3:
+          navigate(`/admin`);
+          break;
+        case ROLE.role4:
+          navigate(`/`);
+          break;
+        default:
+          break;
+      }
+      localStorage.setItem("token", data.data.accessToken);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const errorResponse = error?.response?.data?.error?.message;
+        if (errorResponse in LoginError) {
+          const translatedError =
+            LoginError[errorResponse as keyof typeof LoginError];
+          dispatch(loginFailure(translatedError));
+        } else {
+          dispatch(loginFailure(errorResponse));
+        }
+      } else {
+        dispatch(loginFailure("Đã có lỗi xảy ra"));
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <div className="flex justify-center items-center h-screen bg-white">
@@ -18,28 +115,33 @@ const Login = () => {
       <div className="flex-1">
         <div className="max-w-md mx-auto  p-8 ">
           <h2 className="text-3xl font-bold mb-6 text-center">Login</h2>
-          <form>
-            <CustomInput
-              type="text"
-              placeholder="Username"
-              width="w-full"
-              height="px-4 py-2"
-            />
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleLogin}
+          >
+            <Form>
+              <Field
+                name="email"
+                component={MyInputEmail}
+              />
 
-            <CustomInput
-              type="password"
-              placeholder="Password"
-              width="w-full"
-              height="px-4 py-2"
-            />
+              <Field
+                name="password"
+                component={MyInputPassword}
+                placeholder="Password"
+              />
 
-            <CustomButton
-              label="Login"
-              onClick={handleLogin}
-              width="w-full"
-              height="py-2"
-            />
-          </form>
+              <button
+                disabled={isLoading}
+                type="submit"
+                className="bg-gradient-to-tr w-full from-pink-500 to-yellow-500 text-white shadow-lg"
+              >
+                {/* {isLoading ? <Spinner color="default" /> : "Đăng nhập"} */}
+                Login
+              </button>
+            </Form>
+          </Formik>
 
           <p className="text-center text-sm text-gray-500 mt-4">
             Or{" "}
