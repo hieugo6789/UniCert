@@ -1,26 +1,19 @@
-import CustomButton from "../../components/UI/CustomButton";
 import image from "../../assets/images/login.png";
 import useAuth from "../../hooks/useAuth";
 import { Spin } from "antd";
-import CustomInput from "../../components/UI/CustomInput";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { jwtDecode, JwtPayload } from "jwt-decode";
-import { useAppDispatch } from "../../redux/hook";
-import { loginFailure, loginStart } from "../../redux/slice/authSlice";
-import baseApi from "../../utils/baseApi";
-import { ROLE } from "../../constants/role";
-import { LoginInput } from "../../models/authentication";
-import { AxiosError } from "axios";
-import { LoginError } from "../../utils/authUtils/loginValidation";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 import { Field, Form, Formik } from "formik";
 import { MyInputEmail, MyInputPassword } from "../../components/UI/LoginInput";
+import { useAppSelector } from "../../redux/hook";
+import { RootState } from "../../redux/store";
+// import GoogleLoginComponent from "../../components/LoginGoogle/GoogleLogin";
 
 const Login = () => {
+  const errorMessage = useAppSelector(
+    (state: RootState) => state.auth.displayError
+  );
   const initialValues = {
     email: "",
     password: "",
@@ -66,6 +59,11 @@ const Login = () => {
                 component={MyInputPassword}
                 placeholder="Password"
               />
+              {errorMessage && (
+                <div className="error-message text-red-500 text-center">
+                  {errorMessage}
+                </div>
+              )}
 
               <button
                 disabled={isLoading}
@@ -76,6 +74,7 @@ const Login = () => {
               </button>
             </Form>
           </Formik>
+          {/* <GoogleLoginComponent /> */}
 
           <p className="text-center text-sm text-gray-500 mt-4">
             Or{" "}

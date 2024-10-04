@@ -42,15 +42,15 @@ const authSlice = createSlice({
       state.error = true;
       state.displayError = action.payload;
     },
-    signUpStart: (state) => {
+    registerStart: (state) => {
       state.isFetching = true;
     },
-    signUpSuccess: (state, action: PayloadAction<CurrentUser>) => {
+    registerSuccess: (state, action: PayloadAction<CurrentUser>) => {
       state.isFetching = false;
       state.currentUser = action.payload;
       state.error = false;
     },
-    signUpFailure: (state, action: PayloadAction<string>) => {
+    registerFailure: (state, action: PayloadAction<string>) => {
       state.isFetching = false;
       state.error = true;
       state.displayError = action.payload;
@@ -62,9 +62,9 @@ export const {
   loginStart,
   loginSuccess,
   loginFailure,
-  signUpStart,
-  signUpSuccess,
-  signUpFailure,
+  registerStart,
+  registerSuccess,
+  registerFailure,
 } = authSlice.actions;
 
 export default authSlice.reducer;

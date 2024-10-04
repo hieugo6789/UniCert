@@ -28,5 +28,9 @@ const requests = {
     baseApi.delete(url, { params }).then(responseBody),
 };
 
-const agent = {};
+const Major = {
+  getAllMajors: () => requests.get("api/v1/Major"),
+};
+
+const agent = { Major };
 export default agent;

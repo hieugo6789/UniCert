@@ -1,19 +1,61 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../../assets/images/UniCertLogo.png";
+import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
+import { useEffect, useState } from "react";
+import { Avatar, Dropdown, Menu } from "antd";
+import Cookies from "js-cookie";
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  });
+  const handleLogout = async () => {
+    await localStorage.clear();
+    Cookies.remove("token");
+    navigate("/logIn");
+  };
+
+  const menu = (
+    <Menu>
+      <Menu.Item
+        key="1"
+        icon={
+          <Avatar
+            src={defaultAvatar}
+            size="small"
+          />
+        }
+      >
+        <Link to="/profile">Profile</Link>
+      </Menu.Item>
+      <Menu.Item key="2">
+        <Link to="/customer/orderHistory">Payment History</Link>
+      </Menu.Item>
+      <Menu.Item
+        key="3"
+        onClick={handleLogout}
+      >
+        Log Out
+      </Menu.Item>
+    </Menu>
+  );
   return (
-    <header className="z-100 bg-black p-4 flex justify-between items-center sticky w-full top-0">
-      {/* Logo */}
+    <header className="z-100 bg-gray-950 px-8 py-2  flex justify-between items-center sticky w-full top-0 ">
       <div className="text-white text-2xl font-bold">
         <img
-          src="https://cdn4.iconfinder.com/data/icons/logos-brands-in-colors/3000/figma-logo-512.png"
+          src={logo}
           alt="Logo"
-          className="w-8 h-8"
+          className="w-14 h-14"
         />
       </div>
 
-      {/* Search Bar */}
-      <div className="relative w-4/12">
+      <div className="relative w-3/12">
         <input
           type="text"
           placeholder="Search..."
@@ -37,7 +79,6 @@ const Header = () => {
         </span>
       </div>
 
-      {/* Navigation */}
       <nav className="flex space-x-4 text-white">
         <Link
           to="./certificate"
@@ -71,18 +112,34 @@ const Header = () => {
         </Link>
       </nav>
 
-      {/* Buttons */}
       <div className="flex space-x-4">
-        <Link to="/login">
-          <button className="bg-gray-100 border border-purple-500 text-purple-500 px-4 py-2 rounded hover:bg-purple-500 hover:text-white">
-            Login
-          </button>
-        </Link>
-        <Link to="/register">
-          <button className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
-            Register
-          </button>
-        </Link>
+        {isLoggedIn ? (
+          <>
+            <Dropdown
+              overlay={menu}
+              className="cursor-pointer"
+              trigger={["click"]}
+            >
+              <Avatar
+                src={defaultAvatar}
+                size="large"
+              />
+            </Dropdown>
+          </>
+        ) : (
+          <div className="flex space-x-4">
+            <Link to="/login">
+              <button className="bg-gray-100 border border-purple-500 text-purple-500 px-4 py-2 rounded hover:bg-purple-500 hover:text-white">
+                Login
+              </button>
+            </Link>
+            <Link to="/register">
+              <button className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
+                Register
+              </button>
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   );

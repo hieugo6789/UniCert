@@ -17,14 +17,15 @@ export interface MyInputProps {
 
 function MyInput({ field, placeholder, error, helperText }: MyInputProps) {
   return (
-    <div className="relative">
+    <div className="mb-2">
       <input
+        className="w-full px-4 py-2 border border-purple-300 rounded-lg placeholder:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400"
         {...field}
         id={field.name}
         value={field.value || ""}
         onChange={field.onChange}
         autoComplete="off"
-        placeholder="Nhập  tên đăng nhập"
+        placeholder="Username"
         required
       />
       <ErrorMessage
@@ -35,21 +36,22 @@ function MyInput({ field, placeholder, error, helperText }: MyInputProps) {
     </div>
   );
 }
-function MyInputFirstName({
+function MyInputFullName({
   field,
   placeholder,
   error,
   helperText,
 }: MyInputProps) {
   return (
-    <div className="relative">
+    <div className="mb-2">
       <input
+        className="w-full px-4 py-2 border border-purple-300 rounded-lg placeholder:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400"
         {...field}
         id={field.name}
         value={field.value || ""}
         onChange={field.onChange}
         autoComplete="off"
-        placeholder="Tên họ"
+        placeholder="Fullname"
         required
       />
       <ErrorMessage
@@ -67,39 +69,15 @@ function MyInputPhoneNumber({
   helperText,
 }: MyInputProps) {
   return (
-    <div className="relative">
+    <div className="mb-2">
       <input
+        className="w-full px-4 py-2 border border-purple-300 rounded-lg placeholder:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400"
         {...field}
         id={field.name}
         value={field.value || ""}
         onChange={field.onChange}
         autoComplete="off"
-        placeholder="Số điện thoại"
-        required
-      />
-      <ErrorMessage
-        name={field.name}
-        component="p"
-        className="pt-2 text-sm text-red-500"
-      />
-    </div>
-  );
-}
-function MyInputLastName({
-  field,
-  placeholder,
-  error,
-  helperText,
-}: MyInputProps) {
-  return (
-    <div className="relative">
-      <input
-        {...field}
-        id={field.name}
-        value={field.value || ""}
-        onChange={field.onChange}
-        autoComplete="off"
-        placeholder="Tên của bạn"
+        placeholder="Phone number"
         required
       />
       <ErrorMessage
@@ -112,7 +90,7 @@ function MyInputLastName({
 }
 function MyInputEmail({ field, placeholder, error, helperText }: MyInputProps) {
   return (
-    <div className="mb-4">
+    <div className="mb-2">
       <input
         className="w-full px-4 py-2 border border-purple-300 rounded-lg placeholder:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400"
         {...field}
@@ -121,6 +99,56 @@ function MyInputEmail({ field, placeholder, error, helperText }: MyInputProps) {
         onChange={field.onChange}
         autoComplete="off"
         placeholder="Email"
+        required
+      />
+
+      <ErrorMessage
+        name={field.name}
+        component="p"
+        className="pt-2 text-sm text-red-500"
+      />
+    </div>
+  );
+}
+function MyInputAddress({
+  field,
+  placeholder,
+  error,
+  helperText,
+}: MyInputProps) {
+  return (
+    <div className="mb-2">
+      <input
+        className="w-full px-4 py-2 border border-purple-300 rounded-lg placeholder:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400"
+        {...field}
+        id={field.name}
+        value={field.value || ""}
+        onChange={field.onChange}
+        autoComplete="off"
+        placeholder="Address"
+        required
+      />
+
+      <ErrorMessage
+        name={field.name}
+        component="p"
+        className="pt-2 text-sm text-red-500"
+      />
+    </div>
+  );
+}
+function MyInputDob({ field, placeholder, error, helperText }: MyInputProps) {
+  return (
+    <div className="mb-2">
+      <input
+        className="w-full px-4 py-2 border border-purple-300 rounded-lg placeholder:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400"
+        {...field}
+        id={field.name}
+        type="date"
+        value={field.value || ""}
+        onChange={field.onChange}
+        autoComplete="off"
+        placeholder={placeholder || "Date of Birth"}
         required
       />
 
@@ -179,7 +207,7 @@ function MyInputPassword({
   const toggleShowPassword = () => setShowPassword(!showPassword);
 
   return (
-    <div className="mb-4">
+    <div className="mb-2">
       <div className="relative">
         <input
           className="w-full px-4 py-2 border border-purple-300 rounded-lg placeholder:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 pr-10"
@@ -211,8 +239,10 @@ function MyInputPassword({
 export {
   MyInput,
   MyInputPassword,
-  MyInputFirstName,
-  MyInputLastName,
+  MyInputFullName,
   MyInputEmail,
   MyInputConfirmPassword,
+  MyInputPhoneNumber,
+  MyInputAddress,
+  MyInputDob,
 };
