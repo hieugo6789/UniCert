@@ -19,7 +19,7 @@ import { MyInputEmail, MyInputPassword } from "../../components/UI/LoginInput";
 
 interface roleJwt extends JwtPayload {
   "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
-  userId: string;
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": string;
 }
 
 const Login = () => {
@@ -31,13 +31,15 @@ const Login = () => {
   };
   const validationSchema = Yup.object().shape({
     email: Yup.string()
-      .required("Tên người dùng là bắt buộc")
-      .min(3, "Tên người dùng phải có ít nhất 3 ký tự")
-      .max(20, "Tên người dùng không được vượt quá 20 ký tự"),
+      .email("Please enter a valid email address")
+      .required("Email is required")
+      .min(5, "Email must be at least 5 characters")
+      .max(50, "Email cannot exceed 50 characters"),
+
     password: Yup.string()
-      .required("Mật khẩu là bắt buộc")
-      .min(6, "Mật khẩu phải có ít nhất 6 ký tự")
-      .max(20, "Mật khẩu không được vượt quá 20 ký tự"),
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters")
+      .max(20, "Password cannot exceed 20 characters"),
   });
   const dispatch = useAppDispatch();
 
@@ -63,7 +65,13 @@ const Login = () => {
         ],
         { expires: 1 }
       );
-      Cookies.set("userId", decodeToken?.userId, { expires: 1 });
+      Cookies.set(
+        "userId",
+        decodeToken[
+          "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+        ],
+        { expires: 1 }
+      );
 
       switch (
         decodeToken[
@@ -135,7 +143,7 @@ const Login = () => {
               <button
                 disabled={isLoading}
                 type="submit"
-                className="bg-gradient-to-tr w-full from-pink-500 to-yellow-500 text-white shadow-lg"
+                className="bg-gradient-to-tr w-full py-2 rounded-lg bg-purple-500 hover:bg-purple-600 text-white shadow-lg"
               >
                 {/* {isLoading ? <Spinner color="default" /> : "Đăng nhập"} */}
                 Login

@@ -112,8 +112,9 @@ function MyInputLastName({
 }
 function MyInputEmail({ field, placeholder, error, helperText }: MyInputProps) {
   return (
-    <div className="relative">
+    <div className="mb-4">
       <input
+        className="w-full px-4 py-2 border border-purple-300 rounded-lg placeholder:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400"
         {...field}
         id={field.name}
         value={field.value || ""}
@@ -122,6 +123,7 @@ function MyInputEmail({ field, placeholder, error, helperText }: MyInputProps) {
         placeholder="Email"
         required
       />
+
       <ErrorMessage
         name={field.name}
         component="p"
@@ -177,23 +179,26 @@ function MyInputPassword({
   const toggleShowPassword = () => setShowPassword(!showPassword);
 
   return (
-    <div>
-      <input
-        {...field}
-        id={field.name}
-        type={showPassword ? "text" : "password"}
-        value={field.value || ""}
-        onChange={field.onChange}
-        placeholder="Nhập mật khẩu    "
-        autoComplete="off"
-        required
-      />
-      <span
-        className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-        onClick={toggleShowPassword}
-      >
-        {showPassword ? <VscEyeClosed /> : <VscEye />}
-      </span>
+    <div className="mb-4">
+      <div className="relative">
+        <input
+          className="w-full px-4 py-2 border border-purple-300 rounded-lg placeholder:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 pr-10"
+          {...field}
+          id={field.name}
+          type={showPassword ? "text" : "password"}
+          value={field.value || ""}
+          onChange={field.onChange}
+          placeholder="Password"
+          autoComplete="off"
+          required
+        />
+        <span
+          className="absolute inset-y-0 right-2 flex items-center cursor-pointer"
+          onClick={toggleShowPassword}
+        >
+          {showPassword ? <VscEyeClosed /> : <VscEye />}
+        </span>
+      </div>
       <ErrorMessage
         name={field.name}
         component="p"
