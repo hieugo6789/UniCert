@@ -5,7 +5,7 @@ export interface CurrentUser {
   password: string;
   email: string;
   fullname: string;
-  dob: string;
+  dob: Date;
   address: string;
   phoneNumber: string;
   role: string;

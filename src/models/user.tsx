@@ -4,7 +4,7 @@ export interface UserDetail {
   password: string;
   email: string;
   fullname: string;
-  dob: string | null;
+  dob: Date;
   address: string;
   phoneNumber: number;
   role: string;

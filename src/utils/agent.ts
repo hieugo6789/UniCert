@@ -35,5 +35,9 @@ const Major = {
   createMajors: (input: MajorInput) => requests.post("api/v1/Major", input),
 };
 
-const agent = { Major };
+const Account = {
+  getAllAccount: () => requests.get("api/v1/Users"),
+};
+
+const agent = { Major, Account };
 export default agent;
