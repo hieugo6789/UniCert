@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 import apiJWT from "./api";
 import baseApi from "./baseApi";
+import { MajorInput } from "../models/major";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -29,7 +30,9 @@ const requests = {
 };
 
 const Major = {
-  getAllMajors: () => requests.get("api/v1/Major"),
+  getAllMajors: (name?: string) =>
+    requests.get(`api/v1/Major${name ? `?name=${name}` : ""}`),
+  createMajors: (input: MajorInput) => requests.post("api/v1/Major", input),
 };
 
 const agent = { Major };
