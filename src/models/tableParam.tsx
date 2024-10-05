@@ -3,3 +3,8 @@ export interface PagingParamWithoutID {
   limit: number;
   search: string;
 }
+
+export interface allTotalPaginationData {
+  id: string;
+  totalAccount: number;
+}
