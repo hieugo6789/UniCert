@@ -98,13 +98,13 @@ const Students = () => {
 
   return (
     <>
-      <div className="h-16 "></div>
-      <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[91vh]">
-        <div className="col-span-2 bg-white p-2 rounded-lg shadow-lg  ">
+      <div className="h-[10vh] ">header</div>
+      <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[90vh]">
+        <div className="col-span-2 ">
           <MenuAdmin />
         </div>
         <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg   ">
-          <div className="min-h-[573.2px]">
+          <div>
             {loading ? (
               <div>Loading...</div>
             ) : (
@@ -114,6 +114,7 @@ const Students = () => {
                 rowKey="userId"
                 pagination={false}
                 loading={loading}
+                rowClassName={() => "h-[8.7vh]"}
               />
             )}
           </div>

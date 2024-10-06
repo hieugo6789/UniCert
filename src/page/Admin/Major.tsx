@@ -52,8 +52,8 @@ const Major = () => {
         </div>
         <CreateMajor />
       </div>
-      <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[91vh]">
-        <div className="col-span-2 bg-white p-2 rounded-lg shadow-lg">
+      <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[90vh]">
+        <div className="col-span-2">
           <MenuAdmin />
         </div>
 

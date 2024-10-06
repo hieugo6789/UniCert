@@ -77,16 +77,13 @@ const useAuth = () => {
       }
       localStorage.setItem("token", data.data.accessToken);
     } catch (error) {
-      // Handle errors and dispatch the correct message to Redux state
       if (error instanceof AxiosError) {
         const errorMessage =
           error?.response?.data?.error?.message || "An error occurred";
 
         if (error.response?.status === 500) {
-          // If backend returns 500, show a generic error message
           dispatch(loginFailure("Check your email and password."));
         } else {
-          // Handle other status codes or messages
           dispatch(loginFailure(errorMessage));
         }
       } else {

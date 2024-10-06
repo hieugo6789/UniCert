@@ -2,6 +2,7 @@ import { AxiosResponse } from "axios";
 import apiJWT from "./api";
 import baseApi from "./baseApi";
 import { MajorInput } from "../models/major";
+import { createOrganizationModel } from "../models/organization";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -34,10 +35,16 @@ const Major = {
     requests.get(`api/v1/Major/${name ? name : ""}`),
   createMajors: (input: MajorInput) => requests.post("api/v1/Major", input),
 };
+const Organization = {
+  getAllOrganizations: (name?: string) =>
+    requests.get(`api/v1/organize/${name ? name : ""}`),
+  createOrganize: (input: createOrganizationModel) =>
+    requests.post("/api/v1/organize", input),
+};
 
 const Account = {
   getAllAccount: () => requests.get("api/v1/Users"),
 };
 
-const agent = { Major, Account };
+const agent = { Major, Account, Organization };
 export default agent;

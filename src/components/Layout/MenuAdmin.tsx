@@ -6,7 +6,7 @@ const MenuAdmin = () => {
 
   const toggleUserDropdown = () => setIsUserDropdownOpen(!isUserDropdownOpen);
   return (
-    <div className=" w-full bg-white  p-4 ">
+    <div className=" w-full bg-white p-6 rounded-lg shadow-lg h-[88vh]">
       <NavLink
         to="/admin/dashboard"
         className={({ isActive }) =>
@@ -66,7 +66,7 @@ const MenuAdmin = () => {
             : "flex items-center p-2 mb-2 text-gray-700 hover:bg-gray-100 rounded-lg"
         }
       >
-        <span className="">Job Positions</span>
+        <span className="pl-2">Job Positions</span>
       </NavLink>
       <NavLink
         to="/admin/certificate"
@@ -96,7 +96,7 @@ const MenuAdmin = () => {
             : "flex items-center p-2 mb-2 text-gray-700 hover:bg-gray-100 rounded-lg"
         }
       >
-        <span className="">Organizations</span>
+        <span className="pl-2">Organizations</span>
       </NavLink>
       <NavLink
         to="/admin/internalCourses"
@@ -106,7 +106,7 @@ const MenuAdmin = () => {
             : "flex items-center p-2 mb-2 text-gray-700 hover:bg-gray-100 rounded-lg"
         }
       >
-        <span className="">Internal Courses</span>
+        <span className="pl-2">Internal Courses</span>
       </NavLink>
     </div>
   );
