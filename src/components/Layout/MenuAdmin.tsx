@@ -30,7 +30,6 @@ const MenuAdmin = () => {
         >
           {/* <img className="w-6 h-6 mr-2" src={userIcon} alt="User Icon" /> */}
           <span className="">User</span>
-          <span className="ml-auto">{isUserDropdownOpen ? "▲" : "▼"}</span>
         </button>
         {isUserDropdownOpen && (
           <div className="ml-4 bg-gray-50 shadow-lg rounded-lg absolute w-full">

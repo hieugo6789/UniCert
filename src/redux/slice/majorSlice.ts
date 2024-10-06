@@ -23,9 +23,9 @@ const initialState: MajorState = {
 
 export const fetchAllMajorPagination = createAsyncThunk(
   "admin/fetchAllMajorPagination",
-  async () => {
+  async (name?: string) => {
     try {
-      const response = await agent.Major.getAllMajors();
+      const response = await agent.Major.getAllMajors(name);
       return response;
     } catch (error) {
       if (error instanceof AxiosError) {

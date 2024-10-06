@@ -31,7 +31,7 @@ const requests = {
 
 const Major = {
   getAllMajors: (name?: string) =>
-    requests.get(`api/v1/Major${name ? `?name=${name}` : ""}`),
+    requests.get(`api/v1/Major/${name ? name : ""}`),
   createMajors: (input: MajorInput) => requests.post("api/v1/Major", input),
 };
 

@@ -4,12 +4,31 @@ import { useAccounts } from "../../hooks/useAccount";
 import { useState } from "react";
 import { DollarOutlined } from "@ant-design/icons";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
+import setUserStatus from "../../hooks/useUserStatus";
 // import './Students.css'; // Assuming you add custom styling here
 
 const Students = () => {
   const { accounts: studentAccounts, loading } = useAccounts(ROLE.role4);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
+
+  const handleToggleStatus = async (record: any) => {
+    try {
+      const updatedStatus = !record.status; // Toggle the current status
+      console.log(record.userId);
+
+      await setUserStatus(record.userId, updatedStatus);
+
+      // Show success message
+      // message.success(
+      //   `Student ${record.username} has been ${updatedStatus ? "activated" : "deactivated"}.`
+      // );
+
+      // You can refresh the list or update the local state after successful update
+    } catch (error) {
+      // message.error("Failed to update the student status.");
+    }
+  };
 
   const columns = [
     {
@@ -41,14 +60,15 @@ const Students = () => {
     {
       title: "Actions",
       key: "actions",
-      render: (status: boolean) => (
+      render: (record: any) => (
         <div>
           <Button type="link">View</Button>
           <Button
             type="link"
-            danger
+            danger={record.status} // Render button in red if status is active
+            onClick={() => handleToggleStatus(record)}
           >
-            {status ? "Deactivate" : "Activate"}
+            {record.status ? "Deactivate" : "Activate"}{" "}
           </Button>
         </div>
       ),

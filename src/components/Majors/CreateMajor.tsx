@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Modal, Button, Form, Input } from "antd"; // Import Ant Design components
 import { useAppDispatch } from "../../redux/hook";
 import { MajorInput } from "../../models/major";
-import agent from "../../utils/agent"; // Assuming this is where the API functions are
+import agent from "../../utils/agent";
+import { PlusOutlined } from "@ant-design/icons";
 
 const CreateMajor = () => {
   const dispatch = useAppDispatch();
@@ -37,16 +38,15 @@ const CreateMajor = () => {
 
   return (
     <>
-      {/* Create Major Button */}
       <Button
+        icon={<PlusOutlined />}
         type="primary"
         onClick={showModal}
-        style={{ float: "right" }}
+        style={{ maxWidth: "80px" }}
       >
-        Create Major
+        Major
       </Button>
 
-      {/* Modal for Creating Major */}
       <Modal
         title="Create New Major"
         visible={isModalVisible}
