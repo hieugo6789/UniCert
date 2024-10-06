@@ -1,13 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../../assets/images/UniCertLogo.png";
-import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
 import { useEffect, useState } from "react";
-import { Avatar, Dropdown, Menu } from "antd";
-import Cookies from "js-cookie";
+import AvatarImage from "../UI/AvatarImage";
 
 const Header = () => {
-  const navigate = useNavigate();
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -15,36 +11,7 @@ const Header = () => {
       setIsLoggedIn(true);
     }
   });
-  const handleLogout = async () => {
-    await localStorage.clear();
-    Cookies.remove("token");
-    navigate("/logIn");
-  };
 
-  const menu = (
-    <Menu>
-      <Menu.Item
-        key="1"
-        icon={
-          <Avatar
-            src={defaultAvatar}
-            size="small"
-          />
-        }
-      >
-        <Link to="/profile">Profile</Link>
-      </Menu.Item>
-      <Menu.Item key="2">
-        <Link to="/customer/orderHistory">Payment History</Link>
-      </Menu.Item>
-      <Menu.Item
-        key="3"
-        onClick={handleLogout}
-      >
-        Log Out
-      </Menu.Item>
-    </Menu>
-  );
   return (
     <header className="z-100 bg-gray-950 px-8 py-2  flex justify-between items-center sticky w-full top-0 ">
       <div className="text-white text-2xl font-bold">
@@ -114,18 +81,7 @@ const Header = () => {
 
       <div className="flex space-x-4">
         {isLoggedIn ? (
-          <>
-            <Dropdown
-              overlay={menu}
-              className="cursor-pointer"
-              trigger={["click"]}
-            >
-              <Avatar
-                src={defaultAvatar}
-                size="large"
-              />
-            </Dropdown>
-          </>
+          <AvatarImage />
         ) : (
           <div className="flex space-x-4">
             <Link to="/login">

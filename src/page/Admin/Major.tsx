@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { allMajorPaginationData } from "../../models/major";
 import { fetchAllMajorPagination } from "../../redux/slice/majorSlice";
 import CreateMajor from "../../components/Majors/CreateMajor";
+import MenuAdmin from "../../components/Layout/MenuAdmin";
 
 const Major = () => {
   const dispatch = useAppDispatch();
@@ -31,27 +32,35 @@ const Major = () => {
     }
   };
   return (
-    <div>
-      {/* Search input field */}
-      <input
-        type="text"
-        placeholder="Search by major name..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input
-        style={{ marginBottom: "20px", padding: "10px", width: "100%" }}
-      />
-      <CreateMajor />
+    <>
+      <div className="flex">
+        <input
+          type="text"
+          placeholder="Search by major name..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input
+          style={{ marginBottom: "20px", padding: "10px", width: "100%" }}
+        />
+        <CreateMajor />
+      </div>
+      <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[91vh]">
+        <div className="col-span-2 bg-white p-2 rounded-lg shadow-lg  ">
+          <MenuAdmin />
+        </div>
 
-      {loading ? (
-        <div>Loading...</div>
-      ) : major.length > 0 ? (
-        major.map((m) => (
-          <div key={m.majorCode}>{m.majorCode}</div> // Render majorCode
-        ))
-      ) : (
-        <div>No majors available.</div> // Message if no majors are found
-      )}
-    </div>
+        <div className="col-span-10">
+          {loading ? (
+            <div>Loading...</div>
+          ) : major.length > 0 ? (
+            major.map((m) => (
+              <div key={m.majorCode}>{m.majorCode}</div> // Render majorCode
+            ))
+          ) : (
+            <div>No majors available.</div> // Message if no majors are found
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 export default Major;

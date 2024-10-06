@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import AdminHeader from "../../../components/Header/AdminHeader";
+// import AdminHeader from "../../../components/Header/AdminHeader";
 
 const LayoutAdmin = () => {
   return (
-    <div className="flex">
-      <AdminHeader />
+    <div>
+      {/* <AdminHeader /> */}
       <Outlet />
     </div>
   );
