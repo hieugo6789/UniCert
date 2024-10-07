@@ -8,7 +8,11 @@ import setUserStatus from "../../hooks/useUserStatus";
 // import './Students.css'; // Assuming you add custom styling here
 
 const Students = () => {
-  const { accounts: studentAccounts, loading } = useAccounts(ROLE.role4);
+  const {
+    accounts: studentAccounts,
+    loading,
+    refetch,
+  } = useAccounts(ROLE.role4);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
 
@@ -25,6 +29,7 @@ const Students = () => {
       // );
 
       // You can refresh the list or update the local state after successful update
+      refetch();
     } catch (error) {
       // message.error("Failed to update the student status.");
     }

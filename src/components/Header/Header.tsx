@@ -15,11 +15,13 @@ const Header = () => {
   return (
     <header className="z-100 bg-gray-950 px-8 py-2  flex justify-between items-center sticky w-full top-0 ">
       <div className="text-white text-2xl font-bold">
-        <img
-          src={logo}
-          alt="Logo"
-          className="w-14 h-14"
-        />
+        <Link to="./">
+          <img
+            src={logo}
+            alt="Logo"
+            className="w-14 h-14"
+          />
+        </Link>
       </div>
 
       <div className="relative w-3/12">

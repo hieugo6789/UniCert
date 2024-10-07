@@ -15,7 +15,7 @@ const MenuAdmin = () => {
             : "flex items-center p-2 mb-2 text-gray-700 hover:bg-gray-100 rounded-lg"
         }
       >
-        <span className=" flex">
+        <span className=" pl-2">
           {/* <img
             className="mr-3"
             src={dashboard}
@@ -29,7 +29,7 @@ const MenuAdmin = () => {
           className="flex items-center p-2 w-full text-left text-gray-700 hover:bg-gray-100 rounded-lg"
         >
           {/* <img className="w-6 h-6 mr-2" src={userIcon} alt="User Icon" /> */}
-          <span className="">User</span>
+          <span className="ml-2">User</span>
         </button>
         {isUserDropdownOpen && (
           <div className="ml-4 bg-gray-50 shadow-lg rounded-lg absolute w-full">
@@ -56,7 +56,7 @@ const MenuAdmin = () => {
             : "flex items-center p-2 mb-2 text-gray-700 hover:bg-gray-100 rounded-lg"
         }
       >
-        <span className="">Majors</span>
+        <span className="pl-2">Majors</span>
       </NavLink>
       <NavLink
         to="/admin/jobPosition"
@@ -76,7 +76,7 @@ const MenuAdmin = () => {
             : "flex items-center p-2 mb-2 text-gray-700 hover:bg-gray-100 rounded-lg"
         }
       >
-        <span className="">Certifications</span>
+        <span className="pl-2">Certifications</span>
       </NavLink>
       <NavLink
         to="/admin/exam"
@@ -86,7 +86,7 @@ const MenuAdmin = () => {
             : "flex items-center p-2 mb-2 text-gray-700 hover:bg-gray-100 rounded-lg"
         }
       >
-        <span className="">Exam</span>
+        <span className="pl-2">Exam</span>
       </NavLink>
       <NavLink
         to="/admin/organizations"

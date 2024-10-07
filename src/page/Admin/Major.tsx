@@ -35,8 +35,8 @@ const Major = () => {
 
   return (
     <>
-      <div className="grid grid-cols-12">
-        <div className="col-span-3">
+      <div className="grid grid-cols-12 h-[10vh]">
+        <div className="col-span-8">
           <Input
             placeholder="Search by major name..."
             value={searchTerm}

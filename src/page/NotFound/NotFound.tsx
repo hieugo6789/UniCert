@@ -1,10 +1,10 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
-const NotFound: React.FC = () => {
+const NotFound = () => {
   return (
     <div className="bg-[#2F3242] min-h-screen flex items-center justify-center">
       <svg
-        className="absolute top-1/2 left-1/4 transform -translate-x-1/2 -translate-y-1/2"
+        className="absolute top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2"
         width="380px"
         height="500px"
         viewBox="0 0 837 1045"
@@ -54,12 +54,12 @@ const NotFound: React.FC = () => {
         <h1 className="text-6xl mb-10">404</h1>
         <p>Page not found</p>
         <div className="mt-10 flex space-x-4">
-          <a
-            href="/"
+          <Link
+            to="/"
             className="bg-[#68c950] py-2 px-6 rounded-lg font-bold text-white hover:bg-[#5A5C6C] transition-all"
           >
             Go to Home Page
-          </a>
+          </Link>
         </div>
       </div>
     </div>

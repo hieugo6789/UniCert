@@ -74,60 +74,63 @@ const Organizations = () => {
   };
 
   return (
-    <div className="grid grid-cols-12">
-      <div className="col-span-2">
-        <MenuAdmin />
-      </div>
-      <div className="col-span-10 p-4">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-xl font-bold">Organizations</h1>
-          <Button
-            type="primary"
-            onClick={showModal}
-          >
-            Tạo Organization
-          </Button>
+    <div>
+      <div className="h-[10vh] ">header</div>
+      <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[90vh]">
+        <div className="col-span-2">
+          <MenuAdmin />
         </div>
+        <div className="col-span-10 p-4">
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-xl font-bold">Organizations</h1>
+            <Button
+              type="primary"
+              onClick={showModal}
+            >
+              Tạo Organization
+            </Button>
+          </div>
 
-        {loading ? (
-          <div>Loading...</div>
-        ) : organization.length > 0 ? (
-          organization.map((m) => (
-            <div key={m.organizeId}>{m.organizeName}</div>
-          ))
-        ) : (
-          <div>No organizations available.</div>
-        )}
+          {loading ? (
+            <div>Loading...</div>
+          ) : organization.length > 0 ? (
+            organization.map((m) => (
+              <div key={m.organizeId}>{m.organizeName}</div>
+            ))
+          ) : (
+            <div>No organizations available.</div>
+          )}
 
-        <Modal
-          title="Tạo Organization"
-          visible={isModalVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          okText="OK"
-          cancelText="Cancel"
-        >
-          <Input
-            placeholder="Nhập tên tổ chức"
-            name="organizeName"
-            value={formData.organizeName}
-            onChange={handleInputChange}
-            className="mb-2"
-          />
-          <Input
-            placeholder="Nhập địa chỉ tổ chức"
-            name="organizeAddress"
-            value={formData.organizeAddress}
-            onChange={handleInputChange}
-            className="mb-2"
-          />
-          <Input
-            placeholder="Nhập thông tin liên lạc"
-            name="organizeContact"
-            value={formData.organizeContact}
-            onChange={handleInputChange}
-          />
-        </Modal>
+          <Modal
+            title="Tạo Organization"
+            visible={isModalVisible}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            okText="OK"
+            cancelText="Cancel"
+          >
+            <Input
+              placeholder="Nhập tên tổ chức"
+              name="organizeName"
+              value={formData.organizeName}
+              onChange={handleInputChange}
+              className="mb-2"
+            />
+            <Input
+              placeholder="Nhập địa chỉ tổ chức"
+              name="organizeAddress"
+              value={formData.organizeAddress}
+              onChange={handleInputChange}
+              className="mb-2"
+            />
+            <Input
+              placeholder="Nhập thông tin liên lạc"
+              name="organizeContact"
+              value={formData.organizeContact}
+              onChange={handleInputChange}
+            />
+          </Modal>
+        </div>
       </div>
     </div>
   );
