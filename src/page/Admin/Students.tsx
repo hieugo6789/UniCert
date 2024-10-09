@@ -1,10 +1,11 @@
 import { ROLE } from "../../constants/role";
-import { Table, Tag, Button, Pagination } from "antd";
+import { Table, Tag, Button, Pagination, Modal, Spin } from "antd";
 import { useAccounts } from "../../hooks/useAccount";
 import { useState } from "react";
 import { DollarOutlined } from "@ant-design/icons";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
 import setUserStatus from "../../hooks/useUserStatus";
+import useUserDetail from "../../hooks/useUserDetail";
 // import './Students.css'; // Assuming you add custom styling here
 
 const Students = () => {
@@ -13,8 +14,17 @@ const Students = () => {
     loading,
     refetch,
   } = useAccounts(ROLE.role4);
+
+  const { state, getUserDetails } = useUserDetail();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleView = async (userId: string) => {
+    setIsModalVisible(true); // Hiển thị modal
+    await getUserDetails(userId);
+  };
 
   const handleToggleStatus = async (record: any) => {
     try {
@@ -67,7 +77,12 @@ const Students = () => {
       key: "actions",
       render: (record: any) => (
         <div>
-          <Button type="link">View</Button>
+          <Button
+            type="link"
+            onClick={() => handleView(record.userId)}
+          >
+            View
+          </Button>
           <Button
             type="link"
             danger={record.status} // Render button in red if status is active
@@ -133,6 +148,29 @@ const Students = () => {
           </div>
         </div>
       </div>
+      <Modal
+        title="User Details"
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+      >
+        {state.isLoading ? (
+          <Spin />
+        ) : state.currentUser ? (
+          <div>
+            <p>
+              <strong>Username:</strong> {state.currentUser.username}
+            </p>
+            <p>
+              <strong>Email:</strong> {state.currentUser.email}
+            </p>
+            <p>
+              <strong>PhoneNumber:</strong> {state.currentUser.phoneNumber}
+            </p>
+          </div>
+        ) : (
+          <p>No details available.</p>
+        )}
+      </Modal>
     </>
   );
 };

@@ -79,7 +79,7 @@ const useAuth = () => {
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMessage =
-          error?.response?.data?.error?.message || "An error occurred";
+          error.response?.data.message || "An error occurred";
 
         if (error.response?.status === 500) {
           dispatch(loginFailure("Check your email and password."));

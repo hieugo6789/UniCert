@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Banner: React.FC = () => {
   return (
-    <div className="relative w-full h-[70vh] bg-gray-100 border-y">
+    <div className="relative w-full h-[70vh] bg-gray-100 border-t">
       <div className="absolute  w-full h-full">
         <img
           src={bannerImage}

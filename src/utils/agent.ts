@@ -44,6 +44,7 @@ const Organization = {
 
 const Account = {
   getAllAccount: () => requests.get("api/v1/Users"),
+  getAccountDetail: (userId: string) => requests.get(`api/v1/users/${userId}`),
 };
 
 const agent = { Major, Account, Organization };

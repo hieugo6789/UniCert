@@ -3,17 +3,17 @@ import MenuAdmin from "../../components/Layout/MenuAdmin";
 import { useAppDispatch } from "../../redux/hook";
 import { allOrganizationPaginationData } from "../../models/organization";
 import { fetchAllOrganizationPagination } from "../../redux/slice/organizationSlice";
-import { usecreateOrganize } from "../../hooks/useCreateOrganize";
+import { useCreateOrganize } from "../../hooks/useCreateOrganize";
 import { Modal, Input, Button } from "antd";
 
 const Organizations = () => {
-  const { handlecreateOrganize } = usecreateOrganize();
+  const { handleCreateOrganize } = useCreateOrganize();
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
   const [organization, setOrganization] = useState<
     allOrganizationPaginationData[]
   >([]);
-  const [isModalVisible, setIsModalVisible] = useState(false); // Quản lý trạng thái hiển thị của modal
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [formData, setFormData] = useState({
     organizeName: "",
     organizeAddress: "",
@@ -48,7 +48,7 @@ const Organizations = () => {
       organizeContact.trim()
     ) {
       try {
-        await handlecreateOrganize(formData);
+        await handleCreateOrganize(formData);
         fetchServices();
         setIsModalVisible(false);
         setFormData({
@@ -62,35 +62,32 @@ const Organizations = () => {
     }
   };
 
-  // Xử lý khi nhấn "Cancel" để đóng modal
   const handleCancel = () => {
     setIsModalVisible(false);
   };
 
-  // Xử lý khi nhập liệu trong form
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   return (
-    <div>
-      <div className="h-[10vh] ">header</div>
+    <>
+      <div className="h-[10vh] ">
+        <div className="flex  items-center mb-4">
+          <Button
+            type="primary"
+            onClick={showModal}
+          >
+            + Organization
+          </Button>
+        </div>
+      </div>
       <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[90vh]">
         <div className="col-span-2">
           <MenuAdmin />
         </div>
-        <div className="col-span-10 p-4">
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-xl font-bold">Organizations</h1>
-            <Button
-              type="primary"
-              onClick={showModal}
-            >
-              Tạo Organization
-            </Button>
-          </div>
-
+        <div className=" p-4">
           {loading ? (
             <div>Loading...</div>
           ) : organization.length > 0 ? (
@@ -132,7 +129,7 @@ const Organizations = () => {
           </Modal>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -7,11 +7,11 @@ import {
 } from "../redux/slice/createOrganizeSlice";
 import agent from "../utils/agent";
 
-export function usecreateOrganize() {
+export function useCreateOrganize() {
   const state = useAppSelector((state) => state.createOrganization);
   const dispatch = useAppDispatch();
 
-  const handlecreateOrganize = async (
+  const handleCreateOrganize = async (
     organizationData: createOrganizationModel
   ) => {
     dispatch(createOrganizeStart());
@@ -26,5 +26,5 @@ export function usecreateOrganize() {
     }
   };
 
-  return { state, handlecreateOrganize };
+  return { state, handleCreateOrganize };
 }

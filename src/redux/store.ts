@@ -5,6 +5,7 @@ import majorReducer from "../redux/slice/majorSlice";
 import accountReducer from "../redux/slice/accountSlice";
 import organizationReducer from "../redux/slice/organizationSlice";
 import createOrganizationReducer from "../redux/slice/createOrganizeSlice";
+import userDetailSlice from "../redux/slice/userDetailSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     account: accountReducer,
     organization: organizationReducer,
     createOrganization: createOrganizationReducer,
+    userDetail: userDetailSlice,
   },
 });
 
