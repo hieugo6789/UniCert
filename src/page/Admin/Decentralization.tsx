@@ -1,16 +1,30 @@
 import { useState } from "react";
+import {
+  Modal,
+  Form,
+  Input,
+  Button,
+  Pagination,
+  Table,
+  Spin,
+  message,
+} from "antd";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
-import { ROLE } from "../../constants/role";
 import { useAccounts } from "../../hooks/useAccount";
-import { Pagination, Table } from "antd";
+import useUpdateUserDetail from "../../hooks/useUpdateUserDetail";
+import { UpdateRole, UserDetail } from "../../models/user";
 
 const Decentralization = () => {
-  const { accounts: managerAccounts, loading } = useAccounts(
-    ROLE.role2,
-    ROLE.role3
-  );
+  const { accounts: managerAccounts, loading, refetch } = useAccounts();
+  const { updateUserDetails, state } = useUpdateUserDetail(); // Hook for updating user details
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<UserDetail | null>(null); // Track selected user for update
+
+  const [form] = Form.useForm(); // Ant Design Form for editing
+
+  // Table columns definition
   const columns = [
     {
       title: "Username",
@@ -33,8 +47,21 @@ const Decentralization = () => {
       dataIndex: "role",
       key: "role",
     },
+    {
+      title: "Actions",
+      key: "actions",
+      render: (record: UserDetail) => (
+        <Button
+          type="link"
+          onClick={() => handleEdit(record)}
+        >
+          Update
+        </Button>
+      ),
+    },
   ];
 
+  // Handle the pagination change
   const handlePaginationChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -44,6 +71,34 @@ const Decentralization = () => {
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
+
+  // Handle user edit button click
+  const handleEdit = (user: UserDetail) => {
+    setSelectedUser(user); // Set the selected user for editing
+    form.setFieldsValue(user); // Populate the form with current user data
+    setIsModalVisible(true);
+  };
+
+  const handleFormSubmit = async (values: UpdateRole) => {
+    if (selectedUser) {
+      const { userId, ...restSelectedUser } = selectedUser;
+      const updatedData: UpdateRole = {
+        ...restSelectedUser,
+        ...values,
+      };
+
+      await updateUserDetails(selectedUser.userId, updatedData);
+
+      if (!state.error) {
+        message.success("User updated successfully!");
+        setIsModalVisible(false);
+        refetch();
+      } else {
+        message.error(state.error);
+      }
+    }
+  };
+
   return (
     <>
       <div className="h-[10vh] ">header</div>
@@ -76,7 +131,72 @@ const Decentralization = () => {
           </div>
         </div>
       </div>
+
+      {/* Update User Modal */}
+      <Modal
+        title="Update User"
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+      >
+        {state.isLoading ? (
+          <Spin />
+        ) : (
+          <Form
+            form={form}
+            onFinish={handleFormSubmit}
+            layout="vertical"
+          >
+            <Form.Item
+              label="Username"
+              name="username"
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Email"
+              name="email"
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="PhoneNumber"
+              name="phoneNumber"
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Role"
+              name="role"
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Address"
+              name="address"
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Fullname"
+              name="fullname"
+            >
+              <Input />
+            </Form.Item>
+            {/* Add other fields as needed */}
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+              >
+                Update
+              </Button>
+            </Form.Item>
+          </Form>
+        )}
+      </Modal>
     </>
   );
 };
+
 export default Decentralization;

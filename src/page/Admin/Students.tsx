@@ -22,7 +22,7 @@ const Students = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleView = async (userId: string) => {
-    setIsModalVisible(true); // Hiển thị modal
+    setIsModalVisible(true);
     await getUserDetails(userId);
   };
 

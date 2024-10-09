@@ -3,6 +3,7 @@ import apiJWT from "./api";
 import baseApi from "./baseApi";
 import { MajorInput } from "../models/major";
 import { createOrganizationModel } from "../models/organization";
+import { UpdateRole } from "../models/user";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -45,6 +46,8 @@ const Organization = {
 const Account = {
   getAllAccount: () => requests.get("api/v1/Users"),
   getAccountDetail: (userId: string) => requests.get(`api/v1/users/${userId}`),
+  updateAccountInformation: (input: UpdateRole, userId: string) =>
+    requests.put(`/api/v1/users/${userId}`, input),
 };
 
 const agent = { Major, Account, Organization };

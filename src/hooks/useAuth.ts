@@ -13,7 +13,6 @@ import { jwtDecode, JwtPayload } from "jwt-decode";
 import Cookies from "js-cookie";
 import { ROLE } from "../constants/role";
 import { AxiosError } from "axios";
-import { LoginError, RegisterError } from "../utils/authUtils/loginValidation";
 
 interface roleJwt extends JwtPayload {
   "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
