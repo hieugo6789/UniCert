@@ -87,7 +87,7 @@ const Organizations = () => {
         <div className="col-span-2">
           <MenuAdmin />
         </div>
-        <div className=" p-4">
+        <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg">
           {loading ? (
             <div>Loading...</div>
           ) : organization.length > 0 ? (

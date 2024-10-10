@@ -57,7 +57,7 @@ const Major = () => {
           <MenuAdmin />
         </div>
 
-        <div className="col-span-10">
+        <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg">
           {loading ? (
             <div>Loading...</div>
           ) : major.length > 0 ? (

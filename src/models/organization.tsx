@@ -1,12 +1,12 @@
 export interface allOrganizationPaginationData {
-  organizeId: number;
+  organizeId: string;
   organizeName: string;
   organizeAddress: string;
   organizeContact: string;
 }
 
 export interface currentOrganization {
-  organizeId: number;
+  organizeId: string;
   organizeName: string;
   organizeAddress: string;
   organizeContact: string;

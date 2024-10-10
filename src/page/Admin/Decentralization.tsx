@@ -13,16 +13,25 @@ import MenuAdmin from "../../components/Layout/MenuAdmin";
 import { useAccounts } from "../../hooks/useAccount";
 import useUpdateUserDetail from "../../hooks/useUpdateUserDetail";
 import { UpdateRole, UserDetail } from "../../models/user";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
+import useDeleteAccount from "../../hooks/useDeleteAccount";
+
+const { confirm } = Modal;
 
 const Decentralization = () => {
   const { accounts: managerAccounts, loading, refetch } = useAccounts();
-  const { updateUserDetails, state } = useUpdateUserDetail(); // Hook for updating user details
+  const { updateUserDetails, state } = useUpdateUserDetail();
+  const { handleDeleteAccount } = useDeleteAccount();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<UserDetail | null>(null); // Track selected user for update
+  const [selectedUser, setSelectedUser] = useState<UserDetail | null>(null);
 
-  const [form] = Form.useForm(); // Ant Design Form for editing
+  const [form] = Form.useForm();
 
   // Table columns definition
   const columns = [
@@ -30,7 +39,6 @@ const Decentralization = () => {
       title: "Username",
       dataIndex: "username",
       key: "username",
-      render: (username: string) => <div>{username}</div>,
     },
     {
       title: "Email",
@@ -51,15 +59,36 @@ const Decentralization = () => {
       title: "Actions",
       key: "actions",
       render: (record: UserDetail) => (
-        <Button
-          type="link"
-          onClick={() => handleEdit(record)}
-        >
-          Update
-        </Button>
+        <>
+          <EditOutlined onClick={() => handleEdit(record)} />
+          <DeleteOutlined
+            onClick={() => showDeleteConfirm(record.userId)}
+            style={{ color: "red", marginLeft: 12 }}
+          />
+        </>
       ),
     },
   ];
+
+  // Confirm delete action
+  const showDeleteConfirm = (userId: string) => {
+    confirm({
+      title: "Are you sure delete this account?",
+      icon: <ExclamationCircleOutlined />,
+      content: "This action cannot be undone",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        await handleDeleteAccount(userId);
+        message.success("Account deleted successfully!");
+        refetch();
+      },
+      onCancel() {
+        console.log("Cancel deletion");
+      },
+    });
+  };
 
   // Handle the pagination change
   const handlePaginationChange = (page: number) => {
@@ -72,10 +101,9 @@ const Decentralization = () => {
     currentPage * pageSize
   );
 
-  // Handle user edit button click
   const handleEdit = (user: UserDetail) => {
-    setSelectedUser(user); // Set the selected user for editing
-    form.setFieldsValue(user); // Populate the form with current user data
+    setSelectedUser(user);
+    form.setFieldsValue(user);
     setIsModalVisible(true);
   };
 
@@ -183,7 +211,6 @@ const Decentralization = () => {
             >
               <Input />
             </Form.Item>
-            {/* Add other fields as needed */}
             <Form.Item>
               <Button
                 type="primary"

@@ -43,12 +43,18 @@ const Organization = {
     requests.post("/api/v1/organize", input),
 };
 
+const InternalCourse = {
+  getAllCourse: (name?: string) =>
+    requests.get(`api/v1/course/${name ? name : ""}`),
+};
+
 const Account = {
   getAllAccount: () => requests.get("api/v1/Users"),
   getAccountDetail: (userId: string) => requests.get(`api/v1/users/${userId}`),
   updateAccountInformation: (input: UpdateRole, userId: string) =>
     requests.put(`/api/v1/users/${userId}`, input),
+  deleteAccount: (userId: string) => requests.del(`api/v1/users/${userId}`),
 };
 
-const agent = { Major, Account, Organization };
+const agent = { Major, Account, Organization, InternalCourse };
 export default agent;

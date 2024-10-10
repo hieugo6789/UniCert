@@ -8,7 +8,9 @@ const Dashboard = () => {
         <div className="col-span-2">
           <MenuAdmin />
         </div>
-        <div className="col-span-10">Dashboard</div>
+        <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg">
+          Dashboard
+        </div>
       </div>
     </>
   );
