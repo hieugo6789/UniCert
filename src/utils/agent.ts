@@ -43,6 +43,11 @@ const Organization = {
     requests.post("/api/v1/organize", input),
 };
 
+const Certificate = {
+  getAllCertificates: (name?: string) =>
+    requests.get(`api/v1/certification/${name ? name : ""}`),
+};
+
 const InternalCourse = {
   getAllCourse: (name?: string) =>
     requests.get(`api/v1/course/${name ? name : ""}`),
@@ -56,5 +61,5 @@ const Account = {
   deleteAccount: (userId: string) => requests.del(`api/v1/users/${userId}`),
 };
 
-const agent = { Major, Account, Organization, InternalCourse };
+const agent = { Major, Account, Organization, InternalCourse, Certificate };
 export default agent;
