@@ -44,8 +44,12 @@ const Organization = {
 };
 
 const Certificate = {
+  // getAllCertificates: (name?: string) =>
+  //   requests.get(`api/v1/certification/${name ? name : ""}`),
   getAllCertificates: (name?: string) =>
-    requests.get(`api/v1/certification/${name ? name : ""}`),
+    requests.get(
+      `api/v1/certification/search/${name ? `?certName=${name}` : ""}`
+    ),
 };
 
 const InternalCourse = {

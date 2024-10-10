@@ -124,7 +124,7 @@ const Students = () => {
           <MenuAdmin />
         </div>
         <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg   ">
-          <div>
+          <div className="h-[76vh]">
             {loading ? (
               <div>Loading...</div>
             ) : (
@@ -138,7 +138,7 @@ const Students = () => {
               />
             )}
           </div>
-          <div className="mt-4 flex justify-end">
+          <div className="mt-6 flex justify-end">
             <Pagination
               current={currentPage}
               pageSize={pageSize}
