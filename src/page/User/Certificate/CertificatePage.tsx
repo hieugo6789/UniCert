@@ -1,17 +1,33 @@
 
 import CertificateCard from "../../../components/Certifications/CertificateCard";
 import defaultCertThumb from '../../../assets/images/Certification/defaultCertThumb.png'
+import { useEffect, useState } from "react";
+import agent from "../../../utils/agent";
+import { allCertificationData } from "../../../models/certificate";
 const CertificatePage = () => {
-  const certificates = [
-    { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-    { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-    { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-    { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-    { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-    { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-    { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-    { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-  ];
+  // const certificates = [
+  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
+  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
+  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
+  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
+  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
+  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
+  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
+  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
+  // ];
+  const [certificates, setCertificates] = useState<allCertificationData[]>([]);
+  useEffect(() => {
+    const fetchCertificates = async () => {
+      const response = await agent.Certificate.getAllCertificates();
+      console.log(response);
+      if (response && response.succeeded) {
+        setCertificates(response.data);
+      }
+
+    };
+    fetchCertificates();
+    console.log(certificates);
+  }, []);
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header Section */}
@@ -23,7 +39,7 @@ const CertificatePage = () => {
       <div className="p-4 text-center">
         <div className="inline-block flex flex-row items-center">
           <p className="mr-3">Filter by</p>
-          
+
           <div>
             <label className="sr-only">Currency</label>
             <select id="currency" name="currency" className=" mr-3 h-full bg-white rounded-md border-0 py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
@@ -44,9 +60,7 @@ const CertificatePage = () => {
         {certificates.map((cert, index) => (
           <CertificateCard
             key={index}
-            title={cert.title}
-            organization={cert.organization}
-            expiration={cert.expiration}
+            {...cert}
           />
         ))}
       </div>
@@ -82,7 +96,7 @@ const CertificatePage = () => {
         <div className="flex justify-center">
           <div className="w-3/4 bg-white p-4 shadow-md rounded-lg flex flex-row items-center">
             <div className="w-1/2 mr-5 ">
-            <img src={defaultCertThumb} className="w-full h-full" />
+              <img src={defaultCertThumb} className="w-full h-full" />
             </div>
             <p className="w-1/2">
               Live sessions, office hours, discussion boards—you can participate from wherever you are. Getting my MBA makes me feel empowered. I don’t need to stop working, I don’t need to stop being a mother, I don’t need to stop having my life.
