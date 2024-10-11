@@ -52,5 +52,5 @@ const jobSlice = createSlice({
   },
 });
 
-export const majorActions = jobSlice.actions;
+export const jobActions = jobSlice.actions;
 export default jobSlice.reducer;
