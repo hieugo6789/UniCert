@@ -83,6 +83,11 @@ const Account = {
   deleteAccount: (userId: string) => requests.del(`api/v1/users/${userId}`),
 };
 
+const Profile = {
+  getProfile: (userId: string | undefined) =>
+    requests.get(`api/v1/profile/${userId}`),
+};
+
 const agent = {
   Major,
   Account,
@@ -91,5 +96,6 @@ const agent = {
   Certificate,
   JobPosition,
   Schedule,
+  Profile,
 };
 export default agent;

@@ -211,6 +211,12 @@ const Decentralization = () => {
             >
               <Input />
             </Form.Item>
+            <Form.Item
+              label="Image URL"
+              name="userImage"
+            >
+              <Input />
+            </Form.Item>
             <Form.Item>
               <Button
                 type="primary"

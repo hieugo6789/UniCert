@@ -1,13 +1,4 @@
-import {
-  Button,
-  Form,
-  Input,
-  Pagination,
-  Table,
-  Modal,
-  message,
-  Spin,
-} from "antd";
+import { Button, Input, Pagination, Table, Modal, message, Spin } from "antd";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
 import useCertificate from "../../hooks/useCertificate";
 import { useState } from "react";
@@ -36,7 +27,7 @@ const Certificate = () => {
     await getCertDetails(certId);
   };
 
-  const [form] = Form.useForm();
+  // const [form] = Form.useForm();
 
   const handleSearch = () => {
     refetchCertificates(searchTerm);
@@ -153,7 +144,7 @@ const Certificate = () => {
         </div>
       </div>
       <Modal
-        title="User Details"
+        title="Certification Details"
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
       >
@@ -162,13 +153,10 @@ const Certificate = () => {
         ) : state.currentCert ? (
           <div>
             <p>
-              <strong>Username:</strong> {state.currentCert.certName}
+              <strong>Name</strong> {state.currentCert.certName}
             </p>
             <p>
-              <strong>Email:</strong> {state.currentCert.certDescription}
-            </p>
-            <p>
-              <strong>PhoneNumber:</strong> {state.currentCert.certPrerequisite}
+              <strong>Description</strong> {state.currentCert.certDescription}
             </p>
           </div>
         ) : (

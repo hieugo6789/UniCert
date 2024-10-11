@@ -11,12 +11,12 @@ const InternalCourses = () => {
     <>
       <div className="h-[10vh] ">
         <div className="flex  items-center mb-4">
-          <Button
+          {/* <Button
             type="primary"
             // onClick={showModal}
           >
             + Course
-          </Button>
+          </Button> */}
         </div>
       </div>
       <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[90vh]">

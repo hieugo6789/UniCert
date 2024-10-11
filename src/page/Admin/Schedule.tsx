@@ -10,14 +10,14 @@ const Schedule = () => {
       <div className="h-[10vh] flex items-center">
         <Logo />
 
-        <div>
+        {/* <div>
           <Button
             type="primary"
             // onClick={showModal}
           >
             + Schedule
           </Button>
-        </div>
+        </div> */}
       </div>
       <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[90vh]">
         <div className="col-span-2">
