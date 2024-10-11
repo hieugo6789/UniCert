@@ -10,7 +10,7 @@ import agent from "../utils/agent";
 const useCertDetail = () => {
   const state = useAppSelector((state) => state.certificateDetail);
   const dispatch = useAppDispatch();
-  const getCertDetails = async (id: string) => {
+  const getCertDetails = async (id: string | undefined) => {
     dispatch(CertDetailsStart());
     try {
       const response = await agent.Certificate.getCertificateDetail(id);

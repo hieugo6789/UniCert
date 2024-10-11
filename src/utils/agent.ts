@@ -57,7 +57,7 @@ const Certificate = {
       `api/v1/certification/search/${name ? `?certName=${name}` : ""}`
     ),
 
-  getCertificateDetail: (certId: string) =>
+  getCertificateDetail: (certId: string | undefined) =>
     requests.get(`api/v1/certification/${certId}`),
   deleteCertificate: (certId: string) =>
     requests.del(`api/v1/certification/${certId}`),

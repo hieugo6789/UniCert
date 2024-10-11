@@ -6,10 +6,14 @@ import ExamDetails from "../../../components/Certifications/ExamDetails";
 import { useParams } from "react-router-dom";
 import { allCertificationData } from "../../../models/certificate";
 import agent from "../../../utils/agent";
+import useCertDetail from "../../../hooks/useCertDetail";
+import { DetailParam } from "../../../models/tableParam";
+import { useAppDispatch } from "../../../redux/hook";
 const CertificateDetailPage = () => {
   const [activeTab, setActiveTab] = useState("Description");
   const [cert, setCertificate] = useState<allCertificationData>();
   const id = useParams().id;
+  const { state, getCertDetails } = useCertDetail();
   useEffect(() => {
     const response = agent.Certificate.getCertificateDetail(
       id?.toString() || ""
@@ -19,6 +23,10 @@ const CertificateDetailPage = () => {
       setCertificate(data.data);
     });
   }, [id]);
+  
+  useEffect(() =>{
+    getCertDetails(id);   
+  }, []);
 
   return (
     <div className="w-full p-4">
@@ -26,13 +34,13 @@ const CertificateDetailPage = () => {
         {/* Left Section */}
         <div className="text-left text-white">
           <img
-            src={cert?.certImage ? cert.certImage : certificationDefault}
+            src={state?.currentCert.certImage ? state.currentCert.certImage : certificationDefault}
             alt="Logo"
             className="w-1/2"
           />
-          <h1 className="text-2xl font-bold">{cert?.certName}</h1>
+          <h1 className="text-2xl font-bold">{state?.currentCert.certName}</h1>
           <p className="text-lg mt-2">
-            Fee: {cert?.certCost} {cert?.certPointSystem} for one attempt
+            Fee: {state?.currentCert.certCost} {state?.currentCert.certPointSystem} for one attempt
           </p>
 
           <div className="mt-4 flex space-x-4">
