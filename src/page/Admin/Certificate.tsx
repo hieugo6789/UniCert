@@ -1,18 +1,28 @@
-import { Button, Form, Input, Pagination, Table } from "antd";
+import { Button, Form, Input, Pagination, Table, Modal, message } from "antd";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
 import useCertificate from "../../hooks/useCertificate";
 import { useState } from "react";
-import { SearchOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import { deleteCertificate } from "../../models/certificate";
+import useDeleteCertificate from "../../hooks/useDeleteCertificate";
+
+const { confirm } = Modal;
 
 const Certificate = () => {
   const { certificate, loading, refetchCertificates } = useCertificate();
   const [currentPage, setCurrentPage] = useState(1);
+  const { handleDeleteCertificate } = useDeleteCertificate();
   const [pageSize] = useState(8);
   const [searchTerm, setSearchTerm] = useState("");
 
   const [form] = Form.useForm();
+
   const handleSearch = () => {
-    refetchCertificates(searchTerm); // Call fetchServices with the searchTerm
+    refetchCertificates(searchTerm);
   };
   const handlePaginationChange = (page: number) => {
     setCurrentPage(page);
@@ -22,7 +32,39 @@ const Certificate = () => {
     { title: "Name", dataIndex: "certName", key: "certName" },
     { title: "Code", dataIndex: "certCode", key: "certCode" },
     { title: "Expire", dataIndex: "expiryDate", key: "expiryDate" },
+    {
+      title: "Actions",
+      key: "actions",
+      render: (record: deleteCertificate) => (
+        <>
+          {/* <EditOutlined onClick={() => handleEdit(record)} /> */}
+          <DeleteOutlined
+            onClick={() => showDeleteConfirm(record.certId)}
+            style={{ color: "red", marginLeft: 12 }}
+          />
+        </>
+      ),
+    },
   ];
+
+  const showDeleteConfirm = (certId: string) => {
+    confirm({
+      title: "Are you sure delete this account?",
+      icon: <ExclamationCircleOutlined />,
+      content: "This action cannot be undone",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        await handleDeleteCertificate(certId);
+        message.success("Account deleted successfully!");
+        refetchCertificates();
+      },
+      onCancel() {
+        console.log("Cancel deletion");
+      },
+    });
+  };
 
   // Paginated data
   const paginatedData = certificate.slice(
@@ -33,9 +75,9 @@ const Certificate = () => {
     <>
       <div className="h-[10vh] ">
         <div className="flex  items-center mb-4">
-          <div className="col-span-8">
+          <div>
             <Input
-              placeholder="Search by major name..."
+              placeholder="Search by certification name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               style={{ marginBottom: "20px", padding: "10px", width: "80%" }}

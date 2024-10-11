@@ -50,6 +50,8 @@ const Certificate = {
     requests.get(
       `api/v1/certification/search/${name ? `?certName=${name}` : ""}`
     ),
+  deleteCertificate: (certId: string) =>
+    requests.del(`api/v1/certification/${certId}`),
 };
 
 const InternalCourse = {

@@ -8,6 +8,7 @@ import { Field, Form, Formik } from "formik";
 import { MyInputEmail, MyInputPassword } from "../../components/UI/LoginInput";
 import { useAppSelector } from "../../redux/hook";
 import { RootState } from "../../redux/store";
+import GoogleLogin from "../../components/LoginGoogle/GoogleLogin";
 // import GoogleLoginComponent from "../../components/LoginGoogle/GoogleLogin";
 
 const Login = () => {
@@ -75,6 +76,7 @@ const Login = () => {
             </Form>
           </Formik>
           {/* <GoogleLoginComponent /> */}
+          <GoogleLogin />
 
           <p className="text-center text-sm text-gray-500 mt-4">
             Or{" "}

@@ -24,3 +24,7 @@ export interface currentCertificate {
   certCodePrerequisite: [];
   certDescriptionPrerequisite: [];
 }
+
+export interface deleteCertificate {
+  certId: string;
+}

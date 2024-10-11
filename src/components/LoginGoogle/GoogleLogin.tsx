@@ -1,44 +1,33 @@
-import React from "react";
-import {
-  GoogleOAuthProvider,
-  GoogleLogin,
-  CredentialResponse,
-} from "@react-oauth/google";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const GoogleLoginComponent: React.FC = () => {
-  const handleSuccess = async (credentialResponse: CredentialResponse) => {
-    if (credentialResponse.credential) {
-      // Send the token to your backend for login
-      try {
-        const response = await axios.get(
-          "https://certificateinformationportal.azurewebsites.net/Google/login-google",
-          {
-            params: {
-              token: credentialResponse.credential, // Send the token as a query parameter
-            },
-          }
-        );
-        console.log("Backend response:", response.data);
-        // Handle the response, maybe save user info or tokens in state/context
-      } catch (error) {
-        console.error("Error sending token to backend:", error);
+const GoogleLogin = () => {
+  const navigate = useNavigate();
+
+  const handleGoogleLogin = () => {
+    fetch(
+      "https://certificateinformationportal.azurewebsites.net/google/login-google",
+      {
+        method: "GET",
+        credentials: "include",
       }
-    }
-  };
-
-  const handleError = () => {
-    console.log("Login Failed");
+    )
+      .then((response) => {
+        if (response.ok) {
+          navigate("/");
+        } else {
+          console.error("Đăng nhập thất bại:", response.statusText);
+        }
+      })
+      .catch((error) => {
+        console.error("Có lỗi xảy ra:", error);
+      });
   };
 
   return (
-    <GoogleOAuthProvider clientId="534129186963-flafa7n8c3bpgto3smv3a74e3pn0v97c.apps.googleusercontent.com">
-      <GoogleLogin
-        onSuccess={handleSuccess}
-        onError={handleError}
-      />
-    </GoogleOAuthProvider>
+    <div>
+      <button onClick={handleGoogleLogin}>Đăng nhập bằng Google</button>
+    </div>
   );
 };
 
-export default GoogleLoginComponent;
+export default GoogleLogin;

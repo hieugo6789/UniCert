@@ -7,6 +7,7 @@ import organizationReducer from "../redux/slice/organizationSlice";
 import createOrganizationReducer from "../redux/slice/createOrganizeSlice";
 import courseReducer from "../redux/slice/courseSlice";
 import certificateReducer from "../redux/slice/certificateSlice";
+import deleteCertificateReducer from "./slice/deleteCertificateSlice";
 import userDetailReducer from "../redux/slice/userDetailSlice";
 import deleteAccountReducer from "../redux/slice/deleteAccountSlice";
 
@@ -19,6 +20,7 @@ export const store = configureStore({
     createOrganization: createOrganizationReducer,
     course: courseReducer,
     certificate: certificateReducer,
+    certificateDelete: deleteCertificateReducer,
     userDetail: userDetailReducer,
     accountDelete: deleteAccountReducer,
   },

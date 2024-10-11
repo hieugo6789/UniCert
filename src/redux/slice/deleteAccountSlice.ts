@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserDetail } from "../../models/user";
 
 interface DeleteAccountState {
-  mistake: UserDetail;
+  account: UserDetail;
   isDeleting: boolean;
   deleteError: boolean;
 }
 
 const initialState: DeleteAccountState = {
-  mistake: {} as UserDetail,
+  account: {} as UserDetail,
   isDeleting: false,
   deleteError: false,
 };
@@ -22,7 +22,7 @@ const accountDeleteState = createSlice({
     },
     deleteAccountSuccess: (state, action: PayloadAction<UserDetail>) => {
       state.isDeleting = false;
-      state.mistake = action.payload;
+      state.account = action.payload;
       state.deleteError = false;
     },
     deleteAccountFailure: (state) => {
