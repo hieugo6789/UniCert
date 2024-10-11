@@ -32,14 +32,14 @@ const CertificateDetailPage = () => {
           />
           <h1 className="text-2xl font-bold">{cert?.certName}</h1>
           <p className="text-lg mt-2">
-            Fee: {cert?.certPointSystem} for one attempt
+            Fee: {cert?.certCost} {cert?.certPointSystem} for one attempt
           </p>
 
           <div className="mt-4 flex space-x-4">
             <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
               Take Exam
             </button>
-            <button className="bg-white text-blue-500 py-2 px-4 rounded-md flex items-center space-x-2 hover:bg-gray-200">
+            {/* <button className="bg-white text-blue-500 py-2 px-4 rounded-md flex items-center space-x-2 hover:bg-gray-200">
               <svg
                 className="w-5 h-5"
                 xmlns="http://www.w3.org/2000/svg"
@@ -55,26 +55,30 @@ const CertificateDetailPage = () => {
                 />
               </svg>
               <span>Add to cart</span>
-            </button>
+            </button> */}
           </div>
         </div>
 
         {/* Right Section */}
         <div className="bg-white p-6 rounded-lg shadow-md text-black max-w-xs">
           <h2 className="text-xl font-bold">{cert?.certName}</h2>
-          <p className="mt-2">Gain essential knowledge in software testing</p>
+          <p className="mt-2">{cert?.certDescription}</p>
           <hr className="my-2" />
           <p>
-            <strong>Foundation level:</strong> Recommended experience
+            <strong>Foundation level: </strong>
+            {cert?.certPrerequisite && cert.certPrerequisite.length > 0 
+            ? cert.certPrerequisite : "Beginner"}
           </p>
-          <p>
+          {/* <p>
             <strong>Globally recognized certification</strong>
-          </p>
+          </p> */}
           <p className="mt-2">
             <strong>
-              Expire:{" "}
-              {new Date(cert ? cert.certValidity : "").toLocaleDateString()}
+              Certificate Validity:{" "}                
             </strong>
+            {cert && cert.certValidity
+                ? cert.certValidity
+                : "This is a permanent certificate"}
           </p>
           <a
             href="#"

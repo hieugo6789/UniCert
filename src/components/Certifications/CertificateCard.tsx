@@ -12,15 +12,19 @@ const CertificateCard = (props: allCertificationData) => {
       onClick={() => navigate("/certificate/" + props.certId)}
     >
       <img
+        // src={props.certImage ? props.certImage : defaultCertThumb}
         src={props.certImage ? props.certImage : defaultCertThumb}
         alt=""
         className="w-full h-1/3 object-cover mb-4 rounded-xl"
       />
       <h3 className="text-lg font-semibold">{props.certName}</h3>
       <p className="text-sm text-gray-600">Organization: {props.certId}</p>
-      {/* <p className="text-sm text-gray-600">
-        Expiry Date: {date.toLocaleDateString()}
-      </p> */}
+      <p className="text-sm text-gray-600">
+        Certificate Validity:{" "}                        
+        {props && props.certValidity
+        ? props.certValidity
+        : "This is a permanent certificate"}
+      </p>
     </div>
   );
 };

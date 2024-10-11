@@ -44,7 +44,7 @@ function App() {
         { index: true, element: <HomePage /> },
         { path: "about", element: <AboutPage /> },
         { path: "certificate", element: <CertificatePage /> },
-        { path: "certificate/:slug", element: <CertificateDetailPage /> },
+        { path: "certificate/:id", element: <CertificateDetailPage /> },
         { path: "practicalExam", element: <PracticalExam /> },
         { path: "majors", element: <Majors /> },
         { path: "job", element: <Job /> },
