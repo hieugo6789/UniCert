@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/images/UniCertLogo.png";
 import { useEffect, useState } from "react";
 import AvatarImage from "../UI/AvatarImage";
+import Logo from "./Logo";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -14,14 +15,8 @@ const Header = () => {
 
   return (
     <header className="z-100 bg-gray-950 px-8 py-2  flex justify-between items-center sticky w-full top-0 ">
-      <div className="text-white text-2xl font-bold">
-        <Link to="./">
-          <img
-            src={logo}
-            alt="Logo"
-            className="w-14 h-14"
-          />
-        </Link>
+      <div>
+        <Logo />
       </div>
 
       <div className="relative w-3/12">

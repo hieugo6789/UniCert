@@ -1,13 +1,16 @@
 import { Button } from "antd";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
 import useSchedule from "../../hooks/useSchedule";
+import Logo from "../../components/Header/Logo";
 
 const Schedule = () => {
   const { schedule, loading, refetchSchedule } = useSchedule();
   return (
     <>
-      <div className="h-[10vh] ">
-        <div className="flex  items-center mb-4">
+      <div className="h-[10vh] flex items-center">
+        <Logo />
+
+        <div>
           <Button
             type="primary"
             // onClick={showModal}

@@ -4,6 +4,7 @@ import baseApi from "./baseApi";
 import { MajorInput } from "../models/major";
 import { createOrganizationModel } from "../models/organization";
 import { UpdateRole } from "../models/user";
+import { scheduleInput } from "../models/schedule";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -65,6 +66,8 @@ const Certificate = {
 const Schedule = {
   getAllSchedule: (name?: string) =>
     requests.get(`api/v1/exam-session/${name ? name : ""}`),
+  createSchedule: (input: scheduleInput) =>
+    requests.post("api/v1/exam-session", input),
 };
 
 const InternalCourse = {

@@ -17,3 +17,11 @@ export interface currentSchedule {
   certId: string;
   sessionCreatedAt: Date;
 }
+export interface scheduleInput {
+  sessionName: string;
+  sessionCode: string;
+  sessionDate: Date;
+  sessionAddress: string;
+  certId: string;
+  sessionCreatedAt: Date;
+}
