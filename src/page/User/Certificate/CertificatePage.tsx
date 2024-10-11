@@ -4,6 +4,7 @@ import defaultCertThumb from '../../../assets/images/Certification/defaultCertTh
 import { useEffect, useState } from "react";
 import agent from "../../../utils/agent";
 import { allCertificationData } from "../../../models/certificate";
+import useCertificate from "../../../hooks/useCertificate";
 const CertificatePage = () => {
   // const certificates = [
   //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
@@ -15,6 +16,7 @@ const CertificatePage = () => {
   //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
   //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
   // ];
+  const { certificate, loading, refetchCertificates } = useCertificate();
   const [certificates, setCertificates] = useState<allCertificationData[]>([]);
   useEffect(() => {
     const fetchCertificates = async () => {
@@ -57,7 +59,7 @@ const CertificatePage = () => {
 
       {/* Certificates Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
-        {certificates.map((cert, index) => (
+        {certificate.map((cert, index) => (
           <CertificateCard
             key={index}
             {...cert}

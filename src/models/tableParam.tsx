@@ -8,3 +8,7 @@ export interface allTotalPaginationData {
   id: string;
   totalAccount: number;
 }
+
+export interface DetailParam {
+  id: string | undefined;
+}
