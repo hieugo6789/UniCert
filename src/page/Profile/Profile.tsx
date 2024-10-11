@@ -7,21 +7,9 @@ import * as Yup from "yup";
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import CustomInput from "../../components/UI/CustomInput";
 import CustomButton from "../../components/UI/CustomButton";
-
-export interface UserDetail {
-  userId: string;
-  username: string;
-  password: string;
-  email: string;
-  fullname: string;
-  dob: Date;
-  address: string;
-  phoneNumber: number;
-  role: string;
-  status: boolean;
-  userCreatedAt: string;
-  userImage: string;
-}
+import agent from "../../utils/agent";
+import Cookies from "js-cookie";
+import { UserDetail } from "../../models/user";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -59,10 +47,9 @@ const Profile = () => {
 
   const handleSubmit = async (values: UserDetail) => {
     console.log("Submitted data:", values);
-    setIsEditing(false); 
+    setIsEditing(false);
     const resp = await useProfile().updateProfile(values);
-    if(resp && resp.status === 200)
-    {
+    if (resp && resp.status === 200) {
       alert("Update successfully");
     }
     setForm(values);
@@ -70,13 +57,16 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await useProfile().getUserDetail();
+      // const data = await useProfile().getUserDetail();
+      const id = Cookies.get("userId");
+      const data = await agent.Account.getAccountDetail(id?.toString() || "");
+      // console.log(data);
       if (!data) {
         navigate("/login");
         return;
       }
-      setForm(data.data.data);
-      console.log("Form:", form);
+      setForm(data.data);
+      // console.log("Form:", form);
     };
     fetchData();
   }, []);
@@ -98,20 +88,15 @@ const Profile = () => {
     console.log("Save payment methods");
   };
 
-  const handleBack = () => {
-    navigate("/");
-  };
-
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Left panel */}
       <div className="w-1/4 bg-white shadow-md p-4">
         <div className="flex flex-col items-center mb-6">
-          <img
-            src={form.userImage ? form.userImage : DefaultAvatar}
+          
+          <img src={form.userImage ? form.userImage : DefaultAvatar}
             alt="avatar"
             className="w-24 h-24 bg-gray-300 rounded-full mb-4"
-          />
+          /> 
           <p className="font-bold text-lg">{form.fullname}</p>
         </div>
         <ul className="space-y-4">
@@ -145,11 +130,11 @@ const Profile = () => {
           {({ handleSubmit, handleChange, values }) => (
             <Form onSubmit={handleSubmit}>
               <div className="flex justify-between items-center mb-4 px-4 py-2">
-                
+                <label className="block font-medium text-gray-700 mb-1">Fullname</label>
                 {!isEditing ? (
                   <button
                     type="button"
-                    className="text-blue-500 hover:text-blue-700 ml-auto"
+                    className="text-blue-500 hover:text-blue-700"
                     onClick={() => setIsEditing(true)}
                   >
                     Edit
@@ -158,16 +143,14 @@ const Profile = () => {
               </div>
 
               <div className="mb-4 px-4 py-2">
-                <label className="block font-medium text-gray-700 mb-1">Full Name</label>
                 <Field
                   name="fullname"
                   type="text"
                   value={values.fullname}
                   onChange={handleChange}
                   readOnly={!isEditing} // Read-only when not editing
-                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${
-                    !isEditing ? "bg-gray-100" : "focus:border-purple-500"
-                  }`}
+                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${!isEditing ? "bg-gray-100" : "focus:border-purple-500"
+                    }`}
                   disabled={!isEditing} // Disabled when not editing
                 />
                 <ErrorMessage name="fullname" component="div" className="text-red-500 text-sm" />
@@ -181,9 +164,8 @@ const Profile = () => {
                   value={values.email}
                   onChange={handleChange}
                   readOnly={!isEditing}
-                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${
-                    !isEditing ? "bg-gray-100" : "focus:border-purple-500"
-                  }`}
+                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${!isEditing ? "bg-gray-100" : "focus:border-purple-500"
+                    }`}
                   disabled={!isEditing}
                 />
                 <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
@@ -197,9 +179,8 @@ const Profile = () => {
                   value={values.phoneNumber}
                   onChange={handleChange}
                   readOnly={!isEditing}
-                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${
-                    !isEditing ? "bg-gray-100" : "focus:border-purple-500"
-                  }`}
+                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${!isEditing ? "bg-gray-100" : "focus:border-purple-500"
+                    }`}
                   disabled={!isEditing}
                 />
                 <ErrorMessage name="phoneNumber" component="div" className="text-red-500 text-sm" />
@@ -213,33 +194,23 @@ const Profile = () => {
                   value={values.address}
                   onChange={handleChange}
                   readOnly={!isEditing}
-                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${
-                    !isEditing ? "bg-gray-100" : "focus:border-purple-500"
-                  }`}
+                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${!isEditing ? "bg-gray-100" : "focus:border-purple-500"
+                    }`}
                   disabled={!isEditing}
                 />
                 <ErrorMessage name="address" component="div" className="text-red-500 text-sm" />
-              </div>                    
-              
-              <div className="flex justify-center">                
-                {isEditing ? (
+              </div>
+
+              {isEditing && (
+                <div className="flex justify-center">
                   <button
                     type="submit"
                     className="px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 focus:outline-none focus:ring"
                   >
                     Save
                   </button>
-                  ) : (
-                    <button
-                    type="button"
-                    className="px-4 py-2 bg-gray-400 text-black rounded-md hover:bg-gray-500 focus:outline-none focus:ring"
-                    onClick={handleBack}
-                  >
-                    Back
-                  </button>
-                  )}
-              </div>
-              
+                </div>
+              )}
             </Form>
           )}
         </Formik>
