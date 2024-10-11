@@ -1,10 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Description from "../../../components/Certifications/Description";
 import certificationDefault from "../../../assets/images/Certification/certificationDefault.png";
 import Feedback from "../../../components/Certifications/Feedback";
 import ExamDetails from "../../../components/Certifications/ExamDetails";
+import { useParams } from "react-router-dom";
+import { allCertificationData } from "../../../models/certificate";
+import agent from "../../../utils/agent";
 const CertificateDetailPage = () => {
   const [activeTab, setActiveTab] = useState('Description');
+  const [cert,setCertificate] = useState<allCertificationData>();
+  const id = useParams().id;
+  useEffect(() => {
+    const response = agent.Certificate.getCertificateDetail(id?.toString()||"");
+    response.then((data) => {
+      console.log(data);
+      setCertificate(data.data);
+    });
+  }, [id]);
 
   return (
     <div className="w-full p-4">
@@ -12,9 +24,9 @@ const CertificateDetailPage = () => {
       
       {/* Left Section */}
       <div className="text-left text-white">
-        <img src={certificationDefault} alt="" className="w-1/2"/>
-        <h1 className="text-2xl font-bold">International Software Testing Qualifications Board</h1>
-        <p className="text-lg mt-2">Fee: 10 points for one attempt</p>
+        <img src={cert?.certImage? cert.certImage : certificationDefault} alt="Logo" className="w-1/2"/>
+        <h1 className="text-2xl font-bold">{cert?.certName}</h1>
+        <p className="text-lg mt-2">Fee: {cert?.certPointSystem} for one attempt</p>
         
         <div className="mt-4 flex space-x-4">
           <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
@@ -31,12 +43,12 @@ const CertificateDetailPage = () => {
 
       {/* Right Section */}
       <div className="bg-white p-6 rounded-lg shadow-md text-black max-w-xs">
-        <h2 className="text-xl font-bold">ISTQB Certified Tester Foundation Level (CTFL) v4.0</h2>
+        <h2 className="text-xl font-bold">{cert?.certName}</h2>
         <p className="mt-2">Gain essential knowledge in software testing</p>
         <hr className="my-2" />
         <p><strong>Foundation level:</strong> Recommended experience</p>
         <p><strong>Globally recognized certification</strong></p>
-        <p className="mt-2"><strong>Expire:</strong></p>
+        <p className="mt-2"><strong>Expire: {(new Date(cert? cert.expiryDate : "").toLocaleDateString())}</strong></p>
         <a href="#" className="text-blue-500 mt-4 block hover:underline">Learn More</a>
       </div>
       
