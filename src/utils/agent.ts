@@ -62,6 +62,11 @@ const Certificate = {
     requests.del(`api/v1/certification/${certId}`),
 };
 
+const Schedule = {
+  getAllSchedule: (name?: string) =>
+    requests.get(`api/v1/exam-session/${name ? name : ""}`),
+};
+
 const InternalCourse = {
   getAllCourse: (name?: string) =>
     requests.get(`api/v1/course/${name ? name : ""}`),
@@ -82,5 +87,6 @@ const agent = {
   InternalCourse,
   Certificate,
   JobPosition,
+  Schedule,
 };
 export default agent;

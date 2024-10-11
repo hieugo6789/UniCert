@@ -79,14 +79,14 @@ const MenuAdmin = () => {
         <span className="pl-2">Certifications</span>
       </NavLink>
       <NavLink
-        to="/admin/exam"
+        to="/admin/schedule"
         className={({ isActive }) =>
           isActive
             ? "flex items-center p-2 mb-2 text-purple-500 bg-purple-200 rounded-lg"
             : "flex items-center p-2 mb-2 text-gray-700 hover:bg-gray-100 rounded-lg"
         }
       >
-        <span className="pl-2">Exam</span>
+        <span className="pl-2">Schedule</span>
       </NavLink>
       <NavLink
         to="/admin/organizations"

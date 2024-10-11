@@ -48,7 +48,7 @@ const Certificate = () => {
   const columns = [
     { title: "Name", dataIndex: "certName", key: "certName" },
     { title: "Code", dataIndex: "certCode", key: "certCode" },
-    { title: "Expire", dataIndex: "expiryDate", key: "expiryDate" },
+    // { title: "Expire", dataIndex: "expiryDate", key: "expiryDate" },
     {
       title: "Actions",
       key: "actions",

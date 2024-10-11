@@ -6,7 +6,7 @@ import LayoutAdmin from "./page/Admin/Layout/LayoutAdmin";
 import Dashboard from "./page/Admin/Dashboard";
 import Certificate from "./page/Admin/Certificate";
 import Decentralization from "./page/Admin/Decentralization";
-import Exam from "./page/Admin/Exam";
+import Schedule from "./page/Admin/Schedule";
 import JobPosition from "./page/Admin/JobPosition";
 import Major from "./page/Admin/Major";
 import Organizations from "./page/Admin/Organizations";
@@ -58,7 +58,7 @@ function App() {
         { path: "dashboard", element: <Dashboard /> },
         { path: "certificate", element: <Certificate /> },
         { path: "decentralization", element: <Decentralization /> },
-        { path: "exam", element: <Exam /> },
+        { path: "schedule", element: <Schedule /> },
         { path: "jobPosition", element: <JobPosition /> },
         { path: "major", element: <Major /> },
         { path: "organizations", element: <Organizations /> },

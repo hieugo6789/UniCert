@@ -6,7 +6,7 @@ export interface allCertificationData {
   certCost: number;
   certPointSystem: string;
   certImage: string;
-  expiryDate: Date;
+  certValidity: string;
   certPrerequisite: [];
   certCodePrerequisite: [];
   certDescriptionPrerequisite: [];
@@ -19,7 +19,7 @@ export interface currentCertificate {
   certCost: number;
   certPointSystem: string;
   certImage: string;
-  expiryDate: Date;
+  certValidity: string;
   certPrerequisite: [];
   certCodePrerequisite: [];
   certDescriptionPrerequisite: [];
