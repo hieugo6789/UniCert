@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./page/User/HomePage";
 import CertificatePage from "./page/User/Certificate/CertificatePage";
+import CertificateDetailPage from "./page/User/Certificate/CertificateDetailPage";
 import LayoutAdmin from "./page/Admin/Layout/LayoutAdmin";
 import Dashboard from "./page/Admin/Dashboard";
 import Certificate from "./page/Admin/Certificate";
@@ -43,6 +44,7 @@ function App() {
         { index: true, element: <HomePage /> },
         { path: "about", element: <AboutPage /> },
         { path: "certificate", element: <CertificatePage /> },
+        { path:"/certificate/:id", element: <CertificateDetailPage/>},
         { path: "practicalExam", element: <PracticalExam /> },
         { path: "majors", element: <Majors /> },
         { path: "job", element: <Job /> },

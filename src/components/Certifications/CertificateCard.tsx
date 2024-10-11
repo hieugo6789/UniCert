@@ -18,9 +18,12 @@ const CertificateCard = (props: allCertificationData) => {
       />
       <h3 className="text-lg font-semibold">{props.certName}</h3>
       <p className="text-sm text-gray-600">Organization: {props.certId}</p>
-      {/* <p className="text-sm text-gray-600">
-        Expiry Date: {date.toLocaleDateString()}
-      </p> */}
+      <p className="text-sm text-gray-600">
+        Certificate Validity:{" "}                        
+        {props && props.certValidity
+        ? props.certValidity
+        : "This is a permanent certificate"}
+      </p>
     </div>
   );
 };
