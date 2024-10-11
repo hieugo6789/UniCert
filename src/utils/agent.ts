@@ -43,6 +43,11 @@ const Organization = {
     requests.post("/api/v1/organize", input),
 };
 
+const JobPosition = {
+  getAllJob: (name?: string) =>
+    requests.get(`api/v1/job-position/${name ? name : ""}`),
+};
+
 const Certificate = {
   // getAllCertificates: (name?: string) =>
   //   requests.get(`api/v1/certification/${name ? name : ""}`),
@@ -50,6 +55,9 @@ const Certificate = {
     requests.get(
       `api/v1/certification/search/${name ? `?certName=${name}` : ""}`
     ),
+
+  getCertificateDetail: (certId: string) =>
+    requests.get(`api/v1/certification/${certId}`),
   deleteCertificate: (certId: string) =>
     requests.del(`api/v1/certification/${certId}`),
 };
@@ -67,5 +75,12 @@ const Account = {
   deleteAccount: (userId: string) => requests.del(`api/v1/users/${userId}`),
 };
 
-const agent = { Major, Account, Organization, InternalCourse, Certificate };
+const agent = {
+  Major,
+  Account,
+  Organization,
+  InternalCourse,
+  Certificate,
+  JobPosition,
+};
 export default agent;

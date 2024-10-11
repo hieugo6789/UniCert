@@ -1,4 +1,13 @@
-import { Button, Form, Input, Pagination, Table, Modal, message } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Pagination,
+  Table,
+  Modal,
+  message,
+  Spin,
+} from "antd";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
 import useCertificate from "../../hooks/useCertificate";
 import { useState } from "react";
@@ -7,17 +16,25 @@ import {
   ExclamationCircleOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import { deleteCertificate } from "../../models/certificate";
 import useDeleteCertificate from "../../hooks/useDeleteCertificate";
+import useCertDetail from "../../hooks/useCertDetail";
 
 const { confirm } = Modal;
 
 const Certificate = () => {
   const { certificate, loading, refetchCertificates } = useCertificate();
+  const { state, getCertDetails } = useCertDetail();
   const [currentPage, setCurrentPage] = useState(1);
   const { handleDeleteCertificate } = useDeleteCertificate();
   const [pageSize] = useState(8);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleView = async (certId: string) => {
+    setIsModalVisible(true);
+    await getCertDetails(certId);
+  };
 
   const [form] = Form.useForm();
 
@@ -35,8 +52,14 @@ const Certificate = () => {
     {
       title: "Actions",
       key: "actions",
-      render: (record: deleteCertificate) => (
+      render: (record: any) => (
         <>
+          <Button
+            type="link"
+            onClick={() => handleView(record.certId)}
+          >
+            View
+          </Button>
           {/* <EditOutlined onClick={() => handleEdit(record)} /> */}
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.certId)}
@@ -129,6 +152,29 @@ const Certificate = () => {
           </div>
         </div>
       </div>
+      <Modal
+        title="User Details"
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+      >
+        {state.isLoading ? (
+          <Spin />
+        ) : state.currentCert ? (
+          <div>
+            <p>
+              <strong>Username:</strong> {state.currentCert.certName}
+            </p>
+            <p>
+              <strong>Email:</strong> {state.currentCert.certDescription}
+            </p>
+            <p>
+              <strong>PhoneNumber:</strong> {state.currentCert.certPrerequisite}
+            </p>
+          </div>
+        ) : (
+          <p>No details available.</p>
+        )}
+      </Modal>
     </>
   );
 };
