@@ -7,7 +7,6 @@ const useJob = () => {
   const dispatch = useAppDispatch();
   const [job, setJob] = useState<allJobPaginationData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
   const fetchJobs = async (name?: string) => {
     setLoading(true);
@@ -15,7 +14,7 @@ const useJob = () => {
       const response = await dispatch(fetchAllJobPagination(name));
       setJob(response.payload.data || []);
     } catch (err) {
-      setError("Error fetching accounts.");
+      console.log("Error fetching jobs.", err);
     } finally {
       setLoading(false);
     }
@@ -24,6 +23,6 @@ const useJob = () => {
     fetchJobs();
   }, [dispatch]);
 
-  return { job, loading, error, refetchJobs: fetchJobs };
+  return { job, loading, refetchJobs: fetchJobs };
 };
 export default useJob;

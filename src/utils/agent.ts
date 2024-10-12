@@ -49,6 +49,8 @@ const Organization = {
 const JobPosition = {
   getAllJob: (name?: string) =>
     requests.get(`api/v1/job-position/${name ? name : ""}`),
+  getJobDetail: (jobId: string | undefined) =>
+    requests.get(`api/v1/job-position/${jobId}`),
 };
 
 const Certificate = {

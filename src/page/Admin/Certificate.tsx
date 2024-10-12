@@ -129,7 +129,7 @@ const Certificate = () => {
                 rowClassName={() => "h-[8.7vh]"}
               />
             ) : (
-              <div>No organizations available.</div>
+              <div>No certifications available.</div>
             )}
           </div>
 

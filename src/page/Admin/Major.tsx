@@ -93,7 +93,7 @@ const Major = () => {
                 rowClassName={() => "h-[8.7vh]"}
               />
             ) : (
-              <div>No majors available.</div> // Message if no majors are found
+              <div>No majors available.</div>
             )}
           </div>
           <div className="mt-6 flex justify-end">

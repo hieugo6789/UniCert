@@ -3,6 +3,8 @@ export interface allJobPaginationData {
   jobPositionCode: string;
   jobPositionName: string;
   jobPositionDescription: string;
+  majorId: string[];
+  certId: string[];
 }
 
 export interface currentJob {
@@ -10,4 +12,6 @@ export interface currentJob {
   jobPositionCode: string;
   jobPositionName: string;
   jobPositionDescription: string;
+  majorId: string[];
+  certId: string[];
 }

@@ -4,6 +4,7 @@ import authReducer from "../redux/slice/authSlice";
 import majorReducer from "../redux/slice/majorSlice";
 import majorDetailReducer from "../redux/slice/majorDetailSlice";
 import jobReducer from "../redux/slice/jobSlice";
+import jobDetailReducer from "../redux/slice/jobDetailSlice";
 import accountReducer from "../redux/slice/accountSlice";
 import organizationReducer from "../redux/slice/organizationSlice";
 import createOrganizationReducer from "../redux/slice/createOrganizeSlice";
@@ -22,6 +23,7 @@ export const store = configureStore({
     major: majorReducer,
     majorDetail: majorDetailReducer,
     job: jobReducer,
+    jobDetail: jobDetailReducer,
     account: accountReducer,
     organization: organizationReducer,
     createOrganization: createOrganizationReducer,
