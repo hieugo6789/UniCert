@@ -5,31 +5,27 @@ import { useEffect, useState } from "react";
 import agent from "../../../utils/agent";
 import { allCertificationData } from "../../../models/certificate";
 import useCertificate from "../../../hooks/useCertificate";
+import { Link } from "react-router-dom";
 const CertificatePage = () => {
-  // const certificates = [
-  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-  //   { title: "International Software Testing Qualifications Board", organization: "ISTQB Việt Nam", expiration: "No expiration" },
-  // ];
   const { certificate, loading, refetchCertificates } = useCertificate();
   const [certificates, setCertificates] = useState<allCertificationData[]>([]);
   useEffect(() => {
     const fetchCertificates = async () => {
-      const response = await agent.Certificate.getAllCertificates();
-      console.log(response);
-      if (response && response.succeeded) {
-        setCertificates(response.data);
-      }
-
+      // const response = await agent.Certificate.getAllCertificates();
+      // console.log(response);
+      // if (response && response.succeeded) {
+      //   setCertificates(response.data);
+      // }
+      refetchCertificates();
+      
     };
     fetchCertificates();
-    console.log(certificates);
+    setCertificates(certificate);
+    // console.log(certificates);
   }, []);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header Section */}
@@ -58,14 +54,26 @@ const CertificatePage = () => {
       </div>
 
       {/* Certificates Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
-        {certificate.map((cert, index) => (
-          <CertificateCard
-            key={index}
-            {...cert}
+      {certificates.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
+          {certificates.map((cert, index) => (
+            <CertificateCard
+              key={index}
+              {...cert}  // Spread certificate details to CertificateCard
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="w-1/3 h-1/12 m-auto rounded-xl ">
+          <img
+            className="w-full rounded-xl shadow"
+            src="https://dmf76jm51vpov.cloudfront.net/www2/images/main/2020/webpage/Course-not-Found.jpg"
+            alt="course not found"
           />
-        ))}
-      </div>
+          <p>We can't get course now. Please retry later or back to <Link className="text-blue-500" to="/"> HOMEPAGE</Link></p>
+        </div>
+      )}
+
 
       {/* Pagination */}
       <div className="flex justify-center items-center p-4">
@@ -106,7 +114,7 @@ const CertificatePage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 
