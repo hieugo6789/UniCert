@@ -1,36 +1,17 @@
-import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../redux/hook";
-import { allMajorPaginationData } from "../../models/major";
-import { fetchAllMajorPagination } from "../../redux/slice/majorSlice";
+import { useState } from "react";
 import CreateMajor from "../../components/Majors/CreateMajor";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
 import { Input, Button } from "antd"; // Import Input and Button from antd
 import { SearchOutlined } from "@ant-design/icons";
+import useMajor from "../../hooks/useMajor";
 
 const Major = () => {
-  const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(true);
-  const [major, setMajor] = useState<allMajorPaginationData[]>([]);
+  const { major, loading, refetchMajors } = useMajor();
+
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    fetchServices(); // Fetch services initially
-  }, [dispatch]);
-
-  const fetchServices = async (name?: string) => {
-    setLoading(true);
-    try {
-      const response = await dispatch(fetchAllMajorPagination(name)); // Pass the search term to the API call
-      setMajor(response.payload.data || []);
-    } catch (error) {
-      console.error("Error fetching services:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleSearch = () => {
-    fetchServices(searchTerm); // Call fetchServices with the searchTerm
+    refetchMajors(searchTerm);
   };
 
   return (

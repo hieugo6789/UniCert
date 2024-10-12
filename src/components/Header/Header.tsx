@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import logo from "../../assets/images/UniCertLogo.png";
 import { useEffect, useState } from "react";
 import AvatarImage from "../UI/AvatarImage";
 import Logo from "./Logo";

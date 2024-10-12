@@ -6,7 +6,6 @@ const useCertificate = () => {
   const dispatch = useAppDispatch();
   const [certificate, setCertificate] = useState<allCertificationData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
   const fetchCertificates = async (name?: string) => {
     setLoading(true);
@@ -14,7 +13,7 @@ const useCertificate = () => {
       const response = await dispatch(fetchAllCertificatePagination(name));
       setCertificate(response.payload.data || []);
     } catch (err) {
-      setError("Error fetching accounts.");
+      console.log("Error fetching certificates.", err);
     } finally {
       setLoading(false);
     }
@@ -26,7 +25,6 @@ const useCertificate = () => {
   return {
     certificate,
     loading,
-    error,
     refetchCertificates: fetchCertificates,
   };
 };
