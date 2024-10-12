@@ -2,18 +2,30 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AvatarImage from "../UI/AvatarImage";
 import Logo from "./Logo";
+import useWalletDetail from "../../hooks/useWalletDetail";
+import Cookies from "js-cookie";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { wallets, getWalletDetails } = useWalletDetail();
+  const userId = Cookies.get("userId"); // userId có thể là string hoặc undefined
+
+  useEffect(() => {
+    if (userId) {
+      getWalletDetails(userId);
+      console.log(userId);
+    }
+  }, [userId]);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
     }
-  });
+  }, []);
 
   return (
-    <header className="z-100 bg-gray-950 px-8 py-2  flex justify-between items-center sticky w-full top-0 ">
+    <header className="z-100 bg-gray-950 px-8 py-2 flex justify-between items-center sticky w-full top-0">
       <div>
         <Logo />
       </div>
@@ -77,7 +89,12 @@ const Header = () => {
 
       <div className="flex space-x-4">
         {isLoggedIn ? (
-          <AvatarImage />
+          <div>
+            {/* <div className="text-white">
+              {userId ? wallets[userId]?.point || 0 : 0}
+            </div> */}
+            <AvatarImage />
+          </div>
         ) : (
           <div className="flex space-x-4">
             <Link to="/login">
@@ -96,4 +113,5 @@ const Header = () => {
     </header>
   );
 };
+
 export default Header;

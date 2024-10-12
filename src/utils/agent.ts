@@ -87,6 +87,8 @@ const Account = {
   updateAccountInformation: (input: UpdateRole, userId: string) =>
     requests.put(`/api/v1/users/${userId}`, input),
   deleteAccount: (userId: string) => requests.del(`api/v1/users/${userId}`),
+  getAccountWallet: (userId: string | undefined) =>
+    requests.get(`api/v1/wallet/${userId}`),
 };
 
 const Profile = {

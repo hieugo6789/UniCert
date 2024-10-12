@@ -21,7 +21,7 @@ export function useCreateOrganize() {
       );
       dispatch(createOrganizeSuccess(response));
     } catch (error) {
-      console.error("Error creating class:", error);
+      console.error("Error creating organization:", error);
       dispatch(createOrganizeFailure());
     }
   };

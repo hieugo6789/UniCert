@@ -7,7 +7,6 @@ const useCourse = () => {
   const dispatch = useAppDispatch();
   const [course, setCourse] = useState<allCoursePaginationData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
   const fetchCourses = async (name?: string) => {
     setLoading(true);
@@ -15,7 +14,7 @@ const useCourse = () => {
       const response = await dispatch(fetchAllCoursePagination(name));
       setCourse(response.payload.data || []);
     } catch (err) {
-      setError("Error fetching accounts.");
+      console.error("Error fetching courses.", err);
     } finally {
       setLoading(false);
     }
@@ -24,6 +23,6 @@ const useCourse = () => {
     fetchCourses();
   }, [dispatch]);
 
-  return { course, loading, error, refetchCourses: fetchCourses };
+  return { course, loading, refetchCourses: fetchCourses };
 };
 export default useCourse;

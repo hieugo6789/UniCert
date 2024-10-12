@@ -7,7 +7,6 @@ const useSchedule = () => {
   const dispatch = useAppDispatch();
   const [schedule, setSchedule] = useState<allSchedulePaginationData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
   const fetchSchedules = async (name?: string) => {
     setLoading(true);
@@ -15,7 +14,7 @@ const useSchedule = () => {
       const response = await dispatch(fetchAllSchedulePagination(name));
       setSchedule(response.payload.data || []);
     } catch (err) {
-      setError("Error fetching accounts.");
+      console.error("Error fetching accounts.", err);
     } finally {
       setLoading(false);
     }
@@ -24,6 +23,6 @@ const useSchedule = () => {
     fetchSchedules();
   }, [dispatch]);
 
-  return { schedule, loading, error, refetchSchedule: fetchSchedules };
+  return { schedule, loading, refetchSchedule: fetchSchedules };
 };
 export default useSchedule;

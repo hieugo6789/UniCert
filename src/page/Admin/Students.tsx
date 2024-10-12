@@ -1,12 +1,12 @@
 import { ROLE } from "../../constants/role";
 import { Table, Tag, Button, Pagination, Modal, Spin } from "antd";
 import { useAccounts } from "../../hooks/useAccount";
-import { useState } from "react";
-import { DollarOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import Coin from "../../assets/images/Coin.png";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
 import setUserStatus from "../../hooks/useUserStatus";
 import useUserDetail from "../../hooks/useUserDetail";
-// import './Students.css'; // Assuming you add custom styling here
+import useWalletDetail from "../../hooks/useWalletDetail";
 
 const Students = () => {
   const {
@@ -15,6 +15,7 @@ const Students = () => {
     refetch,
   } = useAccounts(ROLE.role4);
 
+  const { wallets, getWalletDetails } = useWalletDetail();
   const { state, getUserDetails } = useUserDetail();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,15 +34,9 @@ const Students = () => {
 
       await setUserStatus(record.userId, updatedStatus);
 
-      // Show success message
-      // message.success(
-      //   `Student ${record.username} has been ${updatedStatus ? "activated" : "deactivated"}.`
-      // );
-
-      // You can refresh the list or update the local state after successful update
-      refetch();
+      refetch(); // Refresh the list after updating
     } catch (error) {
-      // message.error("Failed to update the student status.");
+      console.error("Failed to update the student status.");
     }
   };
 
@@ -75,6 +70,7 @@ const Students = () => {
     {
       title: "Actions",
       key: "actions",
+      width: 200,
       render: (record: any) => (
         <div>
           <Button
@@ -85,32 +81,37 @@ const Students = () => {
           </Button>
           <Button
             type="link"
-            danger={record.status} // Render button in red if status is active
+            danger={record.status}
             onClick={() => handleToggleStatus(record)}
           >
-            {record.status ? "Deactivate" : "Activate"}{" "}
+            {record.status ? "Deactivate" : "Activate"}
           </Button>
         </div>
       ),
     },
     {
       title: "Coin",
-      dataIndex: "coin",
       key: "coin",
-      render: (coin: number) => (
-        <div>
-          {coin} <DollarOutlined />
+      width: 110,
+      render: (record: any) => (
+        <div className="flex justify-between items-center ">
+          {wallets[record.userId]?.point || 0} <img src={Coin} />
         </div>
       ),
     },
   ];
 
-  // Handle Pagination change
+  // Fetch wallet details when the component mounts or when accounts change
+  useEffect(() => {
+    studentAccounts.forEach((account) => {
+      getWalletDetails(account.userId); // Fetch ví cho từng user
+    });
+  }, [studentAccounts]);
+
   const handlePaginationChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  // Paginated data
   const paginatedData = studentAccounts.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
