@@ -1,40 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
-import { useAppDispatch } from "../../redux/hook";
-import { allOrganizationPaginationData } from "../../models/organization";
-import { fetchAllOrganizationPagination } from "../../redux/slice/organizationSlice";
 import { useCreateOrganize } from "../../hooks/useCreateOrganize";
 import { Modal, Input, Button } from "antd";
+import useOrganization from "../../hooks/useOrganization";
 
 const Organizations = () => {
+  const { organization, loading, refetchOrganizations } = useOrganization();
+
   const { handleCreateOrganize } = useCreateOrganize();
-  const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(true);
-  const [organization, setOrganization] = useState<
-    allOrganizationPaginationData[]
-  >([]);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formData, setFormData] = useState({
     organizeName: "",
     organizeAddress: "",
     organizeContact: "",
   });
-
-  useEffect(() => {
-    fetchServices();
-  }, [dispatch]);
-
-  const fetchServices = async (name?: string) => {
-    setLoading(true);
-    try {
-      const response = await dispatch(fetchAllOrganizationPagination(name));
-      setOrganization(response.payload.data || []);
-    } catch (error) {
-      console.error("Error fetching services:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -49,7 +29,7 @@ const Organizations = () => {
     ) {
       try {
         await handleCreateOrganize(formData);
-        fetchServices();
+        refetchOrganizations();
         setIsModalVisible(false);
         setFormData({
           organizeName: "",
