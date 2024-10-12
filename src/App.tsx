@@ -23,6 +23,7 @@ import Job from "./page/User/Job/Job";
 import Profile from "./page/Profile/Profile";
 import NotFound from "./page/NotFound/NotFound";
 import CertificateDetailPage from "./page/User/Certificate/CertificateDetailPage";
+import MajorDetailPage from "./page/User/Majors/MajorDetailPage";
 
 const Layout = () => {
   return (
@@ -47,6 +48,7 @@ function App() {
         { path: "certificate/:id", element: <CertificateDetailPage /> },
         { path: "practicalExam", element: <PracticalExam /> },
         { path: "majors", element: <Majors /> },
+        { path: "major/:id", element: <MajorDetailPage /> },
         { path: "job", element: <Job /> },
       ],
     },

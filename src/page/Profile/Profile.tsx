@@ -7,13 +7,10 @@ import * as Yup from "yup";
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import CustomInput from "../../components/UI/CustomInput";
 import CustomButton from "../../components/UI/CustomButton";
-import agent from "../../utils/agent";
 import Cookies from "js-cookie";
 import { UserDetail } from "../../models/user";
 
 const Profile = () => {
-  const navigate = useNavigate();
-  const [isEditing, setIsEditing] = useState(false); // State to toggle edit mode
   const [form, setForm] = useState<UserDetail>({
     userId: "0",
     username: "Minh",
@@ -28,6 +25,15 @@ const Profile = () => {
     userCreatedAt: new Date().toISOString(),
     userImage: "string",
   });
+  const { state, getProfileDetails, updateProfile } = useProfile();
+  useEffect(() => {
+    getProfileDetails(Cookies.get("userId"));
+    setForm(state.profile);
+  }, []);
+  // console.log("profile", form);
+  const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false); // State to toggle edit mode
+
 
   const initialValues: UserDetail = form;
 
@@ -48,28 +54,10 @@ const Profile = () => {
   const handleSubmit = async (values: UserDetail) => {
     console.log("Submitted data:", values);
     setIsEditing(false);
-    const resp = await useProfile().updateProfile(values);
-    if (resp && resp.status === 200) {
-      alert("Update successfully");
-    }
+    updateProfile(values);
     setForm(values);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      // const data = await useProfile().getUserDetail();
-      const id = Cookies.get("userId");
-      const data = await agent.Account.getAccountDetail(id?.toString() || "");
-      // console.log(data);
-      if (!data) {
-        navigate("/login");
-        return;
-      }
-      setForm(data.data);
-      // console.log("Form:", form);
-    };
-    fetchData();
-  }, []);
 
   const [isOpenPasswordModal, setIsOpenPasswordModal] = useState(false);
   const handleChangePassword = () => {
@@ -96,11 +84,11 @@ const Profile = () => {
     <div className="flex min-h-screen bg-gray-100">
       <div className="w-1/4 bg-white shadow-md p-4">
         <div className="flex flex-col items-center mb-6">
-          
+
           <img src={form.userImage ? form.userImage : DefaultAvatar}
             alt="avatar"
             className="w-24 h-24 bg-gray-300 rounded-full mb-4"
-          /> 
+          />
           <p className="font-bold text-lg">{form.fullname}</p>
         </div>
         <ul className="space-y-4">
@@ -121,8 +109,34 @@ const Profile = () => {
       </div>
 
       <div className="w-3/4 bg-white shadow-md p-6">
-        <h2 className="text-xl font-bold text-center">Public profile</h2>
-        <p className="mb-6 text-center">Add information about yourself</p>
+        <div>
+          <div className="relative">
+            <h2 className="text-xl font-bold text-center">Public profile</h2>
+            <p className="mb-6 text-center">Add information about yourself</p>
+          </div>
+          <div className="absolute top-10 right-2">
+            {/* back */}
+            <button className="flex flex-row bg-gray-200 opacity-80 p-2 rounded-full"
+            onClick={handleBack}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                />
+              </svg>
+              <p>Back to home</p>
+            </button>
+          </div>
+        </div>
         <div className="border-t border-gray-300 my-6"></div>
 
         <Formik
@@ -133,7 +147,7 @@ const Profile = () => {
         >
           {({ handleSubmit, handleChange, values }) => (
             <Form onSubmit={handleSubmit}>
-              <div className="flex justify-between items-center mb-4 px-4 py-2">                
+              <div className="flex justify-between items-center mb-4 px-4 py-2">
                 {!isEditing ? (
                   <button
                     type="button"
@@ -215,15 +229,16 @@ const Profile = () => {
                   </button>
                 </div>
               ) : (
-                <div className="flex justify-center">
-                  <button
-                    type="button"
-                    className="px-4 py-2 bg-gray-400 text-black rounded-md hover:bg-gray-500 focus:outline-none focus:ring"
-                    onClick={handleBack}
-                  >
-                    Back
-                  </button>
-                </div>
+                // <div className="flex justify-center">
+                //   <button
+                //     type="button"
+                //     className="px-4 py-2 bg-gray-400 text-black rounded-md hover:bg-gray-500 focus:outline-none focus:ring"
+                //     onClick={handleBack}
+                //   >
+                //     Back
+                //   </button>
+                // </div>
+                null
               )}
             </Form>
           )}
