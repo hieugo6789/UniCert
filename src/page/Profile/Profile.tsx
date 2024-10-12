@@ -22,7 +22,7 @@ const Profile = () => {
     phoneNumber: 793552216,
     role: "Admin",
     status: true,
-    userCreatedAt: new Date().toISOString(),
+    userCreatedAt: new Date(),
     userImage: "string",
   });
   const { state, getProfileDetails, updateProfile } = useProfile();
@@ -33,7 +33,6 @@ const Profile = () => {
   // console.log("profile", form);
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false); // State to toggle edit mode
-
 
   const initialValues: UserDetail = form;
 
@@ -58,7 +57,6 @@ const Profile = () => {
     setForm(values);
   };
 
-
   const [isOpenPasswordModal, setIsOpenPasswordModal] = useState(false);
   const handleChangePassword = () => {
     setIsOpenPasswordModal(!isOpenPasswordModal);
@@ -67,7 +65,8 @@ const Profile = () => {
     handleChangePassword();
     console.log("Save password");
   };
-  const [isOpenPaymentMethodsModal, setIsOpenPaymentMethodsModal] = useState(false);
+  const [isOpenPaymentMethodsModal, setIsOpenPaymentMethodsModal] =
+    useState(false);
   const handlePaymentMethods = () => {
     setIsOpenPaymentMethodsModal(!isOpenPaymentMethodsModal);
   };
@@ -78,21 +77,23 @@ const Profile = () => {
 
   const handleBack = () => {
     navigate("/");
-  }
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-100">
       <div className="w-1/4 bg-white shadow-md p-4">
         <div className="flex flex-col items-center mb-6">
-
-          <img src={form.userImage ? form.userImage : DefaultAvatar}
+          <img
+            src={form.userImage ? form.userImage : DefaultAvatar}
             alt="avatar"
             className="w-24 h-24 bg-gray-300 rounded-full mb-4"
           />
           <p className="font-bold text-lg">{form.fullname}</p>
         </div>
         <ul className="space-y-4">
-          <li className="text-purple-600 font-semibold cursor-pointer text-center">Profile</li>
+          <li className="text-purple-600 font-semibold cursor-pointer text-center">
+            Profile
+          </li>
           <li
             className="text-gray-600 cursor-pointer hover:text-purple-500 text-center"
             onClick={handleChangePassword}
@@ -116,15 +117,16 @@ const Profile = () => {
           </div>
           <div className="absolute top-10 right-2">
             {/* back */}
-            <button className="flex flex-row bg-gray-200 opacity-80 p-2 rounded-full"
-            onClick={handleBack}>
+            <button
+              className="flex flex-row bg-gray-200 opacity-80 p-2 rounded-full"
+              onClick={handleBack}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                
               >
                 <path
                   strokeLinecap="round"
@@ -160,63 +162,91 @@ const Profile = () => {
               </div>
 
               <div className="mb-4 px-4 py-2">
-                <label className="block font-medium text-gray-700 mb-1">Full Name</label>
+                <label className="block font-medium text-gray-700 mb-1">
+                  Full Name
+                </label>
                 <Field
                   name="fullname"
                   type="text"
                   value={values.fullname}
                   onChange={handleChange}
                   readOnly={!isEditing} // Read-only when not editing
-                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${!isEditing ? "bg-gray-100" : "focus:border-purple-500"
-                    }`}
+                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${
+                    !isEditing ? "bg-gray-100" : "focus:border-purple-500"
+                  }`}
                   disabled={!isEditing} // Disabled when not editing
                 />
-                <ErrorMessage name="fullname" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="fullname"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
 
               <div className="mb-4 px-4 py-2">
-                <label className="block font-medium text-gray-700 mb-1">Email</label>
+                <label className="block font-medium text-gray-700 mb-1">
+                  Email
+                </label>
                 <Field
                   name="email"
                   type="email"
                   value={values.email}
                   onChange={handleChange}
                   readOnly={!isEditing}
-                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${!isEditing ? "bg-gray-100" : "focus:border-purple-500"
-                    }`}
+                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${
+                    !isEditing ? "bg-gray-100" : "focus:border-purple-500"
+                  }`}
                   disabled={!isEditing}
                 />
-                <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
 
               <div className="mb-4 px-4 py-2">
-                <label className="block font-medium text-gray-700 mb-1">Phone</label>
+                <label className="block font-medium text-gray-700 mb-1">
+                  Phone
+                </label>
                 <Field
                   name="phoneNumber"
                   type="text"
                   value={values.phoneNumber}
                   onChange={handleChange}
                   readOnly={!isEditing}
-                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${!isEditing ? "bg-gray-100" : "focus:border-purple-500"
-                    }`}
+                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${
+                    !isEditing ? "bg-gray-100" : "focus:border-purple-500"
+                  }`}
                   disabled={!isEditing}
                 />
-                <ErrorMessage name="phoneNumber" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="phoneNumber"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
 
               <div className="mb-4 px-4 py-2">
-                <label className="block font-medium text-gray-700 mb-1">Address</label>
+                <label className="block font-medium text-gray-700 mb-1">
+                  Address
+                </label>
                 <Field
                   name="address"
                   type="text"
                   value={values.address}
                   onChange={handleChange}
                   readOnly={!isEditing}
-                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${!isEditing ? "bg-gray-100" : "focus:border-purple-500"
-                    }`}
+                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring ${
+                    !isEditing ? "bg-gray-100" : "focus:border-purple-500"
+                  }`}
                   disabled={!isEditing}
                 />
-                <ErrorMessage name="address" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="address"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
 
               {isEditing ? (
@@ -228,41 +258,79 @@ const Profile = () => {
                     Save
                   </button>
                 </div>
-              ) : (
-                // <div className="flex justify-center">
-                //   <button
-                //     type="button"
-                //     className="px-4 py-2 bg-gray-400 text-black rounded-md hover:bg-gray-500 focus:outline-none focus:ring"
-                //     onClick={handleBack}
-                //   >
-                //     Back
-                //   </button>
-                // </div>
-                null
-              )}
+              ) : // <div className="flex justify-center">
+              //   <button
+              //     type="button"
+              //     className="px-4 py-2 bg-gray-400 text-black rounded-md hover:bg-gray-500 focus:outline-none focus:ring"
+              //     onClick={handleBack}
+              //   >
+              //     Back
+              //   </button>
+              // </div>
+              null}
             </Form>
           )}
         </Formik>
       </div>
 
-      <CustomModal isOpen={isOpenPasswordModal} onClose={handleChangePassword} title="Change password">
+      <CustomModal
+        isOpen={isOpenPasswordModal}
+        onClose={handleChangePassword}
+        title="Change password"
+      >
         <form>
-          <CustomInput placeholder="Old password" type="password" required />
-          <CustomInput placeholder="New password" type="password" required />
+          <CustomInput
+            placeholder="Old password"
+            type="password"
+            required
+          />
+          <CustomInput
+            placeholder="New password"
+            type="password"
+            required
+          />
           <div className="flex justify-end">
-            <CustomButton type="submit" label="Save" onClick={handleSavePassword} />
+            <CustomButton
+              type="submit"
+              label="Save"
+              onClick={handleSavePassword}
+            />
           </div>
         </form>
       </CustomModal>
       {/* Payment method */}
-      <CustomModal isOpen={isOpenPaymentMethodsModal} onClose={handlePaymentMethods} title="Payment methods">
+      <CustomModal
+        isOpen={isOpenPaymentMethodsModal}
+        onClose={handlePaymentMethods}
+        title="Payment methods"
+      >
         <form>
-          <CustomInput placeholder="Card number" type="text" required />
-          <CustomInput placeholder="Card holder" type="text" required />
-          <CustomInput placeholder="Expiration date" type="text" required />
-          <CustomInput placeholder="CVV" type="text" required />
+          <CustomInput
+            placeholder="Card number"
+            type="text"
+            required
+          />
+          <CustomInput
+            placeholder="Card holder"
+            type="text"
+            required
+          />
+          <CustomInput
+            placeholder="Expiration date"
+            type="text"
+            required
+          />
+          <CustomInput
+            placeholder="CVV"
+            type="text"
+            required
+          />
           <div className="flex justify-end">
-            <CustomButton type="submit" label="Save" onClick={handleSavePaymentMethods} />
+            <CustomButton
+              type="submit"
+              label="Save"
+              onClick={handleSavePaymentMethods}
+            />
           </div>
         </form>
       </CustomModal>

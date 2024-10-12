@@ -153,6 +153,7 @@ const Students = () => {
         title="User Details"
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
+        footer={null}
       >
         {state.isLoading ? (
           <Spin />
@@ -163,6 +164,18 @@ const Students = () => {
             </p>
             <p>
               <strong>Email:</strong> {state.currentUser.email}
+            </p>
+            <p>
+              <strong>Full Name:</strong> {state.currentUser.fullname}
+            </p>
+            <p>
+              <strong>Date of Birth:</strong>{" "}
+              {new Date(state.currentUser.dob).toLocaleDateString()}
+            </p>
+
+            <p>
+              <strong>Created at: </strong>{" "}
+              {new Date(state.currentUser.userCreatedAt).toLocaleDateString()}
             </p>
             <p>
               <strong>PhoneNumber:</strong> {state.currentUser.phoneNumber}

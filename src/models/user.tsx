@@ -9,7 +9,7 @@ export interface UserDetail {
   phoneNumber: number;
   role: string;
   status: boolean;
-  userCreatedAt: string;
+  userCreatedAt: Date;
   userImage: string;
 }
 
@@ -23,7 +23,7 @@ export interface UpdateRole {
   phoneNumber: number;
   role: string | null;
   status: boolean;
-  userCreatedAt: string;
+  userCreatedAt: Date;
   userImage: string;
 }
 export interface Profile {
@@ -37,6 +37,6 @@ export interface Profile {
   phoneNumber: number;
   role: string;
   status: boolean;
-  userCreatedAt: string;
+  userCreatedAt: Date;
   userImage: string;
 }

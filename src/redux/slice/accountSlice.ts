@@ -13,7 +13,7 @@ export interface Account {
   phoneNumber: number;
   role: string;
   status: boolean;
-  userCreatedAt: string;
+  userCreatedAt: Date;
   userImage: string;
 }
 
