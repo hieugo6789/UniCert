@@ -7,6 +7,7 @@ import jobReducer from "../redux/slice/jobSlice";
 import jobDetailReducer from "../redux/slice/jobDetailSlice";
 import accountReducer from "../redux/slice/accountSlice";
 import organizationReducer from "../redux/slice/organizationSlice";
+import organizeDetailReducer from "../redux/slice/organizeDetailSlice";
 import createOrganizationReducer from "../redux/slice/createOrganizeSlice";
 import courseReducer from "../redux/slice/courseSlice";
 import certificateReducer from "../redux/slice/certificateSlice";
@@ -26,6 +27,7 @@ export const store = configureStore({
     jobDetail: jobDetailReducer,
     account: accountReducer,
     organization: organizationReducer,
+    organizeDetail: organizeDetailReducer,
     createOrganization: createOrganizationReducer,
     course: courseReducer,
     certificate: certificateReducer,

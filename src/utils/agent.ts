@@ -42,6 +42,8 @@ const Major = {
 const Organization = {
   getAllOrganizations: (name?: string) =>
     requests.get(`api/v1/organize/${name ? name : ""}`),
+  getOrganizationDetail: (organizeId: string | undefined) =>
+    requests.get(`api/v1/organize/${organizeId}`),
   createOrganize: (input: createOrganizationModel) =>
     requests.post("/api/v1/organize", input),
 };

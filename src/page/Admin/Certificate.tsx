@@ -16,8 +16,8 @@ const Certificate = () => {
   const { certificate, loading, refetchCertificates } = useCertificate();
   const { state, getCertDetails } = useCertDetail();
   const [currentPage, setCurrentPage] = useState(1);
-  const { handleDeleteCertificate } = useDeleteCertificate();
   const [pageSize] = useState(8);
+  const { handleDeleteCertificate } = useDeleteCertificate();
   const [searchTerm, setSearchTerm] = useState("");
 
   const [isModalVisible, setIsModalVisible] = useState(false);
