@@ -15,7 +15,7 @@ export interface MyInputProps {
   helperText?: string;
 }
 
-function MyInput({ field, placeholder, error, helperText }: MyInputProps) {
+function MyInput({ field }: MyInputProps) {
   return (
     <div className="mb-2">
       <input
@@ -36,12 +36,7 @@ function MyInput({ field, placeholder, error, helperText }: MyInputProps) {
     </div>
   );
 }
-function MyInputFullName({
-  field,
-  placeholder,
-  error,
-  helperText,
-}: MyInputProps) {
+function MyInputFullName({ field }: MyInputProps) {
   return (
     <div className="mb-2">
       <input
@@ -62,12 +57,7 @@ function MyInputFullName({
     </div>
   );
 }
-function MyInputPhoneNumber({
-  field,
-  placeholder,
-  error,
-  helperText,
-}: MyInputProps) {
+function MyInputPhoneNumber({ field }: MyInputProps) {
   return (
     <div className="mb-2">
       <input
@@ -88,7 +78,7 @@ function MyInputPhoneNumber({
     </div>
   );
 }
-function MyInputEmail({ field, placeholder, error, helperText }: MyInputProps) {
+function MyInputEmail({ field }: MyInputProps) {
   return (
     <div className="mb-2">
       <input
@@ -110,12 +100,7 @@ function MyInputEmail({ field, placeholder, error, helperText }: MyInputProps) {
     </div>
   );
 }
-function MyInputAddress({
-  field,
-  placeholder,
-  error,
-  helperText,
-}: MyInputProps) {
+function MyInputAddress({ field }: MyInputProps) {
   return (
     <div className="mb-2">
       <input
@@ -137,7 +122,7 @@ function MyInputAddress({
     </div>
   );
 }
-function MyInputDob({ field, placeholder, error, helperText }: MyInputProps) {
+function MyInputDob({ field, placeholder }: MyInputProps) {
   return (
     <div className="mb-2">
       <input
@@ -160,12 +145,7 @@ function MyInputDob({ field, placeholder, error, helperText }: MyInputProps) {
     </div>
   );
 }
-function MyInputConfirmPassword({
-  field,
-  placeholder,
-  error,
-  helperText,
-}: MyInputProps) {
+function MyInputConfirmPassword({ field }: MyInputProps) {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
@@ -196,12 +176,7 @@ function MyInputConfirmPassword({
     </div>
   );
 }
-function MyInputPassword({
-  field,
-  placeholder,
-  error,
-  helperText,
-}: MyInputProps) {
+function MyInputPassword({ field }: MyInputProps) {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
