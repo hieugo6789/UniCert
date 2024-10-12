@@ -8,6 +8,6 @@ export default defineConfig({
     outDir: "dist", // Thư mục build
   },
   server: {
-    port: 3000,
+    open: true,
   },
 });
