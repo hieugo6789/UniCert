@@ -16,7 +16,7 @@ const useCertDetail = () => {
       const response = await agent.Certificate.getCertificateDetail(id);
       dispatch(CertDetailSuccess(response.data));
     } catch (error) {
-      console.error("Error fetching User details:", error);
+      console.error("Error fetching Certificate details:", error);
       dispatch(CertDetailFailure());
     }
   };

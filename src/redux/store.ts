@@ -2,6 +2,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../redux/slice/authSlice";
 import majorReducer from "../redux/slice/majorSlice";
+import majorDetailReducer from "../redux/slice/majorDetailSlice";
 import jobReducer from "../redux/slice/jobSlice";
 import accountReducer from "../redux/slice/accountSlice";
 import organizationReducer from "../redux/slice/organizationSlice";
@@ -19,6 +20,7 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     major: majorReducer,
+    majorDetail: majorDetailReducer,
     job: jobReducer,
     account: accountReducer,
     organization: organizationReducer,
