@@ -7,8 +7,8 @@ import { useParams } from "react-router-dom";
 import { allCertificationData } from "../../../models/certificate";
 import agent from "../../../utils/agent";
 import useCertDetail from "../../../hooks/useCertDetail";
-import { DetailParam } from "../../../models/tableParam";
-import { useAppDispatch } from "../../../redux/hook";
+// import { DetailParam } from "../../../models/tableParam";
+// import { useAppDispatch } from "../../../redux/hook";
 const CertificateDetailPage = () => {
   const [activeTab, setActiveTab] = useState("Description");
   const [cert, setCertificate] = useState<allCertificationData>();
@@ -23,9 +23,9 @@ const CertificateDetailPage = () => {
       setCertificate(data.data);
     });
   }, [id]);
-  
-  useEffect(() =>{
-    getCertDetails(id);   
+
+  useEffect(() => {
+    getCertDetails(id);
   }, []);
 
   return (
@@ -34,13 +34,18 @@ const CertificateDetailPage = () => {
         {/* Left Section */}
         <div className="text-left text-white">
           <img
-            src={state?.currentCert.certImage ? state.currentCert.certImage : certificationDefault}
+            src={
+              state?.currentCert.certImage
+                ? state.currentCert.certImage
+                : certificationDefault
+            }
             alt="Logo"
             className="w-1/2"
           />
           <h1 className="text-2xl font-bold">{state?.currentCert.certName}</h1>
           <p className="text-lg mt-2">
-            Fee: {state?.currentCert.certCost} {state?.currentCert.certPointSystem} for one attempt
+            Fee: {state?.currentCert.certCost}{" "}
+            {state?.currentCert.certPointSystem} for one attempt
           </p>
 
           <div className="mt-4 flex space-x-4">
@@ -74,19 +79,18 @@ const CertificateDetailPage = () => {
           <hr className="my-2" />
           <p>
             <strong>Foundation level: </strong>
-            {cert?.certPrerequisite && cert.certPrerequisite.length > 0 
-            ? cert.certPrerequisite : "Beginner"}
+            {cert?.certPrerequisite && cert.certPrerequisite.length > 0
+              ? cert.certPrerequisite
+              : "Beginner"}
           </p>
           {/* <p>
             <strong>Globally recognized certification</strong>
           </p> */}
           <p className="mt-2">
-            <strong>
-              Certificate Validity:{" "}                
-            </strong>
+            <strong>Certificate Validity: </strong>
             {cert && cert.certValidity
-                ? cert.certValidity
-                : "This is a permanent certificate"}
+              ? cert.certValidity
+              : "This is a permanent certificate"}
           </p>
           <a
             href="#"

@@ -1,12 +1,13 @@
-import { Button } from "antd";
+// import { Button } from "antd";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
 import useCourse from "../../hooks/useCourse";
-import { useState } from "react";
+// import { useState } from "react";
 
 const InternalCourses = () => {
-  const { course, loading, refetchCourses } = useCourse();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(8);
+  const { course, loading } = useCourse();
+  // const { course, loading, refetchCourses } = useCourse();
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [pageSize] = useState(8);
   return (
     <>
       <div className="h-[10vh] ">

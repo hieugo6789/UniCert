@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Modal, Button, Form, Input } from "antd"; // Import Ant Design components
-import { useAppDispatch } from "../../redux/hook";
+// import { useAppDispatch } from "../../redux/hook";
 import { MajorInput } from "../../models/major";
 import agent from "../../utils/agent";
 import { PlusOutlined } from "@ant-design/icons";
 
 const CreateMajor = () => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const [form] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false); // State for modal visibility
   const [loading, setLoading] = useState(false);

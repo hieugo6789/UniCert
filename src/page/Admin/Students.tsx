@@ -7,6 +7,7 @@ import MenuAdmin from "../../components/Layout/MenuAdmin";
 import setUserStatus from "../../hooks/useUserStatus";
 import useUserDetail from "../../hooks/useUserDetail";
 import useWalletDetail from "../../hooks/useWalletDetail";
+import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
 
 const Students = () => {
   const {
@@ -150,36 +151,52 @@ const Students = () => {
         </div>
       </div>
       <Modal
-        title="User Details"
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
+        width={700}
       >
         {state.isLoading ? (
           <Spin />
         ) : state.currentUser ? (
-          <div>
-            <p>
-              <strong>Username:</strong> {state.currentUser.username}
-            </p>
-            <p>
-              <strong>Email:</strong> {state.currentUser.email}
-            </p>
-            <p>
-              <strong>Full Name:</strong> {state.currentUser.fullname}
-            </p>
-            <p>
-              <strong>Date of Birth:</strong>{" "}
-              {new Date(state.currentUser.dob).toLocaleDateString()}
-            </p>
+          <div className="flex flex-col items-center  w-full">
+            <div className="w-full border-b border-gray-400 pb-6 mb-4 flex flex-col items-center">
+              <img
+                className="rounded-full w-48 h-48"
+                src={
+                  state.currentUser.userImage
+                    ? state.currentUser.userImage
+                    : defaultAvatar
+                }
+                alt="User Avatar"
+              />
+            </div>
+            <div className="w-full mb-4 text-lg ml-32">
+              <p>
+                <strong>Username:</strong> {state.currentUser.username}
+              </p>
+              <p>
+                <strong>Email:</strong> {state.currentUser.email}
+              </p>
+              <p>
+                <strong>Full Name:</strong> {state.currentUser.fullname}
+              </p>
+              <p>
+                <strong>Date of Birth:</strong>{" "}
+                {new Date(state.currentUser.dob).toLocaleDateString()}
+              </p>
 
-            <p>
-              <strong>Created at: </strong>{" "}
-              {new Date(state.currentUser.userCreatedAt).toLocaleDateString()}
-            </p>
-            <p>
-              <strong>PhoneNumber:</strong> {state.currentUser.phoneNumber}
-            </p>
+              <p>
+                <strong>PhoneNumber:</strong> {state.currentUser.phoneNumber}
+              </p>
+              <p>
+                <strong>Address:</strong> {state.currentUser.address}
+              </p>
+              <p>
+                <strong>Created at: </strong>{" "}
+                {new Date(state.currentUser.userCreatedAt).toLocaleDateString()}
+              </p>
+            </div>
           </div>
         ) : (
           <p>No details available.</p>

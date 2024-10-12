@@ -5,7 +5,8 @@ import useJobDetail from "../../hooks/useJobDetail";
 import { useState } from "react";
 
 const JobPosition = () => {
-  const { job, loading, refetchJobs } = useJob();
+  // const { job, loading, refetchJobs } = useJob();
+  const { job, loading } = useJob();
   const { state, getJobDetails } = useJobDetail();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);

@@ -8,6 +8,7 @@ import {
   Table,
   Spin,
   message,
+  Tag,
 } from "antd";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
 import { useAccounts } from "../../hooks/useAccount";
@@ -49,6 +50,16 @@ const Decentralization = () => {
       title: "PhoneNumber",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status: boolean) => (
+        <Tag color={status ? "green" : "red"}>
+          {status ? "Active" : "Inactive"}
+        </Tag>
+      ),
     },
     {
       title: "Role",
@@ -188,6 +199,12 @@ const Decentralization = () => {
               <Input />
             </Form.Item>
             <Form.Item
+              label="Fullname"
+              name="fullname"
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
               label="PhoneNumber"
               name="phoneNumber"
             >
@@ -205,12 +222,7 @@ const Decentralization = () => {
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              label="Fullname"
-              name="fullname"
-            >
-              <Input />
-            </Form.Item>
+
             <Form.Item
               label="Image URL"
               name="userImage"

@@ -2,20 +2,20 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AvatarImage from "../UI/AvatarImage";
 import Logo from "./Logo";
-import useWalletDetail from "../../hooks/useWalletDetail";
-import Cookies from "js-cookie";
+// import useWalletDetail from "../../hooks/useWalletDetail";
+// import Cookies from "js-cookie";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { wallets, getWalletDetails } = useWalletDetail();
-  const userId = Cookies.get("userId"); // userId có thể là string hoặc undefined
+  // const { wallets, getWalletDetails } = useWalletDetail();
+  // const userId = Cookies.get("userId");
 
-  useEffect(() => {
-    if (userId) {
-      getWalletDetails(userId);
-      console.log(userId);
-    }
-  }, [userId]);
+  // useEffect(() => {
+  //   if (userId) {
+  //     getWalletDetails(userId);
+  //     console.log(userId);
+  //   }
+  // }, [userId]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
