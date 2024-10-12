@@ -105,6 +105,7 @@ const useAuth = () => {
         address: value.address,
         phoneNumber: value.phoneNumber,
       });
+      console.log(data);
       navigate("/login");
     } catch (error) {
       // Handle errors and dispatch the correct message to Redux state
