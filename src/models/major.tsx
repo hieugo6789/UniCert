@@ -19,3 +19,7 @@ export interface MajorInput {
   majorDescription: string;
   jobPositionId: string[];
 }
+
+export interface deleteMajor {
+  majorId: string;
+}

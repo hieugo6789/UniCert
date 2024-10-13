@@ -1,14 +1,22 @@
 import { useState } from "react";
 import CreateMajor from "../../components/Majors/CreateMajor";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
-import { Input, Button, Table, Pagination, Modal, Spin } from "antd"; // Import Input and Button from antd
-import { SearchOutlined } from "@ant-design/icons";
+import { Input, Button, Table, Pagination, Modal, Spin, message } from "antd"; // Import Input and Button from antd
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import useMajor from "../../hooks/useMajor";
 import useMajorDetail from "../../hooks/useMajorDetail";
+import useDeleteMajor from "../../hooks/useDeleteMajor";
+
+const { confirm } = Modal;
 
 const Major = () => {
   const { major, loading, refetchMajors } = useMajor();
   const { state, getMajorDetails } = useMajorDetail();
+  const { handleDeleteMajor } = useDeleteMajor();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,14 +49,33 @@ const Major = () => {
             View
           </Button>
           {/* <EditOutlined onClick={() => handleEdit(record)} /> */}
-          {/* <DeleteOutlined
-            onClick={() => showDeleteConfirm(record.certId)}
+          <DeleteOutlined
+            onClick={() => showDeleteConfirm(record.majorId)}
             style={{ color: "red", marginLeft: 12 }}
-          /> */}
+          />
         </>
       ),
     },
   ];
+
+  const showDeleteConfirm = (majorId: string) => {
+    confirm({
+      title: "Are you sure delete this major?",
+      icon: <ExclamationCircleOutlined />,
+      content: "This action cannot be undone",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        await handleDeleteMajor(majorId);
+        message.success("major deleted successfully!");
+        refetchMajors();
+      },
+      onCancel() {
+        console.log("Cancel deletion");
+      },
+    });
+  };
 
   const paginatedData = major.slice(
     (currentPage - 1) * pageSize,
@@ -87,7 +114,7 @@ const Major = () => {
               <Table
                 columns={columns}
                 dataSource={paginatedData}
-                rowKey="certId"
+                rowKey="majorId"
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}
