@@ -47,6 +47,8 @@ const Organization = {
     requests.get(`api/v1/organize/${organizeId}`),
   createOrganize: (input: createOrganizationModel) =>
     requests.post("/api/v1/organize", input),
+  deleteOrganize: (organizeId: string) =>
+    requests.del(`api/v1/organize/${organizeId}`),
 };
 
 const JobPosition = {

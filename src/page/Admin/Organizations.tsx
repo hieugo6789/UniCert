@@ -1,13 +1,18 @@
 import { useState } from "react";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
 import { useCreateOrganize } from "../../hooks/useCreateOrganize";
-import { Modal, Input, Button, Table, Pagination, Spin } from "antd";
+import { Modal, Input, Button, Table, Pagination, Spin, message } from "antd";
 import useOrganization from "../../hooks/useOrganization";
 import useOrganizeDetail from "../../hooks/useOrganizeDetail";
+import useDeleteOrganize from "../../hooks/useDeleteOrganize";
+import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+
+const { confirm } = Modal;
 
 const Organizations = () => {
   const { organization, loading, refetchOrganizations } = useOrganization();
   const { state, getOrganizeDetails } = useOrganizeDetail();
+  const { handleDeleteOrganize } = useDeleteOrganize();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
   const { handleCreateOrganize } = useCreateOrganize();
@@ -45,6 +50,10 @@ const Organizations = () => {
           >
             View
           </Button>
+          <DeleteOutlined
+            onClick={() => showDeleteConfirm(record.organizeId)}
+            style={{ color: "red", marginLeft: 12 }}
+          />
         </>
       ),
     },
@@ -79,6 +88,25 @@ const Organizations = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const showDeleteConfirm = (organizeId: string) => {
+    confirm({
+      title: "Are you sure delete this organization?",
+      icon: <ExclamationCircleOutlined />,
+      content: "This action cannot be undone",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        await handleDeleteOrganize(organizeId);
+        message.success("Organization deleted successfully!");
+        refetchOrganizations();
+      },
+      onCancel() {
+        console.log("Cancel deletion");
+      },
+    });
   };
   const paginatedData = organization.slice(
     (currentPage - 1) * pageSize,
