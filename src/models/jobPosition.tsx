@@ -15,3 +15,7 @@ export interface currentJob {
   majorId: string[];
   certId: string[];
 }
+
+export interface deleteJob {
+  jobPositionId: string;
+}

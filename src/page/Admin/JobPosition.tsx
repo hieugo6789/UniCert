@@ -1,13 +1,17 @@
-import { Button, Modal, Pagination, Spin, Table } from "antd";
+import { Button, message, Modal, Pagination, Spin, Table } from "antd";
 import useJob from "../../hooks/useJobPosition";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
 import useJobDetail from "../../hooks/useJobDetail";
 import { useState } from "react";
+import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import useDeleteJob from "../../hooks/useDeleteJob";
+
+const { confirm } = Modal;
 
 const JobPosition = () => {
-  // const { job, loading, refetchJobs } = useJob();
-  const { job, loading } = useJob();
+  const { job, loading, refetchJobs } = useJob();
   const { state, getJobDetails } = useJobDetail();
+  const { handleDeleteJob } = useDeleteJob();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -35,10 +39,32 @@ const JobPosition = () => {
           >
             View
           </Button>
+          <DeleteOutlined
+            onClick={() => showDeleteConfirm(record.jobPositionId)}
+            style={{ color: "red", marginLeft: 12 }}
+          />
         </>
       ),
     },
   ];
+  const showDeleteConfirm = (jobPositionId: string) => {
+    confirm({
+      title: "Are you sure delete this job position?",
+      icon: <ExclamationCircleOutlined />,
+      content: "This action cannot be undone",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        await handleDeleteJob(jobPositionId);
+        message.success("Job deleted successfully!");
+        refetchJobs();
+      },
+      onCancel() {
+        console.log("Cancel deletion");
+      },
+    });
+  };
 
   const paginatedData = job.slice(
     (currentPage - 1) * pageSize,

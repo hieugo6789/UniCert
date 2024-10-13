@@ -63,7 +63,7 @@ const Certificate = () => {
 
   const showDeleteConfirm = (certId: string) => {
     confirm({
-      title: "Are you sure delete this account?",
+      title: "Are you sure delete this certification?",
       icon: <ExclamationCircleOutlined />,
       content: "This action cannot be undone",
       okText: "Yes",
@@ -71,7 +71,7 @@ const Certificate = () => {
       cancelText: "No",
       onOk: async () => {
         await handleDeleteCertificate(certId);
-        message.success("Account deleted successfully!");
+        message.success("Certification deleted successfully!");
         refetchCertificates();
       },
       onCancel() {

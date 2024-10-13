@@ -53,6 +53,7 @@ const JobPosition = {
     requests.get(`api/v1/job-position/${name ? name : ""}`),
   getJobDetail: (jobId: string | undefined) =>
     requests.get(`api/v1/job-position/${jobId}`),
+  deleteJob: (jobId: string) => requests.del(`api/v1/job-position/${jobId}`),
 };
 
 const Certificate = {
@@ -62,7 +63,6 @@ const Certificate = {
     requests.get(
       `api/v1/certification/search/${name ? `?certName=${name}` : ""}`
     ),
-
   getCertificateDetail: (certId: string | undefined) =>
     requests.get(`api/v1/certification/${certId}`),
   deleteCertificate: (certId: string) =>

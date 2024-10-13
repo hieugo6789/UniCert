@@ -5,6 +5,7 @@ import majorReducer from "../redux/slice/majorSlice";
 import majorDetailReducer from "../redux/slice/majorDetailSlice";
 import jobReducer from "../redux/slice/jobSlice";
 import jobDetailReducer from "../redux/slice/jobDetailSlice";
+import jobDeleteReducer from "../redux/slice/deleteJobSlice";
 import accountReducer from "../redux/slice/accountSlice";
 import organizationReducer from "../redux/slice/organizationSlice";
 import organizeDetailReducer from "../redux/slice/organizeDetailSlice";
@@ -26,6 +27,7 @@ export const store = configureStore({
     majorDetail: majorDetailReducer,
     job: jobReducer,
     jobDetail: jobDetailReducer,
+    jobDelete: jobDeleteReducer,
     account: accountReducer,
     organization: organizationReducer,
     organizeDetail: organizeDetailReducer,
