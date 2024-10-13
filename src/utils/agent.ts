@@ -5,6 +5,7 @@ import { MajorInput } from "../models/major";
 import { createOrganizationModel } from "../models/organization";
 import { UpdateRole } from "../models/user";
 import { scheduleInput } from "../models/schedule";
+import { createCertificate } from "../models/certificate";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -68,6 +69,8 @@ const Certificate = {
     ),
   getCertificateDetail: (certId: string | undefined) =>
     requests.get(`api/v1/certification/${certId}`),
+  createCertificate: (input: createCertificate) =>
+    requests.post("/api/v1/certification", input),
   deleteCertificate: (certId: string) =>
     requests.del(`api/v1/certification/${certId}`),
 };

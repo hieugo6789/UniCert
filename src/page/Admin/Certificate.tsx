@@ -4,11 +4,14 @@ import useCertificate from "../../hooks/useCertificate";
 import { useState } from "react";
 import {
   DeleteOutlined,
+  EditOutlined,
   ExclamationCircleOutlined,
+  EyeOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
 import useDeleteCertificate from "../../hooks/useDeleteCertificate";
 import useCertDetail from "../../hooks/useCertDetail";
+import CreateCert from "../../components/Certifications/CreateCert";
 
 const { confirm } = Modal;
 
@@ -38,20 +41,35 @@ const Certificate = () => {
 
   const columns = [
     { title: "Name", dataIndex: "certName", key: "certName" },
-    { title: "Code", dataIndex: "certCode", key: "certCode" },
-    // { title: "Expire", dataIndex: "expiryDate", key: "expiryDate" },
+    { title: "Period", dataIndex: "certValidity", key: "certValidity" },
+    {
+      title: "Prerequisite",
+      dataIndex: "certPrerequisite",
+      key: "certPrerequisite",
+    },
+    {
+      title: "Organization",
+      dataIndex: "organizeName",
+      key: "organizeName",
+    },
+    {
+      title: "Level",
+      dataIndex: "typeName",
+      key: "typeName",
+    },
     {
       title: "Actions",
       key: "actions",
       render: (record: any) => (
         <>
-          <Button
-            type="link"
+          <EyeOutlined
             onClick={() => handleView(record.certId)}
-          >
-            View
-          </Button>
-          {/* <EditOutlined onClick={() => handleEdit(record)} /> */}
+            style={{ color: "blue" }}
+          />
+          <EditOutlined
+            style={{ marginLeft: 12 }}
+            onClick={() => {}}
+          />
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.certId)}
             style={{ color: "red", marginLeft: 12 }}
@@ -103,12 +121,7 @@ const Certificate = () => {
               style={{ marginLeft: "10px" }}
             ></Button>
           </div>
-          <Button
-            type="primary"
-            // onClick={showModal}
-          >
-            + Certificate
-          </Button>
+          <CreateCert />
         </div>
       </div>
       <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[90vh]">
