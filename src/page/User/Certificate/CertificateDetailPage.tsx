@@ -44,8 +44,7 @@ const CertificateDetailPage = () => {
           />
           <h1 className="text-2xl font-bold">{state?.currentCert.certName}</h1>
           <p className="text-lg mt-2">
-            Fee: {state?.currentCert.certCost}{" "}
-            {state?.currentCert.certPointSystem} for one attempt
+            Fee: {state?.currentCert.certCost}{" "}for one attempt
           </p>
 
           <div className="mt-4 flex space-x-4">
@@ -75,7 +74,7 @@ const CertificateDetailPage = () => {
         {/* Right Section */}
         <div className="bg-white p-6 rounded-lg shadow-md text-black max-w-xs">
           <h2 className="text-xl font-bold">{cert?.certName}</h2>
-          <p className="mt-2">{cert?.certDescription}</p>
+          <p className="mt-2">{cert?.certCode}</p>
           <hr className="my-2" />
           <p>
             <strong>Foundation level: </strong>

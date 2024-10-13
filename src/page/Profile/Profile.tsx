@@ -26,10 +26,12 @@ const Profile = () => {
     userImage: "string",
   });
   const { state, getProfileDetails, updateProfile } = useProfile();
-  useEffect(() => {
-    getProfileDetails(Cookies.get("userId"));
-    setForm(state.profile);
+  useEffect(() => {        
+      getProfileDetails(Cookies.get("userId"));      
   }, []);
+  useEffect(() => {
+    setForm(state.profile);
+  }, [state.profile]);
   // console.log("profile", form);
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false); // State to toggle edit mode

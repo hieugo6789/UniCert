@@ -17,9 +17,11 @@ const CertificatePage = () => {
       refetchCertificates();
     };
     fetchCertificates();
-    setCertificates(certificate);
     // console.log(certificates);
   }, []);
+  useEffect(() => {
+    setCertificates(certificate);
+  }, [certificate]);
   if (loading) {
     return <div>Loading...</div>;
   }
