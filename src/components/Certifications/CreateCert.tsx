@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useCreateCert } from "../../hooks/useCreateCert";
 import useOrganization from "../../hooks/useOrganization";
 import useCertificate from "../../hooks/useCertificate";
+import MyEditor from "../Editor/MyEditor";
+import axios from "axios";
 
 const CreateCert = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -21,6 +23,7 @@ const CreateCert = () => {
   });
   const { organization } = useOrganization();
   const { certificate } = useCertificate();
+
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -31,7 +34,11 @@ const CreateCert = () => {
       setIsModalVisible(false);
       console.log(formData);
     } catch (error) {
-      console.error("Failed to create certificate:", error);
+      if (axios.isAxiosError(error)) {
+        console.error("Error creating certification:", error.response?.data);
+      } else {
+        console.error("An unexpected error occurred:", error);
+      }
     }
   };
 
@@ -52,6 +59,7 @@ const CreateCert = () => {
       organizeId: value,
     });
   };
+
   const handleSelectCertChange = (value: number[]) => {
     setFormData({
       ...formData,
@@ -106,12 +114,11 @@ const CreateCert = () => {
             label="Description"
             required
           >
-            <Input
-              name="certDescription"
+            <MyEditor
               value={formData.certDescription}
-              onChange={handleInputChange}
-              placeholder="Enter certificate description"
-              required
+              onChange={(content) =>
+                setFormData({ ...formData, certDescription: content })
+              }
             />
           </Form.Item>
 
@@ -186,34 +193,46 @@ const CreateCert = () => {
             />
           </Form.Item>
 
-          <Select
-            placeholder="Select Organization"
-            onChange={handleSelectChange}
-            style={{ width: "100%" }}
+          <Form.Item
+            label="Organization"
+            required
           >
-            {organization.map((org) => (
-              <Select.Option
-                key={org.organizeId}
-                value={org.organizeId}
-              >
-                {org.organizeName}
-              </Select.Option>
-            ))}
-          </Select>
-          <Select
-            placeholder="Select Prerequisite certifications"
-            onChange={handleSelectCertChange}
-            style={{ width: "100%" }}
+            <Select
+              placeholder="Select Organization"
+              onChange={handleSelectChange}
+              style={{ width: "100%" }}
+            >
+              {organization.map((org) => (
+                <Select.Option
+                  key={org.organizeId}
+                  value={org.organizeId}
+                >
+                  {org.organizeName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            label="Prerequisite Certifications"
+            required
           >
-            {certificate.map((cert) => (
-              <Select.Option
-                key={cert.certId}
-                value={cert.certId}
-              >
-                {cert.certName}
-              </Select.Option>
-            ))}
-          </Select>
+            <Select
+              placeholder="Select Prerequisite certifications"
+              onChange={handleSelectCertChange}
+              style={{ width: "100%" }}
+              mode="multiple"
+            >
+              {certificate.map((cert) => (
+                <Select.Option
+                  key={cert.certId}
+                  value={cert.certId}
+                >
+                  {cert.certName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
         </Form>
       </Modal>
     </>
