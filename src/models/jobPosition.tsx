@@ -4,6 +4,7 @@ export interface allJobPaginationData {
   jobPositionName: string;
   jobPositionDescription: string;
   majorId: string[];
+  majorName?: string[];
   certId: string[];
 }
 

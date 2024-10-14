@@ -3,8 +3,45 @@ import { useEffect, useState } from "react";
 import MajorCard from "../../../components/Majors/MajorCard";
 import { allMajorPaginationData } from "../../../models/major";
 import useMajor from "../../../hooks/useMajor";
+import CertificateCard from "../../../components/Certifications/CertificateCard";
+import { allCertificationData } from "../../../models/certificate";
+import Loading from "../../../components/UI/Loading";
 
 const Majors = () => {
+  const [topCert] = useState<allCertificationData[]>(
+    [
+      {
+        certId: "1",
+        certName: "AWS Certified Solutions Architect",
+        certCode: "AWS-CSA",
+        certDescription: "The AWS Certified Solutions Architect – Associate examination is intended for individuals who perform a solutions architect role and have one or more years of hands-on experience designing available, cost-efficient, fault-tolerant, and scalable distributed systems on AWS.",
+        certCost: 150,
+        certPointSystem: "AWS",
+        certImage: "",
+        certValidity: "3 years",
+        organizeName: "Amazon Web Services",
+        typeName: "Associate",
+        certPrerequisite: [],
+        certCodePrerequisite: [],
+        certDescriptionPrerequisite: [],
+      },
+      {
+        certId: "2",
+        certName: "AWS Certified Developer",
+        certCode: "AWS-CD",
+        certDescription: "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
+        certCost: 150,
+        certPointSystem: "AWS",
+        certImage: "",
+        certValidity: "3 years",
+        organizeName: "Amazon Web Services",
+        typeName: "Associate",
+        certPrerequisite: [],
+        certCodePrerequisite: [],
+        certDescriptionPrerequisite: [],
+      },
+    ]
+  );
   const { major, refetchMajors, loading } = useMajor();
   const [majors, setMajors] = useState<allMajorPaginationData[]>([]);
 
@@ -15,6 +52,7 @@ const Majors = () => {
     setMajors(major);
   }, [major]);
   return (
+    <>
     <div>
       <div className="text-center py-10 bg-purple-400 text-white">
         <h1 className="text-4xl font-bold">
@@ -35,7 +73,7 @@ const Majors = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
-          {loading && <div>Loading...</div>}
+          {/* {loading && <div>Loading...</div>} */}
           {majors.map((major, index) => (
             <MajorCard
               key={index}
@@ -60,12 +98,14 @@ const Majors = () => {
       <div className="py-10 bg-gray-100 text-center">
         <h2 className="text-2xl font-bold mb-6">Best certifications for you</h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-4">
-          {/* {[1, 2, 3, 4].map((certification) => (
-          <CertificateCard key={certification}/>
-        ))} */}
+          {topCert.map((cert) => (
+            <CertificateCard {...cert} key={cert.certId} />
+          ))}
         </div>
       </div>
     </div>
+    {loading && <Loading />}
+    </>
   );
 };
 export default Majors;
