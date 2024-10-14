@@ -10,6 +10,7 @@ import useCertDetail from "../../../hooks/useCertDetail";
 // import { DetailParam } from "../../../models/tableParam";
 // import { useAppDispatch } from "../../../redux/hook";
 const CertificateDetailPage = () => {
+  
   const [activeTab, setActiveTab] = useState("Description");
   const [cert, setCertificate] = useState<allCertificationData>();
   const id = useParams().id;
@@ -27,7 +28,6 @@ const CertificateDetailPage = () => {
   useEffect(() => {
     getCertDetails(id);
   }, []);
-
   return (
     <div className="w-full p-4">
       <div className="flex justify-between items-center bg-purple-600 p-8 rounded-lg shadow-lg">
