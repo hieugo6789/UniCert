@@ -1,10 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import defaultCertThumb from "../../assets/images/Certification/defaultCertThumb.png";
 import { allCertificationData } from "../../models/certificate";
+import { isValidImageUrl } from "../../utils/validImageUrl";
 
 const CertificateCard = (props: allCertificationData) => {
   const navigate = useNavigate();
   // const date = new Date(props.certValidity);
+  // const isValidImageUrl = (url:string) => {
+  //   return (
+  //     typeof url === "string" &&
+  //     (url.startsWith("http://") || url.startsWith("https://"))
+  //   );
+  // };
   return (
     <div
       className="border rounded-xl shadow-md p-4 bg-white w-80 m-auto min-h-96
@@ -12,8 +19,8 @@ const CertificateCard = (props: allCertificationData) => {
       onClick={() => navigate("/certificate/" + props.certId)}
     >
       <img
-        // src={props.certImage ? props.certImage : defaultCertThumb}
-        src={props.certImage ? props.certImage : defaultCertThumb}
+        // src={isValidImageUrl(props.certImage) ? props.certImage : defaultCertThumb}
+        src={isValidImageUrl(props.certImage, defaultCertThumb)}
         alt=""
         className="w-full h-1/3 object-cover mb-4 rounded-xl"
       />
