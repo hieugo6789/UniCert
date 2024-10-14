@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CaretRightOutlined, CaretLeftOutlined } from "@ant-design/icons";
 import Banner from "./banner";
+import { Link } from "react-router-dom";
 
 interface Slide {
   title?: string;
@@ -13,11 +14,34 @@ const slides: Slide[] = [
   {
     content: <Banner />,
   },
-  // {
-  //   title: "Second Slide Title",
-  //   imageUrl: "/path-to-another-image",
-  //   button1Text: "Another Action",
-  // },
+  {
+    // title: "Second Slide Title",
+    // imageUrl: "/path-to-another-image",
+    // button1Text: "Another Action",
+    content: (<div className="relative w-full h-[70vh] bg-gray-100 border-t">
+      <div className="absolute  w-full h-full">
+        <img
+          src="https://m.media-amazon.com/images/S/pv-target-images/d6e25ce8c6cdf788ec947effcec7854aee7090812cb73e536adf6b75b9eb7ca6._SX1080_FMjpg_.jpg"
+          alt="Banner"
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent opacity-100">
+      </div>
+      <div className="relative z-10 flex flex-col justify-center items-start h-full px-10 ml-20">
+        <h1 className="text-5xl font-bold text-gray-800">
+          Quick and Easy
+        </h1>
+        <div className="mt-6 flex space-x-4">
+          <Link to="/certificate">
+            <button className="px-6 py-3 bg-blue-600 text-white rounded-md font-semibold">
+              Enroll
+            </button>
+          </Link>
+        </div>
+      </div>
+    </div>),
+  },
   // {
   //   title: "Third Slide Title",
   //   imageUrl: "/path-to-third-image",
@@ -52,6 +76,7 @@ const CustomCarousel: React.FC = () => {
   };
 
   return (
+    
     <div className="relative w-full  mx-auto">
       <div className="overflow-hidden relative">
         <div
@@ -91,14 +116,14 @@ const CustomCarousel: React.FC = () => {
         className="absolute top-1/2 left-0 transform -translate-y-1/2  text-white  py-2 rounded-r-lg"
         onClick={prevSlide}
       >
-        <CaretLeftOutlined style={{ fontSize: "64px" }} />
+        <CaretLeftOutlined style={{ fontSize: "64px",color:"skyblue" }} />
       </button>
 
       <button
         className="absolute top-1/2 right-0 transform -translate-y-1/2  text-white  py-2 rounded-l-lg"
         onClick={nextSlide}
       >
-        <CaretRightOutlined style={{ fontSize: "64px" }} />
+        <CaretRightOutlined style={{ fontSize: "64px",color:"skyblue" }} />
       </button>
     </div>
   );
