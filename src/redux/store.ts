@@ -17,6 +17,8 @@ import certificateReducer from "../redux/slice/certificateSlice";
 import certificateDetailReducer from "../redux/slice/certDetailSlice";
 import deleteCertificateReducer from "./slice/deleteCertificateSlice";
 import createCertificateReducer from "../redux/slice/createCertSlice";
+import certTypeReducer from "../redux/slice/certTypeSlice";
+import certTypeDetailReducer from "../redux/slice/certTypeDetailSlice";
 import scheduleReducer from "./slice/scheduleSlice";
 import userDetailReducer from "../redux/slice/userDetailSlice";
 import deleteAccountReducer from "../redux/slice/deleteAccountSlice";
@@ -42,6 +44,8 @@ export const store = configureStore({
     certificateDetail: certificateDetailReducer,
     certificateDelete: deleteCertificateReducer,
     createCertificate: createCertificateReducer,
+    certType: certTypeReducer,
+    certTypeDetail: certTypeDetailReducer,
     schedule: scheduleReducer,
     userDetail: userDetailReducer,
     accountDelete: deleteAccountReducer,

@@ -5,6 +5,7 @@ import useOrganization from "../../hooks/useOrganization";
 import useCertificate from "../../hooks/useCertificate";
 import MyEditor from "../Editor/MyEditor";
 import axios from "axios";
+import useCertType from "../../hooks/useCertType";
 
 const CreateCert = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -23,6 +24,7 @@ const CreateCert = () => {
   });
   const { organization } = useOrganization();
   const { certificate } = useCertificate();
+  const { certType } = useCertType();
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -52,6 +54,12 @@ const CreateCert = () => {
       [e.target.name]: e.target.value,
     });
   };
+  const handleSelectTypeChange = (value: number) => {
+    setFormData({
+      ...formData,
+      typeId: value,
+    });
+  };
 
   const handleSelectChange = (value: number) => {
     setFormData({
@@ -77,7 +85,7 @@ const CreateCert = () => {
       </Button>
       <Modal
         title="Tạo Certificate"
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleOK}
         onCancel={handleCancel}
         okText="OK"
@@ -178,19 +186,23 @@ const CreateCert = () => {
           </Form.Item>
 
           <Form.Item
-            label="Type ID"
+            label="Level"
             required
           >
-            <InputNumber
-              name="typeId"
-              value={formData.typeId}
-              onChange={(value) =>
-                setFormData({ ...formData, typeId: value ?? 0 })
-              }
-              placeholder="Enter type ID"
+            <Select
+              placeholder="Select Certification level"
+              onChange={handleSelectTypeChange}
               style={{ width: "100%" }}
-              required
-            />
+            >
+              {certType.map((ct) => (
+                <Select.Option
+                  key={ct.typeId}
+                  value={ct.typeId}
+                >
+                  {ct.typeName}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
 
           <Form.Item

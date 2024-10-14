@@ -104,6 +104,12 @@ const Profile = {
     requests.get(`api/v1/profile/${userId}`),
 };
 
+const CertType = {
+  getCertType: () => requests.get("api/v1/cert-type"),
+  getCertTypeDetail: (typeId: string) =>
+    requests.get(`api/v1/cert-type/${typeId}`),
+};
+
 const agent = {
   Major,
   Account,
@@ -113,5 +119,6 @@ const agent = {
   JobPosition,
   Schedule,
   Profile,
+  CertType,
 };
 export default agent;

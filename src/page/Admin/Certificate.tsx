@@ -53,8 +53,8 @@ const Certificate = () => {
     { title: "Period", dataIndex: "certValidity", key: "certValidity" },
     {
       title: "Prerequisite",
-      dataIndex: "certPrerequisite",
-      key: "certPrerequisite",
+      dataIndex: "certCodePrerequisite",
+      key: "certCodePrerequisite",
       render: (prerequisites: string[]) => {
         if (Array.isArray(prerequisites) && prerequisites.length > 0) {
           return (
