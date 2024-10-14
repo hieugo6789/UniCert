@@ -47,8 +47,8 @@ const Major = () => {
     { title: "Name", dataIndex: "majorName", key: "majorName" },
     {
       title: "Job Position",
-      dataIndex: "jobPositionName",
-      key: "jobPositionName",
+      dataIndex: "jobPositionCode",
+      key: "jobPositionCode",
       render: (job: string[]) => {
         if (Array.isArray(job) && job.length > 0) {
           return (

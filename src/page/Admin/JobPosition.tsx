@@ -29,8 +29,8 @@ const JobPosition = () => {
     { title: "Name", dataIndex: "jobPositionName", key: "jobPositionName" },
     {
       title: "Major",
-      dataIndex: "majorName",
-      key: "majorName",
+      dataIndex: "majorCode",
+      key: "majorCode",
       render: (major: string[]) => {
         if (Array.isArray(major) && major.length > 0) {
           return (
@@ -51,8 +51,8 @@ const JobPosition = () => {
     },
     {
       title: "Certification",
-      dataIndex: "certName",
-      key: "certName",
+      dataIndex: "certCode",
+      key: "certCode",
       // width: 200,
       render: (certification: string[]) => {
         if (Array.isArray(certification) && certification.length > 0) {
