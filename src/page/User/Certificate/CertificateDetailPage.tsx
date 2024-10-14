@@ -44,8 +44,7 @@ const CertificateDetailPage = () => {
           />
           <h1 className="text-2xl font-bold">{state?.currentCert.certName}</h1>
           <p className="text-lg mt-2">
-            Fee: {state?.currentCert.certCost}{" "}
-            {state?.currentCert.certPointSystem} for one attempt
+            Fee: {state?.currentCert.certCost} for one attempt
           </p>
 
           <div className="mt-4 flex space-x-4">
@@ -78,7 +77,7 @@ const CertificateDetailPage = () => {
           <div
             dangerouslySetInnerHTML={{ __html: cert?.certDescription || "" }}
           />
-          {/* <p className="mt-2">{cert?.certDescription}</p> */}
+          {/* <p className="mt-2">{cert?.certCode}</p> */}
           <hr className="my-2" />
           <p>
             <strong>Foundation level: </strong>
