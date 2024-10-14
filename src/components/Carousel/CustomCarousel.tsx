@@ -10,6 +10,7 @@ interface Slide {
   button1Text?: string;
 }
 
+
 const slides: Slide[] = [
   {
     content: <Banner />,
