@@ -5,7 +5,6 @@ import Feedback from "../../../components/Certifications/Feedback";
 import ExamDetails from "../../../components/Certifications/ExamDetails";
 import { useParams } from "react-router-dom";
 import { allCertificationData } from "../../../models/certificate";
-import agent from "../../../utils/agent";
 import useCertDetail from "../../../hooks/useCertDetail";
 
 const CertificateDetailPage = () => {
@@ -17,19 +16,18 @@ const CertificateDetailPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await agent.Certificate.getCertificateDetail(id?.toString() || "");
-        setCertificate(response.data);
+        getCertDetails(id);
       } catch (error) {
         console.error("Error fetching certificate details:", error);
       }
     };
-
     fetchData();
   }, [id]);
 
   useEffect(() => {
-    getCertDetails(id);
-  }, [id, getCertDetails]);
+    // getCertDetails(id);
+    setCertificate(state?.currentCert);
+  }, [state]);
 
   return (
     <div className="w-full p-4">
@@ -37,13 +35,13 @@ const CertificateDetailPage = () => {
         {/* Left Section */}
         <div className="text-left text-white">
           <img
-            src={state?.currentCert.certImage || certificationDefault}
+            src={cert?.certImage || certificationDefault}
             alt="Logo"
             className="w-1/2"
           />
-          <h1 className="text-2xl font-bold">{state?.currentCert.certName}</h1>
+          <h1 className="text-2xl font-bold">{cert?.certName}</h1>
           <p className="text-lg mt-2">
-            Fee: {state?.currentCert.certCost} for one attempt
+            Fee: {cert?.certCost} points for one attempt
           </p>
 
           <div className="mt-4 flex space-x-4">
