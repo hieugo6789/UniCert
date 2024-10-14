@@ -75,7 +75,10 @@ const CertificateDetailPage = () => {
         {/* Right Section */}
         <div className="bg-white p-6 rounded-lg shadow-md text-black max-w-xs">
           <h2 className="text-xl font-bold">{cert?.certName}</h2>
-          <p className="mt-2">{cert?.certDescription}</p>
+          <div
+            dangerouslySetInnerHTML={{ __html: cert?.certDescription || "" }}
+          />
+          {/* <p className="mt-2">{cert?.certDescription}</p> */}
           <hr className="my-2" />
           <p>
             <strong>Foundation level: </strong>
