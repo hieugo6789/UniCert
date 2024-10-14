@@ -2,9 +2,75 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"; // To get the majorId from URL params
 import { allMajorPaginationData } from "../../../models/major";
 import useMajorDetail from "../../../hooks/useMajorDetail";
+import { allCertificationData } from "../../../models/certificate";
+import CertificateCard from "../../../components/Certifications/CertificateCard";
 // import CertificateCard from "../../../components/Certifications/CertificateCard";
 
 const MajorDetailPage: React.FC = () => {
+  const [topCert] = useState<allCertificationData[]>(
+    [
+      {
+        certId: "1",
+        certName: "AWS Certified Solutions Architect",
+        certCode: "AWS-CSA",
+        certDescription: "The AWS Certified Solutions Architect – Associate examination is intended for individuals who perform a solutions architect role and have one or more years of hands-on experience designing available, cost-efficient, fault-tolerant, and scalable distributed systems on AWS.",
+        certCost: 150,
+        certPointSystem: "AWS",
+        certImage: "",
+        certValidity: "3 years",
+        organizeName: "Amazon Web Services",
+        typeName: "Associate",
+        certPrerequisite: [],
+        certCodePrerequisite: [],
+        certDescriptionPrerequisite: [],
+      },
+      {
+        certId: "2",
+        certName: "AWS Certified Developer",
+        certCode: "AWS-CD",
+        certDescription: "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
+        certCost: 150,
+        certPointSystem: "AWS",
+        certImage: "",
+        certValidity: "3 years",
+        organizeName: "Amazon Web Services",
+        typeName: "Associate",
+        certPrerequisite: [],
+        certCodePrerequisite: [],
+        certDescriptionPrerequisite: [],
+      },
+      {
+        certId: "3",
+        certName: "AWS Certified Solutions Architect",
+        certCode: "AWS-CSA",
+        certDescription: "The AWS Certified Solutions Architect – Associate examination is intended for individuals who perform a solutions architect role and have one or more years of hands-on experience designing available, cost-efficient, fault-tolerant, and scalable distributed systems on AWS.",
+        certCost: 150,
+        certPointSystem: "AWS",
+        certImage: "",
+        certValidity: "3 years",
+        organizeName: "Amazon Web Services",
+        typeName: "Associate",
+        certPrerequisite: [],
+        certCodePrerequisite: [],
+        certDescriptionPrerequisite: [],
+      },
+      {
+        certId: "4",
+        certName: "AWS Certified Developer",
+        certCode: "AWS-CD",
+        certDescription: "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
+        certCost: 150,
+        certPointSystem: "AWS",
+        certImage: "",
+        certValidity: "3 years",
+        organizeName: "Amazon Web Services",
+        typeName: "Associate",
+        certPrerequisite: [],
+        certCodePrerequisite: [],
+        certDescriptionPrerequisite: [],
+      },
+    ]
+  );
   const { id } = useParams<{ id: string }>(); // Extract majorId from the URL
   const [major, setMajor] = useState<allMajorPaginationData | null>(null);
 
@@ -32,44 +98,6 @@ const MajorDetailPage: React.FC = () => {
   if (!major.jobPositionId) {
     return <div>Job Position not found.</div>;
   }
-  const certificates = [
-    {
-      id: 1,
-      certName: "Certificate 1",
-      certDescription: "Certificate 1 Description",
-      certImage:
-        "https://dmf76jm51vpov.cloudfront.net/www2/images/main/2020/webpage/Course-not-Found.jpg",
-      certCost: 100,
-      certPointSystem: "points",
-    },
-    {
-      id: 2,
-      certName: "Certificate 2",
-      certDescription: "Certificate 2 Description",
-      certImage:
-        "https://dmf76jm51vpov.cloudfront.net/www2/images/main/2020/webpage/Course-not-Found.jpg",
-      certCost: 200,
-      certPointSystem: "points",
-    },
-    {
-      id: 3,
-      certName: "Certificate 3",
-      certDescription: "Certificate 3 Description",
-      certImage:
-        "https://dmf76jm51vpov.cloudfront.net/www2/images/main/2020/webpage/Course-not-Found.jpg",
-      certCost: 300,
-      certPointSystem: "points",
-    },
-    {
-      id: 4,
-      certName: "Certificate 4",
-      certDescription: "Certificate 4 Description",
-      certImage:
-        "https://dmf76jm51vpov.cloudfront.net/www2/images/main/2020/webpage/Course-not-Found.jpg",
-      certCost: 400,
-      certPointSystem: "points",
-    },
-  ];
   return (
     <div className="p-6">
       {/* Major Info Section */}
@@ -86,9 +114,21 @@ const MajorDetailPage: React.FC = () => {
       </div>
       {/* foreach 1->9 */}
       {/* Filter Section */}
+
       <div className="p-4 text-center">
+        <h2 className="text-xl font-bold mb-6 text-left">Certifications for this major</h2>
+        <div className="relative mb-6 w-full m-auto mb-2">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="bg-gray-300 text-white w-full rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          />
+          <span className="absolute right-3 top-2 text-black">🔍</span>
+        </div>
         <div className="inline-block flex flex-row items-center">
+
           <p className="mr-3">Filter by</p>
+
           <div>
             <label className="sr-only">Currency</label>
             <select
@@ -103,17 +143,15 @@ const MajorDetailPage: React.FC = () => {
             </select>
           </div>
         </div>
+
       </div>
 
       {/* Certificates Grid */}
-      {certificates.length > 0 ? (
+      {topCert.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
-          {/* {certificates.map((cert, index) => (
-            <CertificateCard
-              key={index}
-              {...cert}
-            />
-          ))} */}
+          {topCert.map((cert, index) => (
+            <CertificateCard key={index} {...cert} />
+          ))}
         </div>
       ) : (
         <div className="w-1/3 h-1/12 m-auto rounded-xl ">
@@ -134,6 +172,18 @@ const MajorDetailPage: React.FC = () => {
           </p>
         </div>
       )}
+      <div className="flex justify-center mt-6 gap-4">
+          <button className="p-2">◀</button>
+          {[1, 2, 3, 4, 5].map((page) => (
+            <button
+              key={page}
+              className="p-2 bg-gray-200 rounded-full"
+            >
+              {page}
+            </button>
+          ))}
+          <button className="p-2">▶</button>
+        </div>
     </div>
   );
 };
