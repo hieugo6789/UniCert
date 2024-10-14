@@ -1,4 +1,4 @@
-import { Button, message, Modal, Pagination, Spin, Table } from "antd";
+import { Button, message, Modal, Pagination, Spin, Table, Tag } from "antd";
 import useJob from "../../hooks/useJobPosition";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
 import useJobDetail from "../../hooks/useJobDetail";
@@ -27,7 +27,51 @@ const JobPosition = () => {
 
   const columns = [
     { title: "Name", dataIndex: "jobPositionName", key: "jobPositionName" },
-    { title: "Code", dataIndex: "jobPositionCode", key: "jobPositionCode" },
+    {
+      title: "Major",
+      dataIndex: "majorName",
+      key: "majorName",
+      render: (major: string[]) => {
+        if (Array.isArray(major) && major.length > 0) {
+          return (
+            <>
+              {major.map((m, index) => (
+                <Tag
+                  color="blue"
+                  key={index}
+                >
+                  {m}
+                </Tag> // Wrap each prerequisite in a Tag
+              ))}
+            </>
+          );
+        }
+        return <span>No major</span>; // Fallback for empty or non-array
+      },
+    },
+    {
+      title: "Certification",
+      dataIndex: "certName",
+      key: "certName",
+      // width: 200,
+      render: (certification: string[]) => {
+        if (Array.isArray(certification) && certification.length > 0) {
+          return (
+            <>
+              {certification.map((c, index) => (
+                <Tag
+                  color="blue"
+                  key={index}
+                >
+                  {c}
+                </Tag>
+              ))}
+            </>
+          );
+        }
+        return <span>No certification</span>;
+      },
+    },
     {
       title: "Actions",
       key: "actions",

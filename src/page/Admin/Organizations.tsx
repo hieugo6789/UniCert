@@ -6,6 +6,8 @@ import useOrganization from "../../hooks/useOrganization";
 import useOrganizeDetail from "../../hooks/useOrganizeDetail";
 import useDeleteOrganize from "../../hooks/useDeleteOrganize";
 import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { Descriptions } from "antd";
+import { HomeOutlined, PhoneOutlined } from "@ant-design/icons";
 
 const { confirm } = Modal;
 
@@ -38,7 +40,8 @@ const Organizations = () => {
 
   const columns = [
     { title: "Name", dataIndex: "organizeName", key: "organizeName" },
-    { title: "Code", dataIndex: "organizeAddress", key: "organizeAddress" },
+    { title: "Contact", dataIndex: "organizeContact", key: "organizeContact" },
+    { title: "Address", dataIndex: "organizeAddress", key: "organizeAddress" },
     {
       title: "Actions",
       key: "actions",
@@ -186,7 +189,8 @@ const Organizations = () => {
         </div>
       </div>
       <Modal
-        title="Certification Details"
+        width={800}
+        footer={null}
         open={isView}
         onCancel={() => setIsView(false)}
       >
@@ -194,12 +198,35 @@ const Organizations = () => {
           <Spin />
         ) : state.currentOrganize ? (
           <div>
-            <p>
-              <strong>Name</strong> {state.currentOrganize.organizeName}
-            </p>
-            <p>
-              <strong>Address</strong> {state.currentOrganize.organizeAddress}
-            </p>
+            <Descriptions
+              bordered
+              size="middle"
+              column={1}
+              className="mb-4"
+              labelStyle={{ width: "150px", fontWeight: "bold" }} // Cố định độ dài label
+              contentStyle={{ width: "300px", textAlign: "left" }}
+              title={
+                <h3 className="text-2xl text-blue-600">Organization Details</h3>
+              }
+            >
+              <Descriptions.Item label="Name">
+                <span className="text-blue-700">
+                  {state.currentOrganize.organizeName}
+                </span>
+              </Descriptions.Item>
+              <Descriptions.Item label="Contact">
+                <PhoneOutlined />{" "}
+                <span className="text-gray-600">
+                  {state.currentOrganize.organizeContact}
+                </span>
+              </Descriptions.Item>
+              <Descriptions.Item label="Address">
+                <HomeOutlined />{" "}
+                <span className="text-gray-600">
+                  {state.currentOrganize.organizeAddress}
+                </span>
+              </Descriptions.Item>
+            </Descriptions>
           </div>
         ) : (
           <p>No details available.</p>

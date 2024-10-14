@@ -1,10 +1,18 @@
-import { Button, Input, Pagination, Table, Modal, message, Spin } from "antd";
+import {
+  Button,
+  Input,
+  Pagination,
+  Table,
+  Modal,
+  message,
+  Spin,
+  Tag,
+} from "antd";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
 import useCertificate from "../../hooks/useCertificate";
 import { useState } from "react";
 import {
   DeleteOutlined,
-  EditOutlined,
   ExclamationCircleOutlined,
   EyeOutlined,
   SearchOutlined,
@@ -12,6 +20,7 @@ import {
 import useDeleteCertificate from "../../hooks/useDeleteCertificate";
 import useCertDetail from "../../hooks/useCertDetail";
 import CreateCert from "../../components/Certifications/CreateCert";
+import UpdateCert from "../../components/Certifications/UpdateCert";
 
 const { confirm } = Modal;
 
@@ -46,6 +55,23 @@ const Certificate = () => {
       title: "Prerequisite",
       dataIndex: "certPrerequisite",
       key: "certPrerequisite",
+      render: (prerequisites: string[]) => {
+        if (Array.isArray(prerequisites) && prerequisites.length > 0) {
+          return (
+            <>
+              {prerequisites.map((prerequisite, index) => (
+                <Tag
+                  color="blue"
+                  key={index}
+                >
+                  {prerequisite}
+                </Tag> // Wrap each prerequisite in a Tag
+              ))}
+            </>
+          );
+        }
+        return <span>No prerequisites</span>; // Fallback for empty or non-array
+      },
     },
     {
       title: "Organization",
@@ -66,10 +92,8 @@ const Certificate = () => {
             onClick={() => handleView(record.certId)}
             style={{ color: "blue" }}
           />
-          <EditOutlined
-            style={{ marginLeft: 12 }}
-            onClick={() => {}}
-          />
+
+          <UpdateCert />
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.certId)}
             style={{ color: "red", marginLeft: 12 }}

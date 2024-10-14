@@ -1,7 +1,16 @@
 import { useState } from "react";
 import CreateMajor from "../../components/Majors/CreateMajor";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
-import { Input, Button, Table, Pagination, Modal, Spin, message } from "antd"; // Import Input and Button from antd
+import {
+  Input,
+  Button,
+  Table,
+  Pagination,
+  Modal,
+  Spin,
+  message,
+  Tag,
+} from "antd"; // Import Input and Button from antd
 import {
   DeleteOutlined,
   ExclamationCircleOutlined,
@@ -36,7 +45,28 @@ const Major = () => {
 
   const columns = [
     { title: "Name", dataIndex: "majorName", key: "majorName" },
-    { title: "Code", dataIndex: "majorCode", key: "majorCode" },
+    {
+      title: "Job Position",
+      dataIndex: "jobPositionName",
+      key: "jobPositionName",
+      render: (job: string[]) => {
+        if (Array.isArray(job) && job.length > 0) {
+          return (
+            <>
+              {job.map((j, index) => (
+                <Tag
+                  color="blue"
+                  key={index}
+                >
+                  {j}
+                </Tag> // Wrap each prerequisite in a Tag
+              ))}
+            </>
+          );
+        }
+        return <span>No job</span>; // Fallback for empty or non-array
+      },
+    },
     {
       title: "Actions",
       key: "actions",
@@ -134,8 +164,9 @@ const Major = () => {
         </div>
       </div>
       <Modal
-        title="Certification Details"
+        title="Major Details"
         open={isModalVisible}
+        footer={null}
         onCancel={() => setIsModalVisible(false)}
       >
         {state.isLoading ? (
@@ -146,7 +177,7 @@ const Major = () => {
               <strong>Name</strong> {state.currentMajor.majorName}
             </p>
             <p>
-              <strong>Description</strong> {state.currentMajor.jobPositionId}
+              <strong>Description</strong> {state.currentMajor.majorDescription}
             </p>
           </div>
         ) : (

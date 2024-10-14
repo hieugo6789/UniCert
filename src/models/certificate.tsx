@@ -42,6 +42,19 @@ export interface createCertificate {
   certIdPrerequisites: number[];
 }
 
+export interface updateCert {
+  certName: string;
+  certCode: string;
+  certDescription: string;
+  certCost: number;
+  certPointSystem: string;
+  certImage: string;
+  certValidity: string;
+  typeId: number;
+  organizeId: number;
+  certIdPrerequisites: number[];
+}
+
 export interface deleteCertificate {
   certId: string;
 }

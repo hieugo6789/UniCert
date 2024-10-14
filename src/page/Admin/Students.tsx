@@ -1,5 +1,13 @@
 import { ROLE } from "../../constants/role";
-import { Table, Tag, Button, Pagination, Modal, Spin } from "antd";
+import {
+  Table,
+  Tag,
+  Button,
+  Pagination,
+  Modal,
+  Spin,
+  Descriptions,
+} from "antd";
 import { useAccounts } from "../../hooks/useAccount";
 import { useEffect, useState } from "react";
 import Coin from "../../assets/images/Coin.png";
@@ -154,7 +162,7 @@ const Students = () => {
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
-        width={700}
+        width={800}
       >
         {state.isLoading ? (
           <Spin />
@@ -171,31 +179,43 @@ const Students = () => {
                 alt="User Avatar"
               />
             </div>
-            <div className="w-full mb-4 text-lg ml-32">
-              <p>
-                <strong>Username:</strong> {state.currentUser.username}
-              </p>
-              <p>
-                <strong>Email:</strong> {state.currentUser.email}
-              </p>
-              <p>
-                <strong>Full Name:</strong> {state.currentUser.fullname}
-              </p>
-              <p>
-                <strong>Date of Birth:</strong>{" "}
-                {new Date(state.currentUser.dob).toLocaleDateString()}
-              </p>
-
-              <p>
-                <strong>PhoneNumber:</strong> {state.currentUser.phoneNumber}
-              </p>
-              <p>
-                <strong>Address:</strong> {state.currentUser.address}
-              </p>
-              <p>
-                <strong>Created at: </strong>{" "}
-                {new Date(state.currentUser.userCreatedAt).toLocaleDateString()}
-              </p>
+            <div>
+              <Descriptions
+                bordered
+                size="middle"
+                column={1}
+                className="mb-4"
+                labelStyle={{ width: "180px", fontWeight: "bold" }} // Cố định độ dài label
+                contentStyle={{ width: "500px", textAlign: "left" }}
+              >
+                <Descriptions.Item label="Username">
+                  <span>{state.currentUser.username}</span>
+                </Descriptions.Item>
+                <Descriptions.Item label="Email">
+                  <span>{state.currentUser.email}</span>
+                </Descriptions.Item>
+                <Descriptions.Item label="Full name">
+                  <span>{state.currentUser.fullname}</span>
+                </Descriptions.Item>
+                <Descriptions.Item label="Date of birth">
+                  <span>
+                    {new Date(state.currentUser.dob).toLocaleDateString()}
+                  </span>
+                </Descriptions.Item>
+                <Descriptions.Item label="Phone number">
+                  <span>{state.currentUser.phoneNumber}</span>
+                </Descriptions.Item>
+                <Descriptions.Item label="Created at">
+                  <span>
+                    {new Date(
+                      state.currentUser.userCreatedAt
+                    ).toLocaleDateString()}
+                  </span>
+                </Descriptions.Item>
+                <Descriptions.Item label="Address">
+                  <span>{state.currentUser.address}</span>
+                </Descriptions.Item>
+              </Descriptions>
             </div>
           </div>
         ) : (
