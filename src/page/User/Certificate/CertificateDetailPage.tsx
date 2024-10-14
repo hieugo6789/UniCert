@@ -10,7 +10,7 @@ import useCertDetail from "../../../hooks/useCertDetail";
 // import { DetailParam } from "../../../models/tableParam";
 // import { useAppDispatch } from "../../../redux/hook";
 const CertificateDetailPage = () => {
-  
+
   const [activeTab, setActiveTab] = useState("Description");
   const [cert, setCertificate] = useState<allCertificationData>();
   const id = useParams().id;
@@ -48,7 +48,17 @@ const CertificateDetailPage = () => {
           </p>
 
           <div className="mt-4 flex space-x-4">
-            <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
+            {/* <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"> */}
+            <button className="inline-flex justify-center whitespace-nowrap
+             rounded-lg px-3.5 py-2.5 text-sm font-medium text-slate-200 dark:text-slate-800 
+             bg-gradient-to-r from-slate-800 to-slate-700 dark:from-slate-200 dark:to-slate-100 
+             dark:hover:bg-slate-200 shadow focus:outline-none focus:ring focus:ring-slate-500/50 
+             focus-visible:outline-none focus-visible:ring focus-visible:ring-slate-500/50 relative
+              before:absolute before:inset-0 before:rounded-[inherit] 
+              before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.2)_50%,transparent_75%,transparent_100%)] 
+              dark:before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white)_50%,transparent_75%,transparent_100%)] 
+              before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease]
+               hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms]">
               Take Exam
             </button>
             {/* <button className="bg-white text-blue-500 py-2 px-4 rounded-md flex items-center space-x-2 hover:bg-gray-200">
@@ -74,9 +84,7 @@ const CertificateDetailPage = () => {
         {/* Right Section */}
         <div className="bg-white p-6 rounded-lg shadow-md text-black max-w-xs">
           <h2 className="text-xl font-bold">{cert?.certName}</h2>
-          <div
-            dangerouslySetInnerHTML={{ __html: cert?.certDescription || "" }}
-          />
+          
           {/* <p className="mt-2">{cert?.certCode}</p> */}
           <hr className="my-2" />
           <p>
@@ -107,11 +115,10 @@ const CertificateDetailPage = () => {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`p-2 transition-colors duration-300 ${
-              activeTab === tab
-                ? "border-b-4 border-blue-500 text-blue-500"
-                : ""
-            }`}
+            className={`p-2 transition-colors duration-300 ${activeTab === tab
+              ? "border-b-4 border-blue-500 text-blue-500"
+              : ""
+              }`}
           >
             {tab}
           </button>
@@ -119,7 +126,7 @@ const CertificateDetailPage = () => {
       </div>
 
       <div className="p-4">
-        {activeTab === "Description" && <Description />}
+        {activeTab === "Description" && <Description {...cert} />}
         {activeTab === "Exam Details" && <ExamDetails />}
         {activeTab === "Feedback" && <Feedback />}
       </div>
