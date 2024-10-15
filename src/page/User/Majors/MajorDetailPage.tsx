@@ -7,70 +7,84 @@ import CertificateCard from "../../../components/Certifications/CertificateCard"
 // import CertificateCard from "../../../components/Certifications/CertificateCard";
 
 const MajorDetailPage: React.FC = () => {
-  const [topCert] = useState<allCertificationData[]>(
-    [
-      {
-        certId: "1",
-        certName: "AWS Certified Solutions Architect",
-        certCode: "AWS-CSA",
-        certDescription: "The AWS Certified Solutions Architect – Associate examination is intended for individuals who perform a solutions architect role and have one or more years of hands-on experience designing available, cost-efficient, fault-tolerant, and scalable distributed systems on AWS.",
-        certCost: 150,
-        certPointSystem: "AWS",
-        certImage: "",
-        certValidity: "3 years",
-        organizeName: "Amazon Web Services",
-        typeName: "Associate",
-        certPrerequisite: [],
-        certCodePrerequisite: [],
-        certDescriptionPrerequisite: [],
-      },
-      {
-        certId: "2",
-        certName: "AWS Certified Developer",
-        certCode: "AWS-CD",
-        certDescription: "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-        certCost: 150,
-        certPointSystem: "AWS",
-        certImage: "",
-        certValidity: "3 years",
-        organizeName: "Amazon Web Services",
-        typeName: "Associate",
-        certPrerequisite: [],
-        certCodePrerequisite: [],
-        certDescriptionPrerequisite: [],
-      },
-      {
-        certId: "3",
-        certName: "AWS Certified Solutions Architect",
-        certCode: "AWS-CSA",
-        certDescription: "The AWS Certified Solutions Architect – Associate examination is intended for individuals who perform a solutions architect role and have one or more years of hands-on experience designing available, cost-efficient, fault-tolerant, and scalable distributed systems on AWS.",
-        certCost: 150,
-        certPointSystem: "AWS",
-        certImage: "",
-        certValidity: "3 years",
-        organizeName: "Amazon Web Services",
-        typeName: "Associate",
-        certPrerequisite: [],
-        certCodePrerequisite: [],
-        certDescriptionPrerequisite: [],
-      },
-      {
-        certId: "4",
-        certName: "AWS Certified Developer",
-        certCode: "AWS-CD",
-        certDescription: "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-        certCost: 150,
-        certPointSystem: "AWS",
-        certImage: "",
-        certValidity: "3 years",
-        organizeName: "Amazon Web Services",
-        typeName: "Associate",
-        certPrerequisite: [],
-        certCodePrerequisite: [],
-        certDescriptionPrerequisite: [],
-      },
-    ]
-  );
+  const [topCert] = useState<allCertificationData[]>([
+    {
+      certId: "1",
+      certName: "AWS Certified Solutions Architect",
+      certCode: "AWS-CSA",
+      certDescription:
+        "The AWS Certified Solutions Architect – Associate examination is intended for individuals who perform a solutions architect role and have one or more years of hands-on experience designing available, cost-efficient, fault-tolerant, and scalable distributed systems on AWS.",
+      certCost: 150,
+      certPointSystem: "AWS",
+      certImage: "",
+      certValidity: "3 years",
+      organizeId: 6,
+      organizeName: "Amazon Web Services",
+      typeId: 8,
+      typeName: "Associate",
+      certPrerequisiteId: [],
+      certPrerequisite: [],
+      certCodePrerequisite: [],
+      certDescriptionPrerequisite: [],
+    },
+    {
+      certId: "2",
+      certName: "AWS Certified Developer",
+      certCode: "AWS-CD",
+      certDescription:
+        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
+      certCost: 150,
+      certPointSystem: "AWS",
+      certImage: "",
+      certValidity: "3 years",
+      organizeId: 6,
+      organizeName: "Amazon Web Services",
+      typeId: 8,
+      typeName: "Associate",
+      certPrerequisiteId: [],
+      certPrerequisite: [],
+      certCodePrerequisite: [],
+      certDescriptionPrerequisite: [],
+    },
+    {
+      certId: "3",
+      certName: "AWS Certified Developer",
+      certCode: "AWS-CD",
+      certDescription:
+        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
+      certCost: 150,
+      certPointSystem: "AWS",
+      certImage: "",
+      certValidity: "3 years",
+      organizeId: 6,
+      organizeName: "Amazon Web Services",
+      typeId: 8,
+      typeName: "Associate",
+      certPrerequisiteId: [],
+      certPrerequisite: [],
+      certCodePrerequisite: [],
+      certDescriptionPrerequisite: [],
+    },
+    {
+      certId: "4",
+      certName: "AWS Certified Developer",
+      certCode: "AWS-CD",
+      certDescription:
+        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
+      certCost: 150,
+      certPointSystem: "AWS",
+      certImage: "",
+      certValidity: "3 years",
+      organizeId: 6,
+      organizeName: "Amazon Web Services",
+      typeId: 8,
+      typeName: "Associate",
+      certPrerequisiteId: [],
+      certPrerequisite: [],
+      certCodePrerequisite: [],
+      certDescriptionPrerequisite: [],
+    },
+  ]);
   const { id } = useParams<{ id: string }>(); // Extract majorId from the URL
   const [major, setMajor] = useState<allMajorPaginationData | null>(null);
 
@@ -116,7 +130,9 @@ const MajorDetailPage: React.FC = () => {
       {/* Filter Section */}
 
       <div className="p-4 text-center">
-        <h2 className="text-xl font-bold mb-6 text-left">Certifications for this major</h2>
+        <h2 className="text-xl font-bold mb-6 text-left">
+          Certifications for this major
+        </h2>
         <div className="relative mb-6 w-full m-auto mb-2">
           <input
             type="text"
@@ -126,7 +142,6 @@ const MajorDetailPage: React.FC = () => {
           <span className="absolute right-3 top-2 text-black">🔍</span>
         </div>
         <div className="inline-block flex flex-row items-center">
-
           <p className="mr-3">Filter by</p>
 
           <div>
@@ -143,14 +158,16 @@ const MajorDetailPage: React.FC = () => {
             </select>
           </div>
         </div>
-
       </div>
 
       {/* Certificates Grid */}
       {topCert.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
           {topCert.map((cert, index) => (
-            <CertificateCard key={index} {...cert} />
+            <CertificateCard
+              key={index}
+              {...cert}
+            />
           ))}
         </div>
       ) : (
@@ -173,17 +190,17 @@ const MajorDetailPage: React.FC = () => {
         </div>
       )}
       <div className="flex justify-center mt-6 gap-4">
-          <button className="p-2">◀</button>
-          {[1, 2, 3, 4, 5].map((page) => (
-            <button
-              key={page}
-              className="p-2 bg-gray-200 rounded-full"
-            >
-              {page}
-            </button>
-          ))}
-          <button className="p-2">▶</button>
-        </div>
+        <button className="p-2">◀</button>
+        {[1, 2, 3, 4, 5].map((page) => (
+          <button
+            key={page}
+            className="p-2 bg-gray-200 rounded-full"
+          >
+            {page}
+          </button>
+        ))}
+        <button className="p-2">▶</button>
+      </div>
     </div>
   );
 };

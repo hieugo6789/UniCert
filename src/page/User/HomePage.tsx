@@ -8,16 +8,19 @@ const HomePage = () => {
   const [topCert] = useState<allCertificationData[]>([
     {
       certId: "1",
-      certName: "AWS Certified Solutions Architect",
-      certCode: "AWS-CSA",
+      certName: "AWS Certified Developer",
+      certCode: "AWS-CD",
       certDescription:
-        "The AWS Certified Solutions Architect – Associate examination is intended for individuals who perform a solutions architect role and have one or more years of hands-on experience designing available, cost-efficient, fault-tolerant, and scalable distributed systems on AWS.",
+        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
       certCost: 150,
       certPointSystem: "AWS",
       certImage: "",
       certValidity: "3 years",
+      organizeId: 6,
       organizeName: "Amazon Web Services",
+      typeId: 8,
       typeName: "Associate",
+      certPrerequisiteId: [],
       certPrerequisite: [],
       certCodePrerequisite: [],
       certDescriptionPrerequisite: [],
@@ -32,30 +35,17 @@ const HomePage = () => {
       certPointSystem: "AWS",
       certImage: "",
       certValidity: "3 years",
+      organizeId: 6,
       organizeName: "Amazon Web Services",
+      typeId: 8,
       typeName: "Associate",
+      certPrerequisiteId: [],
       certPrerequisite: [],
       certCodePrerequisite: [],
       certDescriptionPrerequisite: [],
     },
     {
-      certId: "1",
-      certName: "AWS Certified Solutions Architect",
-      certCode: "AWS-CSA",
-      certDescription:
-        "The AWS Certified Solutions Architect – Associate examination is intended for individuals who perform a solutions architect role and have one or more years of hands-on experience designing available, cost-efficient, fault-tolerant, and scalable distributed systems on AWS.",
-      certCost: 150,
-      certPointSystem: "AWS",
-      certImage: "",
-      certValidity: "3 years",
-      organizeName: "Amazon Web Services",
-      typeName: "Associate",
-      certPrerequisite: [],
-      certCodePrerequisite: [],
-      certDescriptionPrerequisite: [],
-    },
-    {
-      certId: "2",
+      certId: "3",
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:
@@ -64,8 +54,30 @@ const HomePage = () => {
       certPointSystem: "AWS",
       certImage: "",
       certValidity: "3 years",
+      organizeId: 6,
       organizeName: "Amazon Web Services",
+      typeId: 8,
       typeName: "Associate",
+      certPrerequisiteId: [],
+      certPrerequisite: [],
+      certCodePrerequisite: [],
+      certDescriptionPrerequisite: [],
+    },
+    {
+      certId: "4",
+      certName: "AWS Certified Developer",
+      certCode: "AWS-CD",
+      certDescription:
+        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
+      certCost: 150,
+      certPointSystem: "AWS",
+      certImage: "",
+      certValidity: "3 years",
+      organizeId: 6,
+      organizeName: "Amazon Web Services",
+      typeId: 8,
+      typeName: "Associate",
+      certPrerequisiteId: [],
       certPrerequisite: [],
       certCodePrerequisite: [],
       certDescriptionPrerequisite: [],
@@ -102,7 +114,7 @@ const HomePage = () => {
   return (
     <div>
       <div className="fade-in">
-      <CustomCarousel />
+        <CustomCarousel />
       </div>
       <div className="grid grid-cols-3 p-5 gap-2 m-auto  relative -mt-28 w-2/3">
         <div className="fade-in">
