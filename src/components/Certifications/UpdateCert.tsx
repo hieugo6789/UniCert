@@ -1,230 +1,327 @@
-// import { EditOutlined } from "@ant-design/icons";
-// import { Button, Form, Input, Modal, Spin, InputNumber, Select } from "antd";
-// import { useEffect, useState } from "react";
-// import useUpdateCert from "../../hooks/useUpdateCert";
-// import useCertDetail from "../../hooks/useCertDetail";
-// import MyEditor from "../Editor/MyEditor"; // Assuming you use MyEditor for description editing
-// import useCertType from "../../hooks/useCertType";
-// import useOrganization from "../../hooks/useOrganization";
+import { Input, Modal, Form, InputNumber, Select, message } from "antd";
+import { useState, useEffect } from "react";
+import useUpdateCert from "../../hooks/useUpdateCert";
+import useOrganization from "../../hooks/useOrganization";
+import useCertificate from "../../hooks/useCertificate";
+import MyEditor from "../Editor/MyEditor";
+import useCertType from "../../hooks/useCertType";
+import useCertDetail from "../../hooks/useCertDetail";
+import { EditOutlined } from "@ant-design/icons";
 
-// const UpdateCert = ({ certId }: { certId: string }) => {
-//   const [isModalVisible, setIsModalVisible] = useState(false);
-//   const [form] = Form.useForm();
-//   const { updateCertDetails, state } = useUpdateCert();
-//   const { getCertDetails, state: certDetailState } = useCertDetail(); // Fetch certificate details
-//   const { certType } = useCertType(); // Fetch certificate types
-//   const { organization } = useOrganization(); // Fetch organizations
+interface UpdateCertProps {
+  certId: string;
+}
 
-//   useEffect(() => {
-//     if (certId && isModalVisible) {
-//       getCertDetails(certId); // Fetch the certificate details when modal opens
-//     }
-//   }, [certId, isModalVisible]);
+const UpdateCert: React.FC<UpdateCertProps> = ({ certId }) => {
+  const [form] = Form.useForm();
+  const { updateCertDetails, state } = useUpdateCert();
+  const { organization } = useOrganization();
+  const { certificate } = useCertificate();
+  const { certType } = useCertType();
+  const { state: certDetailState, getCertDetails } = useCertDetail();
 
-//   const handleEdit = () => {
-//     setIsModalVisible(true);
-//   };
+  const [isModalVisible, setIsModalVisible] = useState(false); // Modal visibility state
 
-//   const handleUpdate = async (values: any) => {
-//     try {
-//       await updateCertDetails(certId, values); // Call the update hook with the new values
-//       setIsModalVisible(false); // Close the modal on success
-//     } catch (error) {
-//       console.error("Failed to update certificate:", error);
-//     }
-//   };
+  const [formData, setFormData] = useState({
+    certName: "",
+    certCode: "",
+    certDescription: "",
+    certCost: 0,
+    certPointSystem: "",
+    certImage: "",
+    certValidity: "",
+    typeId: 0,
+    organizeId: 0,
+    certIdPrerequisites: [] as number[],
+  });
+  useEffect(() => {
+    if (certId) {
+      getCertDetails(certId);
+    }
+  }, [certId]);
 
-//   return (
-//     <>
-//       <EditOutlined
-//         style={{ marginLeft: 12 }}
-//         onClick={handleEdit}
-//       />
-//       <Modal
-//         title="Update Certification"
-//         open={isModalVisible}
-//         onCancel={() => setIsModalVisible(false)}
-//         footer={null}
-//       >
-//         {state.isLoading || certDetailState.isLoading ? (
-//           <Spin />
-//         ) : certDetailState.currentCert ? (
-//           <Form
-//             form={form}
-//             onFinish={handleUpdate}
-//             layout="vertical"
-//             initialValues={{
-//               certName: certDetailState.currentCert.certName,
-//               certCode: certDetailState.currentCert.certCode,
-//               certDescription: certDetailState.currentCert.certDescription,
-//               certCost: certDetailState.currentCert.certCost,
-//               certPointSystem: certDetailState.currentCert.certPointSystem,
-//               certImage: certDetailState.currentCert.certImage,
-//               certValidity: certDetailState.currentCert.certValidity,
-//               typeId: certDetailState.currentCert.typeId,
-//               organizeId: certDetailState.currentCert.organizeId,
-//               certIdPrerequisites:
-//                 certDetailState.currentCert.certIdPrerequisites,
-//             }}
-//           >
-//             <Form.Item
-//               label="Name"
-//               name="certName"
-//               rules={[
-//                 {
-//                   required: true,
-//                   message: "Please enter the certificate name",
-//                 },
-//               ]}
-//             >
-//               <Input placeholder="Enter certificate name" />
-//             </Form.Item>
+  // Load certificate data when certId changes
+  useEffect(() => {
+    if (certDetailState.currentCert) {
+      const currentCert = certDetailState.currentCert;
+      console.log("Current certificate data:", currentCert);
+      setFormData({
+        certName: currentCert.certName,
+        certCode: currentCert.certCode,
+        certDescription: currentCert.certDescription,
+        certCost: currentCert.certCost,
+        certPointSystem: currentCert.certPointSystem,
+        certImage: currentCert.certImage,
+        certValidity: currentCert.certValidity,
+        typeId: currentCert.typeId,
+        organizeId: currentCert.organizeId,
+        certIdPrerequisites: currentCert.certPrerequisiteId || [],
+      });
+      form.setFieldsValue(currentCert);
+    }
+  }, [state.currentCert, certId, form]);
 
-//             <Form.Item
-//               label="Code"
-//               name="certCode"
-//               rules={[
-//                 {
-//                   required: true,
-//                   message: "Please enter the certificate code",
-//                 },
-//               ]}
-//             >
-//               <Input placeholder="Enter certificate code" />
-//             </Form.Item>
+  const handleUpdate = async () => {
+    try {
+      // Validate fields before submission
+      await form.validateFields();
+      await updateCertDetails(certId, formData);
+      message.success("Certificate updated successfully!");
+      setIsModalVisible(false); // Close modal after success
+    } catch (error) {
+      message.error("Failed to update the certificate.");
+    }
+  };
 
-//             <Form.Item
-//               label="Description"
-//               name="certDescription"
-//               rules={[
-//                 {
-//                   required: true,
-//                   message: "Please enter the certificate description",
-//                 },
-//               ]}
-//             >
-//               <MyEditor />
-//             </Form.Item>
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-//             <Form.Item
-//               label="Cost"
-//               name="certCost"
-//               rules={[
-//                 {
-//                   required: true,
-//                   message: "Please enter the certificate cost",
-//                 },
-//               ]}
-//             >
-//               <InputNumber
-//                 style={{ width: "100%" }}
-//                 placeholder="Enter certificate cost"
-//               />
-//             </Form.Item>
+  const handleSelectTypeChange = (value: number) => {
+    setFormData({
+      ...formData,
+      typeId: value,
+    });
+  };
 
-//             <Form.Item
-//               label="Point System"
-//               name="certPointSystem"
-//               rules={[
-//                 { required: true, message: "Please enter the point system" },
-//               ]}
-//             >
-//               <Input placeholder="Enter point system" />
-//             </Form.Item>
+  const handleSelectChange = (value: number) => {
+    setFormData({
+      ...formData,
+      organizeId: value,
+    });
+  };
 
-//             <Form.Item
-//               label="Image"
-//               name="certImage"
-//               rules={[
-//                 {
-//                   required: true,
-//                   message: "Please enter the certificate image URL",
-//                 },
-//               ]}
-//             >
-//               <Input placeholder="Enter certificate image URL" />
-//             </Form.Item>
+  const handleSelectCertChange = (value: number[]) => {
+    setFormData({
+      ...formData,
+      certIdPrerequisites: Array.isArray(value) ? value : [value],
+    });
+  };
 
-//             <Form.Item
-//               label="Validity"
-//               name="certValidity"
-//               rules={[
-//                 { required: true, message: "Please enter the validity period" },
-//               ]}
-//             >
-//               <Input placeholder="Enter validity period" />
-//             </Form.Item>
+  const showModal = () => {
+    setIsModalVisible(true);
+    if (certId) {
+      getCertDetails(certId); // Fetch certificate details
+    }
+  };
 
-//             <Form.Item
-//               label="Level"
-//               name="typeId"
-//             >
-//               <Select placeholder="Select Certification level">
-//                 {certType.map((ct) => (
-//                   <Select.Option
-//                     key={ct.typeId}
-//                     value={ct.typeId}
-//                   >
-//                     {ct.typeName}
-//                   </Select.Option>
-//                 ))}
-//               </Select>
-//             </Form.Item>
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
-//             <Form.Item
-//               label="Organization"
-//               name="organizeId"
-//             >
-//               <Select placeholder="Select Organization">
-//                 {organization.map((org) => (
-//                   <Select.Option
-//                     key={org.organizeId}
-//                     value={org.organizeId}
-//                   >
-//                     {org.organizeName}
-//                   </Select.Option>
-//                 ))}
-//               </Select>
-//             </Form.Item>
+  return (
+    <>
+      <EditOutlined
+        onClick={showModal}
+        style={{ marginLeft: 12 }}
+      />
+      {/* <Button
+        type="primary"
+      >
+        Update Certificate
+      </Button> */}
+      <Modal
+        title="Update Certificate"
+        open={isModalVisible} // Use modal visibility state
+        onOk={handleUpdate}
+        onCancel={handleCancel} // Handle cancel button
+        okText="Update"
+        cancelText="Cancel"
+        width={800}
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          initialValues={formData}
+        >
+          <Form.Item
+            label="Name"
+            name="certName"
+            rules={[
+              { required: true, message: "Please enter the certificate name" },
+            ]}
+          >
+            <Input
+              name="certName"
+              value={formData.certName}
+              onChange={handleInputChange}
+              placeholder="Enter certificate name"
+            />
+          </Form.Item>
 
-//             <Form.Item
-//               label="Prerequisite Certifications"
-//               name="certIdPrerequisites"
-//             >
-//               <Select
-//                 placeholder="Select Prerequisite certifications"
-//                 mode="multiple"
-//               >
-//                 {certDetailState.currentCert.certIdPrerequisites.map((cert) => (
-//                   <Select.Option
-//                     key={cert.certId}
-//                     value={cert.certId}
-//                   >
-//                     {cert.certName}
-//                   </Select.Option>
-//                 ))}
-//               </Select>
-//             </Form.Item>
+          <Form.Item
+            label="Code"
+            name="certCode"
+            rules={[
+              { required: true, message: "Please enter the certificate code" },
+            ]}
+          >
+            <Input
+              name="certCode"
+              value={formData.certCode}
+              onChange={handleInputChange}
+              placeholder="Enter certificate code"
+            />
+          </Form.Item>
 
-//             <Form.Item>
-//               <Button
-//                 type="primary"
-//                 htmlType="submit"
-//               >
-//                 Update
-//               </Button>
-//             </Form.Item>
-//           </Form>
-//         ) : (
-//           <p>No details available.</p>
-//         )}
-//       </Modal>
-//     </>
-//   );
-// };
+          <Form.Item
+            label="Description"
+            name="certDescription"
+            rules={[
+              {
+                required: true,
+                message: "Please enter the certificate description",
+              },
+            ]}
+          >
+            <MyEditor
+              value={formData.certDescription}
+              onChange={(content) =>
+                setFormData({ ...formData, certDescription: content })
+              }
+            />
+          </Form.Item>
 
-// export default UpdateCert;
-const UpdateCert = () => {
-  return <div>UpdateCert</div>;
+          <Form.Item
+            label="Cost"
+            name="certCost"
+            rules={[
+              { required: true, message: "Please enter the certificate cost" },
+            ]}
+          >
+            <InputNumber
+              name="certCost"
+              value={formData.certCost}
+              onChange={(value) =>
+                setFormData({ ...formData, certCost: value ?? 0 })
+              }
+              placeholder="Enter certificate cost"
+              style={{ width: "100%" }}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Point System"
+            name="certPointSystem"
+            rules={[
+              { required: true, message: "Please enter the point system" },
+            ]}
+          >
+            <Input
+              name="certPointSystem"
+              value={formData.certPointSystem}
+              onChange={handleInputChange}
+              placeholder="Enter point system"
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Image"
+            name="certImage"
+            rules={[
+              {
+                required: true,
+                message: "Please enter the certificate image URL",
+              },
+            ]}
+          >
+            <Input
+              name="certImage"
+              value={formData.certImage}
+              onChange={handleInputChange}
+              placeholder="Enter certificate image URL"
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Validity"
+            name="certValidity"
+            rules={[
+              { required: true, message: "Please enter the validity period" },
+            ]}
+          >
+            <Input
+              name="certValidity"
+              value={formData.certValidity}
+              onChange={handleInputChange}
+              placeholder="Enter validity period"
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Level"
+            rules={[
+              {
+                required: true,
+                message: "Please select a certification level",
+              },
+            ]}
+          >
+            <Select
+              placeholder="Select Certification level"
+              value={formData.typeId}
+              onChange={handleSelectTypeChange}
+              style={{ width: "100%" }}
+            >
+              {certType.map((ct) => (
+                <Select.Option
+                  key={ct.typeId}
+                  value={ct.typeId}
+                >
+                  {ct.typeName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            label="Organization"
+            rules={[
+              { required: true, message: "Please select an organization" },
+            ]}
+          >
+            <Select
+              placeholder="Select Organization"
+              value={formData.organizeId}
+              onChange={handleSelectChange}
+              style={{ width: "100%" }}
+            >
+              {organization.map((org) => (
+                <Select.Option
+                  key={org.organizeId}
+                  value={org.organizeId}
+                >
+                  {org.organizeName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item label="Prerequisite Certifications">
+            <Select
+              placeholder="Select Prerequisite certifications"
+              value={formData.certIdPrerequisites}
+              onChange={handleSelectCertChange}
+              style={{ width: "100%" }}
+              mode="multiple"
+            >
+              {certificate.map((cert) => (
+                <Select.Option
+                  key={cert.certId}
+                  value={cert.certId}
+                >
+                  {cert.certName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </>
+  );
 };
+
 export default UpdateCert;

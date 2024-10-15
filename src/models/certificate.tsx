@@ -7,8 +7,11 @@ export interface allCertificationData {
   certPointSystem: string;
   certImage: string;
   certValidity: string;
+  organizeId: number;
   organizeName: string;
+  typeId: number;
   typeName: string;
+  certPrerequisiteId: [];
   certPrerequisite: [];
   certCodePrerequisite: [];
   certDescriptionPrerequisite: [];
@@ -22,8 +25,11 @@ export interface currentCertificate {
   certPointSystem: string;
   certImage: string;
   certValidity: string;
+  organizeId: number;
   organizeName: string;
+  typeId: number;
   typeName: string;
+  certPrerequisiteId: [];
   certPrerequisite: [];
   certCodePrerequisite: [];
   certDescriptionPrerequisite: [];

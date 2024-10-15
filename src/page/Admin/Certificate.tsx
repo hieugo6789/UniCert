@@ -93,7 +93,7 @@ const Certificate = () => {
             style={{ color: "blue" }}
           />
 
-          <UpdateCert />
+          <UpdateCert certId={record.certId} />
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.certId)}
             style={{ color: "red", marginLeft: 12 }}
