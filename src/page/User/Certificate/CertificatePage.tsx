@@ -7,40 +7,46 @@ import { Link } from "react-router-dom";
 
 import Loading from "../../../components/UI/Loading";
 const CertificatePage = () => {
-  const [topCert] = useState<allCertificationData[]>(
-    [
-      {
-        certId: "1",
-        certName: "AWS Certified Solutions Architect",
-        certCode: "AWS-CSA",
-        certDescription: "The AWS Certified Solutions Architect – Associate examination is intended for individuals who perform a solutions architect role and have one or more years of hands-on experience designing available, cost-efficient, fault-tolerant, and scalable distributed systems on AWS.",
-        certCost: 150,
-        certPointSystem: "AWS",
-        certImage: "",
-        certValidity: "3 years",
-        organizeName: "Amazon Web Services",
-        typeName: "Associate",
-        certPrerequisite: [],
-        certCodePrerequisite: [],
-        certDescriptionPrerequisite: [],
-      },
-      {
-        certId: "2",
-        certName: "AWS Certified Developer",
-        certCode: "AWS-CD",
-        certDescription: "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-        certCost: 150,
-        certPointSystem: "AWS",
-        certImage: "",
-        certValidity: "3 years",
-        organizeName: "Amazon Web Services",
-        typeName: "Associate",
-        certPrerequisite: [],
-        certCodePrerequisite: [],
-        certDescriptionPrerequisite: [],
-      },
-    ]
-  );
+  const [topCert] = useState<allCertificationData[]>([
+    {
+      certId: "1",
+      certName: "AWS Certified Solutions Architect",
+      certCode: "AWS-CSA",
+      certDescription:
+        "The AWS Certified Solutions Architect – Associate examination is intended for individuals who perform a solutions architect role and have one or more years of hands-on experience designing available, cost-efficient, fault-tolerant, and scalable distributed systems on AWS.",
+      certCost: 150,
+      certPointSystem: "AWS",
+      certImage: "",
+      certValidity: "3 years",
+      organizeId: 6,
+      organizeName: "Amazon Web Services",
+      typeId: 8,
+      typeName: "Associate",
+      certPrerequisiteId: [],
+      certPrerequisite: [],
+      certCodePrerequisite: [],
+      certDescriptionPrerequisite: [],
+    },
+    {
+      certId: "2",
+      certName: "AWS Certified Developer",
+      certCode: "AWS-CD",
+      certDescription:
+        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
+      certCost: 150,
+      certPointSystem: "AWS",
+      certImage: "",
+      certValidity: "3 years",
+      organizeId: 6,
+      organizeName: "Amazon Web Services",
+      typeId: 8,
+      typeName: "Associate",
+      certPrerequisiteId: [],
+      certPrerequisite: [],
+      certCodePrerequisite: [],
+      certDescriptionPrerequisite: [],
+    },
+  ]);
   const [keyword, setKeyword] = useState("");
   const { certificate, loading, refetchCertificates } = useCertificate();
   const [certificates, setCertificates] = useState<allCertificationData[]>([]);
@@ -92,7 +98,10 @@ const CertificatePage = () => {
               value={keyword}
               onKeyPress={handleKeyPress}
             />
-            <button className="absolute right-3 top-2 text-black" onClick={handleSearch}>
+            <button
+              className="absolute right-3 top-2 text-black"
+              onClick={handleSearch}
+            >
               🔍
             </button>
           </div>
@@ -102,7 +111,10 @@ const CertificatePage = () => {
         {certificates.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
             {certificates.map((cert, index) => (
-              <CertificateCard key={index} {...cert} />
+              <CertificateCard
+                key={index}
+                {...cert}
+              />
             ))}
           </div>
         ) : (
@@ -114,7 +126,10 @@ const CertificatePage = () => {
             />
             <p>
               We can't get course now. Please retry later or back to
-              <Link className="text-blue-500" to="/">
+              <Link
+                className="text-blue-500"
+                to="/"
+              >
                 HOMEPAGE
               </Link>
             </p>
@@ -125,7 +140,10 @@ const CertificatePage = () => {
         <div className="flex justify-center items-center p-4">
           <button className="mr-2">{"<"}</button>
           {[1, 2, 3, 4, 5].map((page) => (
-            <button key={page} className="mx-1 px-3 py-1 border rounded-full bg-purple-500 text-white">
+            <button
+              key={page}
+              className="mx-1 px-3 py-1 border rounded-full bg-purple-500 text-white"
+            >
               {page}
             </button>
           ))}
@@ -135,38 +153,49 @@ const CertificatePage = () => {
         {/* Designed for working adults section */}
         <div className="bg-white p-6 shadow-md flex flex-row items-center">
           <div className="w-1/2">
-            <h2 className="text-xl font-semibold mb-4 text-center">Designed for working adults</h2>
+            <h2 className="text-xl font-semibold mb-4 text-center">
+              Designed for working adults
+            </h2>
             <p className="text-gray-600 mb-8 text-center">
-              Enroll in flexible, 100% online degree programs. Set your own schedule to balance your work and personal commitments and complete
-              coursework at your own pace.
+              Enroll in flexible, 100% online degree programs. Set your own
+              schedule to balance your work and personal commitments and
+              complete coursework at your own pace.
             </p>
           </div>
           <div className="flex w-1/2 justify-end space-x-6">
             {topCert.map((cert) => (
-              <CertificateCard {...cert} key={cert.certId} />
+              <CertificateCard
+                {...cert}
+                key={cert.certId}
+              />
             ))}
           </div>
         </div>
 
         {/* Testimonials Section */}
         <div className="p-6 mt-6 bg-violet-200">
-          <h3 className="text-center text-xl mb-4 font-bold">Hear why students enjoy learning</h3>
+          <h3 className="text-center text-xl mb-4 font-bold">
+            Hear why students enjoy learning
+          </h3>
           <div className="flex justify-center">
             <div className="w-3/4 bg-white p-4 shadow-md rounded-lg flex flex-row items-center">
               <div className="w-1/2 mr-5 ">
-                <img src={defaultCertThumb} className="w-full h-full" />
+                <img
+                  src={defaultCertThumb}
+                  className="w-full h-full"
+                />
               </div>
               <p className="w-1/2">
-                Live sessions, office hours, discussion boards—you can participate from wherever you are. Getting my MBA makes me feel
-                empowered. I don’t need to stop working, I don’t need to stop being a mother, I don’t need to stop having my life.
+                Live sessions, office hours, discussion boards—you can
+                participate from wherever you are. Getting my MBA makes me feel
+                empowered. I don’t need to stop working, I don’t need to stop
+                being a mother, I don’t need to stop having my life.
               </p>
             </div>
           </div>
         </div>
       </div>
-      {loading &&
-        <Loading />
-      }
+      {loading && <Loading />}
     </>
   );
 };

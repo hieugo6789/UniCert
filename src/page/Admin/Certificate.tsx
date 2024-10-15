@@ -182,7 +182,9 @@ const Certificate = () => {
       </div>
       <Modal
         title="Certification Details"
+        width={800}
         open={isModalVisible}
+        footer={null}
         onCancel={() => setIsModalVisible(false)}
       >
         {state.isLoading ? (
@@ -192,9 +194,12 @@ const Certificate = () => {
             <p>
               <strong>Name</strong> {state.currentCert.certName}
             </p>
-            <p>
-              <strong>Description</strong> {state.currentCert.certDescription}
-            </p>
+            <div
+              className="prose list-disc whitespace-pre-wrap"
+              dangerouslySetInnerHTML={{
+                __html: state.currentCert.certDescription || "",
+              }}
+            />
           </div>
         ) : (
           <p>No details available.</p>
