@@ -3,7 +3,11 @@ import useJob from "../../hooks/useJobPosition";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
 import useJobDetail from "../../hooks/useJobDetail";
 import { useState } from "react";
-import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  EyeOutlined,
+} from "@ant-design/icons";
 import useDeleteJob from "../../hooks/useDeleteJob";
 
 const { confirm } = Modal;
@@ -77,12 +81,11 @@ const JobPosition = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <Button
-            type="link"
+          <EyeOutlined
+            style={{ color: "blue" }}
             onClick={() => handleView(record.jobPositionId)}
-          >
-            View
-          </Button>
+          />
+
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.jobPositionId)}
             style={{ color: "red", marginLeft: 12 }}

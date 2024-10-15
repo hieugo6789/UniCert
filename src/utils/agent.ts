@@ -41,7 +41,7 @@ const Major = {
     requests.get(`api/v1/Major/${name ? name : ""}`),
   getDetailMajor: (majorId: string | undefined) =>
     requests.get(`/api/v1/major/${majorId}`),
-  createMajors: (input: MajorInput) => requests.post("api/v1/Major", input),
+  createMajor: (input: MajorInput) => requests.post("api/v1/Major", input),
   deleteMajor: (majorId: string) => requests.del(`/api/v1/major/${majorId}`),
 };
 const Organization = {

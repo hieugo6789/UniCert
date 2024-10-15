@@ -3,6 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../redux/slice/authSlice";
 import majorReducer from "../redux/slice/majorSlice";
 import majorDetailReducer from "../redux/slice/majorDetailSlice";
+import createMajorReducer from "../redux/slice/createMajorSlice";
 import majorDeleteReducer from "../redux/slice/deleteMajorSlice";
 import jobReducer from "../redux/slice/jobSlice";
 import jobDetailReducer from "../redux/slice/jobDetailSlice";
@@ -30,6 +31,7 @@ export const store = configureStore({
     auth: authReducer,
     major: majorReducer,
     majorDetail: majorDetailReducer,
+    createMajor: createMajorReducer,
     majorDelete: majorDeleteReducer,
     job: jobReducer,
     jobDetail: jobDetailReducer,

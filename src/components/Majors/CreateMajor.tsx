@@ -1,39 +1,61 @@
 import { useState } from "react";
-import { Modal, Button, Form, Input } from "antd"; // Import Ant Design components
-// import { useAppDispatch } from "../../redux/hook";
-import { MajorInput } from "../../models/major";
-import agent from "../../utils/agent";
+import { Modal, Button, Form, Input, Select } from "antd"; // Import Ant Design components
 import { PlusOutlined } from "@ant-design/icons";
+import { useCreateMajor } from "../../hooks/useCreateMajor";
+import useJob from "../../hooks/useJobPosition";
+import axios from "axios";
+import MyEditor from "../Editor/MyEditor";
 
-const CreateMajor = () => {
-  // const dispatch = useAppDispatch();
+const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { handleCreateMajor } = useCreateMajor();
+  const { job } = useJob();
   const [form] = Form.useForm();
-  const [isModalVisible, setIsModalVisible] = useState(false); // State for modal visibility
-  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    majorName: "",
+    majorCode: "",
+    majorDescription: "",
+    jobPositionId: [0] as number[],
+  });
 
   const showModal = () => {
     setIsModalVisible(true);
   };
 
+  const handleOK = async () => {
+    try {
+      // Validate fields before submission
+      await form.validateFields();
+
+      await handleCreateMajor(formData);
+      setIsModalVisible(false);
+      refetchMajors();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Error creating major:", error.response?.data);
+      } else if (error instanceof Error) {
+        console.error("An unexpected error occurred:", error);
+      } else {
+        console.error("Validation failed.");
+      }
+    }
+  };
   const handleCancel = () => {
     setIsModalVisible(false);
-    form.resetFields(); // Reset form fields on cancel
+    form.resetFields();
   };
 
-  const handleSubmit = async (values: MajorInput) => {
-    setLoading(true);
-    try {
-      // Call createMajors API
-      await agent.Major.createMajors(values);
-
-      form.resetFields(); // Reset form fields after submission
-      setIsModalVisible(false); // Close modal after submission
-    } catch (error) {
-      console.error("Error creating major:", error);
-      alert("Failed to create major.");
-    } finally {
-      setLoading(false);
-    }
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSelectJobChange = (value: number[]) => {
+    setFormData({
+      ...formData,
+      jobPositionId: Array.isArray(value) ? value : [value],
+    });
   };
 
   return (
@@ -49,25 +71,17 @@ const CreateMajor = () => {
 
       <Modal
         title="Create New Major"
-        visible={isModalVisible}
+        open={isModalVisible}
+        onOk={handleOK}
         onCancel={handleCancel}
-        footer={null} // Remove default footer buttons (OK/Cancel)
+        okText="Create"
+        cancelText="Cancel"
       >
         <Form
           form={form}
-          onFinish={handleSubmit}
           layout="vertical"
+          initialValues={formData}
         >
-          <Form.Item
-            label="Major Code"
-            name="majorCode"
-            rules={[
-              { required: true, message: "Please input the major code!" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-
           <Form.Item
             label="Major Name"
             name="majorName"
@@ -75,30 +89,55 @@ const CreateMajor = () => {
               { required: true, message: "Please input the major name!" },
             ]}
           >
-            <Input />
+            <Input
+              name="majorName"
+              value={formData.majorName}
+              onChange={handleInputChange}
+              placeholder="Enter major name"
+            />
+          </Form.Item>
+          <Form.Item
+            label="Major Code"
+            name="majorCode"
+            rules={[
+              { required: true, message: "Please input the major code!" },
+            ]}
+          >
+            <Input
+              name="majorCode"
+              value={formData.majorCode}
+              onChange={handleInputChange}
+              placeholder="Enter major code"
+            />
           </Form.Item>
 
           <Form.Item
             label="Major Description"
             name="majorDescription"
           >
-            <Input />
+            <MyEditor
+              value={formData.majorDescription}
+              onChange={(content) =>
+                setFormData({ ...formData, majorDescription: content })
+              }
+            />
           </Form.Item>
-
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={loading}
+          <Form.Item label="Job Position">
+            <Select
+              placeholder="Select Job position"
+              onChange={handleSelectJobChange}
+              style={{ width: "100%" }}
+              mode="multiple"
             >
-              {loading ? "Creating..." : "Create"}
-            </Button>
-            <Button
-              onClick={handleCancel}
-              style={{ marginLeft: "10px" }}
-            >
-              Cancel
-            </Button>
+              {job.map((j) => (
+                <Select.Option
+                  key={j.jobPositionId}
+                  value={j.jobPositionId}
+                >
+                  {j.jobPositionName}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
         </Form>
       </Modal>

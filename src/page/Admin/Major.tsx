@@ -14,6 +14,7 @@ import {
 import {
   DeleteOutlined,
   ExclamationCircleOutlined,
+  EyeOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
 import useMajor from "../../hooks/useMajor";
@@ -72,12 +73,11 @@ const Major = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <Button
-            type="link"
+          <EyeOutlined
+            style={{ color: "blue" }}
             onClick={() => handleView(record.majorId)}
-          >
-            View
-          </Button>
+          />
+
           {/* <EditOutlined onClick={() => handleEdit(record)} /> */}
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.majorId)}
@@ -129,7 +129,7 @@ const Major = () => {
             style={{ marginLeft: "10px" }}
           ></Button>
         </div>
-        <CreateMajor />
+        <CreateMajor refetchMajors={refetchMajors} />
       </div>
       <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[90vh]">
         <div className="col-span-2">
