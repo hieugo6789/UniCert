@@ -7,7 +7,11 @@ import MyEditor from "../Editor/MyEditor";
 import axios from "axios";
 import useCertType from "../../hooks/useCertType";
 
-const CreateCert = () => {
+const CreateCert = ({
+  refetchCertificates,
+}: {
+  refetchCertificates: () => void;
+}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { handleCreateCert } = useCreateCert();
   const [form] = Form.useForm(); // Initialize form instance
@@ -38,7 +42,7 @@ const CreateCert = () => {
 
       await handleCreateCert(formData);
       setIsModalVisible(false);
-      console.log(formData);
+      refetchCertificates();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Error creating certification:", error.response?.data);
@@ -100,7 +104,7 @@ const CreateCert = () => {
         cancelText="Cancel"
       >
         <Form
-          form={form} // Attach the form instance
+          form={form}
           layout="vertical"
           initialValues={formData}
         >

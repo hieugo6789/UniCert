@@ -7,7 +7,7 @@ import useOrganizeDetail from "../../hooks/useOrganizeDetail";
 import useDeleteOrganize from "../../hooks/useDeleteOrganize";
 import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { Descriptions } from "antd";
-import { HomeOutlined, PhoneOutlined } from "@ant-design/icons";
+import { HomeOutlined } from "@ant-design/icons";
 
 const { confirm } = Modal;
 
@@ -151,7 +151,7 @@ const Organizations = () => {
 
           <Modal
             title="Tạo Organization"
-            visible={isModalVisible}
+            open={isModalVisible}
             onOk={handleOk}
             onCancel={handleCancel}
             okText="OK"
@@ -215,7 +215,6 @@ const Organizations = () => {
                 </span>
               </Descriptions.Item>
               <Descriptions.Item label="Contact">
-                <PhoneOutlined />{" "}
                 <span className="text-gray-600">
                   {state.currentOrganize.organizeContact}
                 </span>

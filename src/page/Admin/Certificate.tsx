@@ -145,7 +145,7 @@ const Certificate = () => {
               style={{ marginLeft: "10px" }}
             ></Button>
           </div>
-          <CreateCert />
+          <CreateCert refetchCertificates={refetchCertificates} />
         </div>
       </div>
       <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[90vh]">
@@ -181,8 +181,7 @@ const Certificate = () => {
         </div>
       </div>
       <Modal
-        title="Certification Details"
-        width={800}
+        width={900}
         open={isModalVisible}
         footer={null}
         onCancel={() => setIsModalVisible(false)}
@@ -190,16 +189,44 @@ const Certificate = () => {
         {state.isLoading ? (
           <Spin />
         ) : state.currentCert ? (
-          <div>
+          <div className="text-lg">
             <p>
-              <strong>Name</strong> {state.currentCert.certName}
+              <strong>Name: </strong> {state.currentCert.certName}
+            </p>
+            <p>
+              <strong>Code: </strong> {state.currentCert.certCode}
+            </p>
+            <p>
+              <strong>Description: </strong>
             </p>
             <div
-              className="prose list-disc whitespace-pre-wrap"
+              className="prose list-disc whitespace-pre-wrap text-sm"
               dangerouslySetInnerHTML={{
                 __html: state.currentCert.certDescription || "",
               }}
             />
+            <p>
+              <strong>Point system: </strong>{" "}
+              {state.currentCert.certPointSystem}
+            </p>
+            <p>
+              <strong>Cost for official exam:</strong>{" "}
+              {state.currentCert.certCost} $
+            </p>
+            <p>
+              <strong>Period: </strong> {state.currentCert.certValidity}
+            </p>
+            <p>
+              <strong>Prerequisite certifications: </strong>{" "}
+              {state.currentCert.certPrerequisite} -{" "}
+              {state.currentCert.certCodePrerequisite}
+            </p>
+            <p>
+              <strong>Organization: </strong> {state.currentCert.organizeName}
+            </p>
+            <p>
+              <strong>Level: </strong> {state.currentCert.typeName}
+            </p>
           </div>
         ) : (
           <p>No details available.</p>

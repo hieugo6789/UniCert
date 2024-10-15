@@ -20,7 +20,7 @@
   opacity: 1;
 }
 .prose ul {
-  @apply list-disc pl-5; /* Adjusts the padding for the list */
+  @apply list-disc pl-10; /* Adjusts the padding for the list */
 }
 
 .prose li {
