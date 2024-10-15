@@ -34,13 +34,7 @@ const UpdateCert: React.FC<UpdateCertProps> = ({ certId }) => {
     organizeId: 0,
     certIdPrerequisites: [] as number[],
   });
-  useEffect(() => {
-    if (certId) {
-      getCertDetails(certId);
-    }
-  }, [certId]);
 
-  // Load certificate data when certId changes
   useEffect(() => {
     if (certDetailState.currentCert) {
       const currentCert = certDetailState.currentCert;
@@ -104,7 +98,7 @@ const UpdateCert: React.FC<UpdateCertProps> = ({ certId }) => {
   const showModal = () => {
     setIsModalVisible(true);
     if (certId) {
-      getCertDetails(certId); // Fetch certificate details
+      getCertDetails(certId);
     }
   };
 
@@ -118,11 +112,7 @@ const UpdateCert: React.FC<UpdateCertProps> = ({ certId }) => {
         onClick={showModal}
         style={{ marginLeft: 12 }}
       />
-      {/* <Button
-        type="primary"
-      >
-        Update Certificate
-      </Button> */}
+
       <Modal
         title="Update Certificate"
         open={isModalVisible} // Use modal visibility state

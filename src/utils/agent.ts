@@ -2,7 +2,10 @@ import { AxiosResponse } from "axios";
 import apiJWT from "./api";
 import baseApi from "./baseApi";
 import { MajorInput } from "../models/major";
-import { createOrganizationModel } from "../models/organization";
+import {
+  createOrganizationModel,
+  updateOrganize,
+} from "../models/organization";
 import { UpdateRole } from "../models/user";
 import { scheduleInput } from "../models/schedule";
 import { createCertificate, updateCert } from "../models/certificate";
@@ -50,6 +53,8 @@ const Organization = {
     requests.post("/api/v1/organize", input),
   deleteOrganize: (organizeId: string) =>
     requests.del(`api/v1/organize/${organizeId}`),
+  updateOrganization: (organizeId: string, input: updateOrganize) =>
+    requests.put(`api/v1/organize/${organizeId}`, input),
 };
 
 const JobPosition = {

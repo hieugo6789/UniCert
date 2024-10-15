@@ -5,9 +5,14 @@ import { Modal, Input, Button, Table, Pagination, Spin, message } from "antd";
 import useOrganization from "../../hooks/useOrganization";
 import useOrganizeDetail from "../../hooks/useOrganizeDetail";
 import useDeleteOrganize from "../../hooks/useDeleteOrganize";
-import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  EyeOutlined,
+} from "@ant-design/icons";
 import { Descriptions } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
+import UpdateOrganize from "../../components/Organization/UpdateOrganize";
 
 const { confirm } = Modal;
 
@@ -47,12 +52,11 @@ const Organizations = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <Button
-            type="link"
+          <EyeOutlined
+            style={{ color: "blue" }}
             onClick={() => handleView(record.organizeId)}
-          >
-            View
-          </Button>
+          />
+          <UpdateOrganize organizeId={record.organizeId} />
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.organizeId)}
             style={{ color: "red", marginLeft: 12 }}

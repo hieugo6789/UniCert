@@ -17,6 +17,12 @@ export interface createOrganizationModel {
   organizeContact: string;
 }
 
+export interface updateOrganize {
+  organizeName: string;
+  organizeAddress: string;
+  organizeContact: string;
+}
+
 export interface deleteOrganize {
   organizeId: string;
 }
