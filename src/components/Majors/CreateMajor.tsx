@@ -15,7 +15,7 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
     majorName: "",
     majorCode: "",
     majorDescription: "",
-    jobPositionId: [0] as number[],
+    jobPositionId: [] as number[],
   });
 
   const showModal = () => {
@@ -114,6 +114,12 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
           <Form.Item
             label="Major Description"
             name="majorDescription"
+            rules={[
+              {
+                required: true,
+                message: "Please input the major description!",
+              },
+            ]}
           >
             <MyEditor
               value={formData.majorDescription}

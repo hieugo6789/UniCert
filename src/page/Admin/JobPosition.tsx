@@ -1,4 +1,4 @@
-import { Button, message, Modal, Pagination, Spin, Table, Tag } from "antd";
+import { message, Modal, Pagination, Spin, Table, Tag } from "antd";
 import useJob from "../../hooks/useJobPosition";
 import MenuAdmin from "../../components/Layout/MenuAdmin";
 import useJobDetail from "../../hooks/useJobDetail";
@@ -9,6 +9,7 @@ import {
   EyeOutlined,
 } from "@ant-design/icons";
 import useDeleteJob from "../../hooks/useDeleteJob";
+import CreateJob from "../../components/JobPosition/CreateJob";
 
 const { confirm } = Modal;
 
@@ -121,12 +122,7 @@ const JobPosition = () => {
     <>
       <div className="h-[10vh] ">
         <div className="flex  items-center mb-4">
-          <Button
-            type="primary"
-            // onClick={showModal}
-          >
-            + Job position
-          </Button>
+          <CreateJob refetchJobPositions={refetchJobs} />
         </div>
       </div>
       <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[90vh]">

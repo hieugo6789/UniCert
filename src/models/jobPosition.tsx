@@ -3,9 +3,9 @@ export interface allJobPaginationData {
   jobPositionCode: string;
   jobPositionName: string;
   jobPositionDescription: string;
-  majorId: string[];
+  majorId: number[];
   majorName?: string[];
-  certId: string[];
+  certId: number[];
 }
 
 export interface currentJob {
@@ -13,8 +13,16 @@ export interface currentJob {
   jobPositionCode: string;
   jobPositionName: string;
   jobPositionDescription: string;
-  majorId: string[];
-  certId: string[];
+  majorId: number[];
+  certId: number[];
+}
+
+export interface createJobInput {
+  jobPositionCode: string;
+  jobPositionName: string;
+  jobPositionDescription: string;
+  majorId: number[];
+  certId: number[];
 }
 
 export interface deleteJob {

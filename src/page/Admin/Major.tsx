@@ -78,7 +78,6 @@ const Major = () => {
             onClick={() => handleView(record.majorId)}
           />
 
-          {/* <EditOutlined onClick={() => handleEdit(record)} /> */}
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.majorId)}
             style={{ color: "red", marginLeft: 12 }}
