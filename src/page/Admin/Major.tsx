@@ -20,6 +20,7 @@ import {
 import useMajor from "../../hooks/useMajor";
 import useMajorDetail from "../../hooks/useMajorDetail";
 import useDeleteMajor from "../../hooks/useDeleteMajor";
+import UpdateMajor from "../../components/Majors/UpdateMajor";
 
 const { confirm } = Modal;
 
@@ -77,7 +78,10 @@ const Major = () => {
             style={{ color: "blue" }}
             onClick={() => handleView(record.majorId)}
           />
-
+          <UpdateMajor
+            majorId={record.majorId}
+            refetchMajors={refetchMajors}
+          />
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.majorId)}
             style={{ color: "red", marginLeft: 12 }}

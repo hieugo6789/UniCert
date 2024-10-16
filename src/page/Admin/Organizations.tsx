@@ -56,7 +56,10 @@ const Organizations = () => {
             style={{ color: "blue" }}
             onClick={() => handleView(record.organizeId)}
           />
-          <UpdateOrganize organizeId={record.organizeId} />
+          <UpdateOrganize
+            organizeId={record.organizeId}
+            refetchOrganizations={refetchOrganizations}
+          />
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.organizeId)}
             style={{ color: "red", marginLeft: 12 }}

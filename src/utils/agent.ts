@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import apiJWT from "./api";
 import baseApi from "./baseApi";
-import { MajorInput } from "../models/major";
+import { MajorInput, UpdateMajor } from "../models/major";
 import {
   createOrganizationModel,
   updateOrganize,
@@ -44,6 +44,8 @@ const Major = {
     requests.get(`/api/v1/major/${majorId}`),
   createMajor: (input: MajorInput) => requests.post("api/v1/Major", input),
   deleteMajor: (majorId: string) => requests.del(`/api/v1/major/${majorId}`),
+  updateMajor: (majorId: string, input: UpdateMajor) =>
+    requests.put(`/api/v1/major/${majorId}`, input),
 };
 const Organization = {
   getAllOrganizations: (name?: string) =>

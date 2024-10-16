@@ -10,9 +10,13 @@ import { EditOutlined } from "@ant-design/icons";
 
 interface UpdateCertProps {
   certId: string;
+  refetchCertificates: () => void;
 }
 
-const UpdateCert: React.FC<UpdateCertProps> = ({ certId }) => {
+const UpdateCert: React.FC<UpdateCertProps> = ({
+  certId,
+  refetchCertificates,
+}) => {
   const [form] = Form.useForm();
   const { updateCertDetails, state } = useUpdateCert();
   const { organization } = useOrganization();
@@ -61,6 +65,7 @@ const UpdateCert: React.FC<UpdateCertProps> = ({ certId }) => {
       await form.validateFields();
       await updateCertDetails(certId, formData);
       message.success("Certificate updated successfully!");
+      refetchCertificates();
       setIsModalVisible(false); // Close modal after success
     } catch (error) {
       message.error("Failed to update the certificate.");

@@ -93,7 +93,10 @@ const Certificate = () => {
             style={{ color: "blue" }}
           />
 
-          <UpdateCert certId={record.certId} />
+          <UpdateCert
+            certId={record.certId}
+            refetchCertificates={refetchCertificates}
+          />
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.certId)}
             style={{ color: "red", marginLeft: 12 }}
@@ -122,7 +125,6 @@ const Certificate = () => {
     });
   };
 
-  // Paginated data
   const paginatedData = certificate.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize

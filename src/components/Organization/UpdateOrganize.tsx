@@ -6,9 +6,13 @@ import useUpdateOrganize from "../../hooks/useUpdateOrganize";
 
 interface UpdateOrganizeProps {
   organizeId: string;
+  refetchOrganizations: () => void;
 }
 
-const UpdateOrganize: React.FC<UpdateOrganizeProps> = ({ organizeId }) => {
+const UpdateOrganize: React.FC<UpdateOrganizeProps> = ({
+  organizeId,
+  refetchOrganizations,
+}) => {
   const [form] = Form.useForm();
   const { updateOrganize, state } = useUpdateOrganize();
   const { state: organizeDetailState, getOrganizeDetails } =
@@ -37,6 +41,7 @@ const UpdateOrganize: React.FC<UpdateOrganizeProps> = ({ organizeId }) => {
       await form.validateFields();
       await updateOrganize(organizeId, formData);
       message.success("Organization updated successfully!");
+      refetchOrganizations();
       setIsModalVisible(false);
     } catch (error) {
       message.error("Failed to update the organization.");
