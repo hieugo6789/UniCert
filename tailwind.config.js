@@ -1,6 +1,15 @@
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
   theme: {
     extend: {
       keyframes: {
@@ -13,6 +22,7 @@ export default {
       },
       zIndex: {
         100: "100",
+        90: "90",
       },
     },
   },
