@@ -10,6 +10,7 @@ import {
 } from "@ant-design/icons";
 import useDeleteJob from "../../hooks/useDeleteJob";
 import CreateJob from "../../components/JobPosition/CreateJob";
+import UpdateJobPosition from "../../components/JobPosition/UpdateJobPosition";
 
 const { confirm } = Modal;
 
@@ -86,7 +87,10 @@ const JobPosition = () => {
             style={{ color: "blue" }}
             onClick={() => handleView(record.jobPositionId)}
           />
-
+          <UpdateJobPosition
+            jobPositionId={record.jobPositionId}
+            refetchJobs={refetchJobs}
+          />
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.jobPositionId)}
             style={{ color: "red", marginLeft: 12 }}

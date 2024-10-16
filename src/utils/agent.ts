@@ -9,7 +9,7 @@ import {
 import { UpdateRole } from "../models/user";
 import { scheduleInput } from "../models/schedule";
 import { createCertificate, updateCert } from "../models/certificate";
-import { createJobInput } from "../models/jobPosition";
+import { createJobInput, updateJobInput } from "../models/jobPosition";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -68,6 +68,8 @@ const JobPosition = {
   createJobPosition: (input: createJobInput) =>
     requests.post(`api/v1/job-position`, input),
   deleteJob: (jobId: string) => requests.del(`api/v1/job-position/${jobId}`),
+  updateJobDetail: (jobId: string, input: updateJobInput) =>
+    requests.put(`api/v1/job-position/${jobId}`, input),
 };
 
 const Certificate = {

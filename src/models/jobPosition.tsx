@@ -25,6 +25,14 @@ export interface createJobInput {
   certId: number[];
 }
 
+export interface updateJobInput {
+  jobPositionCode: string;
+  jobPositionName: string;
+  jobPositionDescription: string;
+  majorId: number[];
+  certId: number[];
+}
+
 export interface deleteJob {
   jobPositionId: string;
 }
