@@ -3,6 +3,7 @@ import CustomCarousel from "../../components/Carousel/CustomCarousel";
 import BannerCard from "../../components/UI/BannerCard";
 import { allCertificationData } from "../../models/certificate";
 import CertificateCard from "../../components/Certifications/CertificateCard";
+import CustomButton from "../../components/UI/CustomButton";
 
 const HomePage = () => {
   const [topCert] = useState<allCertificationData[]>([
@@ -140,17 +141,26 @@ const HomePage = () => {
           faucibus, egestas tortor. Ut scelerisque nisi sit amet imperdiet
           condimentum. Sed eget risus sit amet est maximus rutrum.
         </p>
+        <div className="px-20 fade-in">
+          <CustomButton label="Read more about us" shining onClick={() => null} className="w-1/2 mt-5 mb-5" />
+        </div>
       </div>
-      <div>
+
+      <div className="text-center font-bold text-6xl mt-20">
         <h1 className="mb-5 text-center font-bold text-6xl mt-10 fade-in">
           Best Certificate For You
         </h1>
+
         <div className="flex w-full grid grid-cols-1 gap-2 md:grid-cols-1 xs:grid-cols:2 xl:grid-cols-4">
           {topCert.map((cert) => (
             <div className="fade-in">
               <CertificateCard {...cert} />
             </div>
           ))}
+        </div>
+
+        <div className="px-20 fade-in">
+          <CustomButton label="Get More Certificate" shining onClick={() => null} className="w-1/2 mt-5 mb-5" />
         </div>
       </div>
     </div>
