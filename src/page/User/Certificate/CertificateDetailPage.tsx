@@ -30,6 +30,16 @@ const CertificateDetailPage = () => {
     setCertificate(state?.currentCert);
   }, [state]);
 
+  useEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Cuộn mượt mà
+      });
+    };
+    scrollToTop();
+  })
+
   return (
     <div className="w-full p-4">
       <div className="flex justify-between items-center bg-purple-600 p-8 rounded-lg shadow-lg">
@@ -38,7 +48,7 @@ const CertificateDetailPage = () => {
           <img
             src={cert?.certImage || certificationDefault}
             alt="Logo"
-            className="w-1/2"
+            className="w-40 h-40 object-contain"
           />
           <h1 className="text-2xl font-bold">{cert?.certName}</h1>
           <p className="text-lg mt-2">
@@ -59,7 +69,10 @@ const CertificateDetailPage = () => {
           <h2 className="text-xl font-bold">{cert?.certName}</h2>
           <hr className="my-2" />
           <p>
-            <strong>Foundation level: </strong>
+            <strong>Certificate level: </strong>{cert?.typeName}
+          </p>
+          <p className="mt-2">
+            <strong>Certificate Prerequisite: </strong>
             {cert?.certPrerequisite && cert.certPrerequisite.length > 0
               ? cert.certPrerequisite.join(", ")
               : "Beginner"}
@@ -88,7 +101,7 @@ const CertificateDetailPage = () => {
 
       <div className="p-4">
         {activeTab === "Description" && cert && <Description {...cert} />}
-        {activeTab === "Exam Details" && <ExamDetails />}
+        {activeTab === "Exam Details" && <ExamDetails {...cert} />}
         {activeTab === "Feedback" && <Feedback />}
       </div>
     </div>
