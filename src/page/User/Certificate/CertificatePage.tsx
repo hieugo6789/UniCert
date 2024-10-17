@@ -68,7 +68,7 @@ const CertificatePage = () => {
   useEffect(() => {
     const scrollToTop = () => {
       window.scrollTo({
-        top: 80,
+        top: 0,
         behavior: 'smooth' // Cuộn mượt mà
       });
     };
