@@ -13,46 +13,44 @@ interface Slide {
 
 const slides: Slide[] = [
   {
-    content: <Banner />,
+    content: <Banner
+      title="You Can't Stop Now, You're Almost There"
+      linkto="/certificate"
+      button1Text="See All Certifications"
+    />,
   },
   {
-    // title: "Second Slide Title",
-    // imageUrl: "/path-to-another-image",
-    // button1Text: "Another Action",
-    content: (<div className="relative w-full h-[70vh] bg-gray-100 border-t">
-      <div className="absolute  w-full h-full">
-        <img
-          src="https://m.media-amazon.com/images/S/pv-target-images/d6e25ce8c6cdf788ec947effcec7854aee7090812cb73e536adf6b75b9eb7ca6._SX1080_FMjpg_.jpg"
-          alt="Banner"
-          className="w-full h-full object-cover"
-        />
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent opacity-100">
-      </div>
-      <div className="relative z-10 flex flex-col justify-center items-start h-full px-10 ml-20">
-        <h1 className="text-5xl font-bold text-gray-800">
-          Quick and Easy
-        </h1>
-        <div className="mt-6 flex space-x-4">
-          <Link to="/certificate">
-            <button className="px-6 py-3 bg-blue-600 text-white rounded-md font-semibold">
-              Enroll
-            </button>
-          </Link>
-        </div>
-      </div>
-    </div>),
+    content: <Banner
+      title="Quick and Easy to Enroll"
+      linkto="/practice"
+      imageUrl="https://m.media-amazon.com/images/S/pv-target-images/d6e25ce8c6cdf788ec947effcec7854aee7090812cb73e536adf6b75b9eb7ca6._SX1080_FMjpg_.jpg"
+      button1Text="Enroll now"
+    />,
   },
-  // {
-  //   title: "Third Slide Title",
-  //   imageUrl: "/path-to-third-image",
-  //   button1Text: "Third Slide Action",
-  // },
-  // {
-  //   title: "Third Slide Title",
-  //   imageUrl: "/path-to-third-image",
-  //   button1Text: "Third Slide Action",
-  // },
+  {
+    content: <Banner
+      title="Get Ready for the Future"
+      linkto="/practice"
+      imageUrl="https://www.michaelpage.co.uk/sites/michaelpage.co.uk/files/2023-10/shutterstock_1606546678_970x388.jpg"
+      button1Text="Enroll now"
+    />,
+  },
+  {
+    content: <Banner
+      title="Get Ready for the Future"
+      linkto="/practice"
+      imageUrl="https://tinybeans.com/wp-content/uploads/2022/05/little-boy-smiling-people-born-in-June.jpg"
+      button1Text="Enroll now"
+    />,
+  },
+  {
+    content: <Banner
+      title="Get Ready for the Future"
+      linkto="/practice"
+      imageUrl="https://getdex.com/blog/content/images/size/w960/2022/09/how-to-be-a-people-person-1662995088.jpg"
+      button1Text="Enroll now"
+    />,
+  }
 ];
 
 const CustomCarousel: React.FC = () => {
@@ -77,7 +75,7 @@ const CustomCarousel: React.FC = () => {
   };
 
   return (
-    
+
     <div className="relative w-full  mx-auto">
       <div className="overflow-hidden relative">
         <div
@@ -117,14 +115,14 @@ const CustomCarousel: React.FC = () => {
         className="absolute top-1/2 left-0 transform -translate-y-1/2  text-white  py-2 rounded-r-lg"
         onClick={prevSlide}
       >
-        <CaretLeftOutlined style={{ fontSize: "64px",color:"skyblue" }} />
+        <CaretLeftOutlined style={{ fontSize: "64px", color: "skyblue" }} />
       </button>
 
       <button
         className="absolute top-1/2 right-0 transform -translate-y-1/2  text-white  py-2 rounded-l-lg"
         onClick={nextSlide}
       >
-        <CaretRightOutlined style={{ fontSize: "64px",color:"skyblue" }} />
+        <CaretRightOutlined style={{ fontSize: "64px", color: "skyblue" }} />
       </button>
     </div>
   );
