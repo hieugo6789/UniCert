@@ -1,7 +1,8 @@
+import { allCertificationData } from "../../models/certificate";
 
-const ExamDetails = () => {
+const ExamDetails = (props: allCertificationData) => {
   return (
-    <div>ExamDetails</div>
+    <div>{props?.certPointSystem}</div>
   )
 }
 
