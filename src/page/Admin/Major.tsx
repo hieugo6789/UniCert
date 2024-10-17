@@ -168,6 +168,7 @@ const Major = () => {
       </div>
       <Modal
         title="Major Details"
+        width={900}
         open={isModalVisible}
         footer={null}
         onCancel={() => setIsModalVisible(false)}
@@ -175,12 +176,24 @@ const Major = () => {
         {state.isLoading ? (
           <Spin />
         ) : state.currentMajor ? (
-          <div>
+          <div className="text-lg">
             <p>
-              <strong>Name</strong> {state.currentMajor.majorName}
+              <strong>Name: </strong> {state.currentMajor.majorName}
             </p>
             <p>
-              <strong>Description</strong> {state.currentMajor.majorDescription}
+              <strong>Code: </strong> {state.currentMajor.majorCode}
+            </p>
+            <strong>Description: </strong>
+            <div
+              className="prose list-disc whitespace-pre-wrap text-sm"
+              dangerouslySetInnerHTML={{
+                __html: state.currentMajor.majorDescription || "",
+              }}
+            />
+            <p>
+              <strong>Job position: </strong>
+              {state.currentMajor.jobPositionName} -{" "}
+              {state.currentMajor.jobPositionCode}
             </p>
           </div>
         ) : (

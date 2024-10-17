@@ -61,12 +61,11 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
 
   const handleUpdate = async () => {
     try {
-      // Validate fields before submission
       await form.validateFields();
       await updateCertDetails(certId, formData);
       message.success("Certificate updated successfully!");
       refetchCertificates();
-      setIsModalVisible(false); // Close modal after success
+      setIsModalVisible(false);
     } catch (error) {
       message.error("Failed to update the certificate.");
     }

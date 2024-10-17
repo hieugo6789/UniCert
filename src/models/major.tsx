@@ -11,6 +11,8 @@ export interface currentMajor {
   majorName: string;
   majorDescription: string;
   jobPositionId: number[];
+  jobPositionName: string[];
+  jobPositionCode: string[];
 }
 
 export interface MajorInput {

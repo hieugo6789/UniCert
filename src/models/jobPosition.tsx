@@ -14,7 +14,11 @@ export interface currentJob {
   jobPositionName: string;
   jobPositionDescription: string;
   majorId: number[];
+  majorName: string[];
+  majorCode: string[];
   certId: number[];
+  certName: string[];
+  certCode: string[];
 }
 
 export interface createJobInput {

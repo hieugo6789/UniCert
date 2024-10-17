@@ -161,20 +161,36 @@ const JobPosition = () => {
         </div>
       </div>
       <Modal
+        width={900}
         title="Certification Details"
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
+        footer={null}
       >
         {state.isLoading ? (
           <Spin />
         ) : state.currentJob ? (
-          <div>
+          <div className="text-lg">
             <p>
-              <strong>Name</strong> {state.currentJob.jobPositionName}
+              <strong>Name: </strong> {state.currentJob.jobPositionName}
             </p>
             <p>
-              <strong>Description</strong>{" "}
-              {state.currentJob.jobPositionDescription}
+              <strong>Code: </strong> {state.currentJob.jobPositionCode}
+            </p>
+            <strong>Description: </strong>{" "}
+            <div
+              className="prose list-disc whitespace-pre-wrap text-sm"
+              dangerouslySetInnerHTML={{
+                __html: state.currentJob.jobPositionDescription || "",
+              }}
+            />
+            <p>
+              <strong>Major: </strong> {state.currentJob.majorName} -{" "}
+              {state.currentJob.majorCode}
+            </p>
+            <p>
+              <strong>Certification: </strong> {state.currentJob.certName} -{" "}
+              {state.currentJob.certCode}
             </p>
           </div>
         ) : (
