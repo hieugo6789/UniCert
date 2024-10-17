@@ -25,7 +25,7 @@ const JobDetail = () => {
       setJobDetail(state?.currentJob);
       
       state?.currentJob.certId?.map((cert) => {
-        getCertDetails(cert);
+        getCertDetails(cert.toString());
       });
     }
     
@@ -48,7 +48,7 @@ const JobDetail = () => {
 
   useEffect(() => {
     setCertList((prevCertList) => {
-      return prevCertList.filter((cert) => jobDetail?.certId?.includes(cert.certId));
+      return prevCertList.filter((cert) => jobDetail?.certId?.includes(parseInt(cert.certId)));
     });
   }, [certList]);
   
