@@ -4,6 +4,8 @@ import { allMajorPaginationData } from "../../../models/major";
 import useMajorDetail from "../../../hooks/useMajorDetail";
 import { allCertificationData } from "../../../models/certificate";
 import CertificateCard from "../../../components/Certifications/CertificateCard";
+import useCertDetail from "../../../hooks/useCertDetail";
+import useJobDetail from "../../../hooks/useJobDetail";
 // import CertificateCard from "../../../components/Certifications/CertificateCard";
 
 const MajorDetailPage: React.FC = () => {
@@ -87,8 +89,13 @@ const MajorDetailPage: React.FC = () => {
   ]);
   const { id } = useParams<{ id: string }>(); // Extract majorId from the URL
   const [major, setMajor] = useState<allMajorPaginationData | null>(null);
+  const [filteredCerts, setFilteredCerts] = useState<allCertificationData[]>([]);
+  const [selectedJobPosition, setSelectedJobPosition] = useState<string | null>(null);
+  const [allCerts, setAllCerts] = useState<allCertificationData[]>([]);
 
   const { state, getMajorDetails } = useMajorDetail();
+  const { state: jobDetailState, getJobDetails } = useJobDetail();
+  const { state: certDetailState, getCertDetails } = useCertDetail();
 
   useEffect(() => {
     const getMajorDetail = async () => {
@@ -100,12 +107,79 @@ const MajorDetailPage: React.FC = () => {
     };
     getMajorDetail();
   }, [id]);
+
   useEffect(() => {
-    if (state) {
-      setMajor(state.currentMajor);
-      console.log(state.currentMajor);
+    const getJob = () => {
+      if (state?.currentMajor) {
+        setMajor(state.currentMajor);
+        const jobPositions = state.currentMajor.jobPositionId || [];
+        console.log("test", jobPositions);
+        jobPositions.forEach(async (jobId) => {
+          try {
+            await getJobDetails(jobId.toString());
+            console.log("Fetched job details for jobId:", jobId);  // Debugging            
+          } catch (error) {
+            console.error("Error fetching job details:", error);  // Check for errors
+          }
+        });
+      }
+    };
+    getJob();    
+  }, [state]); 
+  
+  useEffect(() => {      
+    const getCert = () => {
+      if (jobDetailState?.currentJob && jobDetailState.currentJob.certId) {
+        const certificateId = jobDetailState.currentJob.certId || [];
+    
+        certificateId.forEach(async (certId) => {        
+          await getCertDetails(certId.toString());
+        });
+      }
+    };
+    getCert();
+  }, [jobDetailState]); 
+  
+  useEffect(() => {
+    const getCertDetail = () => {
+      if (certDetailState?.currentCert) {
+        setFilteredCerts((prevCerts) => {
+          const isCertExist = prevCerts.some(cert => cert.certId === certDetailState.currentCert.certId);
+          return isCertExist ? prevCerts : [...prevCerts, certDetailState.currentCert];
+        });
+        
+        setAllCerts((prevCerts) => {
+          const isCertExist = prevCerts.some(cert => cert.certId === certDetailState.currentCert.certId);
+          return isCertExist ? prevCerts : [...prevCerts, certDetailState.currentCert];
+        });
+      }
+    };
+    getCertDetail();
+  }, [certDetailState]);  
+
+  const handleJobPositionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedJob = event.target.value;    
+    setSelectedJobPosition(selectedJob);
+  
+    if (selectedJob === "all") {
+      // Khi chọn "All", hiển thị tất cả chứng chỉ từ allCerts
+      setFilteredCerts(allCerts);
+    } else {
+      // Nếu chọn một job cụ thể, lọc chứng chỉ theo job position đó
+      const selectedJobDetail = jobDetailState.currentJob?.jobPositionId.toString() === selectedJob
+      ? jobDetailState.currentJob
+      : null;      
+      if (selectedJobDetail) {
+        const certIds = selectedJobDetail.certId || [];        
+        const filteredCerts = certIds
+          .map((certId) => allCerts.find(cert => cert.certId === certId.toString()))
+          .filter((cert): cert is allCertificationData => !!cert); // Đảm bảo chỉ các chứng chỉ hợp lệ
+        console.log("Test", allCerts)
+          setFilteredCerts(filteredCerts);
+        }
     }
-  }, [state]);
+  };
+
   if (!major) {
     return <div>Major not found.</div>;
   }
@@ -150,10 +224,11 @@ const MajorDetailPage: React.FC = () => {
               id="currency"
               name="currency"
               className="h-full bg-white rounded-md border-0 py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+              onChange={handleJobPositionChange}
             >
-              <option>Job Position</option>
+              <option value="all">All Job Position</option>
               {major.jobPositionId.map((job, index) => (
-                <option key={index}>{job}</option>
+                <option key={index} value={job.toString()}>{job}</option>
               ))}
             </select>
           </div>
@@ -161,9 +236,9 @@ const MajorDetailPage: React.FC = () => {
       </div>
 
       {/* Certificates Grid */}
-      {topCert.length > 0 ? (
+      {filteredCerts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
-          {topCert.map((cert, index) => (
+          {filteredCerts.map((cert, index) => (
             <CertificateCard
               key={index}
               {...cert}
