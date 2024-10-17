@@ -1,6 +1,5 @@
 import { useState } from "react";
 import CreateMajor from "../../components/Majors/CreateMajor";
-import MenuAdmin from "../../components/Layout/MenuAdmin";
 import {
   Input,
   Button,
@@ -117,55 +116,54 @@ const Major = () => {
 
   return (
     <>
-      <div className="grid grid-cols-12 h-[10vh]">
-        <div className="col-span-8">
-          <Input
-            placeholder="Search by major name..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ marginBottom: "20px", padding: "10px", width: "80%" }}
-          />
-          <Button
-            type="primary"
-            icon={<SearchOutlined />}
-            onClick={handleSearch}
-            style={{ marginLeft: "10px" }}
-          ></Button>
-        </div>
-        <CreateMajor refetchMajors={refetchMajors} />
-      </div>
-      <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[90vh]">
-        <div className="col-span-2">
-          <MenuAdmin />
-        </div>
-
-        <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg">
-          <div className="h-[76vh]">
-            {loading ? (
-              <div>Loading...</div>
-            ) : major.length > 0 ? (
-              <Table
-                columns={columns}
-                dataSource={paginatedData}
-                rowKey="majorId"
-                pagination={false}
-                loading={loading}
-                rowClassName={() => "h-[8.7vh]"}
-              />
-            ) : (
-              <div>No majors available.</div>
-            )}
-          </div>
-          <div className="mt-6 flex justify-end">
-            <Pagination
-              current={currentPage}
-              pageSize={pageSize}
-              total={major.length}
-              onChange={handlePaginationChange}
+      <div className="bg-slate-100">
+        <div className="grid grid-cols-12 h-[10vh] ">
+          <div className="col-span-8">
+            <Input
+              placeholder="Search by major name..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{ marginBottom: "20px", padding: "10px", width: "80%" }}
             />
+            <Button
+              type="primary"
+              icon={<SearchOutlined />}
+              onClick={handleSearch}
+              style={{ marginLeft: "10px" }}
+            ></Button>
+          </div>
+          <CreateMajor refetchMajors={refetchMajors} />
+        </div>
+        <div className=" gap-4 p-2  h-[90vh]">
+          <div className=" bg-white p-4 rounded-lg shadow-lg">
+            <div className="h-[76vh]">
+              {loading ? (
+                <div>Loading...</div>
+              ) : major.length > 0 ? (
+                <Table
+                  columns={columns}
+                  dataSource={paginatedData}
+                  rowKey="majorId"
+                  pagination={false}
+                  loading={loading}
+                  rowClassName={() => "h-[8.7vh]"}
+                />
+              ) : (
+                <div>No majors available.</div>
+              )}
+            </div>
+            <div className="mt-6 flex justify-end">
+              <Pagination
+                current={currentPage}
+                pageSize={pageSize}
+                total={major.length}
+                onChange={handlePaginationChange}
+              />
+            </div>
           </div>
         </div>
       </div>
+
       <Modal
         title="Major Details"
         width={900}

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import MenuAdmin from "../../components/Layout/MenuAdmin";
 import { useCreateOrganize } from "../../hooks/useCreateOrganize";
 import { Modal, Input, Button, Table, Pagination, Spin, message } from "antd";
 import useOrganization from "../../hooks/useOrganization";
@@ -134,11 +133,8 @@ const Organizations = () => {
           </Button>
         </div>
       </div>
-      <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[90vh]">
-        <div className="col-span-2">
-          <MenuAdmin />
-        </div>
-        <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg">
+      <div className="gap-4 p-2 bg-slate-100 h-[90vh]">
+        <div className=" bg-white p-4 rounded-lg shadow-lg">
           <div className="h-[76vh]">
             {loading ? (
               <div>Loading...</div>

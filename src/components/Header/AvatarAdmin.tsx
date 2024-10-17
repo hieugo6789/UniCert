@@ -9,6 +9,11 @@ const AvatarAdmin = () => {
   useEffect(() => {
     getProfileDetails(userId);
   }, []);
-  return <Avatar src={state.profile.userImage} />;
+  return (
+    <Avatar
+      src={state.profile.userImage}
+      className="size-14"
+    />
+  );
 };
 export default AvatarAdmin;

@@ -1,6 +1,5 @@
 import { message, Modal, Pagination, Spin, Table, Tag } from "antd";
 import useJob from "../../hooks/useJobPosition";
-import MenuAdmin from "../../components/Layout/MenuAdmin";
 import useJobDetail from "../../hooks/useJobDetail";
 import { useState } from "react";
 import {
@@ -129,11 +128,8 @@ const JobPosition = () => {
           <CreateJob refetchJobPositions={refetchJobs} />
         </div>
       </div>
-      <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[90vh]">
-        <div className="col-span-2">
-          <MenuAdmin />
-        </div>{" "}
-        <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg">
+      <div className=" gap-4 p-2 bg-slate-100 h-[90vh]">
+        <div className=" bg-white p-4 rounded-lg shadow-lg">
           <div className="h-[76vh]">
             {loading ? (
               <div>Loading...</div>

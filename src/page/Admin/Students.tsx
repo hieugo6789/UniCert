@@ -11,7 +11,6 @@ import {
 import { useAccounts } from "../../hooks/useAccount";
 import { useEffect, useState } from "react";
 import Coin from "../../assets/images/Coin.png";
-import MenuAdmin from "../../components/Layout/MenuAdmin";
 import setUserStatus from "../../hooks/useUserStatus";
 import useUserDetail from "../../hooks/useUserDetail";
 import useWalletDetail from "../../hooks/useWalletDetail";
@@ -129,10 +128,7 @@ const Students = () => {
   return (
     <>
       <div className="h-[10vh] ">header</div>
-      <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[90vh]">
-        <div className="col-span-2 ">
-          <MenuAdmin />
-        </div>
+      <div className=" gap-4 p-2 bg-slate-100 h-[90vh]">
         <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg   ">
           <div className="h-[76vh]">
             {loading ? (

@@ -10,6 +10,7 @@ import { FaGraduationCap } from "react-icons/fa";
 import { GrSchedules } from "react-icons/gr";
 import { GrWorkshop } from "react-icons/gr";
 import { GiTeacher } from "react-icons/gi";
+import UniCertLogo from "../../assets/images/UniCertLogo.png";
 const MenuAdmin = () => {
   const location = useLocation();
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
@@ -26,7 +27,14 @@ const MenuAdmin = () => {
   }, [location.pathname]);
 
   return (
-    <div className="w-full bg-white p-6 rounded-lg shadow-lg h-[88vh]">
+    <div className=" w-full bg-white p-6 rounded-lg shadow-lg h-screen">
+      <div className="flex justify-center pb-6 border-b mb-4">
+        <img
+          src={UniCertLogo}
+          alt="logo"
+          className="w-20"
+        />
+      </div>
       <NavLink
         to="/admin/dashboard"
         className={

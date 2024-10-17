@@ -8,7 +8,6 @@ import {
   Spin,
   Tag,
 } from "antd";
-import MenuAdmin from "../../components/Layout/MenuAdmin";
 import useCertificate from "../../hooks/useCertificate";
 import { useState } from "react";
 import {
@@ -21,6 +20,7 @@ import useDeleteCertificate from "../../hooks/useDeleteCertificate";
 import useCertDetail from "../../hooks/useCertDetail";
 import CreateCert from "../../components/Certifications/CreateCert";
 import UpdateCert from "../../components/Certifications/UpdateCert";
+import AvatarAdmin from "../../components/Header/AvatarAdmin";
 
 const { confirm } = Modal;
 
@@ -131,30 +131,30 @@ const Certificate = () => {
   );
   return (
     <>
-      <div className="h-[10vh] ">
-        <div className="flex  items-center mb-4">
-          <div>
+      <div className="h-[10vh] flex justify-between items-center">
+        <div className="flex items-center w-full ml-10">
+          <div className="relative flex items-center border-2 border-transparent focus-within:border-blue-500 rounded-full w-1/5">
             <Input
-              placeholder="Search by certification name..."
+              placeholder="Search"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ marginBottom: "20px", padding: "10px", width: "80%" }}
+              className="w-full px-4 py-2 rounded-full pr-10 outline-none"
             />
             <Button
-              type="primary"
               icon={<SearchOutlined />}
               onClick={handleSearch}
-              style={{ marginLeft: "10px" }}
-            ></Button>
+              className="absolute right-2 bg-transparent border-none text-gray-500 hover:text-black focus:outline-none"
+            />
           </div>
           <CreateCert refetchCertificates={refetchCertificates} />
         </div>
-      </div>
-      <div className="grid grid-cols-12 gap-4 p-2 bg-slate-100 h-[90vh]">
-        <div className="col-span-2">
-          <MenuAdmin />
+
+        <div className="mr-10">
+          <AvatarAdmin />
         </div>
-        <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg">
+      </div>
+      <div className=" gap-4 p-2 bg-slate-100 h-[90vh]">
+        <div className=" bg-white p-4 rounded-lg shadow-lg">
           <div className="h-[76vh]">
             {loading ? (
               <div>Loading...</div>
