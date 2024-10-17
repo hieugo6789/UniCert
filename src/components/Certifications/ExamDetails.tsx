@@ -1,9 +1,12 @@
 import { allCertificationData } from "../../models/certificate";
 
 const ExamDetails = (props: allCertificationData) => {
-  return (
-    <div>{props?.certPointSystem}</div>
-  )
-}
+  return (    
+      <div
+        className="prose list-disc whitespace-pre-wrap"
+        dangerouslySetInnerHTML={{ __html: props?.certPointSystem || "" }}
+      />    
+  );
+};
 
-export default ExamDetails
+export default ExamDetails;
