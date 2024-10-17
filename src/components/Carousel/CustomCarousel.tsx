@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { CaretRightOutlined, CaretLeftOutlined } from "@ant-design/icons";
 import Banner from "./banner";
-import { Link } from "react-router-dom";
 
 interface Slide {
   title?: string;
