@@ -101,7 +101,7 @@ const CertificateDetailPage = () => {
 
       <div className="p-4">
         {activeTab === "Description" && cert && <Description {...cert} />}
-        {activeTab === "Exam Details" && <ExamDetails {...cert} />}
+        {activeTab === "Exam Details" && cert && <ExamDetails {...cert} />}
         {activeTab === "Feedback" && <Feedback />}
       </div>
     </div>
