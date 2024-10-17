@@ -9,88 +9,11 @@ import useJobDetail from "../../../hooks/useJobDetail";
 // import CertificateCard from "../../../components/Certifications/CertificateCard";
 
 const MajorDetailPage: React.FC = () => {
-  const [topCert] = useState<allCertificationData[]>([
-    {
-      certId: "1",
-      certName: "AWS Certified Solutions Architect",
-      certCode: "AWS-CSA",
-      certDescription:
-        "The AWS Certified Solutions Architect – Associate examination is intended for individuals who perform a solutions architect role and have one or more years of hands-on experience designing available, cost-efficient, fault-tolerant, and scalable distributed systems on AWS.",
-      certCost: 150,
-      certPointSystem: "AWS",
-      certImage: "",
-      certValidity: "3 years",
-      organizeId: 6,
-      organizeName: "Amazon Web Services",
-      typeId: 8,
-      typeName: "Associate",
-      certPrerequisiteId: [],
-      certPrerequisite: [],
-      certCodePrerequisite: [],
-      certDescriptionPrerequisite: [],
-    },
-    {
-      certId: "2",
-      certName: "AWS Certified Developer",
-      certCode: "AWS-CD",
-      certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-      certCost: 150,
-      certPointSystem: "AWS",
-      certImage: "",
-      certValidity: "3 years",
-      organizeId: 6,
-      organizeName: "Amazon Web Services",
-      typeId: 8,
-      typeName: "Associate",
-      certPrerequisiteId: [],
-      certPrerequisite: [],
-      certCodePrerequisite: [],
-      certDescriptionPrerequisite: [],
-    },
-    {
-      certId: "3",
-      certName: "AWS Certified Developer",
-      certCode: "AWS-CD",
-      certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-      certCost: 150,
-      certPointSystem: "AWS",
-      certImage: "",
-      certValidity: "3 years",
-      organizeId: 6,
-      organizeName: "Amazon Web Services",
-      typeId: 8,
-      typeName: "Associate",
-      certPrerequisiteId: [],
-      certPrerequisite: [],
-      certCodePrerequisite: [],
-      certDescriptionPrerequisite: [],
-    },
-    {
-      certId: "4",
-      certName: "AWS Certified Developer",
-      certCode: "AWS-CD",
-      certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-      certCost: 150,
-      certPointSystem: "AWS",
-      certImage: "",
-      certValidity: "3 years",
-      organizeId: 6,
-      organizeName: "Amazon Web Services",
-      typeId: 8,
-      typeName: "Associate",
-      certPrerequisiteId: [],
-      certPrerequisite: [],
-      certCodePrerequisite: [],
-      certDescriptionPrerequisite: [],
-    },
-  ]);
+ 
   const { id } = useParams<{ id: string }>(); // Extract majorId from the URL
   const [major, setMajor] = useState<allMajorPaginationData | null>(null);
   const [filteredCerts, setFilteredCerts] = useState<allCertificationData[]>([]);
-  const [selectedJobPosition, setSelectedJobPosition] = useState<string | null>(null);
+  // const [selectedJobPosition, setSelectedJobPosition] = useState<string | null>(null);
   const [allCerts, setAllCerts] = useState<allCertificationData[]>([]);
 
   const { state, getMajorDetails } = useMajorDetail();
@@ -159,7 +82,7 @@ const MajorDetailPage: React.FC = () => {
 
   const handleJobPositionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedJob = event.target.value;    
-    setSelectedJobPosition(selectedJob);
+    // setSelectedJobPosition(selectedJob);
   
     if (selectedJob === "all") {
       // Khi chọn "All", hiển thị tất cả chứng chỉ từ allCerts
