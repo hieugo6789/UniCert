@@ -24,8 +24,8 @@ const JobDetail = () => {
     if (state) {
       setJobDetail(state?.currentJob);
       
-      state?.currentJob.certId?.map((cert) => {
-        getCertDetails(cert.toString());
+      state?.currentJob.certificationDetails?.map((cert) => {
+        getCertDetails(cert.certId.toString());
       });
     }
     
@@ -48,9 +48,15 @@ const JobDetail = () => {
 
   useEffect(() => {
     setCertList((prevCertList) => {
-      return prevCertList.filter((cert) => jobDetail?.certId?.includes(parseInt(cert.certId)));
+      // Map jobDetail.certificationDetails to certId numbers for comparison
+      const certIds = jobDetail?.certificationDetails.map((cert) => Number(cert.certId)) || [];
+      
+      // Filter the certList by converting cert.certId to a number for comparison
+      return prevCertList.filter((cert) => certIds.includes(Number(cert.certId)));
     });
   }, [certList]);
+  
+  
   
   
   // Function to handle the fade-in effect
