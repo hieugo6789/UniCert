@@ -26,83 +26,44 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
 
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal visibility state
 
-  const [formData, setFormData] = useState({
-    certName: "",
-    certCode: "",
-    certDescription: "",
-    certCost: 0,
-    certPointSystem: "",
-    certImage: "",
-    certValidity: "",
-    typeId: 0,
-    organizeId: 0,
-    certIdPrerequisites: [] as number[],
-  });
-
+  const showModal = () => {
+    setIsModalVisible(true);
+    if (certId) {
+      getCertDetails(certId);
+    }
+  };
   useEffect(() => {
     if (certDetailState.currentCert) {
       const currentCert = certDetailState.currentCert;
-      console.log("Current certificate data:", currentCert);
-      setFormData({
-        certName: currentCert.certName,
-        certCode: currentCert.certCode,
-        certDescription: currentCert.certDescription,
-        certCost: currentCert.certCost,
-        certPointSystem: currentCert.certPointSystem,
-        certImage: currentCert.certImage,
-        certValidity: currentCert.certValidity,
-        typeId: currentCert.typeId,
-        organizeId: currentCert.organizeId,
+      // const certPrerequisiteIds = Array.isArray(currentCert.certPrerequisiteId)
+      // ? currentCert.certPrerequisiteId.map((job) => job.jobPositionId)
+      // : [];
+      form.setFieldsValue({
+        certName: currentCert.certName || "",
+        certCode: currentCert.certCode || "",
+        certDescription: currentCert.certDescription || "",
+        certCost: currentCert.certCost || "",
+        certPointSystem: currentCert.certPointSystem || "",
+        certImage: currentCert.certImage || "",
+        certValidity: currentCert.certValidity || "",
+        typeId: currentCert.typeId || "",
+        organizeId: currentCert.organizeId || "",
         certIdPrerequisites: currentCert.certPrerequisiteId || [],
       });
-      form.setFieldsValue(currentCert);
+      // form.setFieldsValue(currentCert);
     }
   }, [state.currentCert, certId, form]);
 
   const handleUpdate = async () => {
     try {
       await form.validateFields();
+      const formData = form.getFieldsValue();
       await updateCertDetails(certId, formData);
       message.success("Certificate updated successfully!");
       refetchCertificates();
       setIsModalVisible(false);
     } catch (error) {
       message.error("Failed to update the certificate.");
-    }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSelectTypeChange = (value: number) => {
-    setFormData({
-      ...formData,
-      typeId: value,
-    });
-  };
-
-  const handleSelectChange = (value: number) => {
-    setFormData({
-      ...formData,
-      organizeId: value,
-    });
-  };
-
-  const handleSelectCertChange = (value: number[]) => {
-    setFormData({
-      ...formData,
-      certIdPrerequisites: Array.isArray(value) ? value : [value],
-    });
-  };
-
-  const showModal = () => {
-    setIsModalVisible(true);
-    if (certId) {
-      getCertDetails(certId);
     }
   };
 
@@ -129,7 +90,6 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
         <Form
           form={form}
           layout="vertical"
-          initialValues={formData}
         >
           <Form.Item
             label="Name"
@@ -138,12 +98,7 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
               { required: true, message: "Please enter the certificate name" },
             ]}
           >
-            <Input
-              name="certName"
-              value={formData.certName}
-              onChange={handleInputChange}
-              placeholder="Enter certificate name"
-            />
+            <Input placeholder="Enter certificate name" />
           </Form.Item>
 
           <Form.Item
@@ -153,12 +108,7 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
               { required: true, message: "Please enter the certificate code" },
             ]}
           >
-            <Input
-              name="certCode"
-              value={formData.certCode}
-              onChange={handleInputChange}
-              placeholder="Enter certificate code"
-            />
+            <Input placeholder="Enter certificate code" />
           </Form.Item>
 
           <Form.Item
@@ -172,9 +122,9 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
             ]}
           >
             <MyEditor
-              value={formData.certDescription}
+              value={form.getFieldValue("certDescription")}
               onChange={(content) =>
-                setFormData({ ...formData, certDescription: content })
+                form.setFieldsValue({ certDescription: content })
               }
             />
           </Form.Item>
@@ -187,11 +137,6 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
             ]}
           >
             <InputNumber
-              name="certCost"
-              value={formData.certCost}
-              onChange={(value) =>
-                setFormData({ ...formData, certCost: value ?? 0 })
-              }
               placeholder="Enter certificate cost"
               style={{ width: "100%" }}
             />
@@ -204,12 +149,7 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
               { required: true, message: "Please enter the point system" },
             ]}
           >
-            <Input
-              name="certPointSystem"
-              value={formData.certPointSystem}
-              onChange={handleInputChange}
-              placeholder="Enter point system"
-            />
+            <Input placeholder="Enter point system" />
           </Form.Item>
 
           <Form.Item
@@ -222,12 +162,7 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
               },
             ]}
           >
-            <Input
-              name="certImage"
-              value={formData.certImage}
-              onChange={handleInputChange}
-              placeholder="Enter certificate image URL"
-            />
+            <Input placeholder="Enter certificate image URL" />
           </Form.Item>
 
           <Form.Item
@@ -237,16 +172,12 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
               { required: true, message: "Please enter the validity period" },
             ]}
           >
-            <Input
-              name="certValidity"
-              value={formData.certValidity}
-              onChange={handleInputChange}
-              placeholder="Enter validity period"
-            />
+            <Input placeholder="Enter validity period" />
           </Form.Item>
 
           <Form.Item
             label="Level"
+            name="typeId"
             rules={[
               {
                 required: true,
@@ -256,8 +187,6 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
           >
             <Select
               placeholder="Select Certification level"
-              value={formData.typeId}
-              onChange={handleSelectTypeChange}
               style={{ width: "100%" }}
             >
               {certType.map((ct) => (
@@ -273,14 +202,13 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
 
           <Form.Item
             label="Organization"
+            name="organizeId"
             rules={[
               { required: true, message: "Please select an organization" },
             ]}
           >
             <Select
               placeholder="Select Organization"
-              value={formData.organizeId}
-              onChange={handleSelectChange}
               style={{ width: "100%" }}
             >
               {organization.map((org) => (
@@ -294,11 +222,12 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
             </Select>
           </Form.Item>
 
-          <Form.Item label="Prerequisite Certifications">
+          <Form.Item
+            label="Prerequisite Certifications"
+            name="certIdPrerequisites"
+          >
             <Select
               placeholder="Select Prerequisite certifications"
-              value={formData.certIdPrerequisites}
-              onChange={handleSelectCertChange}
               style={{ width: "100%" }}
               mode="multiple"
             >
