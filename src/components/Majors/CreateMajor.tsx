@@ -24,7 +24,6 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
 
   const handleOK = async () => {
     try {
-      // Validate fields before submission
       await form.validateFields();
 
       await handleCreateMajor(formData);
@@ -70,6 +69,7 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
       </Button>
 
       <Modal
+        width={900}
         title="Create New Major"
         open={isModalVisible}
         onOk={handleOK}

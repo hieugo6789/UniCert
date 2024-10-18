@@ -10,7 +10,9 @@ import useJobDetail from "../../../hooks/useJobDetail";
 const MajorDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // Extract majorId from the URL
   const [major, setMajor] = useState<allMajorPaginationData | null>(null);
-  const [filteredCerts, setFilteredCerts] = useState<allCertificationData[]>([]);
+  const [filteredCerts, setFilteredCerts] = useState<allCertificationData[]>(
+    []
+  );
   const [allCerts, setAllCerts] = useState<allCertificationData[]>([]);
 
   const { state, getMajorDetails } = useMajorDetail();
@@ -39,22 +41,26 @@ const MajorDetailPage: React.FC = () => {
         jobPositions.forEach(async (job) => {
           try {
             await getJobDetails(job.jobPositionId.toString());
-            console.log("Fetched job details for jobId:", job.jobPositionId);  // Debugging            
+            console.log("Fetched job details for jobId:", job.jobPositionId); // Debugging
           } catch (error) {
-            console.error("Error fetching job details:", error);  // Check for errors
+            console.error("Error fetching job details:", error); // Check for errors
           }
         });
       }
     };
-    getJob();    
+    getJob();
   }, [state]);
 
   // Fetch Certification Details associated with the Job
-  useEffect(() => {      
+  useEffect(() => {
     const getCert = () => {
-      if (jobDetailState?.currentJob && jobDetailState.currentJob.certificationDetails) {
-        const certificateId = jobDetailState.currentJob.certificationDetails || [];
-        certificateId.forEach(async (certId) => {        
+      if (
+        jobDetailState?.currentJob &&
+        jobDetailState.currentJob.certificationDetails
+      ) {
+        const certificateId =
+          jobDetailState.currentJob.certificationDetails || [];
+        certificateId.forEach(async (certId) => {
           await getCertDetails(certId.certId.toString()); // No need to use .toString() since certId is already a string
         });
       }
@@ -67,42 +73,52 @@ const MajorDetailPage: React.FC = () => {
     const getCertDetail = () => {
       if (certDetailState?.currentCert) {
         setFilteredCerts((prevCerts) => {
-          const isCertExist = prevCerts.some(cert => cert.certId === certDetailState.currentCert.certId);
-          return isCertExist ? prevCerts : [...prevCerts, certDetailState.currentCert];
+          const isCertExist = prevCerts.some(
+            (cert) => cert.certId === certDetailState.currentCert.certId
+          );
+          return isCertExist
+            ? prevCerts
+            : [...prevCerts, certDetailState.currentCert];
         });
-        
+
         setAllCerts((prevCerts) => {
-          const isCertExist = prevCerts.some(cert => cert.certId === certDetailState.currentCert.certId);
-          return isCertExist ? prevCerts : [...prevCerts, certDetailState.currentCert];
+          const isCertExist = prevCerts.some(
+            (cert) => cert.certId === certDetailState.currentCert.certId
+          );
+          return isCertExist
+            ? prevCerts
+            : [...prevCerts, certDetailState.currentCert];
         });
       }
     };
     getCertDetail();
-  }, [certDetailState]);  
+  }, [certDetailState]);
 
   // Handle filtering by job position
-  const handleJobPositionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedJob = event.target.value;    
+  const handleJobPositionChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedJob = event.target.value;
 
     if (selectedJob === "all") {
       setFilteredCerts(allCerts);
     } else {
-      const selectedJobDetail = jobDetailState.currentJob?.jobPositionId.toString() === selectedJob
-      ? jobDetailState.currentJob
-      : null;
-      
+      const selectedJobDetail =
+        jobDetailState.currentJob?.jobPositionId.toString() === selectedJob
+          ? jobDetailState.currentJob
+          : null;
+
       if (selectedJobDetail) {
         const certIds = selectedJobDetail.certificationDetails || [];
         const filteredCerts = certIds
-          .map((certId) => allCerts.find(cert => cert.certId === certId.certId.toString())) // Convert certId to number for comparison
+          .map((certId) =>
+            allCerts.find((cert) => cert.certId === certId.certId.toString())
+          ) // Convert certId to number for comparison
           .filter((cert): cert is allCertificationData => !!cert); // Ensure only valid certs are returned
-      
+
         console.log("Test", allCerts);
         setFilteredCerts(filteredCerts);
       }
-      
-      
-      
     }
   };
 
@@ -124,7 +140,12 @@ const MajorDetailPage: React.FC = () => {
         </div>
         <div className="mt-4">
           <span className="font-semibold">Major Description:</span>{" "}
-          {major.majorDescription}
+          <div
+            dangerouslySetInnerHTML={{
+              __html: state.currentMajor.majorDescription || "",
+            }}
+          />
+          {/* {major.majorDescription} */}
         </div>
       </div>
 
@@ -154,7 +175,10 @@ const MajorDetailPage: React.FC = () => {
             >
               <option value="all">All Job Positions</option>
               {major.jobPositionDetails.map((job, index) => (
-                <option key={index} value={job.jobPositionId.toString()}>
+                <option
+                  key={index}
+                  value={job.jobPositionId.toString()}
+                >
                   {job.jobPositionName}
                 </option>
               ))}
@@ -167,7 +191,10 @@ const MajorDetailPage: React.FC = () => {
       {filteredCerts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
           {filteredCerts.map((cert, index) => (
-            <CertificateCard key={index} {...cert} />
+            <CertificateCard
+              key={index}
+              {...cert}
+            />
           ))}
         </div>
       ) : (
@@ -179,7 +206,10 @@ const MajorDetailPage: React.FC = () => {
           />
           <p>
             We can't get course now. Please retry later or back to{" "}
-            <Link className="text-blue-500" to="/">
+            <Link
+              className="text-blue-500"
+              to="/"
+            >
               {" "}
               HOMEPAGE
             </Link>
@@ -189,7 +219,10 @@ const MajorDetailPage: React.FC = () => {
       <div className="flex justify-center mt-6 gap-4">
         <button className="p-2">◀</button>
         {[1, 2, 3, 4, 5].map((page) => (
-          <button key={page} className="p-2 bg-gray-200 rounded-full">
+          <button
+            key={page}
+            className="p-2 bg-gray-200 rounded-full"
+          >
             {page}
           </button>
         ))}
