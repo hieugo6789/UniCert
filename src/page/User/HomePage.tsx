@@ -4,7 +4,7 @@ import BannerCard from "../../components/UI/BannerCard";
 import { allCertificationData } from "../../models/certificate";
 import CertificateCard from "../../components/Certifications/CertificateCard";
 import CustomButton from "../../components/UI/CustomButton";
-import Banner1 from "../../assets/images/Banner/Banner1.png";
+// import Banner1 from "../../assets/images/Banner/Banner1.png";
 const HomePage = () => {
   const [topCert] = useState<allCertificationData[]>([
     {
@@ -142,7 +142,12 @@ const HomePage = () => {
           condimentum. Sed eget risus sit amet est maximus rutrum.
         </p>
         <div className="px-20 fade-in">
-          <CustomButton label="Read more about us" shining onClick={() => null} className="w-1/2 mt-5 mb-5" />
+          <CustomButton
+            label="Read more about us"
+            shining
+            onClick={() => null}
+            className="w-1/2 mt-5 mb-5"
+          />
         </div>
       </div>
 
@@ -160,23 +165,49 @@ const HomePage = () => {
         </div>
 
         <div className="px-20 fade-in">
-          <CustomButton label="Get More Certificate" shining onClick={() => null} className="w-1/2 mt-5 mb-5" />
+          <CustomButton
+            label="Get More Certificate"
+            shining
+            onClick={() => null}
+            className="w-1/2 mt-5 mb-5"
+          />
         </div>
       </div>
 
       <div className="w-full flex flex-col lg:flex-row text-center">
         <div className="m-auto p-5 lg:p-20 fade-in lg:w-2/3">
-          <h1 className={`mt-10 text-center fade-in uppercase text-6xl md:text-7xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient`}
-          >            Easy to take exam</h1>
+          <h1
+            className={`mt-10 text-center fade-in uppercase text-6xl md:text-7xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient`}
+          >
+            {" "}
+            Easy to take exam
+          </h1>
           <p className="pt-2 text-sm lg:text-base">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a facilisis odio. Fusce interdum magna sapien, et porttitor quam egestas a. Suspendisse eget mauris ultricies, iaculis tellus ac, bibendum tellus. Donec gravida orci ac consequat placerat. Cras et porta enim. Nulla a dapibus ligula. Donec sem nunc, malesuada sagittis tortor eget, faucibus dapibus risus. Sed laoreet, nunc eget ultricies finibus, nunc diam pulvinar turpis, quis maximus dui velit ut sapien. Pellentesque non condimentum velit. Mauris felis sapien, viverra at faucibus id, pretium at magna. Quisque sed cursus tortor. Ut et felis maximus, ultrices ligula vel, aliquam erat. Duis placerat neque eu felis convallis finibus. Nam laoreet placerat mauris, vitae suscipit nisl vestibulum id.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a
+            facilisis odio. Fusce interdum magna sapien, et porttitor quam
+            egestas a. Suspendisse eget mauris ultricies, iaculis tellus ac,
+            bibendum tellus. Donec gravida orci ac consequat placerat. Cras et
+            porta enim. Nulla a dapibus ligula. Donec sem nunc, malesuada
+            sagittis tortor eget, faucibus dapibus risus. Sed laoreet, nunc eget
+            ultricies finibus, nunc diam pulvinar turpis, quis maximus dui velit
+            ut sapien. Pellentesque non condimentum velit. Mauris felis sapien,
+            viverra at faucibus id, pretium at magna. Quisque sed cursus tortor.
+            Ut et felis maximus, ultrices ligula vel, aliquam erat. Duis
+            placerat neque eu felis convallis finibus. Nam laoreet placerat
+            mauris, vitae suscipit nisl vestibulum id.
           </p>
-          <CustomButton label="Take Exam" shining onClick={() => null} className="w-full lg:w-1/2 mt-5 mb-5 fade-in" />
+          <CustomButton
+            label="Take Exam"
+            shining
+            onClick={() => null}
+            className="w-full lg:w-1/2 mt-5 mb-5 fade-in"
+          />
         </div>
-        <img src={Banner1} alt="" className="w-full lg:w-1/3 fade-in mx-auto lg:mx-0 mt-5 lg:mt-0" />
+        {/* <img src={Banner1} alt="" className="w-full lg:w-1/3 fade-in mx-auto lg:mx-0 mt-5 lg:mt-0" /> */}
       </div>
       <div>
-        <h1 className={`mt-10 text-center fade-in uppercase text-6xl md:text-8xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient`}
+        <h1
+          className={`mt-10 text-center fade-in uppercase text-6xl md:text-8xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient`}
         >
           Unicert's Learning Pathway
         </h1>

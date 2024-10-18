@@ -17,40 +17,45 @@ const UpdateJobPosition: React.FC<UpdateJobProps> = ({
   refetchJobs,
 }) => {
   const [form] = Form.useForm();
-  const { updateJobDetails, state } = useUpdateJob();
+  const { updateJobDetails } = useUpdateJob();
   const { major } = useMajor();
   const { certificate } = useCertificate();
   const { state: jobDetailState, getJobDetails } = useJobDetail();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const [formData, setFormData] = useState({
-    jobPositionName: "",
-    jobPositionCode: "",
-    jobPositionDescription: "",
-    majorId: [] as number[],
-    certId: [] as number[],
-  });
+  const showModal = () => {
+    setIsModalVisible(true);
+    if (jobPositionId) {
+      getJobDetails(jobPositionId);
+    }
+  };
+
   useEffect(() => {
     if (jobDetailState.currentJob) {
       const currentJobPosition = jobDetailState.currentJob;
-      console.log("Current job position data:", currentJobPosition);
-      setFormData({
+      const majorIds = Array.isArray(currentJobPosition.majorDetails)
+        ? currentJobPosition.majorDetails.map((major) => major.majorId)
+        : [];
+      const certIds = Array.isArray(currentJobPosition.certificationDetails)
+        ? currentJobPosition.certificationDetails.map((cert) => cert.certId)
+        : [];
+      form.setFieldsValue({
         jobPositionName: currentJobPosition.jobPositionName,
         jobPositionCode: currentJobPosition.jobPositionCode,
         jobPositionDescription: currentJobPosition.jobPositionDescription,
-        majorId: currentJobPosition.majorId || [],
-        certId: currentJobPosition.certId || [],
+        majorId: majorIds,
+        certId: certIds,
       });
-      form.setFieldsValue(currentJobPosition);
+      // form.setFieldsValue(currentJobPosition);
     }
-  }, [state.currentJob, jobPositionId, form]);
+  }, [jobDetailState.currentJob, jobPositionId, form]);
 
   const handleUpdate = async () => {
     try {
       // Validate fields before submission
       await form.validateFields();
-      console.log(formData);
+      const formData = form.getFieldsValue();
       await updateJobDetails(jobPositionId, formData);
       message.success("Certificate updated successfully!");
       refetchJobs();
@@ -59,33 +64,28 @@ const UpdateJobPosition: React.FC<UpdateJobProps> = ({
       message.error("Failed to update the certificate.");
     }
   };
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-  const handleSelectMajorChange = (value: number[]) => {
-    setFormData({
-      ...formData,
-      majorId: Array.isArray(value) ? value : [value],
-    });
-  };
-  const handleSelectCertChange = (value: number[]) => {
-    setFormData({
-      ...formData,
-      certId: Array.isArray(value) ? value : [value],
-    });
-  };
-  const showModal = () => {
-    setIsModalVisible(true);
-    if (jobPositionId) {
-      getJobDetails(jobPositionId);
-    }
-  };
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+  // const handleSelectMajorChange = (value: number[]) => {
+  //   setFormData({
+  //     ...formData,
+  //     majorId: Array.isArray(value) ? value : [value],
+  //   });
+  // };
+  // const handleSelectCertChange = (value: number[]) => {
+  //   setFormData({
+  //     ...formData,
+  //     certId: Array.isArray(value) ? value : [value],
+  //   });
+  // };
 
   const handleCancel = () => {
     setIsModalVisible(false);
+    form.resetFields();
   };
 
   return (
@@ -106,7 +106,7 @@ const UpdateJobPosition: React.FC<UpdateJobProps> = ({
         <Form
           form={form}
           layout="vertical"
-          initialValues={formData}
+          // initialValues={formData}
         >
           <Form.Item
             label="Name"
@@ -116,9 +116,9 @@ const UpdateJobPosition: React.FC<UpdateJobProps> = ({
             ]}
           >
             <Input
-              name="jobPositionName"
-              value={formData.jobPositionName}
-              onChange={handleInputChange}
+              // name="jobPositionName"
+              // value={formData.jobPositionName}
+              // onChange={handleInputChange}
               placeholder="Enter Job position name"
             />
           </Form.Item>
@@ -130,9 +130,9 @@ const UpdateJobPosition: React.FC<UpdateJobProps> = ({
             ]}
           >
             <Input
-              name="jobPositionCode"
-              value={formData.jobPositionCode}
-              onChange={handleInputChange}
+              // name="jobPositionCode"
+              // value={formData.jobPositionCode}
+              // onChange={handleInputChange}
               placeholder="Enter Job position name"
             />
           </Form.Item>
@@ -147,17 +147,20 @@ const UpdateJobPosition: React.FC<UpdateJobProps> = ({
             ]}
           >
             <MyEditor
-              value={formData.jobPositionDescription}
+              value={form.getFieldValue("jobPositionDescription")}
               onChange={(content) =>
-                setFormData({ ...formData, jobPositionDescription: content })
+                form.setFieldsValue({ jobPositionDescription: content })
               }
             />
           </Form.Item>
-          <Form.Item label="Major">
+          <Form.Item
+            label="Major"
+            name="majorId"
+          >
             <Select
               placeholder="Select Major"
-              value={formData.majorId}
-              onChange={handleSelectMajorChange}
+              // value={formData.majorId}
+              // onChange={handleSelectMajorChange}
               style={{ width: "100%" }}
               mode="multiple"
             >
@@ -171,11 +174,14 @@ const UpdateJobPosition: React.FC<UpdateJobProps> = ({
               ))}
             </Select>
           </Form.Item>
-          <Form.Item label="Certifications">
+          <Form.Item
+            label="Certifications"
+            name="certId"
+          >
             <Select
               placeholder="Select certifications"
-              value={formData.certId}
-              onChange={handleSelectCertChange}
+              // value={formData.certId}
+              // onChange={handleSelectCertChange}
               style={{ width: "100%" }}
               mode="multiple"
             >
