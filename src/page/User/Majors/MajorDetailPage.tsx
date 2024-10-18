@@ -52,10 +52,10 @@ const MajorDetailPage: React.FC = () => {
   // Fetch Certification Details associated with the Job
   useEffect(() => {      
     const getCert = () => {
-      if (jobDetailState?.currentJob && jobDetailState.currentJob.certId) {
-        const certificateId = jobDetailState.currentJob.certId || [];
+      if (jobDetailState?.currentJob && jobDetailState.currentJob.certificationDetails) {
+        const certificateId = jobDetailState.currentJob.certificationDetails || [];
         certificateId.forEach(async (certId) => {        
-          await getCertDetails(certId); // No need to use .toString() since certId is already a string
+          await getCertDetails(certId.certId.toString()); // No need to use .toString() since certId is already a string
         });
       }
     };
@@ -92,13 +92,17 @@ const MajorDetailPage: React.FC = () => {
       : null;
       
       if (selectedJobDetail) {
-        const certIds = selectedJobDetail.certId || [];
+        const certIds = selectedJobDetail.certificationDetails || [];
         const filteredCerts = certIds
-          .map((certId) => allCerts.find(cert => cert.certId === certId)) // No need for .toString() here
+          .map((certId) => allCerts.find(cert => cert.certId === certId.certId.toString())) // Convert certId to number for comparison
           .filter((cert): cert is allCertificationData => !!cert); // Ensure only valid certs are returned
-        console.log("Test", allCerts)
+      
+        console.log("Test", allCerts);
         setFilteredCerts(filteredCerts);
       }
+      
+      
+      
     }
   };
 
