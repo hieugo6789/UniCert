@@ -15,6 +15,7 @@ import setUserStatus from "../../hooks/useUserStatus";
 import useUserDetail from "../../hooks/useUserDetail";
 import useWalletDetail from "../../hooks/useWalletDetail";
 import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
+import AvatarAdmin from "../../components/Header/AvatarAdmin";
 
 const Students = () => {
   const {
@@ -127,7 +128,12 @@ const Students = () => {
 
   return (
     <>
-      <div className="h-[10vh] ">header</div>
+      <div className="h-[10vh] flex justify-between items-center">
+        <div></div>
+        <div className="mr-10">
+          <AvatarAdmin />
+        </div>
+      </div>
       <div className=" gap-4 p-2 bg-slate-100 h-[90vh]">
         <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg   ">
           <div className="h-[76vh]">

@@ -1,4 +1,5 @@
 import { Button, Input, Modal, Form, InputNumber, Select } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useCreateCert } from "../../hooks/useCreateCert";
 import useOrganization from "../../hooks/useOrganization";
@@ -89,10 +90,11 @@ const CreateCert = ({
   return (
     <>
       <Button
+        icon={<PlusOutlined />}
         type="primary"
         onClick={showModal}
       >
-        + Certificate
+        Certification
       </Button>
       <Modal
         title="Tạo Certificate"

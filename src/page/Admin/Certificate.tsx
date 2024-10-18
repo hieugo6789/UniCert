@@ -146,7 +146,9 @@ const Certificate = () => {
               className="absolute right-2 bg-transparent border-none text-gray-500 hover:text-black focus:outline-none"
             />
           </div>
-          <CreateCert refetchCertificates={refetchCertificates} />
+          <div className="ml-10">
+            <CreateCert refetchCertificates={refetchCertificates} />
+          </div>
         </div>
 
         <div className="mr-10">

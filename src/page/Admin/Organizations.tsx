@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useCreateOrganize } from "../../hooks/useCreateOrganize";
 import { Modal, Input, Button, Table, Pagination, Spin, message } from "antd";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
+
 import useOrganization from "../../hooks/useOrganization";
 import useOrganizeDetail from "../../hooks/useOrganizeDetail";
 import useDeleteOrganize from "../../hooks/useDeleteOrganize";
@@ -12,6 +14,7 @@ import {
 import { Descriptions } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
 import UpdateOrganize from "../../components/Organization/UpdateOrganize";
+import AvatarAdmin from "../../components/Header/AvatarAdmin";
 
 const { confirm } = Modal;
 
@@ -19,6 +22,7 @@ const Organizations = () => {
   const { organization, loading, refetchOrganizations } = useOrganization();
   const { state, getOrganizeDetails } = useOrganizeDetail();
   const { handleDeleteOrganize } = useDeleteOrganize();
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
   const { handleCreateOrganize } = useCreateOrganize();
@@ -30,6 +34,10 @@ const Organizations = () => {
     organizeAddress: "",
     organizeContact: "",
   });
+
+  const handleSearch = () => {
+    refetchOrganizations(searchTerm);
+  };
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -123,14 +131,33 @@ const Organizations = () => {
   );
   return (
     <>
-      <div className="h-[10vh] ">
-        <div className="flex  items-center mb-4">
-          <Button
-            type="primary"
-            onClick={showModal}
-          >
-            + Organization
-          </Button>
+      <div className="h-[10vh] flex justify-between items-center">
+        <div className="flex items-center w-full ml-10">
+          <div className="relative flex items-center border-2 border-transparent focus-within:border-blue-500 rounded-full w-1/5">
+            <Input
+              placeholder="Search "
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-4 py-2 rounded-full pr-10 outline-none"
+            />
+            <Button
+              icon={<SearchOutlined />}
+              onClick={handleSearch}
+              className="absolute right-2 bg-transparent border-none text-gray-500 hover:text-black focus:outline-none"
+            />
+          </div>
+          <div className="ml-10">
+            <Button
+              icon={<PlusOutlined />}
+              type="primary"
+              onClick={showModal}
+            >
+              Organization
+            </Button>
+          </div>
+        </div>
+        <div className="mr-10">
+          <AvatarAdmin />
         </div>
       </div>
       <div className="gap-4 p-2 bg-slate-100 h-[90vh]">

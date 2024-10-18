@@ -1,4 +1,13 @@
-import { message, Modal, Pagination, Spin, Table, Tag } from "antd";
+import {
+  Button,
+  Input,
+  message,
+  Modal,
+  Pagination,
+  Spin,
+  Table,
+  Tag,
+} from "antd";
 import useJob from "../../hooks/useJobPosition";
 import useJobDetail from "../../hooks/useJobDetail";
 import { useState } from "react";
@@ -6,10 +15,12 @@ import {
   DeleteOutlined,
   ExclamationCircleOutlined,
   EyeOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import useDeleteJob from "../../hooks/useDeleteJob";
 import CreateJob from "../../components/JobPosition/CreateJob";
 import UpdateJobPosition from "../../components/JobPosition/UpdateJobPosition";
+import AvatarAdmin from "../../components/Header/AvatarAdmin";
 
 const { confirm } = Modal;
 
@@ -17,9 +28,14 @@ const JobPosition = () => {
   const { job, loading, refetchJobs } = useJob();
   const { state, getJobDetails } = useJobDetail();
   const { handleDeleteJob } = useDeleteJob();
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleSearch = () => {
+    refetchJobs(searchTerm);
+  };
 
   const handleView = async (jobPositionId: string) => {
     setIsModalVisible(true);
@@ -126,9 +142,27 @@ const JobPosition = () => {
   );
   return (
     <>
-      <div className="h-[10vh] ">
-        <div className="flex  items-center mb-4">
-          <CreateJob refetchJobPositions={refetchJobs} />
+      <div className="h-[10vh] flex justify-between items-center">
+        <div className="flex items-center w-full ml-10">
+          <div className="relative flex items-center border-2 border-transparent focus-within:border-blue-500 rounded-full w-1/5">
+            <Input
+              placeholder="Search by job name..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-4 py-2 rounded-full pr-10 outline-none"
+            />
+            <Button
+              icon={<SearchOutlined />}
+              onClick={handleSearch}
+              className="absolute right-2 bg-transparent border-none text-gray-500 hover:text-black focus:outline-none"
+            />
+          </div>
+          <div className="ml-10">
+            <CreateJob refetchJobPositions={refetchJobs} />
+          </div>
+        </div>
+        <div className="mr-10">
+          <AvatarAdmin />
         </div>
       </div>
       <div className=" gap-4 p-2 bg-slate-100 h-[90vh]">

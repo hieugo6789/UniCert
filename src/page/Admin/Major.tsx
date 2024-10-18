@@ -120,55 +120,55 @@ const Major = () => {
 
   return (
     <>
-      <div className="bg-slate-100">
-        <div className="h-[10vh] flex justify-between items-center">
-          <div className="flex items-center w-full ml-10">
-            <div className="relative flex items-center border-2 border-transparent focus-within:border-blue-500 rounded-full w-1/5">
-              <Input
-                placeholder="Search by major name..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-2 rounded-full pr-10 outline-none"
-              />
-              <Button
-                icon={<SearchOutlined />}
-                onClick={handleSearch}
-                className="absolute right-2 bg-transparent border-none text-gray-500 hover:text-black focus:outline-none"
-              />
-            </div>
+      <div className="h-[10vh] flex justify-between items-center">
+        <div className="flex items-center w-full ml-10">
+          <div className="relative flex items-center border-2 border-transparent focus-within:border-blue-500 rounded-full w-1/5">
+            <Input
+              placeholder="Search by major name..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-4 py-2 rounded-full pr-10 outline-none"
+            />
+            <Button
+              icon={<SearchOutlined />}
+              onClick={handleSearch}
+              className="absolute right-2 bg-transparent border-none text-gray-500 hover:text-black focus:outline-none"
+            />
+          </div>
+          <div className="ml-10">
             <CreateMajor refetchMajors={refetchMajors} />
           </div>
-          <div className="mr-10">
-            <AvatarAdmin />
-          </div>
         </div>
+        <div className="mr-10">
+          <AvatarAdmin />
+        </div>
+      </div>
 
-        <div className=" gap-4 p-2  h-[90vh]">
-          <div className=" bg-white p-4 rounded-lg shadow-lg">
-            <div className="h-[76vh]">
-              {loading ? (
-                <div>Loading...</div>
-              ) : major.length > 0 ? (
-                <Table
-                  columns={columns}
-                  dataSource={paginatedData}
-                  rowKey="majorId"
-                  pagination={false}
-                  loading={loading}
-                  rowClassName={() => "h-[8.7vh]"}
-                />
-              ) : (
-                <div>No majors available.</div>
-              )}
-            </div>
-            <div className="mt-6 flex justify-end">
-              <Pagination
-                current={currentPage}
-                pageSize={pageSize}
-                total={major.length}
-                onChange={handlePaginationChange}
+      <div className=" gap-4 p-2 bg-slate-100 h-[90vh]">
+        <div className=" bg-white p-4 rounded-lg shadow-lg">
+          <div className="h-[76vh]">
+            {loading ? (
+              <div>Loading...</div>
+            ) : major.length > 0 ? (
+              <Table
+                columns={columns}
+                dataSource={paginatedData}
+                rowKey="majorId"
+                pagination={false}
+                loading={loading}
+                rowClassName={() => "h-[8.7vh]"}
               />
-            </div>
+            ) : (
+              <div>No majors available.</div>
+            )}
+          </div>
+          <div className="mt-6 flex justify-end">
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              total={major.length}
+              onChange={handlePaginationChange}
+            />
           </div>
         </div>
       </div>
