@@ -20,6 +20,7 @@ import useMajor from "../../hooks/useMajor";
 import useMajorDetail from "../../hooks/useMajorDetail";
 import useDeleteMajor from "../../hooks/useDeleteMajor";
 import UpdateMajor from "../../components/Majors/UpdateMajor";
+import AvatarAdmin from "../../components/Header/AvatarAdmin";
 
 const { confirm } = Modal;
 
@@ -48,19 +49,22 @@ const Major = () => {
     { title: "Name", dataIndex: "majorName", key: "majorName" },
     {
       title: "Job Position",
-      dataIndex: "jobPositionCode",
-      key: "jobPositionCode",
-      render: (job: string[]) => {
-        if (Array.isArray(job) && job.length > 0) {
+      dataIndex: "jobPositionDetails",
+      key: "jobPositionDetails",
+      render: (jobPositionDetails: any[]) => {
+        if (
+          Array.isArray(jobPositionDetails) &&
+          jobPositionDetails.length > 0
+        ) {
           return (
             <>
-              {job.map((j, index) => (
+              {jobPositionDetails.map((job, index) => (
                 <Tag
                   color="blue"
                   key={index}
                 >
-                  {j}
-                </Tag> // Wrap each prerequisite in a Tag
+                  {job.jobPositionCode}
+                </Tag>
               ))}
             </>
           );
@@ -117,23 +121,28 @@ const Major = () => {
   return (
     <>
       <div className="bg-slate-100">
-        <div className="grid grid-cols-12 h-[10vh] ">
-          <div className="col-span-8">
-            <Input
-              placeholder="Search by major name..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ marginBottom: "20px", padding: "10px", width: "80%" }}
-            />
-            <Button
-              type="primary"
-              icon={<SearchOutlined />}
-              onClick={handleSearch}
-              style={{ marginLeft: "10px" }}
-            ></Button>
+        <div className="h-[10vh] flex justify-between items-center">
+          <div className="flex items-center w-full ml-10">
+            <div className="relative flex items-center border-2 border-transparent focus-within:border-blue-500 rounded-full w-1/5">
+              <Input
+                placeholder="Search by major name..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-4 py-2 rounded-full pr-10 outline-none"
+              />
+              <Button
+                icon={<SearchOutlined />}
+                onClick={handleSearch}
+                className="absolute right-2 bg-transparent border-none text-gray-500 hover:text-black focus:outline-none"
+              />
+            </div>
+            <CreateMajor refetchMajors={refetchMajors} />
           </div>
-          <CreateMajor refetchMajors={refetchMajors} />
+          <div className="mr-10">
+            <AvatarAdmin />
+          </div>
         </div>
+
         <div className=" gap-4 p-2  h-[90vh]">
           <div className=" bg-white p-4 rounded-lg shadow-lg">
             <div className="h-[76vh]">
@@ -190,8 +199,11 @@ const Major = () => {
             />
             <p>
               <strong>Job position: </strong>
-              {state.currentMajor.jobPositionName} -{" "}
-              {state.currentMajor.jobPositionCode}
+              {state.currentMajor.jobPositionDetails?.map((job, index) => (
+                <Tag key={index}>
+                  {job.jobPositionCode} - {job.jobPositionName}
+                </Tag>
+              )) || "No job positions available"}
             </p>
           </div>
         ) : (

@@ -16,17 +16,11 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
   refetchMajors,
 }) => {
   const [form] = Form.useForm();
-  const { updateMajorDetails, state } = useUpdateMajor();
+  const { updateMajorDetails } = useUpdateMajor();
   const { job } = useJob();
   const { state: majorDetailState, getMajorDetails } = useMajorDetail();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [formData, setFormData] = useState({
-    majorName: "",
-    majorCode: "",
-    majorDescription: "",
-    jobPositionId: [] as number[],
-  });
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -38,20 +32,24 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
   useEffect(() => {
     if (majorDetailState.currentMajor) {
       const currentMajor = majorDetailState.currentMajor;
-      setFormData({
-        majorName: currentMajor.majorName,
-        majorCode: currentMajor.majorCode,
-        majorDescription: currentMajor.majorDescription,
-        jobPositionId: currentMajor.jobPositionId || [],
+      const jobPositionIds = Array.isArray(currentMajor.jobPositionDetails)
+        ? currentMajor.jobPositionDetails.map((job) => job.jobPositionId)
+        : []; // Ensure it's an array
+
+      // Update form fields directly
+      form.setFieldsValue({
+        majorName: currentMajor.majorName || "",
+        majorCode: currentMajor.majorCode || "",
+        majorDescription: currentMajor.majorDescription || "",
+        jobPositionId: jobPositionIds,
       });
-      form.setFieldsValue(currentMajor);
     }
-  }, [state.currentMajor, majorId, form]);
+  }, [majorDetailState.currentMajor, majorId, form]);
 
   const handleUpdate = async () => {
     try {
       await form.validateFields();
-      console.log(formData);
+      const formData = form.getFieldsValue(); // Get form data from form state
       await updateMajorDetails(majorId, formData);
       message.success("Major updated successfully!");
       refetchMajors();
@@ -61,22 +59,9 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSelectJobChange = (value: number[]) => {
-    setFormData({
-      ...formData,
-      jobPositionId: Array.isArray(value) ? value : [value],
-    });
-  };
-
   const handleCancel = () => {
     setIsModalVisible(false);
+    form.resetFields(); // Reset the form when closing the modal
   };
 
   return (
@@ -105,12 +90,7 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
               { required: true, message: "Please input the major name!" },
             ]}
           >
-            <Input
-              name="majorName"
-              value={formData.majorName}
-              onChange={handleInputChange}
-              placeholder="Enter major name"
-            />
+            <Input placeholder="Enter major name" />
           </Form.Item>
           <Form.Item
             label="Major Code"
@@ -119,12 +99,7 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
               { required: true, message: "Please input the major code!" },
             ]}
           >
-            <Input
-              name="majorCode"
-              value={formData.majorCode}
-              onChange={handleInputChange}
-              placeholder="Enter major code"
-            />
+            <Input placeholder="Enter major code" />
           </Form.Item>
 
           <Form.Item
@@ -138,28 +113,30 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
             ]}
           >
             <MyEditor
-              value={formData.majorDescription}
+              value={form.getFieldValue("majorDescription")} // Sync editor value with form
               onChange={(content) =>
-                setFormData({ ...formData, majorDescription: content })
+                form.setFieldsValue({ majorDescription: content })
               }
             />
           </Form.Item>
-          <Form.Item label="Job Position">
+          <Form.Item
+            label="Job Position"
+            name="jobPositionId"
+          >
             <Select
               placeholder="Select Job position"
-              value={formData.jobPositionId}
-              onChange={handleSelectJobChange}
               style={{ width: "100%" }}
               mode="multiple"
             >
-              {job.map((j) => (
-                <Select.Option
-                  key={j.jobPositionId}
-                  value={j.jobPositionId}
-                >
-                  {j.jobPositionName}
-                </Select.Option>
-              ))}
+              {job.length > 0 &&
+                job.map((j) => (
+                  <Select.Option
+                    key={j.jobPositionId}
+                    value={j.jobPositionId}
+                  >
+                    {j.jobPositionName}
+                  </Select.Option>
+                ))}
             </Select>
           </Form.Item>
         </Form>

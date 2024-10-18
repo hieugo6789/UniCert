@@ -3,16 +3,28 @@ export interface allMajorPaginationData {
   majorCode: string;
   majorName: string;
   majorDescription: string;
-  jobPositionId: number[];
+  jobPositionDetails: [
+    {
+      jobPositionId: number;
+      jobPositionCode: string;
+      jobPositionName: string;
+      jobPositionDescription: string;
+    }
+  ];
 }
 export interface currentMajor {
   majorId: string;
   majorCode: string;
   majorName: string;
   majorDescription: string;
-  jobPositionId: number[];
-  jobPositionName: string[];
-  jobPositionCode: string[];
+  jobPositionDetails: [
+    {
+      jobPositionId: number;
+      jobPositionCode: string;
+      jobPositionName: string;
+      jobPositionDescription: string;
+    }
+  ];
 }
 
 export interface MajorInput {
