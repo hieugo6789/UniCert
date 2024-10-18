@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
 import useProfile from "../../hooks/useProfile";
 import { useEffect } from "react";
+import { LuLogOut } from "react-icons/lu";
 
 const AvatarImage = () => {
   const navigate = useNavigate();
@@ -12,12 +13,13 @@ const AvatarImage = () => {
 
   useEffect(() => {
     getProfileDetails(userId);
-    console.log(userId);
   }, []);
 
   const handleLogout = async () => {
     await localStorage.clear();
     Cookies.remove("token");
+    Cookies.remove("role");
+    Cookies.remove("userId");
     navigate("/logIn");
   };
 
@@ -44,6 +46,7 @@ const AvatarImage = () => {
         key="3"
         onClick={handleLogout}
       >
+        <LuLogOut style={{ marginRight: "8px" }} />
         Log Out
       </Menu.Item>
     </Menu>

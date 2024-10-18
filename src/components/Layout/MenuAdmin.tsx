@@ -32,7 +32,7 @@ const MenuAdmin = () => {
         <img
           src={UniCertLogo}
           alt="logo"
-          className="w-20"
+          className="w-40"
         />
       </div>
       <NavLink

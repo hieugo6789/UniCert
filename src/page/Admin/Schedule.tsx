@@ -1,6 +1,5 @@
 // import { Button } from "antd";
 import useSchedule from "../../hooks/useSchedule";
-import Logo from "../../components/Header/Logo";
 
 const Schedule = () => {
   const { schedule, loading } = useSchedule();
@@ -8,8 +7,6 @@ const Schedule = () => {
   return (
     <>
       <div className="h-[10vh] flex items-center">
-        <Logo />
-
         {/* <div>
           <Button
             type="primary"
