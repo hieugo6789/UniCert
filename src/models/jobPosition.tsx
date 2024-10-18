@@ -3,9 +3,22 @@ export interface allJobPaginationData {
   jobPositionCode: string;
   jobPositionName: string;
   jobPositionDescription: string;
-  majorId: number[];
-  majorName?: string[];
-  certId: number[];
+  majorDetails: [
+    {
+      majorId: number;
+      majorCode: string;
+      majorName: string;
+      majorDescription: string;
+    }
+  ];
+  certificationDetails: [
+    {
+      certId: number;
+      certName: string;
+      certCode: string;
+      certDescription: string;
+    }
+  ];
 }
 
 export interface currentJob {
@@ -13,12 +26,22 @@ export interface currentJob {
   jobPositionCode: string;
   jobPositionName: string;
   jobPositionDescription: string;
-  majorId: number[];
-  majorName: string[];
-  majorCode: string[];
-  certId: number[];
-  certName: string[];
-  certCode: string[];
+  majorDetails: [
+    {
+      majorId: number;
+      majorCode: string;
+      majorName: string;
+      majorDescription: string;
+    }
+  ];
+  certificationDetails: [
+    {
+      certId: number;
+      certName: string;
+      certCode: string;
+      certDescription: string;
+    }
+  ];
 }
 
 export interface createJobInput {

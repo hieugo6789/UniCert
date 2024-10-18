@@ -34,18 +34,18 @@ const JobPosition = () => {
     { title: "Name", dataIndex: "jobPositionName", key: "jobPositionName" },
     {
       title: "Major",
-      dataIndex: "majorCode",
-      key: "majorCode",
-      render: (major: string[]) => {
-        if (Array.isArray(major) && major.length > 0) {
+      dataIndex: "majorDetails",
+      key: "majorDetails",
+      render: (majorDetails: any[]) => {
+        if (Array.isArray(majorDetails) && majorDetails.length > 0) {
           return (
             <>
-              {major.map((m, index) => (
+              {majorDetails.map((major, index) => (
                 <Tag
                   color="blue"
                   key={index}
                 >
-                  {m}
+                  {major.majorCode}
                 </Tag> // Wrap each prerequisite in a Tag
               ))}
             </>
@@ -56,19 +56,22 @@ const JobPosition = () => {
     },
     {
       title: "Certification",
-      dataIndex: "certCode",
-      key: "certCode",
+      dataIndex: "certificationDetails",
+      key: "certificationDetails",
       // width: 200,
-      render: (certification: string[]) => {
-        if (Array.isArray(certification) && certification.length > 0) {
+      render: (certificationDetails: any[]) => {
+        if (
+          Array.isArray(certificationDetails) &&
+          certificationDetails.length > 0
+        ) {
           return (
             <>
-              {certification.map((c, index) => (
+              {certificationDetails.map((c, index) => (
                 <Tag
                   color="blue"
                   key={index}
                 >
-                  {c}
+                  {c.certCode}
                 </Tag>
               ))}
             </>
@@ -181,12 +184,20 @@ const JobPosition = () => {
               }}
             />
             <p>
-              <strong>Major: </strong> {state.currentJob.majorName} -{" "}
-              {state.currentJob.majorCode}
+              <strong>Major: </strong>{" "}
+              {state.currentJob.majorDetails?.map((major, index) => (
+                <Tag key={index}>
+                  {major.majorCode} - {major.majorName}
+                </Tag>
+              )) || "No major available"}
             </p>
             <p>
-              <strong>Certification: </strong> {state.currentJob.certName} -{" "}
-              {state.currentJob.certCode}
+              <strong>Certification: </strong>
+              {state.currentJob.certificationDetails?.map((cert, index) => (
+                <Tag key={index}>
+                  {cert.certCode} -{cert.certName}
+                </Tag>
+              ))}
             </p>
           </div>
         ) : (
