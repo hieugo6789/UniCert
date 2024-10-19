@@ -5,17 +5,20 @@ import { useCreateMajor } from "../../hooks/useCreateMajor";
 import useJob from "../../hooks/useJobPosition";
 import axios from "axios";
 import MyEditor from "../Editor/MyEditor";
+import useCertificate from "../../hooks/useCertificate";
 
 const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { handleCreateMajor } = useCreateMajor();
   const { job } = useJob();
+  const { certificate } = useCertificate();
   const [form] = Form.useForm();
   const [formData, setFormData] = useState({
     majorName: "",
     majorCode: "",
     majorDescription: "",
     jobPositionId: [] as number[],
+    certId: [] as number[],
   });
 
   const showModal = () => {
@@ -54,6 +57,12 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
     setFormData({
       ...formData,
       jobPositionId: Array.isArray(value) ? value : [value],
+    });
+  };
+  const handleSelectCertChange = (value: number[]) => {
+    setFormData({
+      ...formData,
+      certId: Array.isArray(value) ? value : [value],
     });
   };
 
@@ -141,6 +150,23 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
                   value={j.jobPositionId}
                 >
                   {j.jobPositionName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item label="Certification">
+            <Select
+              placeholder="Select Certification"
+              onChange={handleSelectCertChange}
+              style={{ width: "100%" }}
+              mode="multiple"
+            >
+              {certificate.map((cert) => (
+                <Select.Option
+                  key={cert.certId}
+                  value={cert.certId}
+                >
+                  {cert.certName}
                 </Select.Option>
               ))}
             </Select>
