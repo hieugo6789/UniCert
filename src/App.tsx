@@ -25,6 +25,7 @@ import NotFound from "./page/NotFound/NotFound";
 import CertificateDetailPage from "./page/User/Certificate/CertificateDetailPage";
 import MajorDetailPage from "./page/User/Majors/MajorDetailPage";
 import JobDetail from "./page/User/Job/JobDetail";
+import TopUpWallet from "./components/Wallet/TopUpWallet";
 const Layout = () => {
   return (
     <>
@@ -51,6 +52,7 @@ function App() {
         { path: "major/:id", element: <MajorDetailPage /> },
         { path: "job", element: <Job /> },
         { path: "job/:id", element: <JobDetail /> },
+        { path: "transaction/create", element: <TopUpWallet /> },
       ],
     },
     { path: "/login", element: <Login /> },

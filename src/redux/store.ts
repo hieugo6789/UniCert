@@ -26,6 +26,7 @@ import userDetailReducer from "../redux/slice/userDetailSlice";
 import deleteAccountReducer from "../redux/slice/deleteAccountSlice";
 import profileReducer from "../redux/slice/profileSlice";
 import walletDetailReducer from "../redux/slice/walletDetailSlice";
+import createTransactionReducer from "../redux/slice/createTransactionSlice";
 
 export const store = configureStore({
   reducer: {
@@ -55,6 +56,7 @@ export const store = configureStore({
     accountDelete: deleteAccountReducer,
     profile: profileReducer,
     walletDetail: walletDetailReducer,
+    createTransaction: createTransactionReducer,
   },
 });
 

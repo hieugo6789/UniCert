@@ -8,7 +8,7 @@ export interface WalletDetail {
 }
 
 export interface currentWallet {
-  walletId: string;
+  walletId: number;
   point: number;
   userId: string;
   depositDate: Date;

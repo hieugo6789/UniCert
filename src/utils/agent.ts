@@ -10,6 +10,7 @@ import { UpdateRole } from "../models/user";
 import { scheduleInput } from "../models/schedule";
 import { createCertificate, updateCert } from "../models/certificate";
 import { createJobInput, updateJobInput } from "../models/jobPosition";
+import { inputTransaction } from "../models/transaction";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -112,6 +113,16 @@ const Account = {
   getAccountWallet: (userId: string | undefined) =>
     requests.get(`api/v1/wallet/${userId}`),
 };
+const TransactionWallet = {
+  getTransactionDetail: (transactionId: number) =>
+    requests.get(`api/v1/transaction${transactionId}`),
+  createTransaction: (input: inputTransaction) =>
+    requests.post("api/v1/transaction", input),
+};
+const Checkout = {
+  getCheckOut: (transactionId: number) =>
+    requests.post1(`api/v1/checkout/${transactionId}`),
+};
 
 const Profile = {
   getProfile: (userId: string | undefined) =>
@@ -133,6 +144,8 @@ const agent = {
   JobPosition,
   Schedule,
   Profile,
+  TransactionWallet,
+  Checkout,
   CertType,
 };
 export default agent;

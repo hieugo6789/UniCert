@@ -14,7 +14,7 @@ const useWalletDetail = () => {
     dispatch(WalletDetailsStart());
     try {
       const response = await agent.Account.getAccountWallet(id);
-      dispatch(WalletDetailSuccess({ userId: id, wallet: response.data })); // Truyền userId kèm data
+      dispatch(WalletDetailSuccess({ userId: id, wallet: response.data }));
     } catch (error) {
       console.error("Error fetching Wallet details:", error);
       dispatch(WalletDetailFailure());
