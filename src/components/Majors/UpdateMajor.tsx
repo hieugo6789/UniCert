@@ -5,6 +5,7 @@ import useJob from "../../hooks/useJobPosition";
 import useMajorDetail from "../../hooks/useMajorDetail";
 import { EditOutlined } from "@ant-design/icons";
 import MyEditor from "../Editor/MyEditor";
+import useCertificate from "../../hooks/useCertificate";
 
 interface UpdateMajorProps {
   majorId: string;
@@ -18,6 +19,7 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
   const [form] = Form.useForm();
   const { updateMajorDetails } = useUpdateMajor();
   const { job } = useJob();
+  const { certificate } = useCertificate();
   const { state: majorDetailState, getMajorDetails } = useMajorDetail();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -34,7 +36,10 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
       const currentMajor = majorDetailState.currentMajor;
       const jobPositionIds = Array.isArray(currentMajor.jobPositionDetails)
         ? currentMajor.jobPositionDetails.map((job) => job.jobPositionId)
-        : []; // Ensure it's an array
+        : [];
+      const certIds = Array.isArray(currentMajor.certificationDetails)
+        ? currentMajor.certificationDetails.map((cert) => cert.certId)
+        : [];
 
       // Update form fields directly
       form.setFieldsValue({
@@ -42,6 +47,7 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
         majorCode: currentMajor.majorCode || "",
         majorDescription: currentMajor.majorDescription || "",
         jobPositionId: jobPositionIds,
+        certId: certIds,
       });
     }
   }, [majorDetailState.currentMajor, majorId, form]);
@@ -135,6 +141,26 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
                     value={j.jobPositionId}
                   >
                     {j.jobPositionName}
+                  </Select.Option>
+                ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="Certification"
+            name="certId"
+          >
+            <Select
+              placeholder="Select Job position"
+              style={{ width: "100%" }}
+              mode="multiple"
+            >
+              {certificate.length > 0 &&
+                certificate.map((cert) => (
+                  <Select.Option
+                    key={cert.certId}
+                    value={cert.certId}
+                  >
+                    {cert.certName}
                   </Select.Option>
                 ))}
             </Select>
