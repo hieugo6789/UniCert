@@ -94,6 +94,8 @@ const Schedule = {
     requests.get(`api/v1/exam-session/${name ? name : ""}`),
   createSchedule: (input: scheduleInput) =>
     requests.post("api/v1/exam-session", input),
+  deleteSchedule: (sessionId: string) =>
+    requests.del(`api/v1/exam-session/${sessionId}`),
 };
 
 const InternalCourse = {

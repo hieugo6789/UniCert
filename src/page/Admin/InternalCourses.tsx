@@ -1,4 +1,5 @@
 // import { Button } from "antd";
+import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import useCourse from "../../hooks/useCourse";
 // import { useState } from "react";
 
@@ -9,14 +10,10 @@ const InternalCourses = () => {
   // const [pageSize] = useState(8);
   return (
     <>
-      <div className="h-[10vh] ">
-        <div className="flex  items-center mb-4">
-          {/* <Button
-            type="primary"
-            // onClick={showModal}
-          >
-            + Course
-          </Button> */}
+      <div className="h-[10vh] flex justify-between items-center">
+        <div></div>
+        <div className="mr-10">
+          <AvatarAdmin />
         </div>
       </div>
       <div className=" gap-4 p-2 bg-slate-100 h-[90vh]">
@@ -29,7 +26,7 @@ const InternalCourses = () => {
             <div>No organizations available.</div>
           )}
         </div>
-      </div>{" "}
+      </div>
     </>
   );
 };

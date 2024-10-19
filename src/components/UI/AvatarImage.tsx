@@ -31,13 +31,12 @@ const AvatarImage = () => {
           <Avatar
             src={
               state.profile.userImage ? state.profile.userImage : defaultAvatar
-              // state.profile.userImage
             }
             size="small"
           />
         }
       >
-        <Link to="/profile">Profile</Link>
+        <Link to="/profile">{state.profile.username}</Link>
       </Menu.Item>
       <Menu.Item key="2">
         <Link to="/customer/orderHistory">Payment History</Link>
