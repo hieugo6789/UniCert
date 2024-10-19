@@ -53,10 +53,10 @@ const Header = () => {
           Certifications
         </Link>
         <Link
-          to="./practicalExam"
+          to="./courses"
           className="hover:text-gray-400"
         >
-          Practice Exams
+          Courses
         </Link>
         <Link
           to="./about"

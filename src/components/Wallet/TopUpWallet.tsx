@@ -25,7 +25,6 @@ const TopUpWallet = () => {
       };
 
       try {
-        // Step 1: Trigger top-up transaction
         const transactionResponse = await handleCreateTransaction(
           transactionData
         );
