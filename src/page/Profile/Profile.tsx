@@ -97,7 +97,7 @@ const Profile = () => {
     }
   };
   
-  const handleAvatarSubmit = async (event: React.FormEvent) => { 
+  const handleAvatarSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => { 
     event.preventDefault();     
     if (selectedAvatar) {
       const formData = new FormData();
