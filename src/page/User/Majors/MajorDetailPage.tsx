@@ -43,7 +43,7 @@ const MajorDetailPage: React.FC = () => {
 
   // Handle filtering by job position
   const handleJobPositionChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
+    // event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     // const selectedJob = event.target.value;
 
