@@ -9,7 +9,6 @@ import useCertType from "../../hooks/useCertType";
 import useCertDetail from "../../hooks/useCertDetail";
 import { EditOutlined } from "@ant-design/icons";
 import axios from "axios";
-import { current } from "@reduxjs/toolkit";
 
 interface UpdateCertProps {
   certId: string;
@@ -79,7 +78,7 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
       refetchCertificates();
       setIsModalVisible(false);
     } catch (error) {
-      message.error("Failed to update the certificate.");
+      console.error("Failed to update the certificate.", error);
     }
   };
 
