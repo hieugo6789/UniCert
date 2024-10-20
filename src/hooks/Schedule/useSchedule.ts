@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../redux/hook";
-import { allSchedulePaginationData } from "../models/schedule";
-import { fetchAllSchedulePagination } from "../redux/slice/scheduleSlice";
+import { useAppDispatch } from "../../redux/hook";
+import { allSchedulePaginationData } from "../../models/schedule";
+import { fetchAllSchedulePagination } from "../../redux/slice/scheduleSlice";
 
 const useSchedule = () => {
   const dispatch = useAppDispatch();
