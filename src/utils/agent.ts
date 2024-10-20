@@ -11,6 +11,7 @@ import { scheduleInput } from "../models/schedule";
 import { createCertificate, updateCert } from "../models/certificate";
 import { createJobInput, updateJobInput } from "../models/jobPosition";
 import { inputTransaction } from "../models/transaction";
+import { updateCourse } from "../models/course";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -107,6 +108,8 @@ const InternalCourse = {
   getCourseDetail: (courseId: string) =>
     requests.get(`api/v1/course/${courseId}`),
   deleteCourse: (courseId: string) => requests.del(`api/v1/course/${courseId}`),
+  updateCourse: (courseId: string, input: updateCourse) =>
+    requests.put(`api/v1/course/${courseId}`, input),
 };
 
 const Account = {
