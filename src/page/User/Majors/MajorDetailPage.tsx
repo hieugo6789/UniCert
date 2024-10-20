@@ -98,7 +98,7 @@ const MajorDetailPage: React.FC = () => {
         <h2 className="text-xl font-bold mb-6 text-left">
           Certifications for this major
         </h2>
-        <div className="relative mb-6 w-full m-auto mb-2">
+        <div className="relative mb-6 w-full m-auto ">
           <input
             type="text"
             placeholder="Search..."
@@ -106,7 +106,7 @@ const MajorDetailPage: React.FC = () => {
           />
           <span className="absolute right-3 top-2 text-black">🔍</span>
         </div>
-        <div className="inline-block flex flex-row items-center">
+        <div className="flex flex-row items-center">
           <p className="mr-3">Filter by</p>
 
           <div>

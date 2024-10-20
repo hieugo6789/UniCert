@@ -156,7 +156,7 @@ const HomePage = () => {
           Best Certificate For You
         </h1>
 
-        <div className="flex w-full grid grid-cols-1 gap-2 md:grid-cols-1 xs:grid-cols:2 xl:grid-cols-4">
+        <div className=" w-full grid grid-cols-1 gap-2 md:grid-cols-1 xs:grid-cols:2 xl:grid-cols-4">
           {topCert.map((cert) => (
             <div className="fade-in">
               <CertificateCard {...cert} />
