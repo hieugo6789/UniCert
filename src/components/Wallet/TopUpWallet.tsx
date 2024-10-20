@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useCreateTransaction } from "../../hooks/useCreateTransaction";
-import useWalletDetail from "../../hooks/useWalletDetail";
+import { useCreateTransaction } from "../../hooks/Wallet/useCreateTransaction";
+import useWalletDetail from "../../hooks/Wallet/useWalletDetail";
 import Cookies from "js-cookie";
 import { inputTransaction } from "../../models/transaction";
 import agent from "../../utils/agent";

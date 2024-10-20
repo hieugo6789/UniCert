@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useWalletDetail from "../../../hooks/useWalletDetail";
+import useWalletDetail from "../../../hooks/Wallet/useWalletDetail";
 import Coin from "../../../assets/images/Coin.png";
 import Cookies from "js-cookie";
 

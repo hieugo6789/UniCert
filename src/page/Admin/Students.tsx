@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import Coin from "../../assets/images/Coin.png";
 import setUserStatus from "../../hooks/Account/useUserStatus";
 import useUserDetail from "../../hooks/Account/useUserDetail";
-import useWalletDetail from "../../hooks/useWalletDetail";
+import useWalletDetail from "../../hooks/Wallet/useWalletDetail";
 import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 

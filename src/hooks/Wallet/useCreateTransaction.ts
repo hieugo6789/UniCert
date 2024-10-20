@@ -1,11 +1,11 @@
-import { inputTransaction } from "../models/transaction";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { inputTransaction } from "../../models/transaction";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   createTransactionFailure,
   createTransactionStart,
   createTransactionSuccess,
-} from "../redux/slice/Wallet/createTransactionSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/Wallet/createTransactionSlice";
+import agent from "../../utils/agent";
 export interface CreateTransactionResponse {
   data: {
     transactionId: number;

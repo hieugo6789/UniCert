@@ -1,10 +1,10 @@
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   WalletDetailFailure,
   WalletDetailsStart,
   WalletDetailSuccess,
-} from "../redux/slice/Wallet/walletDetailSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/Wallet/walletDetailSlice";
+import agent from "../../utils/agent";
 
 const useWalletDetail = () => {
   const state = useAppSelector((state) => state.walletDetail);
