@@ -1,4 +1,5 @@
 import { Button, Input, Modal, Form, InputNumber, Select } from "antd";
+import CustomInput from "../../components/UI/CustomInput";
 import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useCreateCert } from "../../hooks/useCreateCert";
@@ -37,20 +38,28 @@ const CreateCert = ({
   };
 
   const handleOK = async () => {
-    try {
-      // Validate fields before submission
+    try {      
       await form.validateFields();
-
-      await handleCreateCert(formData);
-      setIsModalVisible(false);
-      refetchCertificates();
+      
+      let uploadedImageUrl = formData.certImage;
+      
+      if (selectedImage) {
+        uploadedImageUrl = await uploadCloudinary();
+        console.log("New uploaded image URL:", uploadedImageUrl);
+      }
+        
+      const updatedFormData = {
+        ...formData,
+        certImage: uploadedImageUrl,
+      };      
+      await handleCreateCert(updatedFormData);      
+      setIsModalVisible(false);  
+      refetchCertificates();     
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Error creating certification:", error.response?.data);
-      } else if (error instanceof Error) {
-        console.error("An unexpected error occurred:", error);
       } else {
-        console.error("Validation failed.");
+        console.error("An unexpected error occurred:", error);
       }
     }
   };
@@ -85,6 +94,39 @@ const CreateCert = ({
       ...formData,
       certIdPrerequisites: Array.isArray(value) ? value : [value],
     });
+  };
+  
+  const [selectedImage, setSelectedImage] = useState<File | null>(null); 
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      console.log("Selected image file:", file);
+      setSelectedImage(file);
+      setPreviewImage(URL.createObjectURL(file)); 
+    }
+  };
+
+  const uploadCloudinary = async () => {        
+    if (selectedImage) {
+      const formUpload = new FormData();
+      formUpload.append("api_key", "994636724857583");
+      formUpload.append("file", selectedImage);
+      formUpload.append("upload_preset", "upload_image");
+      formUpload.append("folder", "Certificate")
+
+      try {
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/unicert/image/upload",
+          formUpload
+        );                          
+        console.log("Certificate upload successfully:", response.data.url);    
+        return response.data.url;          
+      } catch (error) {
+        console.error("Error uploading avatar:", error);
+      }
+    }
   };
 
   return (
@@ -193,20 +235,19 @@ const CreateCert = ({
 
           <Form.Item
             label="Image"
-            name="certImage"
-            rules={[
-              {
-                required: true,
-                message: "Please enter the certificate image URL",
-              },
-            ]}
+            name="certImage"            
           >
-            <Input
-              name="certImage"
-              value={formData.certImage}
-              onChange={handleInputChange}
-              placeholder="Enter certificate image URL"
-            />
+            <img
+                src={previewImage || (formData.certImage)}
+                alt="Current Image"
+                className="w-32 h-32 bg-gray-300 mb-4"
+              />
+            <CustomInput
+                placeholder="Image"
+                type="file"                
+                onChange={handleImageChange}                
+                required
+              />
           </Form.Item>
 
           <Form.Item
