@@ -29,6 +29,7 @@ import TopUpWallet from "./components/Wallet/TopUpWallet";
 import Wallet from "./page/User/Wallet/Wallet";
 import Courses from "./page/User/Courses/Courses";
 import SimulationExam from "./page/Admin/SimulationExam";
+import Voucher from "./page/Admin/Voucher";
 const Layout = () => {
   return (
     <>
@@ -77,6 +78,7 @@ function App() {
         { path: "students", element: <Students /> },
         { path: "internalCourses", element: <InternalCourses /> },
         { path: "simulationExam", element: <SimulationExam /> },
+        { path: "voucher", element: <Voucher /> },
       ],
     },
   ]);
