@@ -2,22 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"; // To get the majorId from URL params
 import { allMajorPaginationData } from "../../../models/major";
 import useMajorDetail from "../../../hooks/useMajorDetail";
-import { allCertificationData } from "../../../models/certificate";
-import CertificateCard from "../../../components/Certifications/CertificateCard";
-import useCertDetail from "../../../hooks/useCertDetail";
-import useJobDetail from "../../../hooks/useJobDetail";
-
+interface certTab {
+  certCode: string;
+  certDescription: string;
+  certId: number;
+  certImage: string;
+  certName: string;
+  typeName: string;
+}
 const MajorDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // Extract majorId from the URL
   const [major, setMajor] = useState<allMajorPaginationData | null>(null);
-  const [filteredCerts, setFilteredCerts] = useState<allCertificationData[]>(
-    []
-  );
-  const [allCerts, setAllCerts] = useState<allCertificationData[]>([]);
+  const [allCerts, setAllCerts] = useState<certTab[]>([]);
 
   const { state, getMajorDetails } = useMajorDetail();
-  const { state: jobDetailState, getJobDetails } = useJobDetail();
-  const { state: certDetailState, getCertDetails } = useCertDetail();
 
   // Fetch Major Details
   useEffect(() => {
@@ -36,90 +34,39 @@ const MajorDetailPage: React.FC = () => {
     const getJob = () => {
       if (state?.currentMajor) {
         setMajor(state.currentMajor);
-        const jobPositions = state.currentMajor.jobPositionDetails || [];
-        console.log("test", jobPositions);
-        jobPositions.forEach(async (job) => {
-          try {
-            await getJobDetails(job.jobPositionId.toString());
-            console.log("Fetched job details for jobId:", job.jobPositionId); // Debugging
-          } catch (error) {
-            console.error("Error fetching job details:", error); // Check for errors
-          }
-        });
+        setAllCerts(state.currentMajor.certificationDetails);
+        console.log("Major", state.currentMajor.certificationDetails);
       }
     };
     getJob();
   }, [state]);
 
-  // Fetch Certification Details associated with the Job
-  useEffect(() => {
-    const getCert = () => {
-      if (
-        jobDetailState?.currentJob &&
-        jobDetailState.currentJob.certificationDetails
-      ) {
-        const certificateId =
-          jobDetailState.currentJob.certificationDetails || [];
-        certificateId.forEach(async (certId) => {
-          await getCertDetails(certId.certId.toString()); // No need to use .toString() since certId is already a string
-        });
-      }
-    };
-    getCert();
-  }, [jobDetailState]);
-
-  // Update Certifications list when certDetailState changes
-  useEffect(() => {
-    const getCertDetail = () => {
-      if (certDetailState?.currentCert) {
-        setFilteredCerts((prevCerts) => {
-          const isCertExist = prevCerts.some(
-            (cert) => cert.certId === certDetailState.currentCert.certId
-          );
-          return isCertExist
-            ? prevCerts
-            : [...prevCerts, certDetailState.currentCert];
-        });
-
-        setAllCerts((prevCerts) => {
-          const isCertExist = prevCerts.some(
-            (cert) => cert.certId === certDetailState.currentCert.certId
-          );
-          return isCertExist
-            ? prevCerts
-            : [...prevCerts, certDetailState.currentCert];
-        });
-      }
-    };
-    getCertDetail();
-  }, [certDetailState]);
-
   // Handle filtering by job position
   const handleJobPositionChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const selectedJob = event.target.value;
+    // const selectedJob = event.target.value;
 
-    if (selectedJob === "all") {
-      setFilteredCerts(allCerts);
-    } else {
-      const selectedJobDetail =
-        jobDetailState.currentJob?.jobPositionId.toString() === selectedJob
-          ? jobDetailState.currentJob
-          : null;
+    // if (selectedJob === "all") {
+    //   setFilteredCerts(allCerts);
+    // } else {
+    //   const selectedJobDetail =
+    //     jobDetailState.currentJob?.jobPositionId.toString() === selectedJob
+    //       ? jobDetailState.currentJob
+    //       : null;
 
-      if (selectedJobDetail) {
-        const certIds = selectedJobDetail.certificationDetails || [];
-        const filteredCerts = certIds
-          .map((certId) =>
-            allCerts.find((cert) => cert.certId === certId.certId.toString())
-          ) // Convert certId to number for comparison
-          .filter((cert): cert is allCertificationData => !!cert); // Ensure only valid certs are returned
+    //   if (selectedJobDetail) {
+    //     const certIds = selectedJobDetail.certificationDetails || [];
+    //     const filteredCerts = certIds
+    //       .map((certId) =>
+    //         allCerts.find((cert) => cert.certId === certId.certId.toString())
+    //       ) // Convert certId to number for comparison
+    //       .filter((cert): cert is allCertificationData => !!cert); // Ensure only valid certs are returned
 
-        console.log("Test", allCerts);
-        setFilteredCerts(filteredCerts);
-      }
-    }
+    //     console.log("Test", allCerts);
+    //     setFilteredCerts(filteredCerts);
+    //   }
+    // }
   };
 
   if (!major) {
@@ -188,12 +135,14 @@ const MajorDetailPage: React.FC = () => {
       </div>
 
       {/* Certificates Grid */}
-      {filteredCerts.length > 0 ? (
+      {allCerts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
-          {filteredCerts.map((cert, index) => (
-            <CertificateCard
+          {allCerts.map((cert, index) => (
+            <img
               key={index}
-              {...cert}
+              src={cert.certImage}
+              alt={cert.certName}
+              className="rounded-md shadow-md"
             />
           ))}
         </div>
@@ -215,7 +164,7 @@ const MajorDetailPage: React.FC = () => {
             </Link>
           </p>
         </div>
-      )}
+      )} 
       <div className="flex justify-center mt-6 gap-4">
         <button className="p-2">◀</button>
         {[1, 2, 3, 4, 5].map((page) => (
