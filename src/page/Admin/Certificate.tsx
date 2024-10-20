@@ -214,6 +214,14 @@ const Certificate = () => {
               {state.currentCert.certPointSystem}
             </p>
             <p>
+              <strong>Image: </strong>{" "}
+              <img
+                src={state.currentCert.certImage}
+                alt="Current Image"
+                className="w-32 h-32 bg-gray-300 mb-4"
+              />
+            </p>
+            <p>
               <strong>Cost for official exam:</strong>{" "}
               {state.currentCert.certCost} $
             </p>
