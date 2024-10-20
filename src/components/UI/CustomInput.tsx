@@ -1,6 +1,6 @@
 interface CustomInputProps {
     type: string;
-    onChange?: () => void;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     required?: boolean;
     width?: string;
     height?: string;

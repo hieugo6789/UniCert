@@ -9,6 +9,7 @@ import CustomInput from "../../components/UI/CustomInput";
 import CustomButton from "../../components/UI/CustomButton";
 import Cookies from "js-cookie";
 import { UserDetail } from "../../models/user";
+import axios from "axios";
 
 const Profile = () => {
   const [form, setForm] = useState<UserDetail>({
@@ -30,7 +31,13 @@ const Profile = () => {
       getProfileDetails(Cookies.get("userId"));      
   }, []);
   useEffect(() => {
-    setForm(state.profile);
+    if (state.profile) {
+      setForm({
+        ...form,
+        ...state.profile, // Cập nhật form chỉ khi state.profile có giá trị hợp lệ
+        userImage: state.profile.userImage || DefaultAvatar, // Đảm bảo luôn có giá trị cho userImage
+      });
+    }
   }, [state.profile]);
   // console.log("profile", form);
   const navigate = useNavigate();
@@ -77,6 +84,50 @@ const Profile = () => {
     console.log("Save payment methods");
   };
 
+  const [isOpenAvatarModal, setIsOpenAvatarModal] = useState(false);  
+  const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null); 
+  const [previewAvatar, setPreviewAvatar] = useState<string | null>(null);
+
+  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      console.log("Selected avatar file:", file);
+      setSelectedAvatar(file);
+      setPreviewAvatar(URL.createObjectURL(file));      
+    }
+  };
+  
+  const handleAvatarSubmit = async (event: React.FormEvent) => { 
+    event.preventDefault();     
+    if (selectedAvatar) {
+      const formData = new FormData();
+      formData.append("api_key", "994636724857583");
+      formData.append("file", selectedAvatar);
+      formData.append("upload_preset", "upload_image");
+      formData.append("folder", "Avatar")
+
+      try {
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/unicert/image/upload",
+          formData
+        );
+        const uploadedImageUrl = response.data.secure_url;
+
+        const updatedForm = {
+          ...form,
+          userImage: uploadedImageUrl,
+        };        
+        setForm(updatedForm);
+        setPreviewAvatar(null);
+        setIsOpenAvatarModal(false);
+        console.log("Avatar updated successfully:", uploadedImageUrl);      
+        handleSubmit(updatedForm);  
+      } catch (error) {
+        console.error("Error uploading avatar:", error);
+      }
+    }
+  };
+
   const handleBack = () => {
     navigate("/");
   };
@@ -85,11 +136,12 @@ const Profile = () => {
     <div className="flex min-h-screen bg-gray-100">
       <div className="w-1/4 bg-white shadow-md p-4">
         <div className="flex flex-col items-center mb-6">
-          <img
-            src={form.userImage ? form.userImage : DefaultAvatar}
-            alt="avatar"
-            className="w-24 h-24 bg-gray-300 rounded-full mb-4"
-          />
+        <img
+          src={form.userImage ? form.userImage : DefaultAvatar}
+          alt="avatar"
+          className="w-24 h-24 bg-gray-300 rounded-full mb-4 cursor-pointer"
+          onClick={() => setIsOpenAvatarModal(true)}  // Khi bấm vào, mở modal
+        />
           <p className="font-bold text-lg">{form.fullname}</p>
         </div>
         <ul className="space-y-4">
@@ -144,7 +196,7 @@ const Profile = () => {
         <div className="border-t border-gray-300 my-6"></div>
 
         <Formik
-          initialValues={initialValues}
+          initialValues={form || initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
           enableReinitialize={true}
@@ -336,6 +388,32 @@ const Profile = () => {
           </div>
         </form>
       </CustomModal>
+
+      {/* OpenAvatarModal */}
+      <CustomModal
+          isOpen={isOpenAvatarModal}
+          onClose={() => setIsOpenAvatarModal(false)}
+          title="Change Avatar"
+        >
+          <form>
+            <div className="flex flex-col items-center">
+              <img
+                src={previewAvatar || (form.userImage ? form.userImage : DefaultAvatar)}
+                alt="Current Avatar"
+                className="w-32 h-32 bg-gray-300 rounded-full mb-4"
+              />
+              <CustomInput
+                placeholder="image"
+                type="file"
+                onChange={handleAvatarChange}                
+                required
+              />
+            </div>
+            <div className="flex justify-end">
+              <CustomButton type="submit" label="Save Avatar" onClick={handleAvatarSubmit}/>
+            </div>
+          </form>
+        </CustomModal>
     </div>
   );
 };
