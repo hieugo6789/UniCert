@@ -15,6 +15,8 @@ import organizeDetailReducer from "../redux/slice/organizeDetailSlice";
 import createOrganizationReducer from "../redux/slice/createOrganizeSlice";
 import deleteOrganizationReducer from "../redux/slice/deleteOrganizeSlice";
 import courseReducer from "../redux/slice/courseSlice";
+import courseDetailReducer from "../redux/slice/courseDetailSlice";
+import deleteCourseReducer from "../redux/slice/deleteCourseSlice";
 import certificateReducer from "../redux/slice/certificateSlice";
 import certificateDetailReducer from "../redux/slice/certDetailSlice";
 import deleteCertificateReducer from "./slice/deleteCertificateSlice";
@@ -26,6 +28,7 @@ import userDetailReducer from "../redux/slice/userDetailSlice";
 import deleteAccountReducer from "../redux/slice/deleteAccountSlice";
 import profileReducer from "../redux/slice/profileSlice";
 import walletDetailReducer from "../redux/slice/walletDetailSlice";
+import createTransactionReducer from "../redux/slice/createTransactionSlice";
 
 export const store = configureStore({
   reducer: {
@@ -44,6 +47,8 @@ export const store = configureStore({
     createOrganization: createOrganizationReducer,
     deleteOrganization: deleteOrganizationReducer,
     course: courseReducer,
+    courseDetail: courseDetailReducer,
+    deleteCourse: deleteCourseReducer,
     certificate: certificateReducer,
     certificateDetail: certificateDetailReducer,
     certificateDelete: deleteCertificateReducer,
@@ -55,6 +60,7 @@ export const store = configureStore({
     accountDelete: deleteAccountReducer,
     profile: profileReducer,
     walletDetail: walletDetailReducer,
+    createTransaction: createTransactionReducer,
   },
 });
 

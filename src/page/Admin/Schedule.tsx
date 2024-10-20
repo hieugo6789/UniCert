@@ -14,7 +14,7 @@ const Schedule = () => {
           <AvatarAdmin />
         </div>
       </div>
-      <div className=" p-2 bg-slate-100">
+      <div className=" p-2 bg-slate-100 min-h-[90vh]">
         <Calendar />
         {/* <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg">
           {loading ? (

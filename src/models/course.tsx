@@ -4,7 +4,20 @@ export interface allCoursePaginationData {
   courseCode: string;
   courseTime: string;
   courseDescription: string;
+  courseFee: number;
+  courseDiscountFee: number;
+  courseImage: string;
   certId: string;
+  certificationDetails: [
+    {
+      certId: number;
+      certName: string;
+      certCode: string;
+      certDescription: string;
+      certImage: string;
+      typeName: string;
+    }
+  ];
 }
 
 export interface currentCourse {
@@ -13,5 +26,22 @@ export interface currentCourse {
   courseCode: string;
   courseTime: string;
   courseDescription: string;
+  courseFee: number;
+  courseDiscountFee: number;
+  courseImage: string;
   certId: string;
+  certificationDetails: [
+    {
+      certId: number;
+      certName: string;
+      certCode: string;
+      certDescription: string;
+      certImage: string;
+      typeName: string;
+    }
+  ];
+}
+
+export interface deleteCourse {
+  courseId: string;
 }

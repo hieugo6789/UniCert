@@ -39,7 +39,7 @@ const AvatarImage = () => {
         <Link to="/profile">{state.profile.username}</Link>
       </Menu.Item>
       <Menu.Item key="2">
-        <Link to="/customer/orderHistory">Payment History</Link>
+        <Link to="/wallet">Coin</Link>
       </Menu.Item>
       <Menu.Item
         key="3"

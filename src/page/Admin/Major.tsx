@@ -73,6 +73,31 @@ const Major = () => {
       },
     },
     {
+      title: "Certification",
+      dataIndex: "certificationDetails",
+      key: "certificationDetails",
+      render: (certificationDetails: any[]) => {
+        if (
+          Array.isArray(certificationDetails) &&
+          certificationDetails.length > 0
+        ) {
+          return (
+            <>
+              {certificationDetails.map((cert, index) => (
+                <Tag
+                  color="blue"
+                  key={index}
+                >
+                  {cert.certCode}
+                </Tag>
+              ))}
+            </>
+          );
+        }
+        return <span>No cert</span>; // Fallback for empty or non-array
+      },
+    },
+    {
       title: "Actions",
       key: "actions",
       render: (record: any) => (

@@ -10,6 +10,7 @@ import { UpdateRole } from "../models/user";
 import { scheduleInput } from "../models/schedule";
 import { createCertificate, updateCert } from "../models/certificate";
 import { createJobInput, updateJobInput } from "../models/jobPosition";
+import { inputTransaction } from "../models/transaction";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -77,7 +78,7 @@ const Certificate = {
   //   requests.get(`api/v1/certification/${name ? name : ""}`),
   getAllCertificates: (name?: string) =>
     requests.get(
-      `api/v1/certification/search/${name ? `?certName=${name}` : ""}`
+      `api/v1/certification/search${name ? `/?certName=${name}` : ""}`
     ),
   getCertificateDetail: (certId: string | undefined) =>
     requests.get(`api/v1/certification/${certId}`),
@@ -92,6 +93,8 @@ const Certificate = {
 const Schedule = {
   getAllSchedule: (name?: string) =>
     requests.get(`api/v1/exam-session/${name ? name : ""}`),
+  getScheduleDay: (dateInput: string) =>
+    requests.get(`api/v1/exam-session/${dateInput}`),
   createSchedule: (input: scheduleInput) =>
     requests.post("api/v1/exam-session", input),
   deleteSchedule: (sessionId: string) =>
@@ -101,6 +104,9 @@ const Schedule = {
 const InternalCourse = {
   getAllCourse: (name?: string) =>
     requests.get(`api/v1/course/${name ? name : ""}`),
+  getCourseDetail: (courseId: string) =>
+    requests.get(`api/v1/course/${courseId}`),
+  deleteCourse: (courseId: string) => requests.del(`api/v1/course/${courseId}`),
 };
 
 const Account = {
@@ -111,6 +117,23 @@ const Account = {
   deleteAccount: (userId: string) => requests.del(`api/v1/users/${userId}`),
   getAccountWallet: (userId: string | undefined) =>
     requests.get(`api/v1/wallet/${userId}`),
+};
+const TransactionWallet = {
+  getTransactionDetail: (transactionId: number) =>
+    requests.get(`api/v1/transaction${transactionId}`),
+  createTransaction: (input: inputTransaction) =>
+    requests.post("api/v1/transaction", input),
+};
+const Checkout = {
+  getCheckOut: (transactionId: number) =>
+    requests.post1(`api/v1/checkout/${transactionId}`),
+};
+
+const SimulationExam = {
+  getAllSimulationExam: (name: string) =>
+    requests.get(
+      `api/v1/simulation-exam/search${name ? `/?examName=${name}` : ""}`
+    ),
 };
 
 const Profile = {
@@ -133,6 +156,9 @@ const agent = {
   JobPosition,
   Schedule,
   Profile,
+  SimulationExam,
+  TransactionWallet,
+  Checkout,
   CertType,
 };
 export default agent;

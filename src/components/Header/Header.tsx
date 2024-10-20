@@ -2,20 +2,11 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AvatarImage from "../UI/AvatarImage";
 import Logo from "./Logo";
-// import useWalletDetail from "../../hooks/useWalletDetail";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 // import Cookies from "js-cookie";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const { wallets, getWalletDetails } = useWalletDetail();
-  // const userId = Cookies.get("userId");
-
-  // useEffect(() => {
-  //   if (userId) {
-  //     getWalletDetails(userId);
-  //     console.log(userId);
-  //   }
-  // }, [userId]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -62,10 +53,10 @@ const Header = () => {
           Certifications
         </Link>
         <Link
-          to="./practicalExam"
+          to="./courses"
           className="hover:text-gray-400"
         >
-          Practice Exams
+          Courses
         </Link>
         <Link
           to="./about"
@@ -89,10 +80,10 @@ const Header = () => {
 
       <div className="flex space-x-4">
         {isLoggedIn ? (
-          <div>
-            {/* <div className="text-white">
-              {userId ? wallets[userId]?.point || 0 : 0}
-            </div> */}
+          <div className="flex items-center">
+            <div className="text-white mr-6">
+              <ShoppingCartOutlined style={{ fontSize: "28px" }} />
+            </div>
             <AvatarImage />
           </div>
         ) : (

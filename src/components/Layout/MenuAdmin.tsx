@@ -10,6 +10,7 @@ import { FaGraduationCap } from "react-icons/fa";
 import { GrSchedules } from "react-icons/gr";
 import { GrWorkshop } from "react-icons/gr";
 import { GiTeacher } from "react-icons/gi";
+import { PiExamBold } from "react-icons/pi";
 import UniCertLogo from "../../assets/images/UniCertLogo.png";
 const MenuAdmin = () => {
   const location = useLocation();
@@ -41,7 +42,7 @@ const MenuAdmin = () => {
           ({ isActive }) =>
             isActive
               ? "flex items-center p-2 mb-2  bg-purple-200 rounded-lg" // active state
-              : "flex items-center p-2 mb-2 text-gray-700 hover:bg-gray-100 rounded-lg" // default state
+              : "flex items-center p-2 mb-2 text-gray-800 hover:bg-gray-100 rounded-lg" // default state
         }
       >
         <span className="pl-2 flex items-center">
@@ -56,7 +57,7 @@ const MenuAdmin = () => {
       <div className="mb-2">
         <button
           onClick={toggleUserDropdown}
-          className="flex items-center p-2 w-full text-left text-gray-700 hover:bg-gray-100 rounded-lg"
+          className="flex items-center p-2 w-full text-left text-gray-800 hover:bg-gray-100 rounded-lg"
         >
           <span className="ml-2 flex items-center">
             <FiUsers className="size-3.5 mr-3 mb-1" />
@@ -91,7 +92,7 @@ const MenuAdmin = () => {
             className={({ isActive }) =>
               isActive
                 ? "block p-2  bg-purple-200 hover:bg-purple-100 rounded-lg pl-6"
-                : "block p-2 text-gray-700 hover:bg-gray-100 rounded-lg pl-6"
+                : "block p-2 text-gray-800 hover:bg-gray-100 rounded-lg pl-6"
             }
           >
             Students
@@ -101,7 +102,7 @@ const MenuAdmin = () => {
             className={({ isActive }) =>
               isActive
                 ? "block p-2  bg-purple-200 hover:bg-purple-100 rounded-lg pl-6"
-                : "block p-2 text-gray-700 hover:bg-gray-100 rounded-lg pl-6"
+                : "block p-2 text-gray-800 hover:bg-gray-100 rounded-lg pl-6"
             }
           >
             Decentralization
@@ -113,7 +114,7 @@ const MenuAdmin = () => {
         className={({ isActive }) =>
           isActive
             ? "flex items-center p-2 mb-2  bg-purple-200 rounded-lg"
-            : "flex items-center p-2 mb-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            : "flex items-center p-2 mb-2 text-gray-800 hover:bg-gray-100 rounded-lg"
         }
       >
         <span className="pl-1 flex items-center">
@@ -130,7 +131,7 @@ const MenuAdmin = () => {
         className={({ isActive }) =>
           isActive
             ? "flex items-center p-2 mb-2 bg-purple-200 rounded-lg"
-            : "flex items-center p-2 mb-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            : "flex items-center p-2 mb-2 text-gray-800 hover:bg-gray-100 rounded-lg"
         }
       >
         <span className="pl-2 flex items-center">
@@ -147,7 +148,7 @@ const MenuAdmin = () => {
         className={({ isActive }) =>
           isActive
             ? "flex items-center p-2 mb-2  bg-purple-200 rounded-lg"
-            : "flex items-center p-2 mb-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            : "flex items-center p-2 mb-2 text-gray-800 hover:bg-gray-100 rounded-lg"
         }
       >
         <span className="pl-2 flex items-center">
@@ -166,7 +167,7 @@ const MenuAdmin = () => {
         className={({ isActive }) =>
           isActive
             ? "flex items-center p-2 mb-2  bg-purple-200 rounded-lg"
-            : "flex items-center p-2 mb-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            : "flex items-center p-2 mb-2 text-gray-800 hover:bg-gray-100 rounded-lg"
         }
       >
         <span className="pl-2 flex items-center">
@@ -183,7 +184,7 @@ const MenuAdmin = () => {
         className={({ isActive }) =>
           isActive
             ? "flex items-center p-2 mb-2  bg-purple-200 rounded-lg"
-            : "flex items-center p-2 mb-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            : "flex items-center p-2 mb-2 text-gray-800 hover:bg-gray-100 rounded-lg"
         }
       >
         <span className="pl-2 flex items-center">
@@ -200,7 +201,7 @@ const MenuAdmin = () => {
         className={({ isActive }) =>
           isActive
             ? "flex items-center p-2 mb-2 bg-purple-200 rounded-lg"
-            : "flex items-center p-2 mb-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            : "flex items-center p-2 mb-2 text-gray-800 hover:bg-gray-100 rounded-lg"
         }
       >
         <span className="pl-2 flex items-center">
@@ -208,6 +209,21 @@ const MenuAdmin = () => {
             <GiTeacher className="mr-3" />
           </span>
           Internal Courses
+        </span>
+      </NavLink>
+      <NavLink
+        to="/admin/simulationExam"
+        className={({ isActive }) =>
+          isActive
+            ? "flex items-center p-2 mb-2 bg-purple-200 rounded-lg"
+            : "flex items-center p-2 mb-2 text-gray-800 hover:bg-gray-100 rounded-lg"
+        }
+      >
+        <span className="pl-2 flex items-center">
+          <span>
+            <PiExamBold className="mr-3" />
+          </span>
+          Simulation Exam
         </span>
       </NavLink>
     </div>

@@ -11,6 +11,16 @@ export interface allMajorPaginationData {
       jobPositionDescription: string;
     }
   ];
+  certificationDetails: [
+    {
+      certId: number;
+      certName: string;
+      certCode: string;
+      certDescription: string;
+      certImage: string;
+      typeName: string;
+    }
+  ];
 }
 export interface currentMajor {
   majorId: string;
@@ -25,6 +35,16 @@ export interface currentMajor {
       jobPositionDescription: string;
     }
   ];
+  certificationDetails: [
+    {
+      certId: number;
+      certName: string;
+      certCode: string;
+      certDescription: string;
+      certImage: string;
+      typeName: string;
+    }
+  ];
 }
 
 export interface MajorInput {
@@ -32,6 +52,7 @@ export interface MajorInput {
   majorName: string;
   majorDescription: string;
   jobPositionId: number[];
+  certId: number[];
 }
 
 export interface UpdateMajor {
@@ -39,6 +60,7 @@ export interface UpdateMajor {
   majorName: string;
   majorDescription: string;
   jobPositionId: number[];
+  certId: number[];
 }
 
 export interface deleteMajor {
