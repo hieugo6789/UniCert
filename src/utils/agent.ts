@@ -102,6 +102,9 @@ const Schedule = {
 const InternalCourse = {
   getAllCourse: (name?: string) =>
     requests.get(`api/v1/course/${name ? name : ""}`),
+  getCourseDetail: (courseId: string) =>
+    requests.get(`api/v1/course/${courseId}`),
+  deleteCourse: (courseId: string) => requests.del(`api/v1/course/${courseId}`),
 };
 
 const Account = {

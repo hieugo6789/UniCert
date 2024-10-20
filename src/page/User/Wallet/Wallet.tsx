@@ -13,8 +13,13 @@ const Wallet = () => {
   }, [userId]);
   return (
     <>
-      <div>
-        <div className="flex items-center space-x-2">
+      <div className="flex justify-around">
+        <div className="">
+          <h1 className="text-2xl font-bold">History payment</h1>
+          <div>{userId ? wallets[userId]?.walletId || 0 : 0}</div>
+        </div>
+
+        <div className="bg-white shadow-md rounded-xl px-4 py-2 flex items-center justify-center space-x-2 max-w-56 h-full">
           <span className=" text-gray-700">Your Coins:</span>
           <div className="flex items-center">
             <img
@@ -23,7 +28,7 @@ const Wallet = () => {
               className="w-5 h-5"
             />
             <span className="ml-1 text-yellow-600 font-bold">
-              {userId ? wallets[userId]?.point || 0 : 0}
+              {userId ? wallets[userId]?.point : 0}
             </span>
           </div>
         </div>

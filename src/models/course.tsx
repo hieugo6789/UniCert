@@ -4,6 +4,9 @@ export interface allCoursePaginationData {
   courseCode: string;
   courseTime: string;
   courseDescription: string;
+  courseFee: number;
+  courseDiscountFee: number;
+  courseImage: string;
   certId: string;
 }
 
@@ -13,5 +16,12 @@ export interface currentCourse {
   courseCode: string;
   courseTime: string;
   courseDescription: string;
+  courseFee: number;
+  courseDiscountFee: number;
+  courseImage: string;
   certId: string;
+}
+
+export interface deleteCourse {
+  courseId: string;
 }
