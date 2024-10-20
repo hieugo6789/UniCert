@@ -1,15 +1,25 @@
-import { Button, message, Modal, Table } from "antd";
+import { Button, message, Modal, Spin, Table, Tag } from "antd";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import useCourse from "../../hooks/useCourse";
 import { allCoursePaginationData } from "../../models/course";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import useDeleteCourse from "../../hooks/useDeleteCourse";
+import { useState } from "react";
+import useCourseDetail from "../../hooks/Course/useCourseDetail";
+import UpdateCourse from "../../components/Course/UpdateCourse";
 
 const { confirm } = Modal;
 
 const InternalCourses = () => {
   const { course, loading, refetchCourses } = useCourse();
   const { handleDeleteCourse } = useDeleteCourse();
+  const { state, getCourseDetails } = useCourseDetail();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleView = async (courseId: string) => {
+    setIsModalVisible(true);
+    await getCourseDetails(courseId);
+  };
 
   const columns = [
     {
@@ -17,12 +27,6 @@ const InternalCourses = () => {
       dataIndex: "courseName",
       key: "courseName",
       render: (text: string) => <span className="text-purple-600">{text}</span>, // Custom color for course name
-    },
-    {
-      title: "Course Code",
-      dataIndex: "courseCode",
-      key: "courseCode",
-      render: (text: string) => <span className="text-blue-600">{text}</span>,
     },
     {
       title: "Course Time",
@@ -37,23 +41,37 @@ const InternalCourses = () => {
       render: (fee: number) => <span className="text-green-600">${fee}</span>,
     },
     {
-      title: "Discount Fee",
-      dataIndex: "courseDiscountFee",
-      key: "courseDiscountFee",
-      render: (fee: number) => <span className="text-red-600">${fee}</span>,
+      title: "Certification",
+      dataIndex: "certificationDetails",
+      key: "certificationDetails",
+      render: (certificationDetails: any[]) => {
+        if (
+          Array.isArray(certificationDetails) &&
+          certificationDetails.length > 0
+        ) {
+          return (
+            <>
+              {certificationDetails.map((cert, index) => (
+                <Tag
+                  color="blue"
+                  key={index}
+                >
+                  {cert.certCode}
+                </Tag>
+              ))}
+            </>
+          );
+        }
+        return <span>No cert</span>; // Fallback for empty or non-array
+      },
     },
     {
       title: "Actions",
       key: "actions",
       render: (record: allCoursePaginationData) => (
         <div className="flex space-x-2">
-          <Button
-            type="primary"
-            className="bg-blue-500 hover:bg-blue-700 transition-all duration-300"
-            onClick={() => handleEditCourse(record.courseId)}
-          >
-            Edit
-          </Button>
+          <Button onClick={() => handleView(record.courseId)}>View</Button>
+          <UpdateCourse />
           <Button
             className="bg-red-500 hover:bg-red-700 transition-all duration-300"
             onClick={() => showDeleteConfirm(record.courseId)}
@@ -81,11 +99,6 @@ const InternalCourses = () => {
         console.log("Cancel deletion");
       },
     });
-  };
-
-  // Handlers for editing and deleting courses
-  const handleEditCourse = (courseId: string) => {
-    console.log("Editing course:", courseId);
   };
 
   return (
@@ -117,6 +130,43 @@ const InternalCourses = () => {
           )}
         </div>
       </div>
+      <Modal
+        title="Course Details"
+        width={900}
+        open={isModalVisible}
+        footer={null}
+        onCancel={() => setIsModalVisible(false)}
+      >
+        {state.isLoading ? (
+          <Spin />
+        ) : state.currentCourse ? (
+          <div className="text-lg">
+            <p>
+              <strong>Name: </strong> {state.currentCourse.courseName}
+            </p>
+            <p>
+              <strong>Code: </strong> {state.currentCourse.courseCode}
+            </p>
+            {/* <strong>Description: </strong>
+            <div
+              className="prose list-disc whitespace-pre-wrap text-sm"
+              dangerouslySetInnerHTML={{
+                __html: state.currentCourse. || "",
+              }}
+            /> */}
+            <p>
+              <strong>Certification: </strong>
+              {state.currentCourse.certificationDetails?.map((cert, index) => (
+                <Tag key={index}>
+                  {cert.certCode} - {cert.certName}
+                </Tag>
+              )) || "No job positions available"}
+            </p>
+          </div>
+        ) : (
+          <p>No details available.</p>
+        )}
+      </Modal>
     </>
   );
 };
