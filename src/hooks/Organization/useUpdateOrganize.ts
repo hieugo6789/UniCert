@@ -1,11 +1,11 @@
-import { updateOrganize } from "../models/organization";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { updateOrganize } from "../../models/organization";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   UpdateDetailOrganizeFailure,
   UpdateDetailOrganizeStart,
   UpdateDetailOrganizeSuccess,
-} from "../redux/slice/organizeDetailSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/organizeDetailSlice";
+import agent from "../../utils/agent";
 
 const useUpdateOrganize = () => {
   const dispatch = useAppDispatch();

@@ -8,11 +8,11 @@ import {
   Spin,
   Descriptions,
 } from "antd";
-import { useAccounts } from "../../hooks/useAccount";
+import { useAccounts } from "../../hooks/Account/useAccount";
 import { useEffect, useState } from "react";
 import Coin from "../../assets/images/Coin.png";
-import setUserStatus from "../../hooks/useUserStatus";
-import useUserDetail from "../../hooks/useUserDetail";
+import setUserStatus from "../../hooks/Account/useUserStatus";
+import useUserDetail from "../../hooks/Account/useUserDetail";
 import useWalletDetail from "../../hooks/useWalletDetail";
 import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";

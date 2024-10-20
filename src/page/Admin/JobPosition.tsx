@@ -8,8 +8,8 @@ import {
   Table,
   Tag,
 } from "antd";
-import useJob from "../../hooks/useJobPosition";
-import useJobDetail from "../../hooks/useJobDetail";
+import useJob from "../../hooks/JobPosition/useJobPosition";
+import useJobDetail from "../../hooks/JobPosition/useJobDetail";
 import { useState } from "react";
 import {
   DeleteOutlined,
@@ -17,7 +17,7 @@ import {
   EyeOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import useDeleteJob from "../../hooks/useDeleteJob";
+import useDeleteJob from "../../hooks/JobPosition/useDeleteJob";
 import CreateJob from "../../components/JobPosition/CreateJob";
 import UpdateJobPosition from "../../components/JobPosition/UpdateJobPosition";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";

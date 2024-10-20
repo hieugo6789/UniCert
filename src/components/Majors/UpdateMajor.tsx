@@ -1,11 +1,11 @@
 import { Form, Input, message, Modal, Select } from "antd";
-import useUpdateMajor from "../../hooks/useUpdateMajor";
+import useUpdateMajor from "../../hooks/Major/useUpdateMajor";
 import { useEffect, useState } from "react";
-import useJob from "../../hooks/useJobPosition";
-import useMajorDetail from "../../hooks/useMajorDetail";
+import useJob from "../../hooks/JobPosition/useJobPosition";
+import useMajorDetail from "../../hooks/Major/useMajorDetail";
 import { EditOutlined } from "@ant-design/icons";
 import MyEditor from "../Editor/MyEditor";
-import useCertificate from "../../hooks/useCertificate";
+import useCertificate from "../../hooks/Certification/useCertificate";
 
 interface UpdateMajorProps {
   majorId: string;

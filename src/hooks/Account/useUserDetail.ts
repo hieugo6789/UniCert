@@ -1,10 +1,10 @@
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   UserDetailFailure,
   UserDetailsStart,
   UserDetailSuccess,
-} from "../redux/slice/userDetailSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/userDetailSlice";
+import agent from "../../utils/agent";
 
 const useUserDetail = () => {
   const state = useAppSelector((state) => state.userDetail);

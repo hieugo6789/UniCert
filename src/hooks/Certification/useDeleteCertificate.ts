@@ -1,11 +1,11 @@
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   deleteCertificateFailure,
   deleteCertificateStart,
   deleteCertificateSuccess,
-} from "../redux/slice/deleteCertificateSlice";
+} from "../../redux/slice/deleteCertificateSlice";
 
-import agent from "../utils/agent";
+import agent from "../../utils/agent";
 
 const useDeleteCertificate = () => {
   const state = useAppSelector((state) => state.certificateDelete);

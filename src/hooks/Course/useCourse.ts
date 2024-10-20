@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../redux/hook";
-import { allCoursePaginationData } from "../models/course";
-import { fetchAllCoursePagination } from "../redux/slice/courseSlice";
+import { useAppDispatch } from "../../redux/hook";
+import { allCoursePaginationData } from "../../models/course";
+import { fetchAllCoursePagination } from "../../redux/slice/courseSlice";
 
 const useCourse = () => {
   const dispatch = useAppDispatch();

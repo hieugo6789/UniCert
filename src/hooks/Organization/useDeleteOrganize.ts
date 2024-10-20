@@ -1,10 +1,10 @@
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   deleteOrganizeFailure,
   deleteOrganizeStart,
   deleteOrganizeSuccess,
-} from "../redux/slice/deleteOrganizeSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/deleteOrganizeSlice";
+import agent from "../../utils/agent";
 
 const useDeleteOrganize = () => {
   const state = useAppSelector((state) => state.deleteOrganization);

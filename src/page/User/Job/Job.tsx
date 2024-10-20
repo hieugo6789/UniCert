@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { allJobPaginationData } from "../../../models/jobPosition";
-import useJobPosition from "../../../hooks/useJobPosition";
+import useJobPosition from "../../../hooks/JobPosition/useJobPosition";
 import Loading from "../../../components/UI/Loading";
 import JobPositionCard from "../../../components/JobPosition/JobPositionCard";
 import CertificateCard from "../../../components/Certifications/CertificateCard";

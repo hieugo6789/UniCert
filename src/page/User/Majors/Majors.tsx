@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 // import CertificateCard from "../../../components/Certifications/CertificateCard";
 import MajorCard from "../../../components/Majors/MajorCard";
 import { allMajorPaginationData } from "../../../models/major";
-import useMajor from "../../../hooks/useMajor";
+import useMajor from "../../../hooks/Major/useMajor";
 import CertificateCard from "../../../components/Certifications/CertificateCard";
 import { allCertificationData } from "../../../models/certificate";
 import Loading from "../../../components/UI/Loading";

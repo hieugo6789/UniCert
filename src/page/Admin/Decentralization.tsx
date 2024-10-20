@@ -10,15 +10,15 @@ import {
   message,
   Tag,
 } from "antd";
-import { useAccounts } from "../../hooks/useAccount";
-import useUpdateUserDetail from "../../hooks/useUpdateUserDetail";
+import { useAccounts } from "../../hooks/Account/useAccount";
+import useUpdateUserDetail from "../../hooks/Account/useUpdateUserDetail";
 import { UpdateRole, UserDetail } from "../../models/user";
 import {
   DeleteOutlined,
   EditOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import useDeleteAccount from "../../hooks/useDeleteAccount";
+import useDeleteAccount from "../../hooks/Account/useDeleteAccount";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 
 const { confirm } = Modal;

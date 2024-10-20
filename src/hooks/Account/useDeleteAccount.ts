@@ -1,10 +1,10 @@
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   deleteAccountFailure,
   deleteAccountStart,
   deleteAccountSuccess,
-} from "../redux/slice/deleteAccountSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/deleteAccountSlice";
+import agent from "../../utils/agent";
 
 const useDeleteAccount = () => {
   const state = useAppSelector((state) => state.accountDelete);

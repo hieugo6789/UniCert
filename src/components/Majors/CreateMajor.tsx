@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Modal, Button, Form, Input, Select } from "antd"; // Import Ant Design components
 import { PlusOutlined } from "@ant-design/icons";
-import { useCreateMajor } from "../../hooks/useCreateMajor";
-import useJob from "../../hooks/useJobPosition";
+import { useCreateMajor } from "../../hooks/Major/useCreateMajor";
+import useJob from "../../hooks/JobPosition/useJobPosition";
 import axios from "axios";
 import MyEditor from "../Editor/MyEditor";
-import useCertificate from "../../hooks/useCertificate";
+import useCertificate from "../../hooks/Certification/useCertificate";
 
 const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);

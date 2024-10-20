@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"; // To get the majorId from URL params
 import { allMajorPaginationData } from "../../../models/major";
-import useMajorDetail from "../../../hooks/useMajorDetail";
+import useMajorDetail from "../../../hooks/Major/useMajorDetail";
 interface certTab {
   certCode: string;
   certDescription: string;
@@ -42,32 +42,29 @@ const MajorDetailPage: React.FC = () => {
   }, [state]);
 
   // Handle filtering by job position
-  const handleJobPositionChange = (
+  const handleJobPositionChange = () =>
     // event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    // const selectedJob = event.target.value;
-
-    // if (selectedJob === "all") {
-    //   setFilteredCerts(allCerts);
-    // } else {
-    //   const selectedJobDetail =
-    //     jobDetailState.currentJob?.jobPositionId.toString() === selectedJob
-    //       ? jobDetailState.currentJob
-    //       : null;
-
-    //   if (selectedJobDetail) {
-    //     const certIds = selectedJobDetail.certificationDetails || [];
-    //     const filteredCerts = certIds
-    //       .map((certId) =>
-    //         allCerts.find((cert) => cert.certId === certId.certId.toString())
-    //       ) // Convert certId to number for comparison
-    //       .filter((cert): cert is allCertificationData => !!cert); // Ensure only valid certs are returned
-
-    //     console.log("Test", allCerts);
-    //     setFilteredCerts(filteredCerts);
-    //   }
-    // }
-  };
+    {
+      // const selectedJob = event.target.value;
+      // if (selectedJob === "all") {
+      //   setFilteredCerts(allCerts);
+      // } else {
+      //   const selectedJobDetail =
+      //     jobDetailState.currentJob?.jobPositionId.toString() === selectedJob
+      //       ? jobDetailState.currentJob
+      //       : null;
+      //   if (selectedJobDetail) {
+      //     const certIds = selectedJobDetail.certificationDetails || [];
+      //     const filteredCerts = certIds
+      //       .map((certId) =>
+      //         allCerts.find((cert) => cert.certId === certId.certId.toString())
+      //       ) // Convert certId to number for comparison
+      //       .filter((cert): cert is allCertificationData => !!cert); // Ensure only valid certs are returned
+      //     console.log("Test", allCerts);
+      //     setFilteredCerts(filteredCerts);
+      //   }
+      // }
+    };
 
   if (!major) {
     return <div>Major not found.</div>;
@@ -164,7 +161,7 @@ const MajorDetailPage: React.FC = () => {
             </Link>
           </p>
         </div>
-      )} 
+      )}
       <div className="flex justify-center mt-6 gap-4">
         <button className="p-2">◀</button>
         {[1, 2, 3, 4, 5].map((page) => (

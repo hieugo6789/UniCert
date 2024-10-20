@@ -8,7 +8,7 @@ import {
   Spin,
   Tag,
 } from "antd";
-import useCertificate from "../../hooks/useCertificate";
+import useCertificate from "../../hooks/Certification/useCertificate";
 import { useState } from "react";
 import {
   DeleteOutlined,
@@ -16,8 +16,8 @@ import {
   EyeOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import useDeleteCertificate from "../../hooks/useDeleteCertificate";
-import useCertDetail from "../../hooks/useCertDetail";
+import useDeleteCertificate from "../../hooks/Certification/useDeleteCertificate";
+import useCertDetail from "../../hooks/Certification/useCertDetail";
 import CreateCert from "../../components/Certifications/CreateCert";
 import UpdateCert from "../../components/Certifications/UpdateCert";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";

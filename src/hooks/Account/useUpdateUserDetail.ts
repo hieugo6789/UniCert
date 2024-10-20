@@ -1,12 +1,12 @@
-import { UpdateRole } from "../models/user";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { UpdateRole } from "../../models/user";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   UpdateDetailFailure,
   UpdateDetailStart,
   UpdateDetailSuccess,
-} from "../redux/slice/userDetailSlice";
+} from "../../redux/slice/userDetailSlice";
 
-import agent from "../utils/agent";
+import agent from "../../utils/agent";
 
 const useUpdateUserDetail = () => {
   const dispatch = useAppDispatch();

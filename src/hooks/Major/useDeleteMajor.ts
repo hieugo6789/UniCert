@@ -1,10 +1,10 @@
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   deleteMajorFailure,
   deleteMajorStart,
   deleteMajorSuccess,
-} from "../redux/slice/deleteMajorSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/deleteMajorSlice";
+import agent from "../../utils/agent";
 
 const useDeleteMajor = () => {
   const state = useAppSelector((state) => state.majorDelete);

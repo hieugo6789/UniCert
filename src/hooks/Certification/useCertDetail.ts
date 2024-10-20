@@ -1,11 +1,11 @@
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   CertDetailFailure,
   CertDetailsStart,
   CertDetailSuccess,
-} from "../redux/slice/certDetailSlice";
+} from "../../redux/slice/certDetailSlice";
 
-import agent from "../utils/agent";
+import agent from "../../utils/agent";
 
 const useCertDetail = () => {
   const state = useAppSelector((state) => state.certificateDetail);

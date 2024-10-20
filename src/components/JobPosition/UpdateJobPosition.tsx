@@ -1,8 +1,8 @@
 import { Form, Input, message, Modal, Select } from "antd";
-import useUpdateJob from "../../hooks/useUpdateJob";
-import useMajor from "../../hooks/useMajor";
-import useCertificate from "../../hooks/useCertificate";
-import useJobDetail from "../../hooks/useJobDetail";
+import useUpdateJob from "../../hooks/JobPosition/useUpdateJob";
+import useMajor from "../../hooks/Major/useMajor";
+import useCertificate from "../../hooks/Certification/useCertificate";
+import useJobDetail from "../../hooks/JobPosition/useJobDetail";
 import { useEffect, useState } from "react";
 import { EditOutlined } from "@ant-design/icons";
 import MyEditor from "../Editor/MyEditor";

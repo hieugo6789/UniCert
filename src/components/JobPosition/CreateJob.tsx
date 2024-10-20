@@ -1,9 +1,9 @@
 import { Button, Form, Input, Modal, Select } from "antd";
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import { useCreateJob } from "../../hooks/useCreateJob";
-import useCertificate from "../../hooks/useCertificate";
-import useMajor from "../../hooks/useMajor";
+import { useCreateJob } from "../../hooks/JobPosition/useCreateJob";
+import useCertificate from "../../hooks/Certification/useCertificate";
+import useMajor from "../../hooks/Major/useMajor";
 import axios from "axios";
 import MyEditor from "../Editor/MyEditor";
 

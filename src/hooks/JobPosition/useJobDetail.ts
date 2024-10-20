@@ -1,10 +1,10 @@
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   JobDetailFailure,
   JobDetailsStart,
   JobDetailSuccess,
-} from "../redux/slice/jobDetailSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/jobDetailSlice";
+import agent from "../../utils/agent";
 
 const useJobDetail = () => {
   const state = useAppSelector((state) => state.jobDetail);

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useCreateOrganize } from "../../hooks/useCreateOrganize";
+import { useCreateOrganize } from "../../hooks/Organization/useCreateOrganize";
 import { Modal, Input, Button, Table, Pagination, Spin, message } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 
-import useOrganization from "../../hooks/useOrganization";
-import useOrganizeDetail from "../../hooks/useOrganizeDetail";
-import useDeleteOrganize from "../../hooks/useDeleteOrganize";
+import useOrganization from "../../hooks/Organization/useOrganization";
+import useOrganizeDetail from "../../hooks/Organization/useOrganizeDetail";
+import useDeleteOrganize from "../../hooks/Organization/useDeleteOrganize";
 import {
   DeleteOutlined,
   ExclamationCircleOutlined,

@@ -1,11 +1,11 @@
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   OrganizeDetailFailure,
   OrganizeDetailsStart,
   OrganizeDetailSuccess,
-} from "../redux/slice/organizeDetailSlice";
+} from "../../redux/slice/organizeDetailSlice";
 
-import agent from "../utils/agent";
+import agent from "../../utils/agent";
 
 const useOrganizeDetail = () => {
   const state = useAppSelector((state) => state.organizeDetail);

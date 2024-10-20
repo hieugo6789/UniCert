@@ -1,11 +1,11 @@
-import { updateJobInput } from "../models/jobPosition";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { updateJobInput } from "../../models/jobPosition";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   UpdateDetailJobFailure,
   UpdateDetailJobStart,
   UpdateDetailJobSuccess,
-} from "../redux/slice/jobDetailSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/jobDetailSlice";
+import agent from "../../utils/agent";
 
 const useUpdateJob = () => {
   const dispatch = useAppDispatch();

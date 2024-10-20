@@ -53,7 +53,10 @@ const Header = () => {
 
       {/* Hamburger Icon for Mobile */}
       <div className="block lg:hidden">
-        <button onClick={toggleMenu} className="text-white focus:outline-none">
+        <button
+          onClick={toggleMenu}
+          className="text-white focus:outline-none"
+        >
           <MenuOutlined style={{ fontSize: "28px" }} />
         </button>
       </div>
@@ -64,19 +67,34 @@ const Header = () => {
           isMenuOpen ? "block" : "hidden"
         } absolute top-14 left-0 bg-gray-950 w-full lg:static lg:w-auto lg:flex lg:space-x-4 lg:text-white`}
       >
-        <Link to="./certificate" className="block py-2 px-4 text-white text-white hover:text-gray-400">
+        <Link
+          to="./certificate"
+          className="block py-2 px-4 text-white  hover:text-gray-400"
+        >
           Certifications
         </Link>
-        <Link to="./courses" className="block py-2 px-4 text-white hover:text-gray-400">
+        <Link
+          to="./courses"
+          className="block py-2 px-4 text-white hover:text-gray-400"
+        >
           Courses
         </Link>
-        <Link to="./about" className="block py-2 px-4 text-white hover:text-gray-400">
+        <Link
+          to="./about"
+          className="block py-2 px-4 text-white hover:text-gray-400"
+        >
           About Us
         </Link>
-        <Link to="./majors" className="block py-2 px-4 text-white hover:text-gray-400">
+        <Link
+          to="./majors"
+          className="block py-2 px-4 text-white hover:text-gray-400"
+        >
           Majors
         </Link>
-        <Link to="/job" className="block py-2 px-4 text-white hover:text-gray-400">
+        <Link
+          to="/job"
+          className="block py-2 px-4 text-white hover:text-gray-400"
+        >
           Job Position
         </Link>
       </nav>

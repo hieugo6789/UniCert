@@ -1,12 +1,12 @@
 import { Input, Modal, Form, InputNumber, Select, message } from "antd";
 import CustomInput from "../../components/UI/CustomInput";
 import { useState, useEffect } from "react";
-import useUpdateCert from "../../hooks/useUpdateCert";
-import useOrganization from "../../hooks/useOrganization";
-import useCertificate from "../../hooks/useCertificate";
+import useUpdateCert from "../../hooks/Certification/useUpdateCert";
+import useOrganization from "../../hooks/Organization/useOrganization";
+import useCertificate from "../../hooks/Certification/useCertificate";
 import MyEditor from "../Editor/MyEditor";
-import useCertType from "../../hooks/useCertType";
-import useCertDetail from "../../hooks/useCertDetail";
+import useCertType from "../../hooks/Certification/useCertType";
+import useCertDetail from "../../hooks/Certification/useCertDetail";
 import { EditOutlined } from "@ant-design/icons";
 import axios from "axios";
 

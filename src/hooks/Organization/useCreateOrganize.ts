@@ -1,11 +1,11 @@
-import { createOrganizationModel } from "../models/organization";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { createOrganizationModel } from "../../models/organization";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   createOrganizeFailure,
   createOrganizeStart,
   createOrganizeSuccess,
-} from "../redux/slice/createOrganizeSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/createOrganizeSlice";
+import agent from "../../utils/agent";
 
 export function useCreateOrganize() {
   const state = useAppSelector((state) => state.createOrganization);

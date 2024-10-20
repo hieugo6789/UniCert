@@ -1,10 +1,10 @@
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   deleteCourseFailure,
   deleteCourseStart,
   deleteCourseSuccess,
-} from "../redux/slice/deleteCourseSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/deleteCourseSlice";
+import agent from "../../utils/agent";
 
 const useDeleteCourse = () => {
   const state = useAppSelector((state) => state.deleteCourse);

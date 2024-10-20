@@ -1,11 +1,11 @@
-import { UpdateMajor } from "../models/major";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { UpdateMajor } from "../../models/major";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   UpdateDetailMajorFailure,
   UpdateDetailMajorStart,
   UpdateDetailMajorSuccess,
-} from "../redux/slice/majorDetailSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/majorDetailSlice";
+import agent from "../../utils/agent";
 
 const useUpdateMajor = () => {
   const dispatch = useAppDispatch();

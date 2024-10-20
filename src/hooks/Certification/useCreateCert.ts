@@ -1,11 +1,11 @@
-import { createCertificate } from "../models/certificate";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { createCertificate } from "../../models/certificate";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   createCertFailure,
   createCertStart,
   createCertSuccess,
-} from "../redux/slice/createCertSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/createCertSlice";
+import agent from "../../utils/agent";
 
 export function useCreateCert() {
   const state = useAppSelector((state) => state.createCertificate);

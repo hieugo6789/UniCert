@@ -1,11 +1,11 @@
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   deleteJobFailure,
   deleteJobStart,
   deleteJobSuccess,
-} from "../redux/slice/deleteJobSlice";
+} from "../../redux/slice/deleteJobSlice";
 
-import agent from "../utils/agent";
+import agent from "../../utils/agent";
 
 const useDeleteJob = () => {
   const state = useAppSelector((state) => state.jobDelete);

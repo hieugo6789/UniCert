@@ -1,9 +1,9 @@
 import { Button, message, Modal, Spin, Table, Tag } from "antd";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
-import useCourse from "../../hooks/useCourse";
+import useCourse from "../../hooks/Course/useCourse";
 import { allCoursePaginationData } from "../../models/course";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import useDeleteCourse from "../../hooks/useDeleteCourse";
+import useDeleteCourse from "../../hooks/Course/useDeleteCourse";
 import { useState } from "react";
 import useCourseDetail from "../../hooks/Course/useCourseDetail";
 import UpdateCourse from "../../components/Course/UpdateCourse";

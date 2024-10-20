@@ -1,11 +1,11 @@
-import { updateCert } from "../models/certificate";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { updateCert } from "../../models/certificate";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   UpdateDetailCertFailure,
   UpdateDetailCertStart,
   UpdateDetailCertSuccess,
-} from "../redux/slice/certDetailSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/certDetailSlice";
+import agent from "../../utils/agent";
 
 const useUpdateCert = () => {
   const dispatch = useAppDispatch();

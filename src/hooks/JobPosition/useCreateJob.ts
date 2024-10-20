@@ -1,11 +1,11 @@
-import { createJobInput } from "../models/jobPosition";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { createJobInput } from "../../models/jobPosition";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   createJobFailure,
   createJobStart,
   createJobSuccess,
-} from "../redux/slice/createJobSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/createJobSlice";
+import agent from "../../utils/agent";
 
 export function useCreateJob() {
   const state = useAppSelector((state) => state.createJob);

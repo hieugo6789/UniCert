@@ -1,8 +1,8 @@
 import { EditOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import useOrganizeDetail from "../../hooks/useOrganizeDetail";
+import useOrganizeDetail from "../../hooks/Organization/useOrganizeDetail";
 import { Form, Input, message, Modal } from "antd";
-import useUpdateOrganize from "../../hooks/useUpdateOrganize";
+import useUpdateOrganize from "../../hooks/Organization/useUpdateOrganize";
 
 interface UpdateOrganizeProps {
   organizeId: string;

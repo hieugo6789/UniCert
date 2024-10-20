@@ -2,12 +2,12 @@ import { Button, Input, Modal, Form, InputNumber, Select } from "antd";
 import CustomInput from "../../components/UI/CustomInput";
 import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import { useCreateCert } from "../../hooks/useCreateCert";
-import useOrganization from "../../hooks/useOrganization";
-import useCertificate from "../../hooks/useCertificate";
+import { useCreateCert } from "../../hooks/Certification/useCreateCert";
+import useOrganization from "../../hooks/Organization/useOrganization";
+import useCertificate from "../../hooks/Certification/useCertificate";
 import MyEditor from "../Editor/MyEditor";
 import axios from "axios";
-import useCertType from "../../hooks/useCertType";
+import useCertType from "../../hooks/Certification/useCertType";
 
 const CreateCert = ({
   refetchCertificates,
@@ -38,23 +38,23 @@ const CreateCert = ({
   };
 
   const handleOK = async () => {
-    try {      
+    try {
       await form.validateFields();
-      
+
       let uploadedImageUrl = formData.certImage;
-      
+
       if (selectedImage) {
         uploadedImageUrl = await uploadCloudinary();
         console.log("New uploaded image URL:", uploadedImageUrl);
       }
-        
+
       const updatedFormData = {
         ...formData,
         certImage: uploadedImageUrl,
-      };      
-      await handleCreateCert(updatedFormData);      
-      setIsModalVisible(false);  
-      refetchCertificates();     
+      };
+      await handleCreateCert(updatedFormData);
+      setIsModalVisible(false);
+      refetchCertificates();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Error creating certification:", error.response?.data);
@@ -95,8 +95,8 @@ const CreateCert = ({
       certIdPrerequisites: Array.isArray(value) ? value : [value],
     });
   };
-  
-  const [selectedImage, setSelectedImage] = useState<File | null>(null); 
+
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,25 +104,25 @@ const CreateCert = ({
       const file = event.target.files[0];
       console.log("Selected image file:", file);
       setSelectedImage(file);
-      setPreviewImage(URL.createObjectURL(file)); 
+      setPreviewImage(URL.createObjectURL(file));
     }
   };
 
-  const uploadCloudinary = async () => {        
+  const uploadCloudinary = async () => {
     if (selectedImage) {
       const formUpload = new FormData();
       formUpload.append("api_key", "994636724857583");
       formUpload.append("file", selectedImage);
       formUpload.append("upload_preset", "upload_image");
-      formUpload.append("folder", "Certificate")
+      formUpload.append("folder", "Certificate");
 
       try {
         const response = await axios.post(
           "https://api.cloudinary.com/v1_1/unicert/image/upload",
           formUpload
-        );                          
-        console.log("Certificate upload successfully:", response.data.url);    
-        return response.data.url;          
+        );
+        console.log("Certificate upload successfully:", response.data.url);
+        return response.data.url;
       } catch (error) {
         console.error("Error uploading avatar:", error);
       }
@@ -235,19 +235,19 @@ const CreateCert = ({
 
           <Form.Item
             label="Image"
-            name="certImage"            
+            name="certImage"
           >
             <img
-                src={previewImage || (formData.certImage)}
-                alt="Current Image"
-                className="w-32 h-32 bg-gray-300 mb-4"
-              />
+              src={previewImage || formData.certImage}
+              alt="Current Image"
+              className="w-32 h-32 bg-gray-300 mb-4"
+            />
             <CustomInput
-                placeholder="Image"
-                type="file"                
-                onChange={handleImageChange}                
-                required
-              />
+              placeholder="Image"
+              type="file"
+              onChange={handleImageChange}
+              required
+            />
           </Form.Item>
 
           <Form.Item

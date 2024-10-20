@@ -1,11 +1,11 @@
-import { MajorInput } from "../models/major";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { MajorInput } from "../../models/major";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   createMajorFailure,
   createMajorStart,
   createMajorSuccess,
-} from "../redux/slice/createMajorSlice";
-import agent from "../utils/agent";
+} from "../../redux/slice/createMajorSlice";
+import agent from "../../utils/agent";
 
 export function useCreateMajor() {
   const state = useAppSelector((state) => state.createMajor);

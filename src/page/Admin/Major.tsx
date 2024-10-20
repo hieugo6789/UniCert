@@ -16,9 +16,9 @@ import {
   EyeOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import useMajor from "../../hooks/useMajor";
-import useMajorDetail from "../../hooks/useMajorDetail";
-import useDeleteMajor from "../../hooks/useDeleteMajor";
+import useMajor from "../../hooks/Major/useMajor";
+import useMajorDetail from "../../hooks/Major/useMajorDetail";
+import useDeleteMajor from "../../hooks/Major/useDeleteMajor";
 import UpdateMajor from "../../components/Majors/UpdateMajor";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 

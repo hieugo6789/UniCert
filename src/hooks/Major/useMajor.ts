@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../redux/hook";
-import { allMajorPaginationData } from "../models/major";
-import { fetchAllMajorPagination } from "../redux/slice/majorSlice";
+import { useAppDispatch } from "../../redux/hook";
+import { allMajorPaginationData } from "../../models/major";
+import { fetchAllMajorPagination } from "../../redux/slice/majorSlice";
 
 const useMajor = () => {
   const dispatch = useAppDispatch();
