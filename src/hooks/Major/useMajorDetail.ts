@@ -3,7 +3,7 @@ import {
   MajorDetailFailure,
   MajorDetailsStart,
   MajorDetailSuccess,
-} from "../../redux/slice/majorDetailSlice";
+} from "../../redux/slice/Major/majorDetailSlice";
 import agent from "../../utils/agent";
 
 const useMajorDetail = () => {

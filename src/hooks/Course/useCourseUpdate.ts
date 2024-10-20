@@ -4,7 +4,7 @@ import {
   UpdateDetailCourseFailure,
   UpdateDetailCourseStart,
   UpdateDetailCourseSuccess,
-} from "../../redux/slice/courseDetailSlice";
+} from "../../redux/slice/Course/courseDetailSlice";
 import agent from "../../utils/agent";
 
 const useUpdateCourse = () => {

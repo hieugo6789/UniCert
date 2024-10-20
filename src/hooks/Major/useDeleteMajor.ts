@@ -3,7 +3,7 @@ import {
   deleteMajorFailure,
   deleteMajorStart,
   deleteMajorSuccess,
-} from "../../redux/slice/deleteMajorSlice";
+} from "../../redux/slice/Major/deleteMajorSlice";
 import agent from "../../utils/agent";
 
 const useDeleteMajor = () => {

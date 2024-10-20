@@ -3,7 +3,7 @@ import {
   UserDetailFailure,
   UserDetailsStart,
   UserDetailSuccess,
-} from "../../redux/slice/userDetailSlice";
+} from "../../redux/slice/Account/userDetailSlice";
 import agent from "../../utils/agent";
 
 const useUserDetail = () => {

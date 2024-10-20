@@ -3,7 +3,7 @@ import {
   CourseDetailFailure,
   CourseDetailsStart,
   CourseDetailSuccess,
-} from "../../redux/slice/courseDetailSlice";
+} from "../../redux/slice/Course/courseDetailSlice";
 import agent from "../../utils/agent";
 
 const useCourseDetail = () => {

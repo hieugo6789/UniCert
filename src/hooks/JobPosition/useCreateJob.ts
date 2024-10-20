@@ -4,7 +4,7 @@ import {
   createJobFailure,
   createJobStart,
   createJobSuccess,
-} from "../../redux/slice/createJobSlice";
+} from "../../redux/slice/JobPosition/createJobSlice";
 import agent from "../../utils/agent";
 
 export function useCreateJob() {

@@ -3,7 +3,7 @@ import {
   deleteCertificateFailure,
   deleteCertificateStart,
   deleteCertificateSuccess,
-} from "../../redux/slice/deleteCertificateSlice";
+} from "../../redux/slice/Certification/deleteCertificateSlice";
 
 import agent from "../../utils/agent";
 

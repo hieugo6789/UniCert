@@ -3,7 +3,7 @@ import {
   deleteJobFailure,
   deleteJobStart,
   deleteJobSuccess,
-} from "../../redux/slice/deleteJobSlice";
+} from "../../redux/slice/JobPosition/deleteJobSlice";
 
 import agent from "../../utils/agent";
 

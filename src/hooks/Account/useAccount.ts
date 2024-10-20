@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAppDispatch } from "../../redux/hook";
-import { fetchAllAccount } from "../../redux/slice/accountSlice";
+import { fetchAllAccount } from "../../redux/slice/Account/accountSlice";
 import { UserDetail } from "../../models/user";
 
 export const useAccounts = (roleFilter1?: string, roleFilter2?: string) => {

@@ -4,7 +4,7 @@ import {
   createTransactionFailure,
   createTransactionStart,
   createTransactionSuccess,
-} from "../redux/slice/createTransactionSlice";
+} from "../redux/slice/Wallet/createTransactionSlice";
 import agent from "../utils/agent";
 export interface CreateTransactionResponse {
   data: {

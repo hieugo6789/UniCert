@@ -3,7 +3,7 @@ import {
   OrganizeDetailFailure,
   OrganizeDetailsStart,
   OrganizeDetailSuccess,
-} from "../../redux/slice/organizeDetailSlice";
+} from "../../redux/slice/Organize/organizeDetailSlice";
 
 import agent from "../../utils/agent";
 

@@ -3,7 +3,7 @@ import {
   deleteCourseFailure,
   deleteCourseStart,
   deleteCourseSuccess,
-} from "../../redux/slice/deleteCourseSlice";
+} from "../../redux/slice/Course/deleteCourseSlice";
 import agent from "../../utils/agent";
 
 const useDeleteCourse = () => {

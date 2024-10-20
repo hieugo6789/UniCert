@@ -4,7 +4,7 @@ import {
   UpdateDetailMajorFailure,
   UpdateDetailMajorStart,
   UpdateDetailMajorSuccess,
-} from "../../redux/slice/majorDetailSlice";
+} from "../../redux/slice/Major/majorDetailSlice";
 import agent from "../../utils/agent";
 
 const useUpdateMajor = () => {

@@ -3,7 +3,7 @@ import {
   WalletDetailFailure,
   WalletDetailsStart,
   WalletDetailSuccess,
-} from "../redux/slice/walletDetailSlice";
+} from "../redux/slice/Wallet/walletDetailSlice";
 import agent from "../utils/agent";
 
 const useWalletDetail = () => {

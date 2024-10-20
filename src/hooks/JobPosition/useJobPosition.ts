@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../redux/hook";
 import { allJobPaginationData } from "../../models/jobPosition";
-import { fetchAllJobPagination } from "../../redux/slice/jobSlice";
+import { fetchAllJobPagination } from "../../redux/slice/JobPosition/jobSlice";
 
 const useJob = () => {
   const dispatch = useAppDispatch();

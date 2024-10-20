@@ -4,7 +4,7 @@ import {
   UpdateDetailFailure,
   UpdateDetailStart,
   UpdateDetailSuccess,
-} from "../../redux/slice/userDetailSlice";
+} from "../../redux/slice/Account/userDetailSlice";
 
 import agent from "../../utils/agent";
 

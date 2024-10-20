@@ -3,7 +3,7 @@ import {
   CertDetailFailure,
   CertDetailsStart,
   CertDetailSuccess,
-} from "../../redux/slice/certDetailSlice";
+} from "../../redux/slice/Certification/certDetailSlice";
 
 import agent from "../../utils/agent";
 

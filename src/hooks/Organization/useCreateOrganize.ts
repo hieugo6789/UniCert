@@ -4,7 +4,7 @@ import {
   createOrganizeFailure,
   createOrganizeStart,
   createOrganizeSuccess,
-} from "../../redux/slice/createOrganizeSlice";
+} from "../../redux/slice/Organize/createOrganizeSlice";
 import agent from "../../utils/agent";
 
 export function useCreateOrganize() {

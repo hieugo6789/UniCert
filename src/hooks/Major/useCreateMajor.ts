@@ -4,7 +4,7 @@ import {
   createMajorFailure,
   createMajorStart,
   createMajorSuccess,
-} from "../../redux/slice/createMajorSlice";
+} from "../../redux/slice/Major/createMajorSlice";
 import agent from "../../utils/agent";
 
 export function useCreateMajor() {

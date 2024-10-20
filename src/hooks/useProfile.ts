@@ -7,7 +7,7 @@ import {
   UserDetailFailure,
   UserDetailsStart,
   UserDetailSuccess,
-} from "../redux/slice/profileSlice";
+} from "../redux/slice/Profile/profileSlice";
 import agent from "../utils/agent";
 const useProfile = () => {
   const updateProfile = async (data: UserDetail) => {

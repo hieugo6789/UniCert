@@ -4,7 +4,7 @@ import {
   UpdateDetailJobFailure,
   UpdateDetailJobStart,
   UpdateDetailJobSuccess,
-} from "../../redux/slice/jobDetailSlice";
+} from "../../redux/slice/JobPosition/jobDetailSlice";
 import agent from "../../utils/agent";
 
 const useUpdateJob = () => {

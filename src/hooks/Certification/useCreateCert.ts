@@ -4,7 +4,7 @@ import {
   createCertFailure,
   createCertStart,
   createCertSuccess,
-} from "../../redux/slice/createCertSlice";
+} from "../../redux/slice/Certification/createCertSlice";
 import agent from "../../utils/agent";
 
 export function useCreateCert() {

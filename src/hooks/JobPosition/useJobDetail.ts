@@ -3,7 +3,7 @@ import {
   JobDetailFailure,
   JobDetailsStart,
   JobDetailSuccess,
-} from "../../redux/slice/jobDetailSlice";
+} from "../../redux/slice/JobPosition/jobDetailSlice";
 import agent from "../../utils/agent";
 
 const useJobDetail = () => {

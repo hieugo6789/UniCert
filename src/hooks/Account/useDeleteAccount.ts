@@ -3,7 +3,7 @@ import {
   deleteAccountFailure,
   deleteAccountStart,
   deleteAccountSuccess,
-} from "../../redux/slice/deleteAccountSlice";
+} from "../../redux/slice/Account/deleteAccountSlice";
 import agent from "../../utils/agent";
 
 const useDeleteAccount = () => {

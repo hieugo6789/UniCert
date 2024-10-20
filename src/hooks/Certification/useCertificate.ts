@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../redux/hook";
 import { allCertificationData } from "../../models/certificate";
-import { fetchAllCertificatePagination } from "../../redux/slice/certificateSlice";
+import { fetchAllCertificatePagination } from "../../redux/slice/Certification/certificateSlice";
 const useCertificate = () => {
   const dispatch = useAppDispatch();
   const [certificate, setCertificate] = useState<allCertificationData[]>([]);

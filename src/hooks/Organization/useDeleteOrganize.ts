@@ -3,7 +3,7 @@ import {
   deleteOrganizeFailure,
   deleteOrganizeStart,
   deleteOrganizeSuccess,
-} from "../../redux/slice/deleteOrganizeSlice";
+} from "../../redux/slice/Organize/deleteOrganizeSlice";
 import agent from "../../utils/agent";
 
 const useDeleteOrganize = () => {

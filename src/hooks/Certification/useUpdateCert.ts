@@ -4,7 +4,7 @@ import {
   UpdateDetailCertFailure,
   UpdateDetailCertStart,
   UpdateDetailCertSuccess,
-} from "../../redux/slice/certDetailSlice";
+} from "../../redux/slice/Certification/certDetailSlice";
 import agent from "../../utils/agent";
 
 const useUpdateCert = () => {

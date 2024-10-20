@@ -4,7 +4,7 @@ import {
   UpdateDetailOrganizeFailure,
   UpdateDetailOrganizeStart,
   UpdateDetailOrganizeSuccess,
-} from "../../redux/slice/organizeDetailSlice";
+} from "../../redux/slice/Organize/organizeDetailSlice";
 import agent from "../../utils/agent";
 
 const useUpdateOrganize = () => {

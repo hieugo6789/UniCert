@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../redux/hook";
 import { allTypePaginationData } from "../../models/certType";
-import { fetchAllTypePagination } from "../../redux/slice/certTypeSlice";
+import { fetchAllTypePagination } from "../../redux/slice/Certification/certTypeSlice";
 
 const useCertType = () => {
   const dispatch = useAppDispatch();

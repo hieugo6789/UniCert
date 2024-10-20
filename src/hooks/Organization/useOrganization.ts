@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../redux/hook";
 import { allOrganizationPaginationData } from "../../models/organization";
-import { fetchAllOrganizationPagination } from "../../redux/slice/organizationSlice";
+import { fetchAllOrganizationPagination } from "../../redux/slice/Organize/organizationSlice";
 
 const useOrganization = () => {
   const dispatch = useAppDispatch();
