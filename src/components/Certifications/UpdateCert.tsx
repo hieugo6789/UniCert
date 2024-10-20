@@ -1,4 +1,5 @@
 import { Input, Modal, Form, InputNumber, Select, message } from "antd";
+import CustomInput from "../../components/UI/CustomInput";
 import { useState, useEffect } from "react";
 import useUpdateCert from "../../hooks/useUpdateCert";
 import useOrganization from "../../hooks/useOrganization";
@@ -7,6 +8,8 @@ import MyEditor from "../Editor/MyEditor";
 import useCertType from "../../hooks/useCertType";
 import useCertDetail from "../../hooks/useCertDetail";
 import { EditOutlined } from "@ant-design/icons";
+import axios from "axios";
+import { current } from "@reduxjs/toolkit";
 
 interface UpdateCertProps {
   certId: string;
@@ -58,12 +61,57 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
     try {
       await form.validateFields();
       const formData = form.getFieldsValue();
-      await updateCertDetails(certId, formData);
+
+      let uploadedImageUrl = formData.certImage;
+      
+      if (selectedImage) {
+        uploadedImageUrl = await uploadCloudinary();
+        console.log("New uploaded image URL:", uploadedImageUrl);
+      }
+        
+      const updatedFormData = {
+        ...formData,
+        certImage: uploadedImageUrl,
+      };      
+
+      await updateCertDetails(certId, updatedFormData);
       message.success("Certificate updated successfully!");
       refetchCertificates();
       setIsModalVisible(false);
     } catch (error) {
       message.error("Failed to update the certificate.");
+    }
+  };
+
+  const [selectedImage, setSelectedImage] = useState<File | null>(null); 
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      console.log("Selected image file:", file);
+      setSelectedImage(file);
+      setPreviewImage(URL.createObjectURL(file)); 
+    }
+  };
+
+  const uploadCloudinary = async () => {        
+    if (selectedImage) {
+      const formUpload = new FormData();
+      formUpload.append("api_key", "994636724857583");
+      formUpload.append("file", selectedImage);
+      formUpload.append("upload_preset", "upload_image");
+      formUpload.append("folder", "Certificate")
+
+      try {
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/unicert/image/upload",
+          formUpload
+        );                          
+        console.log("Certificate upload successfully:", response.data.url);    
+        return response.data.url;          
+      } catch (error) {
+        console.error("Error uploading avatar:", error);
+      }
     }
   };
 
@@ -154,15 +202,19 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
 
           <Form.Item
             label="Image"
-            name="certImage"
-            rules={[
-              {
-                required: true,
-                message: "Please enter the certificate image URL",
-              },
-            ]}
+            name="certImage"            
           >
-            <Input placeholder="Enter certificate image URL" />
+            <img
+                src={previewImage || (certDetailState.currentCert.certImage)}
+                alt="Current Image"
+                className="w-32 h-32 bg-gray-300 mb-4"
+              />
+            <CustomInput
+                placeholder="Image"
+                type="file"                
+                onChange={handleImageChange}                
+                required
+              />
           </Form.Item>
 
           <Form.Item
