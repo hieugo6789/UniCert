@@ -2,17 +2,21 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { allJobPaginationData } from "../../../models/jobPosition";
 import { useEffect, useState } from "react";
 import useJobDetail from "../../../hooks/useJobDetail";
-import useCertDetail from "../../../hooks/useCertDetail";
-import { allCertificationData } from "../../../models/certificate";
 import CustomButton from "../../../components/UI/CustomButton";
-
+interface certTab {
+  certCode: string;
+  certDescription: string;
+  certId: number;
+  certImage: string;
+  certName: string;
+  typeName: string;
+}
 const JobDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [jobDetail, setJobDetail] = useState<allJobPaginationData | null>(null);
-  const { state: certState, getCertDetails } = useCertDetail();
   const { state, getJobDetails } = useJobDetail();
-  const [certList, setCertList] = useState<allCertificationData[]>([]);
+  const [certList, setCertList] = useState<certTab[]>([]);
   useEffect(() => {
     setCertList([]);
     getJobDetails(id);
@@ -23,42 +27,9 @@ const JobDetail = () => {
     if (state) {
       setJobDetail(state?.currentJob);
 
-      state?.currentJob.certificationDetails?.map((cert) => {
-        getCertDetails(cert.certId.toString());
-      });
+      setCertList(state?.currentJob?.certificationDetails);
     }
   }, [state]);
-  useEffect(() => {
-    if (certState) {
-      if (certState.currentCert.certId == null) {
-        return;
-      }
-      setCertList((prevCertList) => {
-        const isCertAlreadyAdded = prevCertList.some(
-          (cert) => cert.certId === certState.currentCert.certId
-        );
-        if (!isCertAlreadyAdded) {
-          // Nếu chưa có, thêm chứng chỉ mới vào danh sách
-          return [...prevCertList, certState.currentCert];
-        }
-        return prevCertList; // Nếu đã có, giữ nguyên danh sách
-      });
-    }
-  }, [certState]);
-
-  useEffect(() => {
-    setCertList((prevCertList) => {
-      // Map jobDetail.certificationDetails to certId numbers for comparison
-      const certIds =
-        jobDetail?.certificationDetails.map((cert) => Number(cert.certId)) ||
-        [];
-
-      // Filter the certList by converting cert.certId to a number for comparison
-      return prevCertList.filter((cert) =>
-        certIds.includes(Number(cert.certId))
-      );
-    });
-  }, [certList]);
 
   // Function to handle the fade-in effect
   const handleIntersection = (entries: any) => {
@@ -121,13 +92,13 @@ const JobDetail = () => {
           <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
             Foundation
           </h1>
-          {certList.filter((cert) => cert.typeName === "Foundation").length ===
+          {certList && certList.filter((cert) => cert.typeName === "Foundation").length ===
           0 ? (
             <p className="text-xl text-white font-bold">
               Not found any Associate certificate
             </p>
           ) : null}
-          {certList.map((cert) => {
+          {certList && certList.map((cert) => {
             if (cert.typeName === "Foundation") {
               return (
                 <div className="w-32 h-32">
@@ -145,13 +116,13 @@ const JobDetail = () => {
           <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
             Associate
           </h1>
-          {certList.filter((cert) => cert.typeName === "Associate").length ===
+          {certList && certList.filter((cert) => cert.typeName === "Associate").length ===
           0 ? (
             <p className="text-xl text-white font-bold">
               Not found any Associate certificate
             </p>
           ) : null}
-          {certList.map((cert) => {
+          {certList && certList.map((cert) => {
             if (cert.typeName === "Associate") {
               return (
                 <div className="w-32 h-32">
@@ -169,13 +140,13 @@ const JobDetail = () => {
           <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
             Professional
           </h1>
-          {certList.filter((cert) => cert.typeName === "Professional")
+          {certList && certList.filter((cert) => cert.typeName === "Professional")
             .length === 0 ? (
             <p className="text-xl text-white font-bold">
               Not found any Associate certificate
             </p>
           ) : null}
-          {certList.map((cert) => {
+          {certList && certList.map((cert) => {
             if (cert.typeName === "Professional") {
               return (
                 <div className="w-32 h-32">
@@ -193,13 +164,13 @@ const JobDetail = () => {
           <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
             Expert
           </h1>
-          {certList.filter((cert) => cert.typeName === "Expert").length ===
+          {certList && certList.filter((cert) => cert.typeName === "Expert").length ===
           0 ? (
             <p className="text-xl text-white font-bold">
               Not found any Associate certificate
             </p>
           ) : null}
-          {certList.map((cert) => {
+          {certList && certList.map((cert) => {
             if (cert.typeName === "Expert") {
               return (
                 <div className="w-32 h-32">
@@ -217,13 +188,13 @@ const JobDetail = () => {
           <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
             Specialty
           </h1>
-          {certList.filter((cert) => cert.typeName === "Specialty").length ===
+          {certList && certList.filter((cert) => cert.typeName === "Specialty").length ===
           0 ? (
             <p className="text-xl text-white font-bold">
               Not found any Associate certificate
             </p>
           ) : null}
-          {certList.map((cert) => {
+          {certList && certList.map((cert) => {
             if (cert.typeName === "Specialty") {
               return (
                 <div className="w-32 h-32">
