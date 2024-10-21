@@ -47,7 +47,6 @@ const UpdateJobPosition: React.FC<UpdateJobProps> = ({
         majorId: majorIds,
         certId: certIds,
       });
-      // form.setFieldsValue(currentJobPosition);
     }
   }, [jobDetailState.currentJob, jobPositionId, form]);
 
@@ -64,24 +63,6 @@ const UpdateJobPosition: React.FC<UpdateJobProps> = ({
       message.error("Failed to update the certificate.");
     }
   };
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-  // const handleSelectMajorChange = (value: number[]) => {
-  //   setFormData({
-  //     ...formData,
-  //     majorId: Array.isArray(value) ? value : [value],
-  //   });
-  // };
-  // const handleSelectCertChange = (value: number[]) => {
-  //   setFormData({
-  //     ...formData,
-  //     certId: Array.isArray(value) ? value : [value],
-  //   });
-  // };
 
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -106,7 +87,6 @@ const UpdateJobPosition: React.FC<UpdateJobProps> = ({
         <Form
           form={form}
           layout="vertical"
-          // initialValues={formData}
         >
           <Form.Item
             label="Name"
@@ -115,26 +95,16 @@ const UpdateJobPosition: React.FC<UpdateJobProps> = ({
               { required: true, message: "Please enter the job position name" },
             ]}
           >
-            <Input
-              // name="jobPositionName"
-              // value={formData.jobPositionName}
-              // onChange={handleInputChange}
-              placeholder="Enter Job position name"
-            />
+            <Input placeholder="Enter Job position name" />
           </Form.Item>
           <Form.Item
             label="Code"
             name="jobPositionCode"
             rules={[
-              { required: true, message: "Please enter the Job position name" },
+              { required: true, message: "Please enter the Job position code" },
             ]}
           >
-            <Input
-              // name="jobPositionCode"
-              // value={formData.jobPositionCode}
-              // onChange={handleInputChange}
-              placeholder="Enter Job position name"
-            />
+            <Input placeholder="Enter Job position code" />
           </Form.Item>
           <Form.Item
             label="Description"

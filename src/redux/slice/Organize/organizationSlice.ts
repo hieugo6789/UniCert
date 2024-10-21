@@ -52,5 +52,5 @@ const organizationSlice = createSlice({
   },
 });
 
-export const majorActions = organizationSlice.actions;
+export const organizeActions = organizationSlice.actions;
 export default organizationSlice.reducer;

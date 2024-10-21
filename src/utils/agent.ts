@@ -102,16 +102,6 @@ const Schedule = {
     requests.del(`api/v1/exam-session/${sessionId}`),
 };
 
-const InternalCourse = {
-  getAllCourse: (name?: string) =>
-    requests.get(`api/v1/course/${name ? name : ""}`),
-  getCourseDetail: (courseId: string) =>
-    requests.get(`api/v1/course/${courseId}`),
-  deleteCourse: (courseId: string) => requests.del(`api/v1/course/${courseId}`),
-  updateCourse: (courseId: string, input: updateCourse) =>
-    requests.put(`api/v1/course/${courseId}`, input),
-};
-
 const Account = {
   getAllAccount: () => requests.get("api/v1/Users"),
   getAccountDetail: (userId: string) => requests.get(`api/v1/users/${userId}`),
@@ -131,12 +121,26 @@ const Checkout = {
   getCheckOut: (transactionId: number) =>
     requests.post1(`api/v1/checkout/${transactionId}`),
 };
+const InternalCourse = {
+  getAllCourse: (name?: string) =>
+    requests.get(`api/v1/course/${name ? name : ""}`),
+  getCourseDetail: (courseId: string) =>
+    requests.get(`api/v1/course/${courseId}`),
+  deleteCourse: (courseId: string) => requests.del(`api/v1/course/${courseId}`),
+  updateCourse: (courseId: string, input: updateCourse) =>
+    requests.put(`api/v1/course/${courseId}`, input),
+};
 
 const SimulationExam = {
   getAllSimulationExam: (name: string) =>
     requests.get(
       `api/v1/simulation-exam/search${name ? `/?examName=${name}` : ""}`
     ),
+};
+
+const Voucher = {
+  getAllVoucher: (name?: string) =>
+    requests.get(`api/v1/voucher/${name ? name : ""}`),
 };
 
 const Profile = {
@@ -160,6 +164,7 @@ const agent = {
   Schedule,
   Profile,
   SimulationExam,
+  Voucher,
   TransactionWallet,
   Checkout,
   CertType,

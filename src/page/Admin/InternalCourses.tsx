@@ -71,7 +71,10 @@ const InternalCourses = () => {
       render: (record: allCoursePaginationData) => (
         <div className="flex space-x-2">
           <Button onClick={() => handleView(record.courseId)}>View</Button>
-          <UpdateCourse />
+          <UpdateCourse
+            courseId={record.courseId}
+            refetchCourses={refetchCourses}
+          />
           <Button
             className="bg-red-500 hover:bg-red-700 transition-all duration-300"
             onClick={() => showDeleteConfirm(record.courseId)}

@@ -18,6 +18,17 @@ export interface allCoursePaginationData {
       typeName: string;
     }
   ];
+  voucherDetails: [
+    {
+      voucherId: number;
+      voucherName: string;
+      voucherDescription: string;
+      percentage: number;
+      creationDate: Date;
+      expiryDate: Date;
+      voucherStatus: boolean;
+    }
+  ];
 }
 
 export interface currentCourse {
@@ -38,6 +49,17 @@ export interface currentCourse {
       certDescription: string;
       certImage: string;
       typeName: string;
+    }
+  ];
+  voucherDetails: [
+    {
+      voucherId: number;
+      voucherName: string;
+      voucherDescription: string;
+      percentage: number;
+      creationDate: Date;
+      expiryDate: Date;
+      voucherStatus: boolean;
     }
   ];
 }
