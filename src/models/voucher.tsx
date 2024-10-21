@@ -53,3 +53,7 @@ export interface currentVoucher {
     }
   ];
 }
+
+export interface deleteVoucher {
+  voucherId: number;
+}

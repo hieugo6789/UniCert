@@ -16,8 +16,9 @@ import createOrganizationReducer from "./slice/Organize/createOrganizeSlice";
 import deleteOrganizationReducer from "./slice/Organize/deleteOrganizeSlice";
 import courseReducer from "./slice/Course/courseSlice";
 import courseDetailReducer from "./slice/Course/courseDetailSlice";
-import voucherReducer from "../redux/slice/Voucher/voucherSlice";
 import deleteCourseReducer from "./slice/Course/deleteCourseSlice";
+import voucherReducer from "../redux/slice/Voucher/voucherSlice";
+import deleteVoucherReducer from "../redux/slice/Voucher/deleteVoucherSlice";
 import certificateReducer from "./slice/Certification/certificateSlice";
 import certificateDetailReducer from "./slice/Certification/certDetailSlice";
 import deleteCertificateReducer from "./slice/Certification/deleteCertificateSlice";
@@ -50,6 +51,7 @@ export const store = configureStore({
     course: courseReducer,
     courseDetail: courseDetailReducer,
     voucher: voucherReducer,
+    deleteVoucher: deleteVoucherReducer,
     deleteCourse: deleteCourseReducer,
     certificate: certificateReducer,
     certificateDetail: certificateDetailReducer,

@@ -141,6 +141,8 @@ const SimulationExam = {
 const Voucher = {
   getAllVoucher: (name?: string) =>
     requests.get(`api/v1/voucher/${name ? name : ""}`),
+  deleteVoucher: (voucherId: number) =>
+    requests.del(`api/v1/voucher/${voucherId}`),
 };
 
 const Profile = {
