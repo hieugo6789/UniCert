@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import defaultCertThumb from "../../assets/images/Certification/defaultCertThumb.png";
-import { allCertificationData } from "../../models/certificate";
+import { cardCertificate } from "../../models/certificate";
 import { isValidImageUrl } from "../../utils/validImageUrl";
 
-const CertificateCard = (props: allCertificationData) => {
+const CertificateCard = (props: cardCertificate) => {
   const navigate = useNavigate();
   // const date = new Date(props.certValidity);
   // const isValidImageUrl = (url:string) => {

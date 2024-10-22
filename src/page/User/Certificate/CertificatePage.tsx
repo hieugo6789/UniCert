@@ -9,7 +9,7 @@ import Loading from "../../../components/UI/Loading";
 const CertificatePage = () => {
   const [topCert] = useState<allCertificationData[]>([
     {
-      certId: "1",
+      certId: 1,
       certName: "AWS Certified Solutions Architect",
       certCode: "AWS-CSA",
       certDescription:
@@ -28,7 +28,7 @@ const CertificatePage = () => {
       certDescriptionPrerequisite: [],
     },
     {
-      certId: "2",
+      certId: 2,
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:
