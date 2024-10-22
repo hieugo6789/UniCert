@@ -81,13 +81,13 @@ const Certificate = {
     requests.get(
       `api/v1/certification/search${name ? `/?certName=${name}` : ""}`
     ),
-  getCertificateDetail: (certId: string | undefined) =>
+  getCertificateDetail: (certId: number | undefined) =>
     requests.get(`api/v1/certification/${certId}`),
   createCertificate: (input: createCertificate) =>
     requests.post("/api/v1/certification", input),
-  deleteCertificate: (certId: string) =>
+  deleteCertificate: (certId: number) =>
     requests.del(`api/v1/certification/${certId}`),
-  updateCertificate: (certId: string, input: updateCert) =>
+  updateCertificate: (certId: number, input: updateCert) =>
     requests.put(`api/v1/certification/${certId}`, input),
 };
 

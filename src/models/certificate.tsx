@@ -1,5 +1,5 @@
 export interface allCertificationData {
-  certId: string;
+  certId: number;
   certName: string;
   certCode: string;
   certDescription: string;
@@ -17,7 +17,7 @@ export interface allCertificationData {
   certDescriptionPrerequisite: [];
 }
 export interface currentCertificate {
-  certId: string;
+  certId: number;
   certName: string;
   certCode: string;
   certDescription: string;
@@ -62,5 +62,16 @@ export interface updateCert {
 }
 
 export interface deleteCertificate {
-  certId: string;
+  certId: number;
+}
+
+export interface cardCertificate {
+  certId: number;
+  certName: string;
+  certCode: string;
+  certDescription: string;  
+  certImage: string;
+  certValidity: string;  
+  organizeName: string;  
+  typeName: string;  
 }

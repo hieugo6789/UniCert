@@ -19,6 +19,8 @@ export interface allMajorPaginationData {
       certDescription: string;
       certImage: string;
       typeName: string;
+      organizeName: string;
+      certValidity: string;
     }
   ];
 }
@@ -43,6 +45,8 @@ export interface currentMajor {
       certDescription: string;
       certImage: string;
       typeName: string;
+      organizeName: string;
+      certValidity: string;
     }
   ];
 }

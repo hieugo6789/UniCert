@@ -19,6 +19,8 @@ export interface allJobPaginationData {
       certDescription: string;
       certImage: string;
       typeName: string;
+      organizeName: string;
+      certValidity: string;
     }
   ];
 }
@@ -44,6 +46,8 @@ export interface currentJob {
       certDescription: string;
       certImage: string;
       typeName: string;
+      organizeName: string;
+      certValidity: string;
     }
   ];
 }
