@@ -10,7 +10,7 @@ import Loading from "../../../components/UI/Loading";
 const Majors = () => {
   const [topCert] = useState<allCertificationData[]>([
     {
-      certId: "1",
+      certId: 1,
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:
@@ -29,7 +29,7 @@ const Majors = () => {
       certDescriptionPrerequisite: [],
     },
     {
-      certId: "2",
+      certId: 2,
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:

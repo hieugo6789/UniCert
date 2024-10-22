@@ -11,7 +11,7 @@ const useDeleteCertificate = () => {
   const state = useAppSelector((state) => state.certificateDelete);
   const dispatch = useAppDispatch();
 
-  const handleDeleteCertificate = async (certId: string) => {
+  const handleDeleteCertificate = async (certId: number) => {
     dispatch(deleteCertificateStart());
     try {
       const response = await agent.Certificate.deleteCertificate(certId);

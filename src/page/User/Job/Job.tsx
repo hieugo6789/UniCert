@@ -8,7 +8,7 @@ import { allCertificationData } from "../../../models/certificate";
 const Job = () => {
   const [topCert] = useState<allCertificationData[]>([
     {
-      certId: "1",
+      certId: 1,
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:
@@ -27,7 +27,7 @@ const Job = () => {
       certDescriptionPrerequisite: [],
     },
     {
-      certId: "2",
+      certId: 2,
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:

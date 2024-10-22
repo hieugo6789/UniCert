@@ -8,7 +8,7 @@ import CustomButton from "../../components/UI/CustomButton";
 const HomePage = () => {
   const [topCert] = useState<allCertificationData[]>([
     {
-      certId: "1",
+      certId: 1,
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:
@@ -27,7 +27,7 @@ const HomePage = () => {
       certDescriptionPrerequisite: [],
     },
     {
-      certId: "2",
+      certId: 2,
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:
@@ -46,7 +46,7 @@ const HomePage = () => {
       certDescriptionPrerequisite: [],
     },
     {
-      certId: "3",
+      certId: 3,
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:
@@ -65,7 +65,7 @@ const HomePage = () => {
       certDescriptionPrerequisite: [],
     },
     {
-      certId: "4",
+      certId: 4,
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:

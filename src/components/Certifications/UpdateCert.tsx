@@ -11,7 +11,7 @@ import { EditOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 interface UpdateCertProps {
-  certId: string;
+  certId: number;
   refetchCertificates: () => void;
 }
 

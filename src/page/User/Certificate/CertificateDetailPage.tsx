@@ -13,7 +13,7 @@ const CertificateDetailPage = () => {
   const [cert, setCertificate] = useState<allCertificationData | undefined>(
     undefined
   );
-  const id = useParams().id;
+  const id = Number(useParams().id);
   const { state, getCertDetails } = useCertDetail();
 
   useEffect(() => {

@@ -11,7 +11,7 @@ const useUpdateCert = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.certificateDetail);
 
-  const updateCertDetails = async (certId: string, data: updateCert) => {
+  const updateCertDetails = async (certId: number, data: updateCert) => {
     dispatch(UpdateDetailCertStart());
     try {
       const response = await agent.Certificate.updateCertificate(certId, data);

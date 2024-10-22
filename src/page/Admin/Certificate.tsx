@@ -34,7 +34,7 @@ const Certificate = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleView = async (certId: string) => {
+  const handleView = async (certId: number) => {
     setIsModalVisible(true);
     await getCertDetails(certId);
   };
@@ -106,7 +106,7 @@ const Certificate = () => {
     },
   ];
 
-  const showDeleteConfirm = (certId: string) => {
+  const showDeleteConfirm = (certId: number) => {
     confirm({
       title: "Are you sure delete this certification?",
       icon: <ExclamationCircleOutlined />,
