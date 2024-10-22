@@ -57,6 +57,17 @@ const Majors = () => {
   useEffect(() => {
     setMajors(major);
   }, [major]);
+
+  useEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 120,
+        behavior: "smooth", // Cuộn mượt mà
+      });
+    };
+    scrollToTop();
+  });
+
   return (
     <>
       <div>

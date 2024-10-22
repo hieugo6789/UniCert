@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"; // To get the majorId from URL params
 import { allMajorPaginationData } from "../../../models/major";
+import { cardCertificate } from "../../../models/certificate";
 import useMajorDetail from "../../../hooks/Major/useMajorDetail";
-interface certTab {
-  certCode: string;
-  certDescription: string;
-  certId: number;
-  certImage: string;
-  certName: string;
-  typeName: string;
-}
+import useJobDetail from "../../../hooks/JobPosition/useJobDetail";
+import CertificateCard from "../../../components/Certifications/CertificateCard";
+
 const MajorDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // Extract majorId from the URL
   const [major, setMajor] = useState<allMajorPaginationData | null>(null);
-  const [allCerts, setAllCerts] = useState<certTab[]>([]);
+  const [allCerts, setAllCerts] = useState<cardCertificate[]>([]);
+  const [filteredCerts, setFilteredCerts] = useState<cardCertificate[]>([]);
+  const [selectedJob, setSelectedJob] = useState<string>("all");
 
   const { state, getMajorDetails } = useMajorDetail();
+  const { state: jobState, getJobDetails } = useJobDetail();
 
   // Fetch Major Details
   useEffect(() => {
@@ -31,39 +30,35 @@ const MajorDetailPage: React.FC = () => {
 
   // Fetch Job Details associated with the Major
   useEffect(() => {
-    const getJob = () => {
+    const getJob = () => {      
       if (state?.currentMajor) {
         setMajor(state.currentMajor);
         setAllCerts(state.currentMajor.certificationDetails);
-        console.log("Major", state.currentMajor.certificationDetails);
+        setFilteredCerts(state.currentMajor.certificationDetails);        
       }
     };
     getJob();
   }, [state]);
 
-  // Handle filtering by job position
-  const handleJobPositionChange = () =>
-    // event: React.ChangeEvent<HTMLSelectElement>
-    {
-      // const selectedJob = event.target.value;
-      // if (selectedJob === "all") {
-      //   setFilteredCerts(allCerts);
-      // } else {
-      //   const selectedJobDetail =
-      //     jobDetailState.currentJob?.jobPositionId.toString() === selectedJob
-      //       ? jobDetailState.currentJob
-      //       : null;
-      //   if (selectedJobDetail) {
-      //     const certIds = selectedJobDetail.certificationDetails || [];
-      //     const filteredCerts = certIds
-      //       .map((certId) =>
-      //         allCerts.find((cert) => cert.certId === certId.certId.toString())
-      //       ) // Convert certId to number for comparison
-      //       .filter((cert): cert is allCertificationData => !!cert); // Ensure only valid certs are returned
-      //     console.log("Test", allCerts);
-      //     setFilteredCerts(filteredCerts);
-      //   }
-      // }
+  useEffect(() => {
+    setFilteredCerts([]);
+    if (selectedJob === "all")
+      setFilteredCerts(allCerts);
+    else
+      getJobDetails(selectedJob);    
+    return;
+  }, [selectedJob]);
+
+  useEffect(() => {
+    if (jobState.currentJob) {      
+      setFilteredCerts(jobState?.currentJob?.certificationDetails);
+    }
+  }, [jobState.currentJob]);  
+
+  // Handle filtering by job position  
+  const handleJobPositionChange = (event: React.ChangeEvent<HTMLSelectElement>) =>    
+    { 
+      setSelectedJob(event.target.value);      
     };
 
   if (!major) {
@@ -132,14 +127,12 @@ const MajorDetailPage: React.FC = () => {
       </div>
 
       {/* Certificates Grid */}
-      {allCerts.length > 0 ? (
+      {filteredCerts?.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
-          {allCerts.map((cert, index) => (
-            <img
+          {filteredCerts.map((cert, index) => (
+            <CertificateCard
               key={index}
-              src={cert.certImage}
-              alt={cert.certName}
-              className="rounded-md shadow-md"
+              {...cert}
             />
           ))}
         </div>
