@@ -25,7 +25,6 @@ import NotFound from "./page/NotFound/NotFound";
 import CertificateDetailPage from "./page/User/Certificate/CertificateDetailPage";
 import MajorDetailPage from "./page/User/Majors/MajorDetailPage";
 import JobDetail from "./page/User/Job/JobDetail";
-import TopUpWallet from "./components/Wallet/TopUpWallet";
 import Wallet from "./page/User/Wallet/Wallet";
 import Courses from "./page/User/Courses/Courses";
 import SimulationExam from "./page/Admin/SimulationExam";
@@ -58,7 +57,6 @@ function App() {
         { path: "job", element: <Job /> },
         { path: "job/:id", element: <JobDetail /> },
         { path: "wallet", element: <Wallet /> },
-        { path: "wallet/deposit", element: <TopUpWallet /> },
       ],
     },
     { path: "/login", element: <Login /> },

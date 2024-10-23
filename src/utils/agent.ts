@@ -134,7 +134,7 @@ const InternalCourse = {
 };
 
 const SimulationExam = {
-  getAllSimulationExam: (name: string) =>
+  getAllSimulationExam: (name?: string) =>
     requests.get(
       `api/v1/simulation-exam/search${name ? `/?examName=${name}` : ""}`
     ),

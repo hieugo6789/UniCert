@@ -1,16 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useWalletDetail from "../../../hooks/Wallet/useWalletDetail";
 import Coin from "../../../assets/images/Coin.png";
 import Cookies from "js-cookie";
+import { Button, Modal } from "antd";
+import TopUpWallet from "../../../components/Wallet/TopUpWallet";
 
 const Wallet = () => {
   const { wallets, getWalletDetails } = useWalletDetail();
   const userId = Cookies.get("userId");
+  const [isModalVisible, setIsModalVisible] = useState(false); // Modal visibility state
+
   useEffect(() => {
     if (userId) {
       getWalletDetails(userId);
     }
   }, [userId]);
+
+  const handlePlusCoin = () => {
+    setIsModalVisible(true); // Show modal when + button is clicked
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false); // Hide modal when cancel/close is clicked
+  };
+
   return (
     <>
       <div className="flex justify-around">
@@ -31,9 +44,21 @@ const Wallet = () => {
               {userId ? wallets[userId]?.point : 0}
             </span>
           </div>
+          <Button onClick={handlePlusCoin}> + </Button>
         </div>
       </div>
+
+      {/* Modal for TopUpWallet */}
+      <Modal
+        title="Top Up Wallet"
+        open={isModalVisible}
+        onCancel={handleCancel}
+        footer={null} // No default footer buttons
+      >
+        <TopUpWallet /> {/* Render TopUpWallet inside the modal */}
+      </Modal>
     </>
   );
 };
+
 export default Wallet;
