@@ -51,7 +51,6 @@ const TopUpWallet = () => {
         console.error("Error during the top-up and checkout process:", error);
       }
 
-      // Reset the input field after submission
       setTopUpAmount(0);
     } else {
       alert("Please enter a valid top-up amount.");

@@ -116,6 +116,8 @@ const TransactionWallet = {
     requests.get(`api/v1/transaction${transactionId}`),
   createTransaction: (input: inputTransaction) =>
     requests.post("api/v1/transaction", input),
+  getHistoryTransaction: (userId: number) =>
+    requests.get(`api/v1/transaction/get-by-user/${userId}`),
 };
 const Checkout = {
   getCheckOut: (transactionId: number) =>

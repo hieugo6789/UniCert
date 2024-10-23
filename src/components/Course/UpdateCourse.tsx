@@ -145,14 +145,16 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
               style={{ width: "100%" }}
               mode="multiple"
             >
-              {voucher.map((v) => (
-                <Select.Option
-                  key={v.voucherId}
-                  value={v.voucherId}
-                >
-                  {v.voucherName}
-                </Select.Option>
-              ))}
+              {voucher
+                .filter((v) => v.voucherStatus === true)
+                .map((v) => (
+                  <Select.Option
+                    key={v.voucherId}
+                    value={v.voucherId}
+                  >
+                    {v.voucherName}
+                  </Select.Option>
+                ))}
             </Select>
           </Form.Item>
           <Form.Item
