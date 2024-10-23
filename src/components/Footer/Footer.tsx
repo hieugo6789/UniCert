@@ -1,79 +1,109 @@
 import { Link } from "react-router-dom";
 
 const Footer = () => {
-  return <footer className="bg-white py-10 px-6">
-  <div className="container mx-auto grid grid-cols-1 md:grid-cols-8 gap-8">
-    {/* UniCert - Logo & Description */}
-    <div className="md:col-span-5">
-      <h2 className="text-2xl font-bold">UniCert</h2>
-      <p className="text-gray-600 mt-4">
-        balalaika instead quaintly row a reasonable close rancher whereas
-        closely swerve a growing decriminalise drake
-      </p>
-      <div className="mt-6">
-        <h3 className="font-bold">Contact</h3>
-        <p>Phone: 0793552206</p>
-        <p>Email: minhnguyen@gmail.com</p>
+  return <footer className="font-sans tracking-wide bg-black py-10 px-10">
+    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <li>
+        <h3 className="text-violet-600 font-semibold text-5xl">25k+</h3>
+        <p className="text-gray-300 text-sm mt-2">Certificates</p>
+      </li>
+      <li>
+        <h3 className="text-violet-600 font-semibold text-5xl">320k+</h3>
+        <p className="text-gray-300 text-sm mt-2">Students</p>
+      </li>
+      <li>
+        <h3 className="text-violet-600 font-semibold text-5xl">150k+</h3>
+        <p className="text-gray-300 text-sm mt-2">Courses</p>
+      </li>
+      <li>
+        <h3 className="text-violet-600 font-semibold text-5xl">50k+</h3>
+        <p className="text-gray-300 text-sm mt-2">Companies</p>
+      </li>
+    </ul>
+
+    <hr className="my-10 border-violet-600" />
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-4">
+      <div>
+        <h4 className="text-violet-600 font-semibold text-lg mb-4">Quick Links</h4>
+        <ul className="space-y-4">
+          <li>
+            <Link to="/about">
+              <div className="hover:text-violet-600 text-gray-300 text-sm">About us</div>
+            </Link>
+          </li>
+          <li>
+            <Link to="/certificate" className="hover:text-violet-600 text-gray-300 text-sm">
+              Certificate
+            </Link>
+          </li>
+          <li>
+            <Link to="/majors" className="hover:text-violet-600 text-gray-300 text-sm">
+              Major
+            </Link>
+          </li>
+          <li>
+            <Link to="/job" className="hover:text-violet-600 text-gray-300 text-sm">
+              Job Position
+            </Link>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 className="text-violet-600 font-semibold text-lg mb-4">Major</h4>
+        <ul className="space-y-4">
+          <li>
+            <a href="javascript:void(0)" className="hover:text-violet-600 text-gray-300 text-sm">Information Technology</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" className="hover:text-violet-600 text-gray-300 text-sm">Software Technology</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" className="hover:text-violet-600 text-gray-300 text-sm">Infomation System</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" className="hover:text-violet-600 text-gray-300 text-sm">Marketing</a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 className="text-violet-600 font-semibold text-lg mb-4">Job Position</h4>
+        <ul className="space-y-4">
+          <li>
+            <a href="javascript:void(0)" className="hover:text-violet-600 text-gray-300 text-sm">Backend Developer</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" className="hover:text-violet-600 text-gray-300 text-sm">Frontend Developer</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" className="hover:text-violet-600 text-gray-300 text-sm">Data Engineer</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" className="hover:text-violet-600 text-gray-300 text-sm">Data</a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 className="text-violet-600 font-semibold text-lg mb-4">Company</h4>
+        <ul className="space-y-4">
+          <li>
+            <a href="javascript:void(0)" className="hover:text-violet-600 text-gray-300 text-sm">Accessibility</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" className="hover:text-violet-600 text-gray-300 text-sm">About</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" className="hover:text-violet-600 text-gray-300 text-sm">Contact</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" className="hover:text-violet-600 text-gray-300 text-sm">Learn more</a>
+          </li>
+        </ul>
       </div>
     </div>
-
-    {/* Course Links  */}
-    <div className="md:col-span-1">
-      <h3 className="text-xl font-bold">Course</h3>
-      <ul className="mt-4 space-y-2">
-        <li>
-          <Link to="/course-1" className="text-gray-600 hover:underline">Lorem Lorem</Link>
-        </li>
-        <li>
-          <Link to="/course-2" className="text-gray-600 hover:underline">Lorem Lorem</Link>
-        </li>
-        <li>
-          <Link to="/course-3" className="text-gray-600 hover:underline">Lorem Lorem</Link>
-        </li>
-        <li>
-          <Link to="/course-4" className="text-gray-600 hover:underline">Lorem Lorem</Link>
-        </li>
-      </ul>
-    </div>
-
-    {/* Quick Start Links  */}
-    <div className="md:col-span-1">
-      <h3 className="text-xl font-bold">Quick Start</h3>
-      <ul className="mt-4 space-y-2">
-        <li>
-          <Link to="/quick-start-1" className="text-gray-600 hover:underline">Lorem Lorem</Link>
-        </li>
-        <li>
-          <Link to="/quick-start-2" className="text-gray-600 hover:underline">Lorem Lorem</Link>
-        </li>
-        <li>
-          <Link to="/quick-start-3" className="text-gray-600 hover:underline">Lorem Lorem</Link>
-        </li>
-        <li>
-          <Link to="/quick-start-4" className="text-gray-600 hover:underline">Lorem Lorem</Link>
-        </li>
-      </ul>
-    </div>
-
-    {/* FAQ Links  */}
-    <div className="md:col-span-1 ">
-      <h3 className="text-xl font-bold">FAQ</h3>
-      <ul className="mt-4 space-y-2">
-        <li>
-          <Link to="/faq-1" className="text-gray-600 hover:underline">Lorem Lorem</Link>
-        </li>
-        <li>
-          <Link to="/faq-2" className="text-gray-600 hover:underline">Lorem Lorem</Link>
-        </li>
-        <li>
-          <Link to="/faq-3" className="text-gray-600 hover:underline">Lorem Lorem</Link>
-        </li>
-        <li>
-          <Link to="/faq-4" className="text-gray-600 hover:underline">Lorem Lorem</Link>
-        </li>
-      </ul>
-    </div>
-  </div>
-</footer>
+  </footer>
 };
 export default Footer;
