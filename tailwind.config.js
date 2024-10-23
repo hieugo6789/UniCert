@@ -22,11 +22,16 @@ export default {
         float: {
           "100%": { transform: "translateY(20px)" },
         },
+        'infinite-scroll': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-100%)' },
+        },
       },
       animation: {
 
         'gradient': 'gradient 8s linear infinite',
         float: "float 1s infinite ease-in-out alternate",
+        'infinite-scroll': 'infinite-scroll 25s linear infinite',
       },
       zIndex: {
         100: "100",
