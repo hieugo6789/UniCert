@@ -87,15 +87,18 @@ const JobDetail = () => {
 
       {/* Thông tin chung */}
       {/* Certificate hiện có */}
-      <div className="fade-in grid grid-cols-2 gird-rows-2 text-center min-h-screen">
-        <div className="p-5 fade-in">
+      <div className="grid grid-cols-2 grid-rows-2 text-center min-h-screen gap-10 px-10">
+        <div className="p-5 fade-in bg-gray-700 bg-opacity-30 rounded-lg shadow-lg">
           <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
             Foundation
           </h1>
+          <p className="text-white text-xl mb-4 font-bold">
+            Knowledge-based certification for foundational understanding.
+          </p>
           {certList &&
           certList.filter((cert) => cert.typeName === "Foundation").length ===
             0 ? (
-            <p className="text-xl text-white font-bold">
+            <p className="text-xl text-white">
               Not found any Associate certificate
             </p>
           ) : null}
@@ -103,10 +106,11 @@ const JobDetail = () => {
             certList.map((cert) => {
               if (cert.typeName === "Foundation") {
                 return (
-                  <div className="w-32 h-32">
+                  <div className="w-32 h-32 m-auto">
                     <img
                       src={cert.certImage}
                       alt={cert.certName}
+                      className="hover:scale-105 transition-transform cursor-pointer"
                       onClick={() => navigate("/certificate/" + cert.certId)}
                     />
                   </div>
@@ -114,14 +118,17 @@ const JobDetail = () => {
               }
             })}
         </div>
-        <div className="p-5 fade-in">
+        <div className="p-5 fade-in bg-gray-700 bg-opacity-30 rounded-lg shadow-lg">
           <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
             Associate
           </h1>
+          <p className="text-white text-xl mb-4 font-bold">
+            Certification for those with basic skills and applied knowledge.
+          </p>
           {certList &&
           certList.filter((cert) => cert.typeName === "Associate").length ===
             0 ? (
-            <p className="text-xl text-white font-bold">
+            <p className="text-xl text-white">
               Not found any Associate certificate
             </p>
           ) : null}
@@ -129,10 +136,11 @@ const JobDetail = () => {
             certList.map((cert) => {
               if (cert.typeName === "Associate") {
                 return (
-                  <div className="w-32 h-32">
+                  <div className="w-32 h-32 m-auto">
                     <img
                       src={cert.certImage}
                       alt={cert.certName}
+                      className="hover:scale-105 transition-transform cursor-pointer"
                       onClick={() => navigate("/certificate/" + cert.certId)}
                     />
                   </div>
@@ -140,14 +148,17 @@ const JobDetail = () => {
               }
             })}
         </div>
-        <div className="p-5 fade-in">
+        <div className="p-5 fade-in bg-gray-700 bg-opacity-30 rounded-lg shadow-lg">
           <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
             Professional
           </h1>
+          <p className="text-white text-xl mb-4 font-bold">
+            Certification for professionals with advanced expertise.
+          </p>
           {certList &&
           certList.filter((cert) => cert.typeName === "Professional").length ===
             0 ? (
-            <p className="text-xl text-white font-bold">
+            <p className="text-xl text-white">
               Not found any Associate certificate
             </p>
           ) : null}
@@ -155,10 +166,11 @@ const JobDetail = () => {
             certList.map((cert) => {
               if (cert.typeName === "Professional") {
                 return (
-                  <div className="w-32 h-32">
+                  <div className="w-32 h-32 m-auto">
                     <img
                       src={cert.certImage}
                       alt={cert.certName}
+                      className="hover:scale-105 transition-transform cursor-pointer"
                       onClick={() => navigate("/certificate/" + cert.certId)}
                     />
                   </div>
@@ -166,13 +178,16 @@ const JobDetail = () => {
               }
             })}
         </div>
-        <div className="p-5 fade-in">
+        <div className="p-5 fade-in bg-gray-700 bg-opacity-30 rounded-lg shadow-lg">
           <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
             Expert
           </h1>
+          <p className="text-white text-xl mb-4 font-bold">
+            Certification for experts who demonstrate mastery in the field.
+          </p>
           {certList &&
           certList.filter((cert) => cert.typeName === "Expert").length === 0 ? (
-            <p className="text-xl text-white font-bold">
+            <p className="text-xl text-white">
               Not found any Associate certificate
             </p>
           ) : null}
@@ -180,10 +195,11 @@ const JobDetail = () => {
             certList.map((cert) => {
               if (cert.typeName === "Expert") {
                 return (
-                  <div className="w-32 h-32">
+                  <div className="w-32 h-32 m-auto">
                     <img
                       src={cert.certImage}
                       alt={cert.certName}
+                      className="hover:scale-105 transition-transform cursor-pointer"
                       onClick={() => navigate("/certificate/" + cert.certId)}
                     />
                   </div>
@@ -191,14 +207,17 @@ const JobDetail = () => {
               }
             })}
         </div>
-        <div className="p-5 fade-in">
+        <div className="p-5 fade-in bg-gray-700 bg-opacity-30 rounded-lg shadow-lg">
           <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
             Specialty
           </h1>
+          <p className="text-white text-xl mb-4 font-bold">
+            Certification focused on specialized skills in a specific area of expertise.
+          </p>
           {certList &&
           certList.filter((cert) => cert.typeName === "Specialty").length ===
             0 ? (
-            <p className="text-xl text-white font-bold">
+            <p className="text-xl text-white">
               Not found any Associate certificate
             </p>
           ) : null}
@@ -206,10 +225,11 @@ const JobDetail = () => {
             certList.map((cert) => {
               if (cert.typeName === "Specialty") {
                 return (
-                  <div className="w-32 h-32">
+                  <div className="w-32 h-32 m-auto">
                     <img
                       src={cert.certImage}
                       alt={cert.certName}
+                      className="hover:scale-105 transition-transform cursor-pointer"
                       onClick={() => navigate("/certificate/" + cert.certId)}
                     />
                   </div>
@@ -221,7 +241,7 @@ const JobDetail = () => {
           <CustomButton
             shining
             label="Get more certificate"
-            onClick={() => null}
+            onClick={() => navigate("/certificate")}
             className="bg-red-500 fade-in"
           />
         </div>
