@@ -26,3 +26,7 @@
 .prose li {
   @apply mb-2; /* Adds some margin below each list item */
 }
+.vertical-text {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+}
