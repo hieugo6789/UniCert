@@ -30,6 +30,6 @@ const useExamByCertId = (certId: number) => {
     }
   }, [dispatch, certId]);
 
-  return { exam, loading };
+  return { exam, loading, refetchExams: fetchExams };
 };
 export default useExamByCertId;
