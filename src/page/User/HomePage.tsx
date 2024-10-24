@@ -4,8 +4,10 @@ import BannerCard from "../../components/UI/BannerCard";
 import { allCertificationData } from "../../models/certificate";
 import CertificateCard from "../../components/Certifications/CertificateCard";
 import CustomButton from "../../components/UI/CustomButton";
+import { useNavigate  } from "react-router-dom";
 // import Banner1 from "../../assets/images/Banner/Banner1.png";
 const HomePage = () => {
+  const navigate = useNavigate();
   const [topCert] = useState<allCertificationData[]>([
     {
       certId: 1,
@@ -112,6 +114,16 @@ const HomePage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth", // Cuộn mượt mà
+      });
+    };
+    scrollToTop();
+  });
+
   return (
     <div>
       <div className="fade-in">
@@ -129,30 +141,30 @@ const HomePage = () => {
         </div>
       </div>
       <div className="text-center font-bold text-6xl mt-20">
-        <h1 className="mb-5 fade-in">Why Should You Get Certified With</h1>
+        <h1 className={`mt-10 text-center fade-in uppercase text-6xl md:text-7xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient`}
+        >
+          Why Should You Get Certified With</h1>
         <h1 className="text-blue-700 fade-in">UniCert?</h1>
         <p className="text-xl font-thin w-2/3 m-auto fade-in">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id
-          eleifend urna, quis dapibus justo. Nam molestie ultrices fermentum. In
-          maximus at ipsum non gravida. Interdum et malesuada fames ac ante
-          ipsum primis in faucibus. Morbi sodales blandit turpis, vitae rutrum
-          arcu fermentum a. Donec magna erat, sodales sit amet luctus eget,
-          varius et metus. Phasellus nec est pellentesque, convallis felis
-          faucibus, egestas tortor. Ut scelerisque nisi sit amet imperdiet
-          condimentum. Sed eget risus sit amet est maximus rutrum.
+          UniCert is your go-to platform for certifications, offering a comprehensive collection of globally recognized certifications tailored for university students. Certifications like <strong>ISTQB</strong>, <strong>CompTIA A+</strong>, <strong>CCNA</strong>, and <strong>CISSP</strong> can significantly boost your career, and UniCert makes it easier than ever to explore these paths.
+          <br /><br />
+          Our platform provides all the essential details — from exam schedules to costs and prerequisites — so you can make informed decisions. Plus, we offer <strong>mock tests</strong> to simulate the real exam environment, helping you feel fully prepared.
+          <br /><br />
+          With UniCert, you’ll benefit from a user-friendly portal, access to top certifications, and resources designed to guide you through every step of your certification journey.
         </p>
         <div className="px-20 fade-in">
           <CustomButton
             label="Read more about us"
             shining
-            onClick={() => null}
+            onClick={() => navigate("/about")}
             className="w-1/2 mt-5 mb-5"
           />
         </div>
       </div>
 
       <div className="text-center font-bold text-6xl mt-20">
-        <h1 className="mb-5 text-center font-bold text-6xl mt-10 fade-in">
+        <h1 className={`mt-10 mb-5 text-center fade-in uppercase text-6xl md:text-7xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient`}
+        >
           Best Certificate For You
         </h1>
 
@@ -168,7 +180,7 @@ const HomePage = () => {
           <CustomButton
             label="Get More Certificate"
             shining
-            onClick={() => null}
+            onClick={() => navigate("/certificate")}
             className="w-1/2 mt-5 mb-5"
           />
         </div>
@@ -180,26 +192,25 @@ const HomePage = () => {
             className={`mt-10 text-center fade-in uppercase text-6xl md:text-7xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient`}
           >
             {" "}
-            Easy to take exam
+            Prepare for Your Certification Exams
           </h1>
-          <p className="pt-2 text-sm lg:text-base">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a
-            facilisis odio. Fusce interdum magna sapien, et porttitor quam
-            egestas a. Suspendisse eget mauris ultricies, iaculis tellus ac,
-            bibendum tellus. Donec gravida orci ac consequat placerat. Cras et
-            porta enim. Nulla a dapibus ligula. Donec sem nunc, malesuada
-            sagittis tortor eget, faucibus dapibus risus. Sed laoreet, nunc eget
-            ultricies finibus, nunc diam pulvinar turpis, quis maximus dui velit
-            ut sapien. Pellentesque non condimentum velit. Mauris felis sapien,
-            viverra at faucibus id, pretium at magna. Quisque sed cursus tortor.
-            Ut et felis maximus, ultrices ligula vel, aliquam erat. Duis
-            placerat neque eu felis convallis finibus. Nam laoreet placerat
-            mauris, vitae suscipit nisl vestibulum id.
+          <p className="pt-2 text-xl">
+            Our platform is designed to support students as they navigate the path to earning their certifications. 
+            We provide a comprehensive suite of resources, including simulation exams that simulate the real exam environment, 
+            allowing you to familiarize yourself with the format, timing, and type of questions you'll encounter. 
+            Whether you're preparing for AWS, ISTQB, CompTIA A+, CCNA, or other major certifications, 
+            our mock tests are tailored to help you assess your readiness and identify areas for improvement.
+            <br /><br />          
+            In addition to simulation exams, we offer in-depth courses that cover all key topics for each certification. 
+            These courses are carefully structured to guide you through the essential concepts and skills required for success. 
+            Our lessons are designed to cater to students at various levels, from beginners building foundational knowledge 
+            to more experienced learners aiming to refine their expertise. By combining simulation exams with targeted study materials, 
+            you’ll have everything you need to master the content and feel fully prepared for the exam.
           </p>
           <CustomButton
-            label="Take Exam"
+            label="View Some Courses"
             shining
-            onClick={() => null}
+            onClick={() => navigate("/courses")}
             className="w-full lg:w-1/2 mt-5 mb-5 fade-in"
           />
         </div>
