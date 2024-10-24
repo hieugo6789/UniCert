@@ -1,11 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import { allCoursePaginationData } from "../../models/course";
 
 
 
 const CourseCard = (course:allCoursePaginationData) => {
+  const navigate = useNavigate();
   return (
     
-        <div className="border p-6 rounded-lg shadow-lg">
+        <div className="border p-6 rounded-lg shadow-lg" onClick={()=>navigate("/course/"+course.courseId)}>
           <h2 className="text-xl font-bold">{course.courseName}</h2>
           <p className="text-gray-500 mt-2">{course.courseDescription}</p>
           <img src={course.courseImage} alt={course.courseName} className="mt-4 h-30 m-auto shadow-lg" />
