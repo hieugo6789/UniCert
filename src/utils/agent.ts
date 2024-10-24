@@ -138,6 +138,8 @@ const SimulationExam = {
     requests.get(
       `api/v1/simulation-exam/search${name ? `/?examName=${name}` : ""}`
     ),
+  getSimulationExamCertId: (certId: number) =>
+    requests.get(`api/v1/simulation-exam/get-by-certId/${certId}`),
   deleteSimulationExam: (examId: number) =>
     requests.del(`api/v1/simulation-exam/${examId}`),
 };
