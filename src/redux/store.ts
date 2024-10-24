@@ -57,6 +57,7 @@ export const store = configureStore({
     deleteExam: deleteExamReducer,
     voucher: voucherReducer,
     deleteVoucher: deleteVoucherReducer,
+
     certificate: certificateReducer,
     certificateDetail: certificateDetailReducer,
     certificateDelete: deleteCertificateReducer,
