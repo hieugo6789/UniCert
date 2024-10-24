@@ -239,6 +239,13 @@ const Certificate = () => {
             <p>
               <strong>Level: </strong> {state.currentCert.typeName}
             </p>
+            <p>
+              <strong>Major:</strong> {state.currentCert.majorNames}
+            </p>
+            <p>
+              <strong>Job position:</strong>{" "}
+              {state.currentCert.jobPositionNames}
+            </p>
           </div>
         ) : (
           <p>No details available.</p>

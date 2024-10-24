@@ -8,6 +8,8 @@ import useCertificate from "../../hooks/Certification/useCertificate";
 import MyEditor from "../Editor/MyEditor";
 import axios from "axios";
 import useCertType from "../../hooks/Certification/useCertType";
+import useMajor from "../../hooks/Major/useMajor";
+import useJob from "../../hooks/JobPosition/useJobPosition";
 
 const CreateCert = ({
   refetchCertificates,
@@ -28,10 +30,14 @@ const CreateCert = ({
     typeId: 0,
     organizeId: 0,
     certIdPrerequisites: [0] as number[],
+    majorIds: [0] as number[],
+    jobIds: [0] as number[],
   });
   const { organization } = useOrganization();
   const { certificate } = useCertificate();
   const { certType } = useCertType();
+  const { major } = useMajor();
+  const { job } = useJob();
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -93,6 +99,18 @@ const CreateCert = ({
     setFormData({
       ...formData,
       certIdPrerequisites: Array.isArray(value) ? value : [value],
+    });
+  };
+  const handleSelectMajorChange = (value: number[]) => {
+    setFormData({
+      ...formData,
+      majorIds: Array.isArray(value) ? value : [value],
+    });
+  };
+  const handleSelectJobChange = (value: number[]) => {
+    setFormData({
+      ...formData,
+      jobIds: Array.isArray(value) ? value : [value],
     });
   };
 
@@ -203,9 +221,6 @@ const CreateCert = ({
           <Form.Item
             label="Cost"
             name="certCost"
-            rules={[
-              { required: true, message: "Please enter the certificate cost" },
-            ]}
           >
             <InputNumber
               name="certCost"
@@ -221,9 +236,6 @@ const CreateCert = ({
           <Form.Item
             label="Point System"
             name="certPointSystem"
-            rules={[
-              { required: true, message: "Please enter the point system" },
-            ]}
           >
             <Input
               name="certPointSystem"
@@ -267,6 +279,7 @@ const CreateCert = ({
 
           <Form.Item
             label="Level"
+            name="typeId"
             rules={[
               {
                 required: true,
@@ -292,6 +305,7 @@ const CreateCert = ({
 
           <Form.Item
             label="Organization"
+            name="organizeId"
             rules={[
               { required: true, message: "Please select an organization" },
             ]}
@@ -325,6 +339,50 @@ const CreateCert = ({
                   value={cert.certId}
                 >
                   {cert.certName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="Major"
+            name="majorId"
+            rules={[{ required: true, message: "Please select a major" }]}
+          >
+            <Select
+              placeholder="Select majors"
+              onChange={handleSelectMajorChange}
+              style={{ width: "100%" }}
+              mode="multiple"
+            >
+              {major.map((m) => (
+                <Select.Option
+                  key={m.majorId}
+                  value={m.majorId}
+                >
+                  {m.majorName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="Job position"
+            name="jobPositionId"
+            rules={[
+              { required: true, message: "Please select a job position" },
+            ]}
+          >
+            <Select
+              placeholder="Select job positions"
+              onChange={handleSelectJobChange}
+              style={{ width: "100%" }}
+              mode="multiple"
+            >
+              {job.map((j) => (
+                <Select.Option
+                  key={j.jobPositionId}
+                  value={j.jobPositionId}
+                >
+                  {j.jobPositionName}
                 </Select.Option>
               ))}
             </Select>

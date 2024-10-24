@@ -9,6 +9,8 @@ import useCertType from "../../hooks/Certification/useCertType";
 import useCertDetail from "../../hooks/Certification/useCertDetail";
 import { EditOutlined } from "@ant-design/icons";
 import axios from "axios";
+import useMajor from "../../hooks/Major/useMajor";
+import useJob from "../../hooks/JobPosition/useJobPosition";
 
 interface UpdateCertProps {
   certId: number;
@@ -23,6 +25,8 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
   const { updateCertDetails, state } = useUpdateCert();
   const { organization } = useOrganization();
   const { certificate } = useCertificate();
+  const { major } = useMajor();
+  const { job } = useJob();
   const { certType } = useCertType();
   const { state: certDetailState, getCertDetails } = useCertDetail();
 
@@ -37,9 +41,7 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
   useEffect(() => {
     if (certDetailState.currentCert) {
       const currentCert = certDetailState.currentCert;
-      // const certPrerequisiteIds = Array.isArray(currentCert.certPrerequisiteId)
-      // ? currentCert.certPrerequisiteId.map((job) => job.jobPositionId)
-      // : [];
+
       form.setFieldsValue({
         certName: currentCert.certName || "",
         certCode: currentCert.certCode || "",
@@ -51,6 +53,8 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
         typeId: currentCert.typeId || "",
         organizeId: currentCert.organizeId || "",
         certIdPrerequisites: currentCert.certPrerequisiteId || [],
+        majorIds: currentCert.majorIds || [],
+        jobIds: currentCert.jobPositionIds || [],
       });
       // form.setFieldsValue(currentCert);
     }
@@ -179,9 +183,6 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
           <Form.Item
             label="Cost"
             name="certCost"
-            rules={[
-              { required: true, message: "Please enter the certificate cost" },
-            ]}
           >
             <InputNumber
               placeholder="Enter certificate cost"
@@ -192,9 +193,6 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
           <Form.Item
             label="Point System"
             name="certPointSystem"
-            rules={[
-              { required: true, message: "Please enter the point system" },
-            ]}
           >
             <Input placeholder="Enter point system" />
           </Form.Item>
@@ -288,6 +286,56 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
                   value={cert.certId}
                 >
                   {cert.certName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="Majors"
+            name="majorIds"
+            rules={[
+              {
+                required: true,
+                message: "Please select majors",
+              },
+            ]}
+          >
+            <Select
+              placeholder="Select majors"
+              style={{ width: "100%" }}
+              mode="multiple"
+            >
+              {major.map((m) => (
+                <Select.Option
+                  key={m.majorId}
+                  value={m.majorId}
+                >
+                  {m.majorName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="Job positions"
+            name="jobIds"
+            rules={[
+              {
+                required: true,
+                message: "Please select job positions",
+              },
+            ]}
+          >
+            <Select
+              placeholder="Select job positions"
+              style={{ width: "100%" }}
+              mode="multiple"
+            >
+              {job.map((j) => (
+                <Select.Option
+                  key={j.jobPositionId}
+                  value={j.jobPositionId}
+                >
+                  {j.jobPositionName}
                 </Select.Option>
               ))}
             </Select>

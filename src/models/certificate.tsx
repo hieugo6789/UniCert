@@ -15,6 +15,14 @@ export interface allCertificationData {
   certPrerequisite: [];
   certCodePrerequisite: [];
   certDescriptionPrerequisite: [];
+  jobPositionIds: [];
+  jobPositionCodes: [];
+  jobPositionNames: [];
+  jobPositionDescriptions: [];
+  majorIds: [];
+  majorCodes: [];
+  majorNames: [];
+  majorDescriptions: [];
 }
 export interface currentCertificate {
   certId: number;
@@ -33,6 +41,14 @@ export interface currentCertificate {
   certPrerequisite: [];
   certCodePrerequisite: [];
   certDescriptionPrerequisite: [];
+  jobPositionIds: [];
+  jobPositionCodes: [];
+  jobPositionNames: [];
+  jobPositionDescriptions: [];
+  majorIds: [];
+  majorCodes: [];
+  majorNames: [];
+  majorDescriptions: [];
 }
 
 export interface createCertificate {
@@ -46,6 +62,8 @@ export interface createCertificate {
   typeId: number;
   organizeId: number;
   certIdPrerequisites: number[];
+  majorIds: number[];
+  jobIds: number[];
 }
 
 export interface updateCert {
@@ -59,6 +77,8 @@ export interface updateCert {
   typeId: number;
   organizeId: number;
   certIdPrerequisites: number[];
+  majorIds: number[];
+  jobIds: number[];
 }
 
 export interface deleteCertificate {
@@ -69,9 +89,9 @@ export interface cardCertificate {
   certId: number;
   certName: string;
   certCode: string;
-  certDescription: string;  
+  certDescription: string;
   certImage: string;
-  certValidity: string;  
-  organizeName: string;  
-  typeName: string;  
+  certValidity: string;
+  organizeName: string;
+  typeName: string;
 }
