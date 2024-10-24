@@ -1,50 +1,34 @@
 import CertificateCard from "../../../components/Certifications/CertificateCard";
 import defaultCertThumb from "../../../assets/images/Certification/defaultCertThumb.png";
 import { useEffect, useState } from "react";
-import { allCertificationData } from "../../../models/certificate";
+import { allCertificationData, cardCertificate } from "../../../models/certificate";
 import useCertificate from "../../../hooks/Certification/useCertificate";
 import { Link } from "react-router-dom";
 import Loading from "../../../components/UI/Loading";
 
 const CertificatePage = () => {
-  const [topCert] = useState<allCertificationData[]>([
+  const [topCert] = useState<cardCertificate[]>([
     {
       certId: 1,
       certName: "AWS Certified Solutions Architect",
       certCode: "AWS-CSA",
       certDescription:
-        "The AWS Certified Solutions Architect – Associate examination is intended for individuals who perform a solutions architect role and have one or more years of hands-on experience designing available, cost-efficient, fault-tolerant, and scalable distributed systems on AWS.",
-      certCost: 150,
-      certPointSystem: "AWS",
+        "The AWS Certified Solutions Architect – Associate examination is intended for individuals who perform a solutions architect role and have one or more years of hands-on experience designing available, cost-efficient, fault-tolerant, and scalable distributed systems on AWS.",            
       certImage: "",
-      certValidity: "3 years",
-      organizeId: 6,
-      organizeName: "Amazon Web Services",
-      typeId: 8,
-      typeName: "Associate",
-      certPrerequisiteId: [],
-      certPrerequisite: [],
-      certCodePrerequisite: [],
-      certDescriptionPrerequisite: [],
+      certValidity: "3 years",      
+      organizeName: "Amazon Web Services",      
+      typeName: "Associate",      
     },
     {
       certId: 2,
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-      certCost: 150,
-      certPointSystem: "AWS",
+        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",          
       certImage: "",
       certValidity: "3 years",
-      organizeId: 6,
       organizeName: "Amazon Web Services",
-      typeId: 8,
       typeName: "Associate",
-      certPrerequisiteId: [],
-      certPrerequisite: [],
-      certCodePrerequisite: [],
-      certDescriptionPrerequisite: [],
     },
   ]);
 

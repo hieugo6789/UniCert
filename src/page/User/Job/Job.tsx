@@ -4,46 +4,30 @@ import useJobPosition from "../../../hooks/JobPosition/useJobPosition";
 import Loading from "../../../components/UI/Loading";
 import JobPositionCard from "../../../components/JobPosition/JobPositionCard";
 import CertificateCard from "../../../components/Certifications/CertificateCard";
-import { allCertificationData } from "../../../models/certificate";
+import { cardCertificate } from "../../../models/certificate";
 const Job = () => {
-  const [topCert] = useState<allCertificationData[]>([
+  const [topCert] = useState<cardCertificate[]>([
     {
       certId: 1,
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-      certCost: 150,
-      certPointSystem: "AWS",
+        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",            
       certImage: "",
-      certValidity: "3 years",
-      organizeId: 6,
-      organizeName: "Amazon Web Services",
-      typeId: 8,
-      typeName: "Associate",
-      certPrerequisiteId: [],
-      certPrerequisite: [],
-      certCodePrerequisite: [],
-      certDescriptionPrerequisite: [],
+      certValidity: "3 years",      
+      organizeName: "Amazon Web Services",      
+      typeName: "Associate",     
     },
     {
       certId: 2,
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-      certCost: 150,
-      certPointSystem: "AWS",
+        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",            
       certImage: "",
-      certValidity: "3 years",
-      organizeId: 6,
-      organizeName: "Amazon Web Services",
-      typeId: 8,
-      typeName: "Associate",
-      certPrerequisiteId: [],
-      certPrerequisite: [],
-      certCodePrerequisite: [],
-      certDescriptionPrerequisite: [],
+      certValidity: "3 years",      
+      organizeName: "Amazon Web Services",      
+      typeName: "Associate",      
     },
   ]);
   const [jobs, setJobs] = useState<allJobPaginationData[]>([]);

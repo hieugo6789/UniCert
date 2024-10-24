@@ -1,70 +1,46 @@
 import { useEffect, useState } from "react";
 import CustomCarousel from "../../components/Carousel/CustomCarousel";
 import BannerCard from "../../components/UI/BannerCard";
-import { allCertificationData } from "../../models/certificate";
+import { cardCertificate } from "../../models/certificate";
 import CertificateCard from "../../components/Certifications/CertificateCard";
 import CustomButton from "../../components/UI/CustomButton";
 import { useNavigate  } from "react-router-dom";
 // import Banner1 from "../../assets/images/Banner/Banner1.png";
 const HomePage = () => {
   const navigate = useNavigate();
-  const [topCert] = useState<allCertificationData[]>([
+  const [topCert] = useState<cardCertificate[]>([
     {
       certId: 1,
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-      certCost: 150,
-      certPointSystem: "AWS",
+        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",      
       certImage: "",
-      certValidity: "3 years",
-      organizeId: 6,
-      organizeName: "Amazon Web Services",
-      typeId: 8,
-      typeName: "Associate",
-      certPrerequisiteId: [],
-      certPrerequisite: [],
-      certCodePrerequisite: [],
-      certDescriptionPrerequisite: [],
+      certValidity: "3 years",      
+      organizeName: "Amazon Web Services",      
+      typeName: "Associate",      
     },
     {
       certId: 2,
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-      certCost: 150,
-      certPointSystem: "AWS",
+        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",            
       certImage: "",
-      certValidity: "3 years",
-      organizeId: 6,
-      organizeName: "Amazon Web Services",
-      typeId: 8,
-      typeName: "Associate",
-      certPrerequisiteId: [],
-      certPrerequisite: [],
-      certCodePrerequisite: [],
-      certDescriptionPrerequisite: [],
+      certValidity: "3 years",      
+      organizeName: "Amazon Web Services",      
+      typeName: "Associate",      
     },
     {
       certId: 3,
       certName: "AWS Certified Developer",
       certCode: "AWS-CD",
       certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-      certCost: 150,
-      certPointSystem: "AWS",
+        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",      
       certImage: "",
-      certValidity: "3 years",
-      organizeId: 6,
-      organizeName: "Amazon Web Services",
-      typeId: 8,
-      typeName: "Associate",
-      certPrerequisiteId: [],
-      certPrerequisite: [],
-      certCodePrerequisite: [],
-      certDescriptionPrerequisite: [],
+      certValidity: "3 years",      
+      organizeName: "Amazon Web Services",      
+      typeName: "Associate",      
     },
     {
       certId: 4,
@@ -72,18 +48,10 @@ const HomePage = () => {
       certCode: "AWS-CD",
       certDescription:
         "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-      certCost: 150,
-      certPointSystem: "AWS",
       certImage: "",
-      certValidity: "3 years",
-      organizeId: 6,
-      organizeName: "Amazon Web Services",
-      typeId: 8,
-      typeName: "Associate",
-      certPrerequisiteId: [],
-      certPrerequisite: [],
-      certCodePrerequisite: [],
-      certDescriptionPrerequisite: [],
+      certValidity: "3 years",      
+      organizeName: "Amazon Web Services",      
+      typeName: "Associate",      
     },
   ]);
 
