@@ -2,34 +2,49 @@ import Hexagon from "../../assets/images/AboutPage/Hexagon.png";
 import Achie from "../../assets/images/AboutPage/Achievement.png";
 import LeadershipBadge from "../../assets/images/AboutPage/LeadershipBadge.png";
 import LeaderShipBadgeFrame from "../../assets/images/AboutPage/LeaderShipBadgeFrame.png";
+import { useEffect } from "react";
 const achievements = [
-  { title: "6 Years", description: "Lorem ipsum dolor sit amet.", icon: "📅" },
+  { title: "4 Years in FPT University", description: "Final-year students at FPT University", icon: "📅" },
   {
     title: "100+ Certificates",
-    description: "Lorem ipsum dolor sit amet.",
+    description: "Delivering top-quality certification resources for students in Ho Chi Minh City.",
     icon: "📜",
   },
   {
     title: "100+ Students",
-    description: "Lorem ipsum dolor sit amet.",
+    description: "Helping over a thousand students to achieve their goals and career aspirations.",
     icon: "👨‍🎓",
   },
 ];
 const leaders = [
   {
-    name: "John John",
+    name: "Tuấn Minh",
     image: "https://www.cdpp.gov.au/system/files/2023-12/Raelene%20Sharp.png",
   },
   {
-    name: "John John",
+    name: "Bình Minh",
     image: "https://www.cdpp.gov.au/system/files/2023-12/Raelene%20Sharp.png",
   },
   {
-    name: "John John",
+    name: "Thành Đạt",
+    image: "https://www.cdpp.gov.au/system/files/2023-12/Raelene%20Sharp.png",
+  },
+  {
+    name: "Trung Tín",
     image: "https://www.cdpp.gov.au/system/files/2023-12/Raelene%20Sharp.png",
   },
 ];
+
 const AboutPage = () => {
+  useEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth", // Cuộn mượt mà
+      });
+    };
+    scrollToTop();
+  });
   return (
     <div>
       {/* About */}
@@ -37,7 +52,7 @@ const AboutPage = () => {
         <h1 className="text-4xl font-bold">About Us</h1>
         <div className="flex justify-center items-center mt-8 space-x-8">
           <div className="max-w-xs">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <p>We are a dedicated platform offering detailed and accurate certification information, mock tests, and study resources for students. Our goal is to empower learners to excel in their professional certification exams.</p>
           </div>
           <div className="w-2/12">
             <img
@@ -46,7 +61,7 @@ const AboutPage = () => {
             />
           </div>
           <div className="max-w-xs">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <p>With a strong commitment to education, we’ve helped thousands of students achieve their certification dreams across multiple industries and technologies.</p>
           </div>
         </div>
       </div>
