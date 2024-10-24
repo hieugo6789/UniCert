@@ -53,20 +53,20 @@ const CertificateDetailPage = () => {
             className="w-40 h-40 object-contain"
           />
           <h1 className="text-2xl font-bold">{cert?.certName}</h1>
-          <p className="text-lg mt-2">
-            Fee: {cert?.certCost} points for one attempt
-          </p>
-
-          <div className="mt-4 flex space-x-4">
-            {/* <button className="inline-flex justify-center whitespace-nowrap rounded-lg px-3.5 py-2.5 text-sm font-medium text-slate-200 dark:text-slate-800 bg-gradient-to-r from-slate-800 to-slate-700 dark:from-slate-200 dark:to-slate-100 dark:hover:bg-slate-200 shadow focus:outline-none focus:ring focus:ring-slate-500/50 focus-visible:outline-none focus-visible:ring focus-visible:ring-slate-500/50 relative before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.2)_50%,transparent_75%,transparent_100%)] dark:before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms]">
-              Take Exam
-            </button> */}
-            <CustomButton
-              label="Take Exam"
-              shining
-              onClick={() => null}
-            />
-          </div>
+          {cert?.certCost !== null && cert?.certCost !== undefined && cert.certCost > 0 && (
+            <div>
+              <p className="text-lg mt-2">
+                Fee: {cert?.certCost} points for one attempt
+              </p>
+              <div className="mt-4 flex space-x-4">
+                <CustomButton
+                  label="Take Exam"
+                  shining
+                  onClick={() => null}
+                />
+              </div>
+            </div>
+          )}      
         </div>
 
         {/* Right Section */}
@@ -97,23 +97,24 @@ const CertificateDetailPage = () => {
       </div>
 
       <div className="flex border-b-2 border-gray-200">
-        {["Description", "Exam Details", "Feedback"].map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`p-2 transition-colors duration-300 ${
-              activeTab === tab
-                ? "border-b-4 border-blue-500 text-blue-500"
-                : ""
-            }`}
-          >
-            {tab}
-          </button>
-        ))}
+        {["Description", cert?.certCost && cert.certCost > 0 ? "Exam Details" : null, "Feedback"]
+          .filter(Boolean)
+          .map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab!)}
+              className={`p-2 transition-colors duration-300 ${
+                activeTab === tab
+                  ? "border-b-4 border-blue-500 text-blue-500"
+                  : ""
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
       </div>
-
       <div className="p-4">
-        {activeTab === "Description" && cert && <Description {...cert} />}
+        {activeTab === "Description" && cert && <Description {...cert} />}        
         {activeTab === "Exam Details" && cert && <ExamDetails {...cert} />}
         {activeTab === "Feedback" && <Feedback />}
       </div>
