@@ -1,11 +1,15 @@
 import { useState } from "react";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import useExam from "../../hooks/SimulationExam/useExam";
-import { Pagination, Table } from "antd";
+import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { message, Modal, Pagination, Table } from "antd";
+import useDeleteExam from "../../hooks/SimulationExam/useDeleteExam";
+
+const { confirm } = Modal;
 
 const SimulationExam = () => {
-  // const { exam, loading, refetchExams } = useExam();
-  const { exam, loading } = useExam();
+  const { exam, loading, refetchExams } = useExam();
+  const { handleDeleteExam } = useDeleteExam();
 
   const [pageSize] = useState(8);
 
@@ -19,7 +23,47 @@ const SimulationExam = () => {
     currentPage * pageSize
   );
 
-  const columns = [{ title: "Name", dataIndex: "examName", key: "examName" }];
+  const columns = [
+    { title: "Name", dataIndex: "examName", key: "examName" },
+    {
+      title: "Actions",
+      key: "actions",
+      render: (record: any) => (
+        <>
+          {/* <EyeOutlined
+          style={{ color: "blue" }}
+          onClick={() => handleView(record.jobPositionId)}
+        />
+        <UpdateJobPosition
+          jobPositionId={record.jobPositionId}
+          refetchJobs={refetchJobs}
+        /> */}
+          <DeleteOutlined
+            onClick={() => showDeleteConfirm(record.examId)}
+            style={{ color: "red", marginLeft: 12 }}
+          />
+        </>
+      ),
+    },
+  ];
+  const showDeleteConfirm = (examId: number) => {
+    confirm({
+      title: "Are you sure delete this simulation exam?",
+      icon: <ExclamationCircleOutlined />,
+      content: "This action cannot be undone",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        await handleDeleteExam(examId);
+        message.success("Job deleted successfully!");
+        refetchExams();
+      },
+      onCancel() {
+        console.log("Cancel deletion");
+      },
+    });
+  };
   return (
     <>
       <div className="h-[10vh] flex justify-between items-center  text-black p-4">

@@ -18,3 +18,7 @@ export interface currentExam {
   examDiscountFee: number;
   examImage: string;
 }
+
+export interface deleteExam {
+  examId: number;
+}
