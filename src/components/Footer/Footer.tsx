@@ -2,25 +2,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return <footer className="font-sans tracking-wide bg-black py-10 px-10">
-    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-      <li>
-        <h3 className="text-violet-600 font-semibold text-5xl">25k+</h3>
-        <p className="text-gray-300 text-sm mt-2">Certificates</p>
-      </li>
-      <li>
-        <h3 className="text-violet-600 font-semibold text-5xl">320k+</h3>
-        <p className="text-gray-300 text-sm mt-2">Students</p>
-      </li>
-      <li>
-        <h3 className="text-violet-600 font-semibold text-5xl">150k+</h3>
-        <p className="text-gray-300 text-sm mt-2">Courses</p>
-      </li>
-      <li>
-        <h3 className="text-violet-600 font-semibold text-5xl">50k+</h3>
-        <p className="text-gray-300 text-sm mt-2">Companies</p>
-      </li>
-    </ul>
-
+    <h1 className="text-violet-600 font-semibold text-6xl text-center">UNICERT</h1>
     <hr className="my-10 border-violet-600" />
 
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-4">
