@@ -29,6 +29,7 @@ import Wallet from "./page/User/Wallet/Wallet";
 import Courses from "./page/User/Courses/Courses";
 import SimulationExam from "./page/Admin/SimulationExam";
 import Voucher from "./page/Admin/Voucher";
+import CourseDetail from "./page/User/Courses/CourseDetail";
 const Layout = () => {
   return (
     <>
@@ -52,6 +53,7 @@ function App() {
         { path: "certificate/:id", element: <CertificateDetailPage /> },
         { path: "practicalExam", element: <PracticalExam /> },
         { path: "courses", element: <Courses /> },
+        { path: "course/:id", element: <CourseDetail /> },
         { path: "majors", element: <Majors /> },
         { path: "major/:id", element: <MajorDetailPage /> },
         { path: "job", element: <Job /> },
