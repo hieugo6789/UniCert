@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../redux/hook";
 import { allExamPaginationData } from "../../models/simulationExam";
-import { fetchExamByCertId } from "../../redux/slice/SimulationExam/ExamSlice";
+import { fetchExamByCertId } from "../../redux/slice/SimulationExam/examSlice";
 
 const useExamByCertId = (certId: number) => {
   const dispatch = useAppDispatch();

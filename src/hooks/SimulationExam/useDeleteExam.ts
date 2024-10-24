@@ -3,7 +3,7 @@ import {
   deleteExamFailure,
   deleteExamStart,
   deleteExamSuccess,
-} from "../../redux/slice/SimulationExam/DeleteExamSlice";
+} from "../../redux/slice/SimulationExam/deleteExamSlice";
 
 import agent from "../../utils/agent";
 
