@@ -90,7 +90,7 @@ const JobDetail = () => {
       <div className="grid grid-cols-2 grid-rows-2 text-center min-h-screen gap-10 px-10">
         <div className="p-5 fade-in bg-gray-700 bg-opacity-30 rounded-lg shadow-lg">
           <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
-            Foundation
+            1. Foundation
           </h1>
           <p className="text-white text-xl mb-4 font-bold">
             Knowledge-based certification for foundational understanding.
@@ -120,7 +120,7 @@ const JobDetail = () => {
         </div>
         <div className="p-5 fade-in bg-gray-700 bg-opacity-30 rounded-lg shadow-lg">
           <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
-            Associate
+            2. Associate
           </h1>
           <p className="text-white text-xl mb-4 font-bold">
             Certification for those with basic skills and applied knowledge.
@@ -150,7 +150,7 @@ const JobDetail = () => {
         </div>
         <div className="p-5 fade-in bg-gray-700 bg-opacity-30 rounded-lg shadow-lg">
           <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
-            Professional
+            3. Professional
           </h1>
           <p className="text-white text-xl mb-4 font-bold">
             Certification for professionals with advanced expertise.
@@ -180,7 +180,7 @@ const JobDetail = () => {
         </div>
         <div className="p-5 fade-in bg-gray-700 bg-opacity-30 rounded-lg shadow-lg">
           <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
-            Expert
+            4. Expert
           </h1>
           <p className="text-white text-xl mb-4 font-bold">
             Certification for experts who demonstrate mastery in the field.
@@ -209,7 +209,7 @@ const JobDetail = () => {
         </div>
         <div className="p-5 fade-in bg-gray-700 bg-opacity-30 rounded-lg shadow-lg">
           <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
-            Specialty
+            5. Specialty
           </h1>
           <p className="text-white text-xl mb-4 font-bold">
             Certification focused on specialized skills in a specific area of expertise.
