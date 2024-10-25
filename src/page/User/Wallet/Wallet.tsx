@@ -27,7 +27,7 @@ const Wallet = () => {
     if (userId) {
       getWalletDetails(userId, transactionId);
     }
-  }, [userId, transactionId, location.search]);
+  }, [userId, transactionId, location.search, getWalletDetails]);
 
   // useEffect(() => {
   //   if (userId && transactionId === null) {

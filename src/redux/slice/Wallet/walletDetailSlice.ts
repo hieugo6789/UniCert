@@ -26,7 +26,7 @@ const WalletDetailSlice = createSlice({
     ) => {
       const { userId, wallet } = action.payload;
       state.isLoading = false;
-      state.wallets[userId] = wallet; // Lưu ví theo userId
+      state.wallets[userId] = wallet;
       state.error = false;
     },
     WalletDetailFailure: (state) => {
