@@ -20,8 +20,8 @@ const Wallet = () => {
 
     if (transId) {
       const transIdNumber = parseInt(transId, 10);
-      setTransactionId(transIdNumber); // Set the transactionId in state
-      console.log("Transaction ID from URL:", transIdNumber);
+      setTransactionId(transIdNumber);
+      console.log("Transaction ID from URL:", transactionId);
     }
 
     if (userId && transactionId !== null) {
