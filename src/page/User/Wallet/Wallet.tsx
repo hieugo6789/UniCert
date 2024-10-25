@@ -15,15 +15,15 @@ const Wallet = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const transId = searchParams.get("orderCode");
+    const pathParts = location.pathname.split("/");
+    const transIdFromPath = pathParts[pathParts.length - 1];
 
-    if (transId) {
-      const transIdNumber = parseInt(transId, 10);
+    const transIdNumber = parseInt(transIdFromPath, 10);
+    if (!isNaN(transIdNumber)) {
       setTransactionId(transIdNumber);
       console.log("Transaction ID from URL:", transIdNumber);
     }
-  }, [location.search]);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (userId) {
