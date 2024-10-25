@@ -11,7 +11,7 @@ import { scheduleInput } from "../models/schedule";
 import { createCertificate, updateCert } from "../models/certificate";
 import { createJobInput, updateJobInput } from "../models/jobPosition";
 import { inputTransaction } from "../models/transaction";
-import { updateCourse } from "../models/course";
+import { createCourse, updateCourse } from "../models/course";
 import { createVoucher } from "../models/voucher";
 
 const responseBody = (response: AxiosResponse) => response.data;
@@ -129,6 +129,7 @@ const InternalCourse = {
     requests.get(`api/v1/course/${name ? name : ""}`),
   getCourseDetail: (courseId: string) =>
     requests.get(`api/v1/course/${courseId}`),
+  createCourse: (input: createCourse) => requests.post(`api/v1/course`, input),
   deleteCourse: (courseId: string) => requests.del(`api/v1/course/${courseId}`),
   updateCourse: (courseId: string, input: updateCourse) =>
     requests.put(`api/v1/course/${courseId}`, input),

@@ -7,6 +7,7 @@ import useDeleteCourse from "../../hooks/Course/useDeleteCourse";
 import { useState } from "react";
 import useCourseDetail from "../../hooks/Course/useCourseDetail";
 import UpdateCourse from "../../components/Course/UpdateCourse";
+import CreateCourse from "../../components/Course/CreateCourse";
 
 const { confirm } = Modal;
 
@@ -108,6 +109,9 @@ const InternalCourses = () => {
     <>
       <div className="h-[10vh] flex justify-between items-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white p-4">
         <div className="text-2xl font-semibold">Course Management</div>
+        <div>
+          <CreateCourse />
+        </div>
         <div className="mr-10">
           <AvatarAdmin />
         </div>

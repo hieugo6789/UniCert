@@ -68,7 +68,12 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
 
   return (
     <>
-      <Button onClick={showModal}>Edit</Button>
+      <Button
+        onClick={showModal}
+        className="bg-blue-500"
+      >
+        Edit
+      </Button>
       <Modal
         title="Update Course"
         open={isModalVisible} // Use modal visibility state

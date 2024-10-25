@@ -30,6 +30,7 @@ import Courses from "./page/User/Courses/Courses";
 import SimulationExam from "./page/Admin/SimulationExam";
 import Voucher from "./page/Admin/Voucher";
 import CourseDetail from "./page/User/Courses/CourseDetail";
+import Bill from "./page/User/Wallet/Bill";
 const Layout = () => {
   return (
     <>
@@ -59,6 +60,7 @@ function App() {
         { path: "job", element: <Job /> },
         { path: "job/:id", element: <JobDetail /> },
         { path: "wallet", element: <Wallet /> },
+        { path: "wallet/bill", element: <Bill /> },
       ],
     },
     { path: "/login", element: <Login /> },
