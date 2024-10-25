@@ -21,13 +21,15 @@ const Wallet = () => {
     if (transId) {
       const transIdNumber = parseInt(transId, 10);
       setTransactionId(transIdNumber);
-      console.log("Transaction ID from URL:", transactionId);
+      console.log("Transaction ID from URL:", transIdNumber);
     }
+  }, [location.search]);
 
+  useEffect(() => {
     if (userId) {
       getWalletDetails(userId, transactionId);
     }
-  }, [userId, transactionId, location.search]);
+  }, [userId, transactionId]);
 
   // useEffect(() => {
   //   if (userId && transactionId === null) {

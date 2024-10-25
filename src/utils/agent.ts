@@ -123,8 +123,14 @@ const TransactionWallet = {
 const Checkout = {
   getCheckOut: (transactionId: number) =>
     requests.post1(`api/v1/checkout/${transactionId}`),
-  getUpdateWalletAfterCheckout: (userId: string, input: number | null) =>
-    requests.get(`api/v1/wallet/${userId}`, input),
+  getUpdateWalletAfterCheckout: (userId: string, transId: number | null) => {
+    const url =
+      transId !== null
+        ? `api/v1/wallet/${userId}?transId=${transId}`
+        : `api/v1/wallet/${userId}`;
+
+    return requests.get(url);
+  },
 };
 const InternalCourse = {
   getAllCourse: (name?: string) =>

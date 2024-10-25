@@ -42,6 +42,12 @@ const InternalCourses = () => {
       render: (fee: number) => <span className="text-green-600">${fee}</span>,
     },
     {
+      title: "Discount Fee",
+      dataIndex: "courseDiscountFee",
+      key: "courseDiscountFee",
+      render: (fee: number) => <span className="text-green-600">${fee}</span>,
+    },
+    {
       title: "Certification",
       dataIndex: "certificationDetails",
       key: "certificationDetails",
