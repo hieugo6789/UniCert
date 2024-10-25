@@ -6,7 +6,7 @@ import ExamDetails from "../../../components/Certifications/ExamDetails";
 import { useParams } from "react-router-dom";
 import { allCertificationData } from "../../../models/certificate";
 import useCertDetail from "../../../hooks/Certification/useCertDetail";
-import CustomButton from "../../../components/UI/CustomButton";
+import GetExamSimulation from "../../../components/Exam/GetExamSimulation";
 
 const CertificateDetailPage = () => {
   const [activeTab, setActiveTab] = useState("Description");
@@ -58,12 +58,8 @@ const CertificateDetailPage = () => {
               <p className="text-lg mt-2">
                 Fee: {cert?.certCost} points for one attempt
               </p>
-              <div className="mt-4 flex space-x-4">
-                <CustomButton
-                  label="Take Exam"
-                  shining
-                  onClick={() => null}
-                />
+              <div className="mt-4 flex space-x-4">              
+              <GetExamSimulation certId={cert?.certId || 0} />              
               </div>
             </div>
           )}      
