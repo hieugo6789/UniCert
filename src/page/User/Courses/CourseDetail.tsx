@@ -18,18 +18,18 @@ const CourseDetail = () => {
     const { id } = useParams();
     const [courseDetail, setCourseDetail] = useState<allCoursePaginationData | null>(null);
     const { state, getCourseDetails } = useCourseDetail();
-    const [certList, setCertList] = useState<certTab[]>([]);
+    const [cert, setCert] = useState<certTab[]>([]);
     const [voucherList, setVoucherList] = useState<any[]>([]);
 
     useEffect(() => {
-        setCertList([]);
+        setCert([]);
         getCourseDetails(id || "-1");
     }, [id]);
 
     useEffect(() => {
         if (state) {
             setCourseDetail(state?.currentCourse);
-            setCertList(state?.currentCourse?.certificationDetails || []);
+            setCert(state?.currentCourse?.certificationDetails || []);
             setVoucherList(state?.currentCourse.voucherDetails || []);
             console.log(courseDetail);
         }
@@ -76,41 +76,48 @@ const CourseDetail = () => {
                 <h2 className="fade-in text-white text-5xl font-bold mt-5 text-center">
                     Course Details
                 </h2>
-                <CustomButton label="Enroll Now" shining onClick={() => navigate("/enroll/" + courseDetail?.courseId)} className="mt-5" width="w-1/4"/>
                 <div
                     className="fade-in prose list-disc whitespace-pre-wrap text-white text-3xl mt-5 text-center"
                     dangerouslySetInnerHTML={{ __html: courseDetail?.courseDescription || "" }}
                 />
+                <div className="fade-in text-white text-2xl mt-5 text-center">
+                    Course Fee: {courseDetail?.courseFee}
+                </div>
+                <CustomButton label="Enroll Now" shining onClick={() => navigate("/enroll/" + courseDetail?.courseId)} className="mt-5" width="w-1/4"/>
             </div>
 
             {/* Certificate Information */}
-            <div className="grid grid-cols-2 grid-rows-2 text-center min-h-screen gap-10 px-10">
-                {certList && certList.map((cert) => (
-                    <div key={cert.certId} className="p-5  bg-gray-700 bg-opacity-30 rounded-lg shadow-lg">
-                        <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
-                            {cert.typeName}
+            <div className="grid grid-cols-2 auto-rows-auto text-center gap-10 px-10 h-auto">
+                {cert && cert.map((cert) => (
+                    <div key={cert.certId} className="p-5 bg-gray-700 bg-opacity-30 rounded-lg shadow-lg flex flex-col items-center justify-between">
+                        <h1 className="uppercase text-3xl md:text-3xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
+                            Prepare for the certificate
                         </h1>
-                        {/* <p className="text-white text-xl mb-4 font-bold">{cert.certDescription}</p> */}
-                        <div className="w-32 h-32 m-auto">
+
+                        {/* Thêm tên chứng chỉ bên trên hình ảnh */}
+                        <p className="text-white text-2xl font-semibold mt-4 mb-2">{cert.certName}</p>
+
+                        <div className="w-36 h-36 m-auto">
                             <img
-                                src={cert.certImage}
-                                alt={cert.certName}
-                                className="hover:scale-105 transition-transform cursor-pointer"
-                                onClick={() => navigate("/certificate/" + cert.certId)}
+                            src={cert.certImage}
+                            alt={cert.certName}
+                            className="hover:scale-105 transition-transform cursor-pointer"
+                            onClick={() => navigate("/certificate/" + cert.certId)}
                             />
                         </div>
                     </div>
                 ))}
+                
                 <div className="m-auto fade-in">
                     <CustomButton
-                        shining
-                        label="Get more certificates"
-                        onClick={() => navigate("/certificate")}
-                        className="bg-red-500 fade-in"
+                    shining
+                    label="Get more certificates"
+                    onClick={() => navigate("/certificate")}
+                    className="bg-red-500 fade-in"
                     />
                 </div>
             </div>
-            <div>
+            <div className="text-center px-5">
                 <h1 className="text-white text-5xl font-bold mt-10 text-center">Voucher Available</h1>
                 <div className="text-white text-2xl mt-5 text-center p-5">
                     {voucherList.length > 0 ? (

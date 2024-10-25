@@ -57,6 +57,16 @@ const Job = () => {
       handleSearch();
     }
   };
+
+  useEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth", // Cuộn mượt mà
+      });
+    };
+    scrollToTop();
+  });
   return (
     <>
       <>
@@ -68,7 +78,7 @@ const Job = () => {
           <div className="relative mb-6 w-1/2 m-auto">
             <input
               type="text"
-              placeholder="Search your major..."
+              placeholder="Search your job..."
               className="bg-gray-300 text-white w-full rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
               onKeyPress={handleKeyPress}
               onChange={changeKeyword}

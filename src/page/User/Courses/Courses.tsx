@@ -30,12 +30,11 @@ const Courses = () => {
   }, [course]);
   return (
     <div>
-      <header className="py-10 text-center">
-        <h1 className="text-3xl font-bold">Certificate of Unicert</h1>
-        <p className="text-gray-600 mt-4">
-          Certificate of Unicert is a certificate that is recognized by many companies and organizations. It is a certificate that is very useful for you to get a job.
-        </p>
-      </header>
+      <div className="text-center py-10 bg-purple-400 text-white">
+          <h1 className="text-4xl font-bold">
+            Explore courses to review certifications
+          </h1>
+        </div>
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-10 py-10">
         {courses.map((course, idx) => (
           <CourseCard key={idx} {...course} />

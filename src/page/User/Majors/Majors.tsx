@@ -45,7 +45,7 @@ const Majors = () => {
   useEffect(() => {
     const scrollToTop = () => {
       window.scrollTo({
-        top: 120,
+        top: 0,
         behavior: "smooth", // Cuộn mượt mà
       });
     };

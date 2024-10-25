@@ -92,9 +92,11 @@ const CertificatePage = () => {
     <>
       <div className="min-h-screen bg-gray-100">
         {/* Header Section */}
-        <header className="bg-purple-500 p-6 text-center text-white text-2xl font-bold">
+        <div className="text-center py-10 bg-purple-400 text-white">
+          <h1 className="text-4xl font-bold">
           Take your career to the next level with certificates
-        </header>
+          </h1>
+        </div>
 
         {/* Filter Section */}
         <div className="p-4 text-center">
@@ -182,12 +184,14 @@ const CertificatePage = () => {
         <div className="bg-white p-6 shadow-md flex flex-row items-center">
           <div className="w-1/2">
             <h2 className="text-xl font-semibold mb-4 text-center">
-              Designed for working adults
+              How Certificates Can Help You
             </h2>
             <p className="text-gray-600 mb-8 text-center">
-              Enroll in flexible, 100% online degree programs. Set your own
-              schedule to balance your work and personal commitments and
-              complete coursework at your own pace.
+            Earning certificates can enhance your skills, increase your job
+            prospects, and boost your earning potential. Whether you’re looking
+            to change careers, gain new expertise, or advance in your current
+            role, these credentials provide valuable knowledge and can set you
+            apart in a competitive job market.
             </p>
           </div>
           <div className="flex w-1/2 justify-end space-x-6">
@@ -203,7 +207,7 @@ const CertificatePage = () => {
         {/* Testimonials Section */}
         <div className="p-6 mt-6 bg-violet-200">
           <h3 className="text-center text-xl mb-4 font-bold">
-            Hear why students enjoy learning
+            Why Students Should Pursue Certificates
           </h3>
           <div className="flex justify-center">
             <div className="w-3/4 bg-white p-4 shadow-md rounded-lg flex flex-row items-center">
@@ -214,10 +218,11 @@ const CertificatePage = () => {
                 />
               </div>
               <p className="w-1/2">
-                Live sessions, office hours, discussion boards—you can
-                participate from wherever you are. Getting my MBA makes me feel
-                empowered. I don’t need to stop working, I don’t need to stop
-                being a mother, I don’t need to stop having my life.
+              Certification programs offer flexibility, allowing you to learn
+              at your own pace and balance other responsibilities. Whether you’re
+              working, studying, or managing personal commitments, earning a
+              certificate can help you stay competitive, boost your skills, and
+              advance in your career without disrupting your life.
               </p>
             </div>
           </div>
