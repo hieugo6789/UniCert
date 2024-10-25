@@ -116,7 +116,7 @@ const InternalCourses = () => {
       <div className="h-[10vh] flex justify-between items-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white p-4">
         <div className="text-2xl font-semibold">Course Management</div>
         <div>
-          <CreateCourse />
+          <CreateCourse refetchCourses={refetchCourses} />
         </div>
         <div className="mr-10">
           <AvatarAdmin />
