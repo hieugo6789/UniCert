@@ -54,6 +54,17 @@ export interface currentVoucher {
   ];
 }
 
+export interface createVoucher {
+  voucherName: string;
+  voucherDescription: string;
+  percentage: number;
+  creationDate: Date;
+  expiryDate: Date;
+  voucherStatus: boolean;
+  examId: number[];
+  courseId: number[];
+}
+
 export interface deleteVoucher {
   voucherId: number;
 }

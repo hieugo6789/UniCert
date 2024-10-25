@@ -12,6 +12,7 @@ import { createCertificate, updateCert } from "../models/certificate";
 import { createJobInput, updateJobInput } from "../models/jobPosition";
 import { inputTransaction } from "../models/transaction";
 import { updateCourse } from "../models/course";
+import { createVoucher } from "../models/voucher";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -147,6 +148,8 @@ const SimulationExam = {
 const Voucher = {
   getAllVoucher: (name?: string) =>
     requests.get(`api/v1/voucher/${name ? name : ""}`),
+  createVoucher: (input: createVoucher) =>
+    requests.post(`api/v1/voucher`, input),
   deleteVoucher: (voucherId: number) =>
     requests.del(`api/v1/voucher/${voucherId}`),
 };

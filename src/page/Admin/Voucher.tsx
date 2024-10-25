@@ -3,6 +3,7 @@ import useVoucher from "../../hooks/Voucher/useVoucher";
 import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import useDeleteVoucher from "../../hooks/Voucher/useDeleteVoucher";
+import CreateVoucher from "../../components/Voucher/CreateVoucher";
 
 const { confirm } = Modal;
 
@@ -55,6 +56,7 @@ const Voucher = () => {
   );
   return (
     <>
+      <CreateVoucher refetchVouchers={refetchVouchers} />
       <div className="h-[76vh]">
         {loading ? (
           <div>Loading...</div>
