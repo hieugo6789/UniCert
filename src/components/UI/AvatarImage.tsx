@@ -41,8 +41,11 @@ const AvatarImage = () => {
       <Menu.Item key="2">
         <Link to="/wallet">Coin</Link>
       </Menu.Item>
+      <Menu.Item key="3">
+        <Link to={`/history/${state.profile.userId}`}>History</Link>
+      </Menu.Item>
       <Menu.Item
-        key="3"
+        key="4"
         onClick={handleLogout}
       >
         <LuLogOut style={{ marginRight: "8px" }} />
