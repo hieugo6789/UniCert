@@ -10,7 +10,7 @@ const useWalletDetail = () => {
   const state = useAppSelector((state) => state.walletDetail);
   const dispatch = useAppDispatch();
 
-  const getWalletDetails = async (id: string, input: number) => {
+  const getWalletDetails = async (id: string, input: number | null) => {
     dispatch(WalletDetailsStart());
     try {
       const response = await agent.Checkout.getUpdateWalletAfterCheckout(

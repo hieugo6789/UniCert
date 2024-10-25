@@ -22,7 +22,7 @@ const TopUpWallet = () => {
 
   useEffect(() => {
     if (userId) {
-      getWalletDetails(userId);
+      getWalletDetails(userId, null);
     }
   }, [userId]);
 

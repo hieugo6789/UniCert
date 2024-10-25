@@ -113,7 +113,7 @@ const Students = () => {
   // Fetch wallet details when the component mounts or when accounts change
   useEffect(() => {
     studentAccounts.forEach((account) => {
-      getWalletDetails(account.userId); // Fetch ví cho từng user
+      getWalletDetails(account.userId, null); // Fetch ví cho từng user
     });
   }, [studentAccounts]);
 
