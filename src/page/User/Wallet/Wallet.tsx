@@ -4,24 +4,37 @@ import Coin from "../../../assets/images/Coin.png";
 import Cookies from "js-cookie";
 import { Button, Modal } from "antd";
 import TopUpWallet from "../../../components/Wallet/TopUpWallet";
+import { useLocation } from "react-router-dom";
 
 const Wallet = () => {
   const { wallets, getWalletDetails } = useWalletDetail();
   const userId = Cookies.get("userId");
-  const [isModalVisible, setIsModalVisible] = useState(false); // Modal visibility state
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [transactionId, setTransactionId] = useState<number | null>(null); // Transaction ID state
+
+  const location = useLocation();
 
   useEffect(() => {
-    if (userId) {
-      getWalletDetails(userId);
+    const searchParams = new URLSearchParams(location.search);
+    const transId = searchParams.get("orderCode"); // Assuming "id" is the name of your transactionId query param
+
+    if (transId) {
+      const transIdNumber = parseInt(transId, 10);
+      setTransactionId(transIdNumber); // Set the transactionId in state
+      console.log("Transaction ID from URL:", transIdNumber);
     }
-  }, [userId]);
+
+    if (userId && transactionId !== null) {
+      getWalletDetails(userId, transactionId);
+    }
+  }, [userId, transactionId, location.search]);
 
   const handlePlusCoin = () => {
-    setIsModalVisible(true); // Show modal when + button is clicked
+    setIsModalVisible(true);
   };
 
   const handleCancel = () => {
-    setIsModalVisible(false); // Hide modal when cancel/close is clicked
+    setIsModalVisible(false);
   };
 
   return (
@@ -48,7 +61,6 @@ const Wallet = () => {
         </div>
       </div>
 
-      {/* Modal for TopUpWallet */}
       <Modal
         title="Top Up Wallet"
         open={isModalVisible}

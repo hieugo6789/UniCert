@@ -123,6 +123,8 @@ const TransactionWallet = {
 const Checkout = {
   getCheckOut: (transactionId: number) =>
     requests.post1(`api/v1/checkout/${transactionId}`),
+  getUpdateWalletAfterCheckout: (userId: string, input: number | null) =>
+    requests.get(`api/v1/wallet/${userId}`, input),
 };
 const InternalCourse = {
   getAllCourse: (name?: string) =>

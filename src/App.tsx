@@ -61,6 +61,8 @@ function App() {
         { path: "job/:id", element: <JobDetail /> },
         { path: "wallet", element: <Wallet /> },
         { path: "wallet/bill", element: <Bill /> },
+        { path: "wallet/:transId", element: <Wallet /> },
+        { path: "wallet/0", element: <Wallet /> },
       ],
     },
     { path: "/login", element: <Login /> },

@@ -10,10 +10,13 @@ const useWalletDetail = () => {
   const state = useAppSelector((state) => state.walletDetail);
   const dispatch = useAppDispatch();
 
-  const getWalletDetails = async (id: string) => {
+  const getWalletDetails = async (id: string, input: number) => {
     dispatch(WalletDetailsStart());
     try {
-      const response = await agent.Account.getAccountWallet(id);
+      const response = await agent.Checkout.getUpdateWalletAfterCheckout(
+        id,
+        input
+      );
       dispatch(WalletDetailSuccess({ userId: id, wallet: response.data }));
     } catch (error) {
       console.error("Error fetching Wallet details:", error);
