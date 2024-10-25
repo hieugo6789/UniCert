@@ -24,16 +24,16 @@ const Wallet = () => {
       console.log("Transaction ID from URL:", transactionId);
     }
 
-    if (userId && transactionId !== null) {
+    if (userId) {
       getWalletDetails(userId, transactionId);
     }
   }, [userId, transactionId, location.search]);
 
-  useEffect(() => {
-    if (userId && transactionId === null) {
-      getWalletDetails(userId, transactionId);
-    }
-  }, [userId]);
+  // useEffect(() => {
+  //   if (userId && transactionId === null) {
+  //     getWalletDetails(userId, transactionId);
+  //   }
+  // }, [userId]);
 
   const handlePlusCoin = () => {
     setIsModalVisible(true);
