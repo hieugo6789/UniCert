@@ -18,6 +18,7 @@ const useWalletDetail = () => {
         input
       );
       dispatch(WalletDetailSuccess({ userId: id, wallet: response.data }));
+      console.log(input);
     } catch (error) {
       console.error("Error fetching Wallet details:", error);
       dispatch(WalletDetailFailure());

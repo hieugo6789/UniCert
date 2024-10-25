@@ -16,7 +16,7 @@ const Wallet = () => {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const transId = searchParams.get("orderCode"); // Assuming "id" is the name of your transactionId query param
+    const transId = searchParams.get("orderCode");
 
     if (transId) {
       const transIdNumber = parseInt(transId, 10);
