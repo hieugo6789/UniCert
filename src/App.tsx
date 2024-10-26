@@ -34,6 +34,12 @@ import LayoutAdmin from "./components/Layout/LayoutAdmin";
 import LayoutManager from "./components/Layout/LayoutManager";
 import LayoutStaff from "./components/Layout/LayoutStaff";
 import HistoryPage from "./page/User/History/HistoryPage";
+import ManageCertification from "./page/Manager/ManageCertification";
+import ManageCourse from "./page/Manager/ManageCourse";
+import ManageExam from "./page/Manager/ManageExam";
+import ManageJobPosition from "./page/Manager/ManageJobPosition";
+import ManageMajor from "./page/Manager/ManageMajor";
+import ManageOrganize from "./page/Manager/ManageOrganize";
 const Layout = () => {
   return (
     <>
@@ -84,7 +90,15 @@ function App() {
     {
       path: "/manager",
       element: <LayoutManager />,
-      children: [{ path: "voucher", element: <Voucher /> }],
+      children: [
+        { path: "certificate", element: <ManageCertification /> },
+        { path: "internalCourses", element: <ManageCourse /> },
+        { path: "simulationExam", element: <ManageExam /> },
+        { path: "jobPosition", element: <ManageJobPosition /> },
+        { path: "major", element: <ManageMajor /> },
+        { path: "organizations", element: <ManageOrganize /> },
+        { path: "voucher", element: <Voucher /> },
+      ],
     },
     {
       path: "/staff",

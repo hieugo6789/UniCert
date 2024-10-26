@@ -63,10 +63,10 @@ const useAuth = () => {
           navigate(`/admin/dashboard`);
           break;
         case ROLE.role2:
-          navigate(`/admin`);
+          navigate(`/manager/certificate`);
           break;
         case ROLE.role3:
-          navigate(`/admin`);
+          navigate(`/staff/certificate`);
           break;
         case ROLE.role4:
           navigate(`/`);

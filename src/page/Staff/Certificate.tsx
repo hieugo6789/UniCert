@@ -39,8 +39,6 @@ const Certificate = () => {
     await getCertDetails(certId);
   };
 
-  // const [form] = Form.useForm();
-
   const handleSearch = () => {
     refetchCertificates(searchTerm);
   };
