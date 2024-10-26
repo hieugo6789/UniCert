@@ -33,6 +33,7 @@ import Bill from "./page/User/Wallet/Bill";
 import LayoutAdmin from "./components/Layout/LayoutAdmin";
 import LayoutManager from "./components/Layout/LayoutManager";
 import LayoutStaff from "./components/Layout/LayoutStaff";
+import HistoryPage from "./page/User/History/HistoryPage";
 const Layout = () => {
   return (
     <>
@@ -61,6 +62,7 @@ function App() {
         { path: "major/:id", element: <MajorDetailPage /> },
         { path: "job", element: <Job /> },
         { path: "job/:id", element: <JobDetail /> },
+        { path: "history/:id", element: <HistoryPage /> },
         { path: "wallet", element: <Wallet /> },
         { path: "wallet/bill", element: <Bill /> },
         { path: "wallet/:transId", element: <Wallet /> },
