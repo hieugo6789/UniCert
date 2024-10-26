@@ -14,6 +14,7 @@ import { inputTransaction } from "../models/transaction";
 import { createCourse, updateCourse } from "../models/course";
 import { createVoucher } from "../models/voucher";
 import { createPayment } from "../models/payment";
+import { updateCart } from "../models/cart";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -177,6 +178,8 @@ const CertType = {
 
 const Cart = {
   getCartByUserId: (userId: string) => requests.get(`api/v1/cart${userId}`),
+  updateCart: (userId: string, input: updateCart) =>
+    requests.put(`api/v1/cart${userId}`, input),
 };
 
 const Enrollment = {};

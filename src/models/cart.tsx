@@ -23,3 +23,8 @@ export interface currentCart {
     }
   ];
 }
+
+export interface updateCart {
+  examId: number[];
+  courseId: number[];
+}
