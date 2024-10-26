@@ -34,6 +34,7 @@ import userDetailReducer from "./slice/Account/userDetailSlice";
 import deleteAccountReducer from "./slice/Account/deleteAccountSlice";
 import profileReducer from "./slice/Profile/profileSlice";
 import walletDetailReducer from "./slice/Wallet/walletDetailSlice";
+import historyTransactionReducer from "./slice/Transaction/historyTransactionSlice";
 import createTransactionReducer from "./slice/Wallet/createTransactionSlice";
 
 export const store = configureStore({
@@ -72,6 +73,7 @@ export const store = configureStore({
     accountDelete: deleteAccountReducer,
     profile: profileReducer,
     walletDetail: walletDetailReducer,
+    historyTransaction: historyTransactionReducer,
     createTransaction: createTransactionReducer,
   },
 });

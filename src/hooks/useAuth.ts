@@ -32,11 +32,8 @@ const useAuth = () => {
         email: value.email,
         password: value.password,
       });
-      // const token = data.accessToken;
 
       const decodeToken = jwtDecode(data.data.accessToken) as roleJwt;
-      // const expirationTime = Math.floor(Date.now() / 1000) + 20 * 60;
-      // localStorage.setItem("exp", expirationTime.toString());
 
       Cookies.set("token", data.data.accessToken, { expires: 1 });
       Cookies.set(

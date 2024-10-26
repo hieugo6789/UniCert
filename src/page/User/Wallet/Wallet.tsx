@@ -5,10 +5,15 @@ import Cookies from "js-cookie";
 import { Button, Modal } from "antd";
 import TopUpWallet from "../../../components/Wallet/TopUpWallet";
 import { useLocation } from "react-router-dom";
+import useHistoryTransaction from "../../../hooks/Transactions/useHistoryTransaction";
 
 const Wallet = () => {
   const { wallets, getWalletDetails } = useWalletDetail();
   const userId = Cookies.get("userId");
+  const parsedUserId = userId ? parseInt(userId, 10) : undefined;
+  const { historyTransaction } = parsedUserId
+    ? useHistoryTransaction({ userId: parsedUserId })
+    : { historyTransaction: [] };
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [transactionId, setTransactionId] = useState<number | null>(null); // Transaction ID state
 
@@ -31,12 +36,6 @@ const Wallet = () => {
     }
   }, [userId, transactionId]);
 
-  // useEffect(() => {
-  //   if (userId && transactionId === null) {
-  //     getWalletDetails(userId, transactionId);
-  //   }
-  // }, [userId]);
-
   const handlePlusCoin = () => {
     setIsModalVisible(true);
   };
@@ -50,7 +49,22 @@ const Wallet = () => {
       <div className="flex justify-around">
         <div className="">
           <h1 className="text-2xl font-bold">History payment</h1>
-          <div>{userId ? wallets[userId]?.walletId || 0 : 0}</div>
+          <div>
+            {parsedUserId && historyTransaction.length > 0 ? (
+              historyTransaction.map((transaction, index) => (
+                <div
+                  key={index}
+                  className="p-2 border-b"
+                >
+                  <p>Transaction ID: {transaction.transactionId}</p>
+                  <p>Amount: {transaction.amount}</p>
+                  {/* <p>Date: {transaction.createdAt}</p> */}
+                </div>
+              ))
+            ) : (
+              <p>No transaction history available</p>
+            )}
+          </div>
         </div>
 
         <div className="bg-white shadow-md rounded-xl px-4 py-2 flex items-center justify-center space-x-2 max-w-56 h-full">
