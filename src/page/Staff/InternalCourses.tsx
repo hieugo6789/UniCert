@@ -114,10 +114,13 @@ const InternalCourses = () => {
   return (
     <>
       <div className="h-[10vh] flex justify-between items-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white p-4">
-        <div className="text-2xl font-semibold">Course Management</div>
-        <div>
-          <CreateCourse refetchCourses={refetchCourses} />
+        <div className="text-2xl font-semibold">
+          Course Management
+          <div>
+            <CreateCourse refetchCourses={refetchCourses} />
+          </div>
         </div>
+
         <div className="mr-10">
           <AvatarAdmin />
         </div>
@@ -154,26 +157,54 @@ const InternalCourses = () => {
           <Spin />
         ) : state.currentCourse ? (
           <div className="text-lg">
+            <div>
+              <img src={state.currentCourse.courseImage} />
+            </div>
             <p>
               <strong>Name: </strong> {state.currentCourse.courseName}
             </p>
             <p>
               <strong>Code: </strong> {state.currentCourse.courseCode}
             </p>
-            {/* <strong>Description: </strong>
-            <div
-              className="prose list-disc whitespace-pre-wrap text-sm"
-              dangerouslySetInnerHTML={{
-                __html: state.currentCourse. || "",
-              }}
-            /> */}
+            <p>
+              <strong>Description: </strong>{" "}
+              {state.currentCourse.courseDescription}
+            </p>
+            <p>
+              <strong>Course time: </strong> {state.currentCourse.courseTime}
+            </p>
+            <p>
+              <strong>Fee: </strong> {state.currentCourse.courseFee}
+            </p>
+            <p>
+              <strong>Discount fee: </strong>{" "}
+              {state.currentCourse.courseDiscountFee}
+            </p>
+            <p>
+              <strong>Voucher: </strong>{" "}
+              {state.currentCourse.voucherDetails?.map((v, index) => (
+                <div key={index}>
+                  <p>{v.voucherName}</p>
+                  <div>
+                    {
+                      <span>
+                        {new Date(v.creationDate).toLocaleDateString()}
+                      </span>
+                    }{" "}
+                    -{" "}
+                    {<span>{new Date(v.expiryDate).toLocaleDateString()}</span>}
+                  </div>
+                </div>
+              ))}
+            </p>
+
             <p>
               <strong>Certification: </strong>
               {state.currentCourse.certificationDetails?.map((cert, index) => (
                 <Tag key={index}>
                   {cert.certCode} - {cert.certName}
                 </Tag>
-              )) || "No job positions available"}
+              )) || "No certifications available"}
             </p>
           </div>
         ) : (

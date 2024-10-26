@@ -1,12 +1,11 @@
 import { Outlet } from "react-router-dom";
-import MenuAdmin from "../../../components/Layout/MenuAdmin";
-// import AdminHeader from "../../../components/Header/AdminHeader";
+import MenuManager from "../Menu/MenuManager";
 
-const LayoutAdmin = () => {
+const LayoutManager = () => {
   return (
     <div className="grid grid-cols-12">
       <div className="col-span-2">
-        <MenuAdmin />
+        <MenuManager />
       </div>
       <div className="col-span-10">
         <Outlet />
@@ -14,4 +13,4 @@ const LayoutAdmin = () => {
     </div>
   );
 };
-export default LayoutAdmin;
+export default LayoutManager;
