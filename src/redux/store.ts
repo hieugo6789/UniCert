@@ -36,6 +36,7 @@ import profileReducer from "./slice/Profile/profileSlice";
 import walletDetailReducer from "./slice/Wallet/walletDetailSlice";
 import historyTransactionReducer from "./slice/Transaction/historyTransactionSlice";
 import createTransactionReducer from "./slice/Wallet/createTransactionSlice";
+import cartReducer from "./slice/Cart/CartSlice";
 
 export const store = configureStore({
   reducer: {
@@ -75,6 +76,7 @@ export const store = configureStore({
     walletDetail: walletDetailReducer,
     historyTransaction: historyTransactionReducer,
     createTransaction: createTransactionReducer,
+    cart: cartReducer,
   },
 });
 

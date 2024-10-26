@@ -13,6 +13,7 @@ import { createJobInput, updateJobInput } from "../models/jobPosition";
 import { inputTransaction } from "../models/transaction";
 import { createCourse, updateCourse } from "../models/course";
 import { createVoucher } from "../models/voucher";
+import { createPayment } from "../models/payment";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -174,6 +175,21 @@ const CertType = {
     requests.get(`api/v1/cert-type/${typeId}`),
 };
 
+const Cart = {
+  getCartByUserId: (userId: string) => requests.get(`api/v1/cart${userId}`),
+};
+
+const Enrollment = {};
+
+const Payment = {
+  createPayment: (input: createPayment) =>
+    requests.post(`api/v1/payment`, input),
+  examPayment: (userId: string) =>
+    requests.get(`api/v1/payment/get-ExamEnrollment-by-userId/${userId}`),
+  coursePayment: (userId: string) =>
+    requests.get(`api/v1/payment/get-CourseEnrollment-by-userId/${userId}`),
+};
+
 const agent = {
   Major,
   Account,
@@ -188,5 +204,8 @@ const agent = {
   TransactionWallet,
   Checkout,
   CertType,
+  Cart,
+  Payment,
+  Enrollment,
 };
 export default agent;
