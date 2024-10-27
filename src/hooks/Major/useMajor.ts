@@ -20,7 +20,7 @@ const useMajor = () => {
     }
   };
   useEffect(() => {
-    fetchMajors(); // Fetch services initially
+    fetchMajors();
   }, [dispatch]);
   return {
     major,

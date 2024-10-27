@@ -1,7 +1,7 @@
 export interface currentCart {
   cartId: number;
   totalPrice: number;
-  userId: number;
+  userId: string;
   examId: number[];
   courseId: number[];
   examDetails: [

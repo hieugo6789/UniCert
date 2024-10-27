@@ -47,7 +47,7 @@ const jobSlice = createSlice({
       })
       .addCase(fetchAllJobPagination.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message || "Failed to fetch organizations.";
+        state.error = action.error.message || "Failed to fetch job positions.";
       });
   },
 });

@@ -1,5 +1,5 @@
 export interface createPayment {
-  userId: number;
+  userId: string;
   examEnrollmentId: number;
   courseEnrollmentId: number;
 }

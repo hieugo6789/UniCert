@@ -37,6 +37,8 @@ import walletDetailReducer from "./slice/Wallet/walletDetailSlice";
 import historyTransactionReducer from "./slice/Transaction/historyTransactionSlice";
 import createTransactionReducer from "./slice/Wallet/createTransactionSlice";
 import cartReducer from "./slice/Cart/CartSlice";
+import examEnrollmentReducer from "./slice/Enrollment/ExamSlice";
+import courseEnrollmentReducer from "./slice/Enrollment/CourseSlice";
 
 export const store = configureStore({
   reducer: {
@@ -77,6 +79,8 @@ export const store = configureStore({
     historyTransaction: historyTransactionReducer,
     createTransaction: createTransactionReducer,
     cart: cartReducer,
+    examEnrollment: examEnrollmentReducer,
+    courseEnrollment: courseEnrollmentReducer,
   },
 });
 

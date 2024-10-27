@@ -15,6 +15,10 @@ import { createCourse, updateCourse } from "../models/course";
 import { createVoucher } from "../models/voucher";
 import { createPayment } from "../models/payment";
 import { updateCart } from "../models/cart";
+import {
+  createCourseEnrollment,
+  createExamEnrollment,
+} from "../models/enrollment";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -182,7 +186,16 @@ const Cart = {
     requests.put(`api/v1/cart${userId}`, input),
 };
 
-const Enrollment = {};
+const Enrollment = {
+  getCourseByUserId: (userId: string) =>
+    requests.get(`api/v1/course-enrollment/user/${userId}`),
+  createCourseEnroll: (input: createCourseEnrollment) =>
+    requests.post("api/v1/course-enrollment", input),
+  getExamByUserId: (userId: string) =>
+    requests.get(`api/v1/exam-enrollment/get-by-userId/${userId}`),
+  createExamEnroll: (input: createExamEnrollment) =>
+    requests.post("api/v1/exam-enrollment", input),
+};
 
 const Payment = {
   createPayment: (input: createPayment) =>
