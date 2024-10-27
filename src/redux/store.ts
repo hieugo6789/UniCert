@@ -39,6 +39,9 @@ import createTransactionReducer from "./slice/Wallet/createTransactionSlice";
 import cartReducer from "./slice/Cart/CartSlice";
 import examEnrollmentReducer from "./slice/Enrollment/ExamSlice";
 import courseEnrollmentReducer from "./slice/Enrollment/CourseSlice";
+import examPaymentReducer from "./slice/Payment/examPaymentSlice";
+import coursePaymentReducer from "./slice/Payment/coursePaymentSlice";
+import createPaymentReducer from "./slice/Payment/createPaymentSlice";
 
 export const store = configureStore({
   reducer: {
@@ -81,6 +84,9 @@ export const store = configureStore({
     cart: cartReducer,
     examEnrollment: examEnrollmentReducer,
     courseEnrollment: courseEnrollmentReducer,
+    examPayment: examPaymentReducer,
+    coursePayment: coursePaymentReducer,
+    createPayment: createPaymentReducer,
   },
 });
 
