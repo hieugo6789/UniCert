@@ -38,7 +38,9 @@ import historyTransactionReducer from "./slice/Transaction/historyTransactionSli
 import createTransactionReducer from "./slice/Wallet/createTransactionSlice";
 import cartReducer from "./slice/Cart/CartSlice";
 import examEnrollmentReducer from "./slice/Enrollment/ExamSlice";
+import createExamEnrollmentReducer from "./slice/Enrollment/createExamEnrollSlice";
 import courseEnrollmentReducer from "./slice/Enrollment/CourseSlice";
+import createCourseEnrollmentReducer from "./slice/Enrollment/createCourseEnrollSlice";
 import examPaymentReducer from "./slice/Payment/examPaymentSlice";
 import coursePaymentReducer from "./slice/Payment/coursePaymentSlice";
 import createPaymentReducer from "./slice/Payment/createPaymentSlice";
@@ -83,7 +85,9 @@ export const store = configureStore({
     createTransaction: createTransactionReducer,
     cart: cartReducer,
     examEnrollment: examEnrollmentReducer,
+    createExamEnrollment: createExamEnrollmentReducer,
     courseEnrollment: courseEnrollmentReducer,
+    createCourseEnrollment: createCourseEnrollmentReducer,
     examPayment: examPaymentReducer,
     coursePayment: coursePaymentReducer,
     createPayment: createPaymentReducer,

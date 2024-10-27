@@ -17,7 +17,7 @@ const useDeleteJob = () => {
       const response = await agent.JobPosition.deleteJob(jobPositionId);
       dispatch(deleteJobSuccess(response.data));
     } catch (error) {
-      console.error("Error deleting certification:", error);
+      console.error("Error deleting job position:", error);
       dispatch(deleteJobFailure());
     }
   };

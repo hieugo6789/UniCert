@@ -16,6 +16,7 @@ export interface courseEnrollmentPayment {
   paymentMethod: string;
   paymentStatus: string;
   walletId: number;
+  examEnrollmentId: number;
   courseEnrollmentId: number;
 }
 export interface examEnrollmentPayment {
@@ -26,6 +27,7 @@ export interface examEnrollmentPayment {
   paymentStatus: string;
   walletId: number;
   examEnrollmentId: number;
+  courseEnrollmentId: number;
 }
 
 export interface createPayment {
