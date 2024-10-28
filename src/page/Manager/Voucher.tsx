@@ -1,18 +1,30 @@
-import { message, Modal, Pagination, Table } from "antd";
+import { message, Modal, Pagination, Spin, Table } from "antd";
 import useVoucher from "../../hooks/Voucher/useVoucher";
-import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  EyeOutlined,
+} from "@ant-design/icons";
 import { useState } from "react";
 import useDeleteVoucher from "../../hooks/Voucher/useDeleteVoucher";
 import CreateVoucher from "../../components/Voucher/CreateVoucher";
 import UpdateVoucher from "../../components/Voucher/UpdateVoucher";
+import useVoucherDetail from "../../hooks/Voucher/useVoucherDetail";
 
 const { confirm } = Modal;
 
 const Voucher = () => {
   const { voucher, loading, refetchVouchers } = useVoucher();
+  const { state, getVoucherDetails } = useVoucherDetail();
   const { handleDeleteVoucher } = useDeleteVoucher();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleView = async (voucherId: number) => {
+    setIsModalVisible(true);
+    await getVoucherDetails(voucherId);
+  };
 
   const columns = [
     { title: "Name", dataIndex: "voucherName", key: "voucherName" },
@@ -28,6 +40,10 @@ const Voucher = () => {
       key: "actions",
       render: (record: any) => (
         <>
+          <EyeOutlined
+            onClick={() => handleView(record.voucherId)}
+            style={{ color: "blue" }}
+          />
           <UpdateVoucher
             voucherId={record.voucherId}
             refetchVouchers={refetchVouchers}
@@ -79,6 +95,7 @@ const Voucher = () => {
             pagination={false}
             loading={loading}
             rowClassName={() => "h-[8.7vh]"}
+            className="header-bg-pink"
           />
         ) : (
           <div>No vouchers available.</div>
@@ -92,6 +109,29 @@ const Voucher = () => {
           onChange={handlePaginationChange}
         />
       </div>
+      <Modal
+        title="Major Details"
+        width={900}
+        open={isModalVisible}
+        footer={null}
+        onCancel={() => setIsModalVisible(false)}
+      >
+        {state.isLoading ? (
+          <Spin />
+        ) : state.currentVoucher ? (
+          <div className="text-lg">
+            <p>
+              <strong>Name: </strong> {state.currentVoucher.voucherName}
+            </p>
+            <p>
+              <strong>Code: </strong> {state.currentVoucher.voucherDescription}
+            </p>
+            <strong>Description: </strong>
+          </div>
+        ) : (
+          <p>No details available.</p>
+        )}
+      </Modal>
     </>
   );
 };

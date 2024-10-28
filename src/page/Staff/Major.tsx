@@ -1,35 +1,23 @@
 import { useState } from "react";
 import CreateMajor from "../../components/Majors/CreateMajor";
-import {
-  Input,
-  Button,
-  Table,
-  Pagination,
-  Modal,
-  Spin,
-  message,
-  Tag,
-} from "antd"; // Import Input and Button from antd
+import { Input, Button, Table, Pagination, Modal, message, Tag } from "antd"; // Import Input and Button from antd
 import {
   DeleteOutlined,
   ExclamationCircleOutlined,
-  EyeOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
 import useMajor from "../../hooks/Major/useMajor";
-import useMajorDetail from "../../hooks/Major/useMajorDetail";
 import useDeleteMajor from "../../hooks/Major/useDeleteMajor";
 import UpdateMajor from "../../components/Majors/UpdateMajor";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
+import ViewMajorDetail from "../../components/Majors/ViewMajorDetail";
 
 const { confirm } = Modal;
 
 const Major = () => {
   const { major, loading, refetchMajors } = useMajor();
-  const { state, getMajorDetails } = useMajorDetail();
   const { handleDeleteMajor } = useDeleteMajor();
   const [searchTerm, setSearchTerm] = useState("");
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
 
@@ -37,10 +25,6 @@ const Major = () => {
     refetchMajors(searchTerm);
   };
 
-  const handleView = async (majorId: string) => {
-    setIsModalVisible(true);
-    await getMajorDetails(majorId);
-  };
   const handlePaginationChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -102,10 +86,7 @@ const Major = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <EyeOutlined
-            style={{ color: "blue" }}
-            onClick={() => handleView(record.majorId)}
-          />
+          <ViewMajorDetail majorId={record.majorId} />
           <UpdateMajor
             majorId={record.majorId}
             refetchMajors={refetchMajors}
@@ -197,44 +178,6 @@ const Major = () => {
           </div>
         </div>
       </div>
-
-      <Modal
-        title="Major Details"
-        width={900}
-        open={isModalVisible}
-        footer={null}
-        onCancel={() => setIsModalVisible(false)}
-      >
-        {state.isLoading ? (
-          <Spin />
-        ) : state.currentMajor ? (
-          <div className="text-lg">
-            <p>
-              <strong>Name: </strong> {state.currentMajor.majorName}
-            </p>
-            <p>
-              <strong>Code: </strong> {state.currentMajor.majorCode}
-            </p>
-            <strong>Description: </strong>
-            <div
-              className="prose list-disc whitespace-pre-wrap text-sm"
-              dangerouslySetInnerHTML={{
-                __html: state.currentMajor.majorDescription || "",
-              }}
-            />
-            <p>
-              <strong>Job position: </strong>
-              {state.currentMajor.jobPositionDetails?.map((job, index) => (
-                <Tag key={index}>
-                  {job.jobPositionCode} - {job.jobPositionName}
-                </Tag>
-              )) || "No job positions available"}
-            </p>
-          </div>
-        ) : (
-          <p>No details available.</p>
-        )}
-      </Modal>
     </>
   );
 };

@@ -28,6 +28,8 @@ const requests = {
   post1: <T>(url: string, params?: T) =>
     apiJWT.post(url, { params }).then(responseBody),
   put: <T>(url: string, body: T) => apiJWT.put(url, body).then(responseBody),
+  put1: <T>(url: string, params?: T) =>
+    apiJWT.put(url, { params }).then(responseBody),
   patch: <T>(url: string, body: T) =>
     apiJWT.patch(url, body).then(responseBody),
   del: <T>(url: string, params?: T) =>
@@ -55,6 +57,10 @@ const Major = {
   deleteMajor: (majorId: string) => requests.del(`/api/v1/major/${majorId}`),
   updateMajor: (majorId: string, input: UpdateMajor) =>
     requests.put(`/api/v1/major/${majorId}`, input),
+  updateMajorPermission: (majorId: number, permission: number) =>
+    requests.put1(
+      `api/v1/major/Permission?majorId=${majorId}&majorPermission=${permission}`
+    ),
 };
 const Organization = {
   getAllOrganizations: (name?: string) =>

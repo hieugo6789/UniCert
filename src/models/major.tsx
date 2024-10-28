@@ -3,6 +3,7 @@ export interface allMajorPaginationData {
   majorCode: string;
   majorName: string;
   majorDescription: string;
+  majorPermission: string;
   jobPositionDetails: [
     {
       jobPositionId: number;
@@ -29,6 +30,7 @@ export interface currentMajor {
   majorCode: string;
   majorName: string;
   majorDescription: string;
+  majorPermission: string;
   jobPositionDetails: [
     {
       jobPositionId: number;

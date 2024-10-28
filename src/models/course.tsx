@@ -7,6 +7,7 @@ export interface allCoursePaginationData {
   courseFee: number;
   courseDiscountFee: number;
   courseImage: string;
+  coursePermission: string;
   certId: string;
   certificationDetails: [
     {
@@ -40,6 +41,7 @@ export interface currentCourse {
   courseFee: number;
   courseDiscountFee: number;
   courseImage: string;
+  coursePermission: string;
   certId: string;
   certificationDetails: [
     {

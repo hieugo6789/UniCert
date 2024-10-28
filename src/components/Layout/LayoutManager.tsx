@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import MenuManager from "../Menu/MenuManager";
+import AvatarAdmin from "../Header/AvatarAdmin";
 
 const LayoutManager = () => {
   return (
@@ -8,7 +9,12 @@ const LayoutManager = () => {
         <MenuManager />
       </div>
       <div className="col-span-10">
-        <Outlet />
+        <div className="h-[8vh] flex justify-end mr-10 items-center">
+          <AvatarAdmin />
+        </div>
+        <div className="h-[92vh]">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

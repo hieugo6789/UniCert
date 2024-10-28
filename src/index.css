@@ -30,3 +30,7 @@
   writing-mode: vertical-lr;
   transform: rotate(180deg);
 }
+
+.header-bg-pink .ant-table-thead > tr > th {
+  @apply bg-blue-100 text-gray-800 font-semibold ;
+}
