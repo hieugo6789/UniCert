@@ -4,6 +4,7 @@ import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import useDeleteVoucher from "../../hooks/Voucher/useDeleteVoucher";
 import CreateVoucher from "../../components/Voucher/CreateVoucher";
+import UpdateVoucher from "../../components/Voucher/UpdateVoucher";
 
 const { confirm } = Modal;
 
@@ -15,12 +16,22 @@ const Voucher = () => {
 
   const columns = [
     { title: "Name", dataIndex: "voucherName", key: "voucherName" },
+    { title: "Percentage", dataIndex: "percentage", key: "percentage" },
+    {
+      title: "Status",
+      dataIndex: "voucherStatus",
+      key: "voucherStatus",
+      render: (status: boolean) => (status ? "Active" : "Inactive"),
+    },
     {
       title: "Actions",
       key: "actions",
       render: (record: any) => (
         <>
-          {" "}
+          <UpdateVoucher
+            voucherId={record.voucherId}
+            refetchVouchers={refetchVouchers}
+          />
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.voucherId)}
             style={{ color: "red", marginLeft: 12 }}
@@ -64,7 +75,7 @@ const Voucher = () => {
           <Table
             columns={columns}
             dataSource={paginatedData}
-            rowKey="organizeId"
+            rowKey="voucherId"
             pagination={false}
             loading={loading}
             rowClassName={() => "h-[8.7vh]"}

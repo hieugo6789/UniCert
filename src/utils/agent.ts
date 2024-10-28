@@ -12,7 +12,7 @@ import { createCertificate, updateCert } from "../models/certificate";
 import { createJobInput, updateJobInput } from "../models/jobPosition";
 import { inputTransaction } from "../models/transaction";
 import { createCourse, updateCourse } from "../models/course";
-import { createVoucher } from "../models/voucher";
+import { createVoucher, updateVoucher } from "../models/voucher";
 import { createPayment } from "../models/payment";
 import { updateCart } from "../models/cart";
 import {
@@ -163,10 +163,14 @@ const SimulationExam = {
 const Voucher = {
   getAllVoucher: (name?: string) =>
     requests.get(`api/v1/voucher/${name ? name : ""}`),
+  getDetailVoucher: (voucherId: number) =>
+    requests.get(`api/v1/voucher/${voucherId}`),
   createVoucher: (input: createVoucher) =>
     requests.post(`api/v1/voucher`, input),
   deleteVoucher: (voucherId: number) =>
     requests.del(`api/v1/voucher/${voucherId}`),
+  updateVoucher: (voucherId: number, input: updateVoucher) =>
+    requests.put(`api/v1/voucher/${voucherId}`, input),
 };
 
 const Profile = {

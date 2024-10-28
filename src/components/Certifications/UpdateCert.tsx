@@ -56,7 +56,6 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
         majorIds: currentCert.majorIds || [],
         jobIds: currentCert.jobPositionIds || [],
       });
-      // form.setFieldsValue(currentCert);
     }
   }, [state.currentCert, certId, form]);
 
