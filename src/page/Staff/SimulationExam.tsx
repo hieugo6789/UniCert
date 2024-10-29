@@ -4,6 +4,8 @@ import useExam from "../../hooks/SimulationExam/useExam";
 import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { message, Modal, Pagination, Table, Tag } from "antd";
 import useDeleteExam from "../../hooks/SimulationExam/useDeleteExam";
+import ViewExamDetail from "../../components/Exam/ViewExamDetail";
+import UpdateExam from "../../components/Exam/UpdateExam";
 
 const { confirm } = Modal;
 
@@ -97,6 +99,11 @@ const SimulationExam = () => {
       key: "actions",
       render: (record: any) => (
         <>
+          <ViewExamDetail examId={record.examId} />
+          <UpdateExam
+            examId={record.examId}
+            refetchExams={refetchExams}
+          />
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.examId)}
             style={{ color: "red", marginLeft: 12 }}
@@ -146,7 +153,7 @@ const SimulationExam = () => {
                 rowClassName={() => "h-[8.7vh]"}
               />
             ) : (
-              <div>No organizations available.</div>
+              <div>No simulation exam available.</div>
             )}
           </div>
           <div className="mt-6 flex justify-end">

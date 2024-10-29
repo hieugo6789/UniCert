@@ -2,9 +2,11 @@ import { Pagination, Table, Tag } from "antd";
 import { useState } from "react";
 import useExam from "../../hooks/SimulationExam/useExam";
 import UpdatePermission from "../../components/Permission/UpdatePermission";
+import usePermissionExam from "../../hooks/SimulationExam/usePermissionExam";
 
 const ManageExam = () => {
   const { exam, loading, refetchExams } = useExam();
+  const { updatePermissionExamDetails } = usePermissionExam();
   const [pageSize] = useState(8);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -90,11 +92,11 @@ const ManageExam = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          {/* <UpdatePermission
+          <UpdatePermission
             Id={record.examId}
             refetch={refetchExams}
-            updateFunction={}
-          /> */}
+            updateFunction={updatePermissionExamDetails}
+          />
         </>
       ),
     },

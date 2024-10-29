@@ -43,8 +43,41 @@ export interface currentExamDetail {
       ];
     }
   ];
+  certificationDetails: [
+    {
+      certId: number;
+      certName: string;
+      certCode: string;
+      certDescription: string;
+      certImage: string;
+      typeName: string;
+      organizeName: string;
+      certValidity: string;
+    }
+  ];
+  voucherDetails: [
+    {
+      voucherId: number;
+      voucherName: string;
+      voucherDescription: string;
+      percentage: number;
+      creationDate: Date;
+      expiryDate: Date;
+      voucherStatus: boolean;
+    }
+  ];
 }
 
 export interface deleteExam {
   examId: number;
+}
+
+export interface updateExam {
+  examName: string;
+  examCode: string;
+  certId: number;
+  examDescription: string;
+  examFee: number;
+  voucherIds: number[];
+  examImage: string;
 }

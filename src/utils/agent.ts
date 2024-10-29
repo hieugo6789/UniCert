@@ -19,6 +19,7 @@ import {
   createCourseEnrollment,
   createExamEnrollment,
 } from "../models/enrollment";
+import { updateExam } from "../models/simulationExam";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -178,10 +179,12 @@ const SimulationExam = {
     ),
   getSimulationExamCertId: (certId: number) =>
     requests.get(`api/v1/simulation-exam/get-by-certId/${certId}`),
-  getSimulationExam: (examId: number) =>
+  getSimulationExamDetail: (examId: number) =>
     requests.get(`api/v1/simulation-exam/${examId}`),
   deleteSimulationExam: (examId: number) =>
     requests.del(`api/v1/simulation-exam/${examId}`),
+  updateSimulationExam: (examId: number, data: updateExam) =>
+    requests.put(`api/v1/simulation-exam/${examId}`, data),
   updateExamPermission: (examId: number, permission: number) =>
     requests.put1(
       `api/v1/simulation-exam/update-permission/${examId}?permission=${permission}`

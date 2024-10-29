@@ -24,7 +24,7 @@ const ViewJobPosition: React.FC<ViewJobDetailProps> = ({ jobPositionId }) => {
       />
       <Modal
         width={900}
-        title="Certification Details"
+        title="Job position Details"
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
