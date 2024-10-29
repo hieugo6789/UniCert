@@ -2,7 +2,7 @@ import { useState } from "react";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import useExam from "../../hooks/SimulationExam/useExam";
 import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
-import { message, Modal, Pagination, Table } from "antd";
+import { message, Modal, Pagination, Table, Tag } from "antd";
 import useDeleteExam from "../../hooks/SimulationExam/useDeleteExam";
 
 const { confirm } = Modal;
@@ -26,18 +26,77 @@ const SimulationExam = () => {
   const columns = [
     { title: "Name", dataIndex: "examName", key: "examName" },
     {
+      title: "Exam Fee",
+      dataIndex: "examFee",
+      key: "examFee",
+      render: (fee: number) => <span className="text-green-600">${fee}</span>,
+    },
+    {
+      title: "Discount Fee",
+      dataIndex: "examDiscountFee",
+      key: "examDiscountFee",
+      render: (fee: number) => <span className="text-green-600">${fee}</span>,
+    },
+    {
+      title: "Certification",
+      dataIndex: "certificationDetails",
+      key: "certificationDetails",
+      render: (certificationDetails: any[]) => {
+        if (
+          Array.isArray(certificationDetails) &&
+          certificationDetails.length > 0
+        ) {
+          return (
+            <>
+              {certificationDetails.map((cert, index) => (
+                <Tag
+                  color="blue"
+                  key={index}
+                >
+                  {cert.certCode}
+                </Tag>
+              ))}
+            </>
+          );
+        }
+        return <span>No cert</span>; // Fallback for empty or non-array
+      },
+    },
+    {
+      title: "Status",
+      dataIndex: "examPermission",
+      key: "examPermission",
+      render: (permission: string) => {
+        let color = "";
+        switch (permission) {
+          case "Approve":
+            color = "green"; // Green for approved
+            break;
+          case "Reject":
+            color = "red"; // Red for rejected
+            break;
+          case "Pending":
+            color = "blue"; // Blue for pending
+            break;
+          default:
+            color = "default"; // Default color for unexpected status
+            break;
+        }
+        return (
+          <Tag
+            color={color}
+            className="flex justify-center w-16"
+          >
+            {permission}
+          </Tag>
+        );
+      },
+    },
+    {
       title: "Actions",
       key: "actions",
       render: (record: any) => (
         <>
-          {/* <EyeOutlined
-          style={{ color: "blue" }}
-          onClick={() => handleView(record.jobPositionId)}
-        />
-        <UpdateJobPosition
-          jobPositionId={record.jobPositionId}
-          refetchJobs={refetchJobs}
-        /> */}
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.examId)}
             style={{ color: "red", marginLeft: 12 }}

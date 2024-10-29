@@ -27,7 +27,6 @@ const CreateVoucher = ({
     percentage: 0,
     creationDate: currentDate,
     expiryDate: expiryDate,
-    voucherStatus: true,
     examId: [] as number[],
     courseId: [] as number[],
   });

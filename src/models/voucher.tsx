@@ -60,7 +60,6 @@ export interface createVoucher {
   percentage: number;
   creationDate: Date;
   expiryDate: Date;
-  voucherStatus: boolean;
   examId: number[];
   courseId: number[];
 }
@@ -75,7 +74,6 @@ export interface updateVoucher {
   percentage: number;
   creationDate: Date;
   expiryDate: Date;
-  voucherStatus: boolean;
   examId: number[];
   courseId: number[];
 }

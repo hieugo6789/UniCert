@@ -51,7 +51,6 @@ const UpdateVoucher: React.FC<UpdateVoucherProps> = ({
         expiryDate: currentVoucher.expiryDate
           ? new Date(currentVoucher.expiryDate).toISOString().split("T")[0]
           : "",
-        voucherStatus: currentVoucher.voucherStatus,
         examId: examIds,
         courseId: courseIds,
       });

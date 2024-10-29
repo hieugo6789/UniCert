@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import AvatarImage from "../UI/AvatarImage";
 import Logo from "./Logo";
 import { ShoppingCartOutlined, MenuOutlined } from "@ant-design/icons";
+import Cookies from "js-cookie";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const token = Cookies.get("token");
+  console.log(token);
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
     }

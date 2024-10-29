@@ -178,8 +178,14 @@ const SimulationExam = {
     ),
   getSimulationExamCertId: (certId: number) =>
     requests.get(`api/v1/simulation-exam/get-by-certId/${certId}`),
+  getSimulationExam: (examId: number) =>
+    requests.get(`api/v1/simulation-exam/${examId}`),
   deleteSimulationExam: (examId: number) =>
     requests.del(`api/v1/simulation-exam/${examId}`),
+  updateExamPermission: (examId: number, permission: number) =>
+    requests.put1(
+      `api/v1/simulation-exam/update-permission/${examId}?permission=${permission}`
+    ),
 };
 
 const Voucher = {
