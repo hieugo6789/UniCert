@@ -1,43 +1,25 @@
-import {
-  Button,
-  Input,
-  Pagination,
-  Table,
-  Modal,
-  message,
-  Spin,
-  Tag,
-} from "antd";
+import { Button, Input, Pagination, Table, Modal, message, Tag } from "antd";
 import useCertificate from "../../hooks/Certification/useCertificate";
 import { useState } from "react";
 import {
   DeleteOutlined,
   ExclamationCircleOutlined,
-  EyeOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
 import useDeleteCertificate from "../../hooks/Certification/useDeleteCertificate";
-import useCertDetail from "../../hooks/Certification/useCertDetail";
 import CreateCert from "../../components/Certifications/CreateCert";
 import UpdateCert from "../../components/Certifications/UpdateCert";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
+import ViewCertification from "../../components/Certifications/ViewCertification";
 
 const { confirm } = Modal;
 
 const Certificate = () => {
   const { certificate, loading, refetchCertificates } = useCertificate();
-  const { state, getCertDetails } = useCertDetail();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
   const { handleDeleteCertificate } = useDeleteCertificate();
   const [searchTerm, setSearchTerm] = useState("");
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const handleView = async (certId: number) => {
-    setIsModalVisible(true);
-    await getCertDetails(certId);
-  };
 
   const handleSearch = () => {
     refetchCertificates(searchTerm);
@@ -86,11 +68,7 @@ const Certificate = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <EyeOutlined
-            onClick={() => handleView(record.certId)}
-            style={{ color: "blue" }}
-          />
-
+          <ViewCertification certId={record.certId} />
           <UpdateCert
             certId={record.certId}
             refetchCertificates={refetchCertificates}
@@ -182,73 +160,6 @@ const Certificate = () => {
           </div>
         </div>
       </div>
-      <Modal
-        width={900}
-        open={isModalVisible}
-        footer={null}
-        onCancel={() => setIsModalVisible(false)}
-      >
-        {state.isLoading ? (
-          <Spin />
-        ) : state.currentCert ? (
-          <div className="text-lg">
-            <p>
-              <strong>Name: </strong> {state.currentCert.certName}
-            </p>
-            <p>
-              <strong>Code: </strong> {state.currentCert.certCode}
-            </p>
-            <p>
-              <strong>Description: </strong>
-            </p>
-            <div
-              className="prose list-disc whitespace-pre-wrap text-sm"
-              dangerouslySetInnerHTML={{
-                __html: state.currentCert.certDescription || "",
-              }}
-            />
-            <p>
-              <strong>Point system: </strong>{" "}
-              {state.currentCert.certPointSystem}
-            </p>
-            <p>
-              <strong>Image: </strong>{" "}
-              <img
-                src={state.currentCert.certImage}
-                alt="Current Image"
-                className="w-32 h-32 bg-gray-300 mb-4"
-              />
-            </p>
-            <p>
-              <strong>Cost for official exam:</strong>{" "}
-              {state.currentCert.certCost} $
-            </p>
-            <p>
-              <strong>Period: </strong> {state.currentCert.certValidity}
-            </p>
-            <p>
-              <strong>Prerequisite certifications: </strong>{" "}
-              {state.currentCert.certPrerequisite} -{" "}
-              {state.currentCert.certCodePrerequisite}
-            </p>
-            <p>
-              <strong>Organization: </strong> {state.currentCert.organizeName}
-            </p>
-            <p>
-              <strong>Level: </strong> {state.currentCert.typeName}
-            </p>
-            <p>
-              <strong>Major:</strong> {state.currentCert.majorNames}
-            </p>
-            <p>
-              <strong>Job position:</strong>{" "}
-              {state.currentCert.jobPositionNames}
-            </p>
-          </div>
-        ) : (
-          <p>No details available.</p>
-        )}
-      </Modal>
     </>
   );
 };

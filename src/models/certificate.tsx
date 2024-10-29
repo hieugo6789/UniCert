@@ -11,6 +11,7 @@ export interface allCertificationData {
   organizeName: string;
   typeId: number;
   typeName: string;
+  permission: string;
   certPrerequisiteId: [];
   certPrerequisite: [];
   certCodePrerequisite: [];
@@ -37,6 +38,7 @@ export interface currentCertificate {
   organizeName: string;
   typeId: number;
   typeName: string;
+  permission: string;
   certPrerequisiteId: [];
   certPrerequisite: [];
   certCodePrerequisite: [];

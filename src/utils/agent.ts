@@ -110,6 +110,10 @@ const Certificate = {
     requests.del(`api/v1/certification/${certId}`),
   updateCertificate: (certId: number, input: updateCert) =>
     requests.put(`api/v1/certification/${certId}`, input),
+  updateCertPermission: (certId: number, permission: number) =>
+    requests.put1(
+      `api/v1/certification/update-permission/${certId}?permission=${permission}`
+    ),
 };
 
 const Schedule = {
