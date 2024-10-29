@@ -73,6 +73,10 @@ const Organization = {
     requests.del(`api/v1/organize/${organizeId}`),
   updateOrganization: (organizeId: string, input: updateOrganize) =>
     requests.put(`api/v1/organize/${organizeId}`, input),
+  updateOrganizePermission: (organizeId: number, permission: number) =>
+    requests.put1(
+      `api/v1/organize/Permission?organizeId=${organizeId}&organizePermission=${permission}`
+    ),
 };
 
 const JobPosition = {

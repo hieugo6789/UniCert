@@ -1,26 +1,19 @@
 import { useState } from "react";
 import { useCreateOrganize } from "../../hooks/Organization/useCreateOrganize";
-import { Modal, Input, Button, Table, Pagination, Spin, message } from "antd";
+import { Modal, Input, Button, Table, Pagination, message, Tag } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 
 import useOrganization from "../../hooks/Organization/useOrganization";
-import useOrganizeDetail from "../../hooks/Organization/useOrganizeDetail";
 import useDeleteOrganize from "../../hooks/Organization/useDeleteOrganize";
-import {
-  DeleteOutlined,
-  ExclamationCircleOutlined,
-  EyeOutlined,
-} from "@ant-design/icons";
-import { Descriptions } from "antd";
-import { HomeOutlined } from "@ant-design/icons";
+import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import UpdateOrganize from "../../components/Organization/UpdateOrganize";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
+import ViewOrganize from "../../components/Organization/ViewOrganize";
 
 const { confirm } = Modal;
 
 const Organizations = () => {
   const { organization, loading, refetchOrganizations } = useOrganization();
-  const { state, getOrganizeDetails } = useOrganizeDetail();
   const { handleDeleteOrganize } = useDeleteOrganize();
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,7 +21,6 @@ const Organizations = () => {
   const { handleCreateOrganize } = useCreateOrganize();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isView, setIsView] = useState(false);
   const [formData, setFormData] = useState({
     organizeName: "",
     organizeAddress: "",
@@ -42,10 +34,7 @@ const Organizations = () => {
   const showModal = () => {
     setIsModalVisible(true);
   };
-  const handleView = async (organizeId: string) => {
-    setIsView(true);
-    await getOrganizeDetails(organizeId);
-  };
+
   const handlePaginationChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -55,14 +44,41 @@ const Organizations = () => {
     { title: "Contact", dataIndex: "organizeContact", key: "organizeContact" },
     { title: "Address", dataIndex: "organizeAddress", key: "organizeAddress" },
     {
+      title: "Status",
+      dataIndex: "organizePermission",
+      key: "organizePermission",
+      render: (permission: string) => {
+        let color = "";
+        switch (permission) {
+          case "Approve":
+            color = "green";
+            break;
+          case "Reject":
+            color = "red";
+            break;
+          case "Pending":
+            color = "blue";
+            break;
+          default:
+            color = "default";
+            break;
+        }
+        return (
+          <Tag
+            color={color}
+            className="flex justify-center w-16"
+          >
+            {permission}
+          </Tag>
+        );
+      },
+    },
+    {
       title: "Actions",
       key: "actions",
       render: (record: any) => (
         <>
-          <EyeOutlined
-            style={{ color: "blue" }}
-            onClick={() => handleView(record.organizeId)}
-          />
+          <ViewOrganize organizeId={record.organizeId} />
           <UpdateOrganize
             organizeId={record.organizeId}
             refetchOrganizations={refetchOrganizations}
@@ -180,7 +196,7 @@ const Organizations = () => {
           </div>
 
           <Modal
-            title="Tạo Organization"
+            title="Create Organization"
             open={isModalVisible}
             onOk={handleOk}
             onCancel={handleCancel}
@@ -218,49 +234,6 @@ const Organizations = () => {
           </div>
         </div>
       </div>
-      <Modal
-        width={800}
-        footer={null}
-        open={isView}
-        onCancel={() => setIsView(false)}
-      >
-        {state.isLoading ? (
-          <Spin />
-        ) : state.currentOrganize ? (
-          <div>
-            <Descriptions
-              bordered
-              size="middle"
-              column={1}
-              className="mb-4"
-              labelStyle={{ width: "150px", fontWeight: "bold" }} // Cố định độ dài label
-              contentStyle={{ width: "300px", textAlign: "left" }}
-              title={
-                <h3 className="text-2xl text-blue-600">Organization Details</h3>
-              }
-            >
-              <Descriptions.Item label="Name">
-                <span className="text-blue-700">
-                  {state.currentOrganize.organizeName}
-                </span>
-              </Descriptions.Item>
-              <Descriptions.Item label="Contact">
-                <span className="text-gray-600">
-                  {state.currentOrganize.organizeContact}
-                </span>
-              </Descriptions.Item>
-              <Descriptions.Item label="Address">
-                <HomeOutlined />{" "}
-                <span className="text-gray-600">
-                  {state.currentOrganize.organizeAddress}
-                </span>
-              </Descriptions.Item>
-            </Descriptions>
-          </div>
-        ) : (
-          <p>No details available.</p>
-        )}
-      </Modal>
     </>
   );
 };

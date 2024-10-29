@@ -3,6 +3,7 @@ export interface allOrganizationPaginationData {
   organizeName: string;
   organizeAddress: string;
   organizeContact: string;
+  organizePermission: string;
 }
 
 export interface currentOrganization {
@@ -10,6 +11,7 @@ export interface currentOrganization {
   organizeName: string;
   organizeAddress: string;
   organizeContact: string;
+  organizePermission: string;
 }
 export interface createOrganizationModel {
   organizeName: string;
