@@ -59,7 +59,7 @@ const SimulationExam = () => {
             </>
           );
         }
-        return <span>No cert</span>; // Fallback for empty or non-array
+        return <span>No cert</span>;
       },
     },
     {
@@ -115,7 +115,7 @@ const SimulationExam = () => {
       cancelText: "No",
       onOk: async () => {
         await handleDeleteExam(examId);
-        message.success("Job deleted successfully!");
+        message.success("Exam deleted successfully!");
         refetchExams();
       },
       onCancel() {

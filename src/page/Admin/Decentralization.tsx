@@ -49,6 +49,9 @@ const Decentralization = () => {
       title: "PhoneNumber",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
+      render: (phoneNumber: string) => (
+        <span className="text-blue-500 underline">{phoneNumber}</span>
+      ),
     },
     {
       title: "Status",
@@ -64,6 +67,23 @@ const Decentralization = () => {
       title: "Role",
       dataIndex: "role",
       key: "role",
+      render: (role: string) => {
+        const roleStyles: { [key: string]: string } = {
+          Manager: "bg-purple-500 text-white",
+          Student: "bg-blue-500 text-white",
+          Staff: "bg-gray-400 text-white",
+          Admin: "bg-green-400 text-white",
+        };
+        return (
+          <div
+            className={`px-3 py-1 rounded-lg flex justify-center max-w-20 ${
+              roleStyles[role] || "bg-gray-200 text-black"
+            }`}
+          >
+            {role}
+          </div>
+        );
+      },
     },
     {
       title: "Actions",

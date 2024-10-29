@@ -90,10 +90,11 @@ const ManageExam = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <UpdatePermission
+          {/* <UpdatePermission
             Id={record.examId}
             refetch={refetchExams}
-          />
+            updateFunction={}
+          /> */}
         </>
       ),
     },

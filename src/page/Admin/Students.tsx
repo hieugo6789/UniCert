@@ -65,6 +65,9 @@ const Students = () => {
       title: "PhoneNumber",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
+      render: (phoneNumber: string) => (
+        <span className="text-blue-500 underline">{phoneNumber}</span>
+      ),
     },
     {
       title: "Status",
@@ -85,6 +88,7 @@ const Students = () => {
           <Button
             type="link"
             onClick={() => handleView(record.userId)}
+            className="px-0"
           >
             View
           </Button>

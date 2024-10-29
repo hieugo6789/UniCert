@@ -29,6 +29,7 @@ const Voucher = () => {
   const columns = [
     { title: "Name", dataIndex: "voucherName", key: "voucherName" },
     { title: "Percentage", dataIndex: "percentage", key: "percentage" },
+    { title: "Expire Date", dataIndex: "expiryDate", key: "expiryDate" },
     {
       title: "Status",
       dataIndex: "voucherStatus",
@@ -95,7 +96,7 @@ const Voucher = () => {
             pagination={false}
             loading={loading}
             rowClassName={() => "h-[8.7vh]"}
-            className="header-bg-pink"
+            // className="header-bg-pink"
           />
         ) : (
           <div>No vouchers available.</div>
@@ -110,7 +111,7 @@ const Voucher = () => {
         />
       </div>
       <Modal
-        title="Major Details"
+        title="Voucher Details"
         width={900}
         open={isModalVisible}
         footer={null}
@@ -124,9 +125,20 @@ const Voucher = () => {
               <strong>Name: </strong> {state.currentVoucher.voucherName}
             </p>
             <p>
-              <strong>Code: </strong> {state.currentVoucher.voucherDescription}
+              <strong>Description: </strong>{" "}
+              {state.currentVoucher.voucherDescription}
             </p>
-            <strong>Description: </strong>
+            <p>
+              <strong>Percentage: </strong> {state.currentVoucher.percentage}%
+            </p>
+            <p>
+              <strong>Start date: </strong>
+              {new Date(state.currentVoucher.creationDate).toLocaleDateString()}
+            </p>
+            <p>
+              <strong>Expire date: </strong>
+              {new Date(state.currentVoucher.expiryDate).toLocaleDateString()}
+            </p>
           </div>
         ) : (
           <p>No details available.</p>

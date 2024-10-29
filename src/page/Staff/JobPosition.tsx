@@ -80,6 +80,36 @@ const JobPosition = () => {
       },
     },
     {
+      title: "Status",
+      dataIndex: "jobPositionPermission",
+      key: "jobPositionPermission",
+      render: (permission: string) => {
+        let color = "";
+        switch (permission) {
+          case "Approve":
+            color = "green";
+            break;
+          case "Reject":
+            color = "red";
+            break;
+          case "Pending":
+            color = "blue";
+            break;
+          default:
+            color = "default";
+            break;
+        }
+        return (
+          <Tag
+            color={color}
+            className="flex justify-center w-16"
+          >
+            {permission}
+          </Tag>
+        );
+      },
+    },
+    {
       title: "Actions",
       key: "actions",
       render: (record: any) => (
