@@ -30,12 +30,12 @@ const ManageCertification = () => {
                   key={index}
                 >
                   {prerequisite}
-                </Tag> // Wrap each prerequisite in a Tag
+                </Tag>
               ))}
             </>
           );
         }
-        return <span>No prerequisites</span>; // Fallback for empty or non-array
+        return <span>No prerequisites</span>;
       },
     },
     {
@@ -99,8 +99,8 @@ const ManageCertification = () => {
     currentPage * pageSize
   );
   return (
-    <div>
-      <div className=" gap-4 p-2 bg-slate-100 h-[90vh]">
+    <>
+      <div className="gap-4 p-2 bg-slate-100 h-full">
         <div className=" bg-white p-4 rounded-lg shadow-lg">
           <div className="h-[76vh]">
             {loading ? (
@@ -129,7 +129,7 @@ const ManageCertification = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default ManageCertification;

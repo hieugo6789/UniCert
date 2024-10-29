@@ -1,26 +1,18 @@
-import { Button, message, Modal, Spin, Table, Tag } from "antd";
+import { Button, message, Modal, Table, Tag } from "antd";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import useCourse from "../../hooks/Course/useCourse";
 import { allCoursePaginationData } from "../../models/course";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import useDeleteCourse from "../../hooks/Course/useDeleteCourse";
-import { useState } from "react";
-import useCourseDetail from "../../hooks/Course/useCourseDetail";
 import UpdateCourse from "../../components/Course/UpdateCourse";
 import CreateCourse from "../../components/Course/CreateCourse";
+import ViewDetailCourse from "../../components/Course/ViewDetailCourse";
 
 const { confirm } = Modal;
 
 const InternalCourses = () => {
   const { course, loading, refetchCourses } = useCourse();
   const { handleDeleteCourse } = useDeleteCourse();
-  const { state, getCourseDetails } = useCourseDetail();
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const handleView = async (courseId: string) => {
-    setIsModalVisible(true);
-    await getCourseDetails(courseId);
-  };
 
   const columns = [
     {
@@ -77,7 +69,7 @@ const InternalCourses = () => {
       key: "actions",
       render: (record: allCoursePaginationData) => (
         <div className="flex space-x-2">
-          <Button onClick={() => handleView(record.courseId)}>View</Button>
+          <ViewDetailCourse courseId={record.courseId} />
           <UpdateCourse
             courseId={record.courseId}
             refetchCourses={refetchCourses}
@@ -146,71 +138,6 @@ const InternalCourses = () => {
           )}
         </div>
       </div>
-      <Modal
-        title="Course Details"
-        width={900}
-        open={isModalVisible}
-        footer={null}
-        onCancel={() => setIsModalVisible(false)}
-      >
-        {state.isLoading ? (
-          <Spin />
-        ) : state.currentCourse ? (
-          <div className="text-lg">
-            <div>
-              <img src={state.currentCourse.courseImage} />
-            </div>
-            <p>
-              <strong>Name: </strong> {state.currentCourse.courseName}
-            </p>
-            <p>
-              <strong>Code: </strong> {state.currentCourse.courseCode}
-            </p>
-            <p>
-              <strong>Description: </strong>{" "}
-              {state.currentCourse.courseDescription}
-            </p>
-            <p>
-              <strong>Course time: </strong> {state.currentCourse.courseTime}
-            </p>
-            <p>
-              <strong>Fee: </strong> {state.currentCourse.courseFee}
-            </p>
-            <p>
-              <strong>Discount fee: </strong>{" "}
-              {state.currentCourse.courseDiscountFee}
-            </p>
-            <p>
-              <strong>Voucher: </strong>{" "}
-              {state.currentCourse.voucherDetails?.map((v, index) => (
-                <div key={index}>
-                  <p>{v.voucherName}</p>
-                  <div>
-                    {
-                      <span>
-                        {new Date(v.creationDate).toLocaleDateString()}
-                      </span>
-                    }{" "}
-                    -{" "}
-                    {<span>{new Date(v.expiryDate).toLocaleDateString()}</span>}
-                  </div>
-                </div>
-              ))}
-            </p>
-
-            <p>
-              <strong>Certification: </strong>
-              {state.currentCourse.certificationDetails?.map((cert, index) => (
-                <Tag key={index}>
-                  {cert.certCode} - {cert.certName}
-                </Tag>
-              )) || "No certifications available"}
-            </p>
-          </div>
-        ) : (
-          <p>No details available.</p>
-        )}
-      </Modal>
     </>
   );
 };

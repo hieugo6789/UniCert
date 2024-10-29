@@ -165,6 +165,10 @@ const InternalCourse = {
   deleteCourse: (courseId: string) => requests.del(`api/v1/course/${courseId}`),
   updateCourse: (courseId: string, input: updateCourse) =>
     requests.put(`api/v1/course/${courseId}`, input),
+  updateCoursePermission: (courseId: number, permission: number) =>
+    requests.put1(
+      `api/v1/course/Permission?courseId=${courseId}&coursePermission=${permission}`
+    ),
 };
 
 const SimulationExam = {
