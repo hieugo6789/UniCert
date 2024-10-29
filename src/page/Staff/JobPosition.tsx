@@ -1,45 +1,28 @@
-import {
-  Button,
-  Input,
-  message,
-  Modal,
-  Pagination,
-  Spin,
-  Table,
-  Tag,
-} from "antd";
+import { Button, Input, message, Modal, Pagination, Table, Tag } from "antd";
 import useJob from "../../hooks/JobPosition/useJobPosition";
-import useJobDetail from "../../hooks/JobPosition/useJobDetail";
 import { useState } from "react";
 import {
   DeleteOutlined,
   ExclamationCircleOutlined,
-  EyeOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
 import useDeleteJob from "../../hooks/JobPosition/useDeleteJob";
 import CreateJob from "../../components/JobPosition/CreateJob";
 import UpdateJobPosition from "../../components/JobPosition/UpdateJobPosition";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
+import ViewJobPosition from "../../components/JobPosition/ViewJobPosition";
 
 const { confirm } = Modal;
 
 const JobPosition = () => {
   const { job, loading, refetchJobs } = useJob();
-  const { state, getJobDetails } = useJobDetail();
   const { handleDeleteJob } = useDeleteJob();
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleSearch = () => {
     refetchJobs(searchTerm);
-  };
-
-  const handleView = async (jobPositionId: string) => {
-    setIsModalVisible(true);
-    await getJobDetails(jobPositionId);
   };
 
   const handlePaginationChange = (page: number) => {
@@ -101,10 +84,7 @@ const JobPosition = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <EyeOutlined
-            style={{ color: "blue" }}
-            onClick={() => handleView(record.jobPositionId)}
-          />
+          <ViewJobPosition jobPositionId={record.jobPositionId} />
           <UpdateJobPosition
             jobPositionId={record.jobPositionId}
             refetchJobs={refetchJobs}
@@ -193,51 +173,6 @@ const JobPosition = () => {
           </div>
         </div>
       </div>
-      <Modal
-        width={900}
-        title="Certification Details"
-        open={isModalVisible}
-        onCancel={() => setIsModalVisible(false)}
-        footer={null}
-      >
-        {state.isLoading ? (
-          <Spin />
-        ) : state.currentJob ? (
-          <div className="text-lg">
-            <p>
-              <strong>Name: </strong> {state.currentJob.jobPositionName}
-            </p>
-            <p>
-              <strong>Code: </strong> {state.currentJob.jobPositionCode}
-            </p>
-            <strong>Description: </strong>{" "}
-            <div
-              className="prose list-disc whitespace-pre-wrap text-sm"
-              dangerouslySetInnerHTML={{
-                __html: state.currentJob.jobPositionDescription || "",
-              }}
-            />
-            <p>
-              <strong>Major: </strong>{" "}
-              {state.currentJob.majorDetails?.map((major, index) => (
-                <Tag key={index}>
-                  {major.majorCode} - {major.majorName}
-                </Tag>
-              )) || "No major available"}
-            </p>
-            <p>
-              <strong>Certification: </strong>
-              {state.currentJob.certificationDetails?.map((cert, index) => (
-                <Tag key={index}>
-                  {cert.certCode} -{cert.certName}
-                </Tag>
-              ))}
-            </p>
-          </div>
-        ) : (
-          <p>No details available.</p>
-        )}
-      </Modal>
     </>
   );
 };

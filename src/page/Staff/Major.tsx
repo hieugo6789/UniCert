@@ -78,7 +78,37 @@ const Major = () => {
             </>
           );
         }
-        return <span>No cert</span>; // Fallback for empty or non-array
+        return <span>No certification</span>; // Fallback for empty or non-array
+      },
+    },
+    {
+      title: "Status",
+      dataIndex: "majorPermission",
+      key: "majorPermission",
+      render: (permission: string) => {
+        let color = "";
+        switch (permission) {
+          case "Approve":
+            color = "green"; // Green for approved
+            break;
+          case "Reject":
+            color = "red"; // Red for rejected
+            break;
+          case "Pending":
+            color = "blue"; // Blue for pending
+            break;
+          default:
+            color = "default"; // Default color for unexpected status
+            break;
+        }
+        return (
+          <Tag
+            color={color}
+            className="flex justify-center w-16"
+          >
+            {permission}
+          </Tag>
+        );
       },
     },
     {

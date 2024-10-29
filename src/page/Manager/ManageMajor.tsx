@@ -1,10 +1,13 @@
 import { Pagination, Table, Tag } from "antd";
 import useMajor from "../../hooks/Major/useMajor";
 import { useState } from "react";
-import UpdatePermissionMajor from "../../components/Majors/UpdatePermissionMajor";
+import ViewMajorDetail from "../../components/Majors/ViewMajorDetail";
+import UpdatePermission from "../../components/Permission/UpdatePermission";
+import usePermissionMajor from "../../hooks/Major/usePermissionMajor";
 
 const ManageMajor = () => {
   const { major, loading, refetchMajors } = useMajor();
+  const { updatePermissionMajorDetails } = usePermissionMajor();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
   const handlePaginationChange = (page: number) => {
@@ -63,13 +66,38 @@ const ManageMajor = () => {
             </>
           );
         }
-        return <span>No cert</span>; // Fallback for empty or non-array
+        return <span>No certification</span>; // Fallback for empty or non-array
       },
     },
     {
       title: "Status",
       dataIndex: "majorPermission",
       key: "majorPermission",
+      render: (permission: string) => {
+        let color = "";
+        switch (permission) {
+          case "Approve":
+            color = "green";
+            break;
+          case "Reject":
+            color = "red";
+            break;
+          case "Pending":
+            color = "blue";
+            break;
+          default:
+            color = "default";
+            break;
+        }
+        return (
+          <Tag
+            color={color}
+            className="flex justify-center w-16"
+          >
+            {permission}
+          </Tag>
+        );
+      },
     },
 
     {
@@ -77,9 +105,11 @@ const ManageMajor = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <UpdatePermissionMajor
-            majorId={record.majorId}
-            refetchMajors={refetchMajors}
+          <ViewMajorDetail majorId={record.majorId} />
+          <UpdatePermission
+            Id={record.majorId}
+            refetch={refetchMajors}
+            updateFunction={updatePermissionMajorDetails}
           />
         </>
       ),
@@ -87,7 +117,7 @@ const ManageMajor = () => {
   ];
   return (
     <>
-      <div className=" gap-4 p-2 bg-slate-100 h-[90vh]">
+      <div className=" gap-4 p-2 bg-slate-100 h-full">
         <div className=" bg-white p-4 rounded-lg shadow-lg">
           <div className="h-[76vh]">
             {loading ? (
@@ -100,6 +130,7 @@ const ManageMajor = () => {
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}
+                // className="header-bg-pink"
               />
             ) : (
               <div>No majors available.</div>

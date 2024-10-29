@@ -1,28 +1,29 @@
 import { message, Select, Modal, Button } from "antd";
-import usePermissionMajor from "../../hooks/Major/usePermissionMajor";
 import { useState } from "react";
 import { EditOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
-interface UpdatePermissionMajorProps {
-  majorId: number;
-  refetchMajors: () => void;
+interface UpdatePermissionProps {
+  Id: number;
+  refetch: () => void;
+  updateFunction: (Id: number, status: number) => Promise<void>;
 }
 
-const UpdatePermissionMajor: React.FC<UpdatePermissionMajorProps> = ({
-  majorId,
-  refetchMajors,
+const UpdatePermission: React.FC<UpdatePermissionProps> = ({
+  Id,
+  refetch,
+  updateFunction,
 }) => {
-  const { updatePermissionMajorDetails } = usePermissionMajor();
   const [selectedStatus, setSelectedStatus] = useState<number>(1); // Default to 1 (approve)
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal visibility state
 
   const handleUpdate = async () => {
     try {
-      await updatePermissionMajorDetails(majorId, selectedStatus);
+      await updateFunction(Id, selectedStatus);
+      console.log(selectedStatus);
       message.success("Updated successfully!");
-      refetchMajors();
+      refetch();
       setIsModalVisible(false); // Close the modal after update
     } catch (error) {
       message.error("Failed to update.");
@@ -36,10 +37,10 @@ const UpdatePermissionMajor: React.FC<UpdatePermissionMajorProps> = ({
         className="ml-3"
       />
       <Modal
-        title="Update Major Status"
+        title="Update Status"
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
-        footer={null} // No default footer
+        footer={null}
       >
         <div className="flex flex-col space-y-4">
           <Select
@@ -72,4 +73,4 @@ const UpdatePermissionMajor: React.FC<UpdatePermissionMajorProps> = ({
   );
 };
 
-export default UpdatePermissionMajor;
+export default UpdatePermission;
