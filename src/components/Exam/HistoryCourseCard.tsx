@@ -1,93 +1,48 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-// import { allExamPaginationData } from "../../../models/simulationExam";
-// import { allCoursePaginationData } from "../../../models/course";
-import useCourseEnrollment from "../../../hooks/Enrollment/useCourse";
-import useExamEnrollment from "../../../hooks/Enrollment/useExam";
-import Loading from "../../../components/UI/Loading";
-import HistoryCourseCard from "../../../components/Course/HistoryCourseCard";
-import HistoryExamCard from "../../../components/Exam/HistoryExamCard";
-import { courseEnrollment, examEnrollment } from "../../../models/enrollment";
-import Cookies from "js-cookie";
-const HistoryPage = () => {
-  // const { id } = useParams<{ id: string }>(); // Extract userID from the URL
-  const id = Cookies.get("userId");
-  const [activeTab, setActiveTab] = useState("exams"); // Current active tab
-  const [purchasedExams, setPurchasedExams] = useState<examEnrollment[]>([]);
-  const [purchasedCourses, setPurchasedCourses] = useState<courseEnrollment[]>([]);
-  const { courseEnrollment, loading: courseLoad, refetchCourseEnrollments } = useCourseEnrollment({ userId: id?.toString() || "" });
-  const { examEnrollment, loading: examLoad, refetchExamEnrollments } = useExamEnrollment({ userId: id?.toString() || "" });
-  useEffect(() => {
-    // Giả lập dữ liệu các kỳ thi đã mua
-    const fetchPurchasedExams = () => {
-      refetchExamEnrollments(id?.toString() || "");
-    };
 
-    // Giả lập dữ liệu các khóa học đã mua
-    const fetchPurchasedCourses = () => {
-      refetchCourseEnrollments(id?.toString() || "");
-    };
-
-    fetchPurchasedExams();
-    fetchPurchasedCourses();
-  }, [id]);
-  useEffect(() => {
-    setPurchasedExams(examEnrollment);
-  }, [examEnrollment]);
-  useEffect(() => {
-    setPurchasedCourses(courseEnrollment);
-  }, [courseEnrollment]);
-  return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">History</h1>
-      <div className="flex border-b-2 border-gray-200 mb-4">
-        <button
-          className={`p-2 ${activeTab === "exams" ? "border-b-4 border-blue-500 text-blue-500" : ""}`}
-          onClick={() => setActiveTab("exams")}
-        >
-          Purchased Exams
-        </button>
-        <button
-          className={`p-2 ${activeTab === "courses" ? "border-b-4 border-blue-500 text-blue-500" : ""}`}
-          onClick={() => setActiveTab("courses")}
-        >
-          Purchased Courses
-        </button>
-      </div>
-
-      <div>
-        {activeTab === "exams" ? (
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Your Purchased Exams</h2>
-            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-10 py-10">
-              {purchasedExams.length > 0 ? (
-                purchasedExams.map((exam) => (
-                  <HistoryExamCard key={exam.examEnrollmentId} enrollment={exam} />
-                ))
-              ) : (
-                <p>No purchased exams found.</p>
-              )}
-            </section>
+import { courseEnrollment } from '../../models/enrollment';
+interface CourseEnrollmentCardProps {
+    enrollment: courseEnrollment;
+  }
+const HistoryCourseCard: React.FC<CourseEnrollmentCardProps> = ({ enrollment }) => {
+    return (
+      <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="p-4">
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            Enrollment ID: {enrollment.courseEnrollmentId}
+          </h2>
+          <p className="text-gray-600">
+            Date: {new Date(enrollment.courseEnrollmentDate).toLocaleDateString()}
+          </p>
+          <p className={`text-sm font-semibold mt-1 ${enrollment.courseEnrollmentStatus === 'completed' ? 'text-green-500' : 'text-yellow-500'}`}>
+            Status: {enrollment.courseEnrollmentStatus}
+          </p>
+          <p className="text-lg font-bold mt-2 text-gray-800">Total Price: ${enrollment.totalPrice}</p>
+  
+          <h3 className="text-lg font-semibold mt-4 text-gray-700">Courses:</h3>
+          <div className="mt-2 space-y-4">
+            {enrollment.courseDetails.map((course) => (
+              <div key={course.courseId} className="flex items-center">
+                <img
+                  src={course.courseImage}
+                  alt={course.courseName}
+                  className="w-16 h-16 rounded-full mr-4"
+                />
+                <div>
+                  <p className="text-lg font-medium text-gray-800">{course.courseName}</p>
+                  <p className="text-gray-500">Code: {course.courseCode}</p>
+                  <p className="text-gray-500">
+                    Fee: ${course.courseFee}{' '}
+                    {course.courseDiscountFee > 0 && (
+                      <span className="text-red-500 line-through">${course.courseDiscountFee}</span>
+                    )}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
-        ) : (
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Your Purchased Courses</h2>
-            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-10 py-10">
-              {purchasedCourses.length > 0 ? (
-                purchasedCourses.map((course) => (
-                  <HistoryCourseCard key={course.courseEnrollmentId} enrollment={course} />
-                ))
-              ) : (
-                <p>No purchased courses found.</p>
-              )}
-            </section>
-          </div>
-        )}
+        </div>
       </div>
+    );
+  };
 
-      {examLoad && courseLoad && <Loading />}
-    </div>
-  );
-};
-
-export default HistoryPage;
+export default HistoryCourseCard;
