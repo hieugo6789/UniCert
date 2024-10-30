@@ -27,6 +27,6 @@ const useExamPayment = ({ userId }: UseExamPaymentProps) => {
     fetchExamPayment(userId);
   }, [dispatch]);
 
-  return { examPayment, loading };
+  return { examPayment, loading,refetchExamPayment: fetchExamPayment };
 };
 export default useExamPayment;
