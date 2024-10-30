@@ -220,7 +220,7 @@ const CertType = {
 const Cart = {
   getCartByUserId: (userId: string) => requests.get(`api/v1/cart/${userId}`),
   updateCart: (userId: string, input: updateCart) =>
-    requests.put(`api/v1/cart${userId}`, input),
+    requests.put(`api/v1/cart/${userId}`, input),
 };
 
 const Enrollment = {
