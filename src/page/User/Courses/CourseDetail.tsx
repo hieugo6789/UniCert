@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import useCourseDetail from "../../../hooks/Course/useCourseDetail";
 import CustomButton from "../../../components/UI/CustomButton";
 import { allCoursePaginationData } from "../../../models/course";
-
+import useCartByUserId from "../../../hooks/Cart/useCartByUserId";
+import useUpdateCart from "../../../hooks/Cart/useUpdateCart";
+import Cookies from "js-cookie";
 interface certTab {
     certId: number;
     certName: string;
@@ -60,7 +62,31 @@ const CourseDetail = () => {
             });
         };
     }, []);
-
+    const { state:cartState, getCart } = useCartByUserId();
+    const { updateCart } = useUpdateCart();
+    const userId = Cookies.get("userId");
+    useEffect(() => {
+      if (userId) {
+        getCart(userId);
+      }
+    }, [userId]);
+    const addToCart = (courseId: string) => async () => {
+      const examIds = cartState.currentCart.examDetails.map((exam: any) => exam.examId);
+      const courseIds = cartState.currentCart.courseDetails.map((course: any) => course.courseId);
+      updateCart(userId?.toString() || "", {
+        examId: [...examIds],
+        courseId: [...courseIds, courseId],
+      }
+      ).then(() => {
+        getCart(userId || "");
+        alert("Course added to cart successfully");
+      }
+      ).catch((error) => {
+        console.error("Failed to add course to cart: ", error);
+        alert("Failed to add course to cart");
+      }
+      );
+    }
     return (
         <div className="bg-gray-900">
             <p className="fade-in ml-2 pt-2 font-bold cursor-pointer text-blue-800">
@@ -83,7 +109,7 @@ const CourseDetail = () => {
                 <div className="fade-in text-white text-2xl mt-5 text-center">
                     Course Fee: {courseDetail?.courseFee}
                 </div>
-                <CustomButton label="Enroll Now" shining onClick={() => navigate("/enroll/" + courseDetail?.courseId)} className="mt-5" width="w-1/4"/>
+                <CustomButton label="Enroll Now" shining onClick={addToCart(state.currentCourse.courseId)} className="mt-5" width="w-1/4"/>
             </div>
 
             {/* Certificate Information */}
