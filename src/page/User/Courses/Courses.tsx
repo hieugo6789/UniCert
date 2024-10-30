@@ -3,18 +3,37 @@ import CourseCard from "../../../components/Course/CourseCard";
 import { allCoursePaginationData } from "../../../models/course";
 import useCourse from "../../../hooks/Course/useCourse";
 import Loading from "../../../components/UI/Loading";
-
+import useUpdateCart from "../../../hooks/Cart/useUpdateCart";
+import useCartByUserId from "../../../hooks/Cart/useCartByUserId";
+import Cookies from "js-cookie";
 const Courses = () => {
-  // const courses = [
-  //   { title: 'AI Essentials', description: 'Khóa học cơ bản về AI', link: '#' },
-  //   { title: 'An ninh mạng', description: 'Khóa học về an ninh mạng', link: '#' },
-  //   { title: 'Phân tích dữ liệu nâng cao', description: 'Khóa học về phân tích dữ liệu', link: '#' },
-  //   { title: 'Kinh doanh thông minh', description: 'Khóa học về kinh doanh thông minh', link: '#' },
-  //   { title: 'Thiết kế UX', description: 'Khóa học về thiết kế trải nghiệm người dùng', link: '#' },
-  //   { title: 'Quản lý dự án', description: 'Khóa học về quản lý dự án', link: '#' },
-  // ];
   const [courses, setCourses] = useState<allCoursePaginationData[]>([]);
   const { course, loading, refetchCourses } = useCourse();
+  const { state, getCart } = useCartByUserId();
+  const { updateCart } = useUpdateCart();
+  const userId = Cookies.get("userId");
+  useEffect(() => {
+    if (userId) {
+      getCart(userId);
+    }
+  }, [userId]);
+  const addToCart = (courseId: string) => async () => {
+    const examIds = state.currentCart.examDetails.map((exam: any) => exam.examId);
+    const courseIds = state.currentCart.courseDetails.map((course: any) => course.courseId);
+    updateCart(userId?.toString() || "", {
+      examId: [...examIds],
+      courseId: [...courseIds, courseId],
+    }
+    ).then(() => {
+      getCart(userId || "");
+      alert("Course added to cart successfully");
+    }
+    ).catch((error) => {
+      console.error("Failed to add course to cart: ", error);
+      alert("Failed to add course to cart");
+    }
+    );
+  }
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -28,16 +47,17 @@ const Courses = () => {
   useEffect(() => {
     setCourses(course);
   }, [course]);
+  
   return (
     <div>
       <div className="text-center py-10 bg-purple-400 text-white">
-          <h1 className="text-4xl font-bold">
-            Explore courses to review certifications
-          </h1>
-        </div>
+        <h1 className="text-4xl font-bold">
+          Explore courses to review certifications
+        </h1>
+      </div>
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-10 py-10">
         {courses.map((course, idx) => (
-          <CourseCard key={idx} {...course} />
+          <CourseCard key={idx} course={course} onClick={addToCart(course.courseId)} />
         ))}
       </section>
 
