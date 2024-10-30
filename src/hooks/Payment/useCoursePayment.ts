@@ -3,6 +3,7 @@ import { useAppDispatch } from "../../redux/hook";
 import { courseEnrollmentPayment } from "../../models/payment";
 import { fetchAllCoursePayment } from "../../redux/slice/Payment/coursePaymentSlice";
 
+
 interface UseCoursePaymentProps {
   userId: string;
 }
@@ -29,6 +30,6 @@ const useCoursePayment = ({ userId }: UseCoursePaymentProps) => {
     fetchCoursePayment(userId);
   }, [dispatch]);
 
-  return { coursePayment, loading };
+  return { coursePayment, loading, refetchCoursePayment: fetchCoursePayment };
 };
 export default useCoursePayment;
