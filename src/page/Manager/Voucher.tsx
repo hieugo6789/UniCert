@@ -1,4 +1,4 @@
-import { message, Modal, Pagination, Spin, Table } from "antd";
+import { message, Modal, Pagination, Spin, Table, Tag } from "antd";
 import useVoucher from "../../hooks/Voucher/useVoucher";
 import {
   DeleteOutlined,
@@ -28,13 +28,41 @@ const Voucher = () => {
 
   const columns = [
     { title: "Name", dataIndex: "voucherName", key: "voucherName" },
-    { title: "Percentage", dataIndex: "percentage", key: "percentage" },
-    { title: "Expire Date", dataIndex: "expiryDate", key: "expiryDate" },
+    {
+      title: "Percentage",
+      dataIndex: "percentage",
+      key: "percentage",
+      render: (percentage: number) => (
+        <Tag
+          color={percentage >= 50 ? "volcano" : "geekblue"}
+          style={{ fontWeight: "bold" }}
+          className="flex justify-center max-w-16"
+        >
+          {percentage}%
+        </Tag>
+      ),
+    },
+    {
+      title: "Expire Date",
+      dataIndex: "expiryDate",
+      key: "expiryDate",
+      render: (expiryDate: string) => {
+        const formattedDate = new Date(expiryDate).toLocaleDateString();
+        return formattedDate;
+      },
+    },
     {
       title: "Status",
       dataIndex: "voucherStatus",
       key: "voucherStatus",
-      render: (status: boolean) => (status ? "Active" : "Inactive"),
+      render: (status: boolean) => (
+        <Tag
+          color={status ? "green" : "red"}
+          className=" flex justify-center max-w-16"
+        >
+          {status ? "Active" : "Inactive"}
+        </Tag>
+      ),
     },
     {
       title: "Actions",

@@ -68,6 +68,16 @@ export interface currentExamDetail {
   ];
 }
 
+export interface createExam {
+  examName: string;
+  examCode: string;
+  certId: number;
+  examDescription: string;
+  examFee: number;
+  voucherIds: number[];
+  examImage: string;
+}
+
 export interface deleteExam {
   examId: number;
 }

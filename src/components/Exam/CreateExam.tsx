@@ -1,29 +1,28 @@
+import { useState } from "react";
+import useCertificate from "../../hooks/Certification/useCertificate";
+import useVoucher from "../../hooks/Voucher/useVoucher";
+import { useCreateExam } from "../../hooks/SimulationExam/useCreateExam";
 import { Button, Form, Input, InputNumber, Modal, Select } from "antd";
-import { useCreateCourse } from "../../hooks/Course/useCreateCourse";
+import axios from "axios";
 import { PlusOutlined } from "@ant-design/icons";
 
-import { useState } from "react";
-import axios from "axios";
-import useVoucher from "../../hooks/Voucher/useVoucher";
-import useCertificate from "../../hooks/Certification/useCertificate";
-
-const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
+const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { handleCreateCourse } = useCreateCourse();
+  const { handleCreateExam } = useCreateExam();
   const { certificate } = useCertificate();
   const { voucher } = useVoucher();
 
   const [form] = Form.useForm();
   const [formData, setFormData] = useState({
-    courseName: "",
-    courseCode: "",
-    courseTime: "",
-    courseDescription: "",
-    courseFee: 0,
+    examName: "",
+    examCode: "",
+    examDescription: "",
+    examFee: 0,
     voucherIds: [] as number[],
-    courseImage: "",
+    examImage: "",
     certId: 0,
   });
+
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -32,13 +31,13 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
       // Validate fields before submission
       await form.validateFields();
       console.log(formData);
-      await handleCreateCourse(formData);
+      await handleCreateExam(formData);
 
       setIsModalVisible(false);
-      refetchCourses();
+      refetchExams();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.error("Error creating course:", error.response?.data);
+        console.error("Error creating simulation exam:", error.response?.data);
       } else if (error instanceof Error) {
         console.error("An unexpected error occurred:", error);
       } else {
@@ -50,7 +49,6 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
     setIsModalVisible(false);
     form.resetFields();
   };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -69,6 +67,7 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
       certId: value,
     });
   };
+
   return (
     <>
       <Button
@@ -77,7 +76,7 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
         onClick={showModal}
         style={{ maxWidth: "120px" }}
       >
-        Course
+        Exam
       </Button>
       <Modal
         title="Create New Course"
@@ -95,89 +94,73 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
         >
           <Form.Item
             label="Course Name"
-            name="courseName"
+            name="examName"
             rules={[
               {
                 required: true,
-                message: "Please input the course name!",
+                message: "Please input the exam name!",
               },
             ]}
           >
             <Input
-              name="courseName"
-              value={formData.courseName}
+              name="examName"
+              value={formData.examName}
               onChange={handleInputChange}
-              placeholder="Enter course name"
+              placeholder="Enter exam name"
             />
           </Form.Item>
           <Form.Item
             label="Course Code"
-            name="courseCode"
+            name="examCode"
             rules={[
               {
                 required: true,
-                message: "Please input the course code!",
+                message: "Please input the exam code!",
               },
             ]}
           >
             <Input
-              name="courseCode"
-              value={formData.courseCode}
+              name="examCode"
+              value={formData.examCode}
               onChange={handleInputChange}
-              placeholder="Enter course code"
+              placeholder="Enter exam code"
             />
           </Form.Item>
-          <Form.Item
-            label="Course Time"
-            name="courseTime"
-            rules={[
-              {
-                required: true,
-                message: "Please input the course time!",
-              },
-            ]}
-          >
-            <Input
-              name="courseTime"
-              value={formData.courseTime}
-              onChange={handleInputChange}
-              placeholder="Enter course time"
-            />
-          </Form.Item>
+
           <Form.Item
             label="Course Description"
-            name="courseDescription"
+            name="examDescription"
             rules={[
               {
                 required: true,
-                message: "Please input the course description!",
+                message: "Please input the exam description!",
               },
             ]}
           >
             <Input
-              name="courseDescription"
-              value={formData.courseDescription}
+              name="examDescription"
+              value={formData.examDescription}
               onChange={handleInputChange}
-              placeholder="Enter course description"
+              placeholder="Enter exam description"
             />
           </Form.Item>
           <Form.Item
             label="Fee"
-            name="courseFee"
+            name="examFee"
             rules={[
               {
                 required: true,
-                message: "Please input the course fee!",
+                message: "Please input the exam fee!",
               },
             ]}
           >
             <InputNumber
-              name="courseFee"
-              value={formData.courseFee}
+              name="examFee"
+              value={formData.examFee}
               onChange={(value) =>
-                setFormData({ ...formData, courseFee: value ?? 0 })
+                setFormData({ ...formData, examFee: value ?? 0 })
               }
-              placeholder="Enter course fee"
+              placeholder="Enter exam fee"
               style={{ width: "100%" }}
             />
           </Form.Item>
@@ -202,19 +185,19 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
           </Form.Item>
           <Form.Item
             label="Course Image"
-            name="courseImage"
+            name="examImage"
             rules={[
               {
                 required: true,
-                message: "Please input the course image!",
+                message: "Please input the exam image!",
               },
             ]}
           >
             <Input
-              name="courseImage"
-              value={formData.courseImage}
+              name="examImage"
+              value={formData.examImage}
               onChange={handleInputChange}
-              placeholder="Enter course image"
+              placeholder="Enter exam image"
             />
           </Form.Item>
           <Form.Item
@@ -247,4 +230,4 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
     </>
   );
 };
-export default CreateCourse;
+export default CreateExam;

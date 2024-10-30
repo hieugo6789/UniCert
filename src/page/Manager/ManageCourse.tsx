@@ -13,7 +13,7 @@ const ManageCourse = () => {
       title: "Course Name",
       dataIndex: "courseName",
       key: "courseName",
-      render: (text: string) => <span className="text-purple-600">{text}</span>, // Custom color for course name
+      render: (text: string) => <span className="">{text}</span>, // Custom color for course name
     },
     {
       title: "Course Time",

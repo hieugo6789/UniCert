@@ -6,6 +6,7 @@ import { message, Modal, Pagination, Table, Tag } from "antd";
 import useDeleteExam from "../../hooks/SimulationExam/useDeleteExam";
 import ViewExamDetail from "../../components/Exam/ViewExamDetail";
 import UpdateExam from "../../components/Exam/UpdateExam";
+import CreateExam from "../../components/Exam/CreateExam";
 
 const { confirm } = Modal;
 
@@ -134,6 +135,9 @@ const SimulationExam = () => {
     <>
       <div className="h-[10vh] flex justify-between items-center  text-black p-4">
         <div className="text-2xl font-semibold">Exam Management</div>
+        <div>
+          <CreateExam refetchExams={refetchExams} />
+        </div>
         <div className="mr-10">
           <AvatarAdmin />
         </div>
