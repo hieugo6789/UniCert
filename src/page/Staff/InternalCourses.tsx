@@ -7,6 +7,7 @@ import useDeleteCourse from "../../hooks/Course/useDeleteCourse";
 import UpdateCourse from "../../components/Course/UpdateCourse";
 import CreateCourse from "../../components/Course/CreateCourse";
 import ViewDetailCourse from "../../components/Course/ViewDetailCourse";
+import Coin from "../../assets/images/Coin.png";
 
 const { confirm } = Modal;
 
@@ -19,7 +20,7 @@ const InternalCourses = () => {
       title: "Course Name",
       dataIndex: "courseName",
       key: "courseName",
-      render: (text: string) => <span className="text-purple-600">{text}</span>, // Custom color for course name
+      render: (text: string) => <span className="">{text}</span>, // Custom color for course name
     },
     {
       title: "Course Time",
@@ -31,13 +32,21 @@ const InternalCourses = () => {
       title: "Course Fee",
       dataIndex: "courseFee",
       key: "courseFee",
-      render: (fee: number) => <span className="text-green-600">${fee}</span>,
+      render: (fee: number) => (
+        <span className="text-yellow-600 flex justify-between items-center w-16">
+          {fee} <img src={Coin} />
+        </span>
+      ),
     },
     {
       title: "Discount Fee",
       dataIndex: "courseDiscountFee",
       key: "courseDiscountFee",
-      render: (fee: number) => <span className="text-green-600">${fee}</span>,
+      render: (fee: number) => (
+        <span className="text-yellow-600 flex justify-between items-center w-16">
+          {fee} <img src={Coin} />
+        </span>
+      ),
     },
     {
       title: "Certification",
@@ -119,9 +128,9 @@ const InternalCourses = () => {
       title: "Are you sure delete this course?",
       icon: <ExclamationCircleOutlined />,
       content: "This action cannot be undone",
-      okText: "Yes",
+      okText: "Delete",
       okType: "danger",
-      cancelText: "No",
+      cancelText: "Cancel",
       onOk: async () => {
         await handleDeleteCourse(courseId);
         message.success("major deleted successfully!");
@@ -135,9 +144,8 @@ const InternalCourses = () => {
 
   return (
     <>
-      <div className="h-[10vh] flex justify-between items-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white p-4">
+      <div className="h-[10vh] flex justify-between items-center bg-gradient-to-r  p-4">
         <div className="text-2xl font-semibold">
-          Course Management
           <div>
             <CreateCourse refetchCourses={refetchCourses} />
           </div>
@@ -147,7 +155,7 @@ const InternalCourses = () => {
           <AvatarAdmin />
         </div>
       </div>
-      <div className="gap-4 p-4 bg-gradient-to-r from-indigo-50 to-indigo-100 min-h-[90vh]">
+      <div className="gap-4 p-2 bg-gradient-to-r from-indigo-50 to-indigo-100 min-h-[90vh]">
         <div className="col-span-10 bg-white p-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
           {loading ? (
             <div className="text-center text-lg text-yellow-500">

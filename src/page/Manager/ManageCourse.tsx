@@ -3,6 +3,7 @@ import ViewDetailCourse from "../../components/Course/ViewDetailCourse";
 import useCourse from "../../hooks/Course/useCourse";
 import UpdatePermission from "../../components/Permission/UpdatePermission";
 import useCoursePermission from "../../hooks/Course/useCoursePermission";
+import Coin from "../../assets/images/Coin.png";
 
 const ManageCourse = () => {
   const { course, loading, refetchCourses } = useCourse();
@@ -25,13 +26,21 @@ const ManageCourse = () => {
       title: "Course Fee",
       dataIndex: "courseFee",
       key: "courseFee",
-      render: (fee: number) => <span className="text-green-600">${fee}</span>,
+      render: (fee: number) => (
+        <span className="text-yellow-600 flex justify-between items-center w-16">
+          {fee} <img src={Coin} />
+        </span>
+      ),
     },
     {
       title: "Discount Fee",
       dataIndex: "courseDiscountFee",
       key: "courseDiscountFee",
-      render: (fee: number) => <span className="text-green-600">${fee}</span>,
+      render: (fee: number) => (
+        <span className="text-yellow-600 flex justify-between items-center w-16">
+          {fee} <img src={Coin} />
+        </span>
+      ),
     },
     {
       title: "Certification",
@@ -105,8 +114,8 @@ const ManageCourse = () => {
   ];
   return (
     <>
-      <div className="gap-4 p-4 bg-gradient-to-r from-indigo-50 to-indigo-100 min-h-full">
-        <div className="col-span-10 bg-white p-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
+      <div className="gap-4 p-2 bg-gradient-to-r from-indigo-50 to-indigo-100 min-h-full">
+        <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
           {loading ? (
             <div className="text-center text-lg text-yellow-500">
               Loading...

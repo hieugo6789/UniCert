@@ -135,9 +135,9 @@ const Major = () => {
       title: "Are you sure delete this major?",
       icon: <ExclamationCircleOutlined />,
       content: "This action cannot be undone",
-      okText: "Yes",
+      okText: "Delete",
       okType: "danger",
-      cancelText: "No",
+      cancelText: "Cancel",
       onOk: async () => {
         await handleDeleteMajor(majorId);
         message.success("major deleted successfully!");
@@ -180,7 +180,7 @@ const Major = () => {
         </div>
       </div>
 
-      <div className=" gap-4 p-2 bg-slate-100 h-[90vh]">
+      <div className=" gap-4 p-2 bg-gradient-to-r from-indigo-50 to-indigo-100 h-[90vh]">
         <div className=" bg-white p-4 rounded-lg shadow-lg">
           <div className="h-[76vh]">
             {loading ? (

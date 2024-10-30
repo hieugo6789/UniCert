@@ -71,7 +71,7 @@ const Decentralization = () => {
         const roleStyles: { [key: string]: string } = {
           Manager: "bg-purple-500 text-white",
           Student: "bg-blue-500 text-white",
-          Staff: "bg-gray-400 text-white",
+          Staff: "bg-red-600 text-white",
           Admin: "bg-green-400 text-white",
         };
         return (
@@ -106,9 +106,9 @@ const Decentralization = () => {
       title: "Are you sure delete this account?",
       icon: <ExclamationCircleOutlined />,
       content: "This action cannot be undone",
-      okText: "Yes",
+      okText: "Delete",
       okType: "danger",
-      cancelText: "No",
+      cancelText: "Cancel",
       onOk: async () => {
         await handleDeleteAccount(userId);
         message.success("Account deleted successfully!");

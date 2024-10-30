@@ -87,15 +87,15 @@ const Voucher = () => {
   ];
   const showDeleteConfirm = (voucherId: number) => {
     confirm({
-      title: "Are you sure delete this job position?",
+      title: "Are you sure you want to delete this voucher?",
       icon: <ExclamationCircleOutlined />,
       content: "This action cannot be undone",
-      okText: "Yes",
+      okText: "Delete",
       okType: "danger",
-      cancelText: "No",
+      cancelText: "Cancel",
       onOk: async () => {
         await handleDeleteVoucher(voucherId);
-        message.success("Job deleted successfully!");
+        message.success("Voucher deleted successfully!");
         refetchVouchers();
       },
       onCancel() {
@@ -112,32 +112,40 @@ const Voucher = () => {
   );
   return (
     <>
-      <CreateVoucher refetchVouchers={refetchVouchers} />
-      <div className="h-[76vh]">
-        {loading ? (
-          <div>Loading...</div>
-        ) : voucher.length > 0 ? (
-          <Table
-            columns={columns}
-            dataSource={paginatedData}
-            rowKey="voucherId"
-            pagination={false}
-            loading={loading}
-            rowClassName={() => "h-[8.7vh]"}
-            // className="header-bg-pink"
-          />
-        ) : (
-          <div>No vouchers available.</div>
-        )}
+      <div className="gap-4 p-2 bg-gradient-to-r from-indigo-50 to-indigo-100 h-full">
+        <div className=" bg-white px-4 pt-2 pb-4 rounded-lg shadow-lg">
+          <div className="mb-4 flex justify-end">
+            <CreateVoucher refetchVouchers={refetchVouchers} />
+          </div>
+
+          <div className="h-[73vh]">
+            {loading ? (
+              <div>Loading...</div>
+            ) : voucher.length > 0 ? (
+              <Table
+                columns={columns}
+                dataSource={paginatedData}
+                rowKey="voucherId"
+                pagination={false}
+                loading={loading}
+                rowClassName={() => "h-[8.2vh]"}
+                // className="header-bg-pink"
+              />
+            ) : (
+              <div>No vouchers available.</div>
+            )}
+          </div>
+          <div className="mt-2 flex justify-end">
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              total={voucher.length}
+              onChange={handlePaginationChange}
+            />
+          </div>
+        </div>
       </div>
-      <div className="mt-6 flex justify-end">
-        <Pagination
-          current={currentPage}
-          pageSize={pageSize}
-          total={voucher.length}
-          onChange={handlePaginationChange}
-        />
-      </div>
+
       <Modal
         title="Voucher Details"
         width={900}

@@ -85,10 +85,20 @@ const CreateVoucher = ({
         icon={<PlusOutlined />}
         type="primary"
         onClick={showModal}
-        style={{ maxWidth: "120px" }}
+        style={{
+          height: "40px",
+          maxWidth: "180px",
+          padding: "10px 20px",
+          fontSize: "16px",
+          fontWeight: "bold",
+          backgroundImage: "linear-gradient(135deg, #6a11cb, #2575fc)",
+          boxShadow: "0px 4px 15px rgba(39, 70, 144, 0.3)",
+        }}
+        className="rounded-full transition-transform duration-300 hover:scale-105 hover:shadow-lg"
       >
-        Voucher
+        Create Voucher
       </Button>
+
       <Modal
         title="Create New Voucher"
         open={isModalVisible}

@@ -3,6 +3,7 @@ import { useState } from "react";
 import useExam from "../../hooks/SimulationExam/useExam";
 import UpdatePermission from "../../components/Permission/UpdatePermission";
 import usePermissionExam from "../../hooks/SimulationExam/usePermissionExam";
+import Coin from "../../assets/images/Coin.png";
 
 const ManageExam = () => {
   const { exam, loading, refetchExams } = useExam();
@@ -24,13 +25,21 @@ const ManageExam = () => {
       title: "Exam Fee",
       dataIndex: "examFee",
       key: "examFee",
-      render: (fee: number) => <span className="text-green-600">${fee}</span>,
+      render: (fee: number) => (
+        <span className="text-yellow-600 flex justify-between items-center w-16">
+          {fee} <img src={Coin} />
+        </span>
+      ),
     },
     {
       title: "Discount Fee",
       dataIndex: "examDiscountFee",
       key: "examDiscountFee",
-      render: (fee: number) => <span className="text-green-600">${fee}</span>,
+      render: (fee: number) => (
+        <span className="text-yellow-600 flex justify-between items-center w-16">
+          {fee} <img src={Coin} />
+        </span>
+      ),
     },
     {
       title: "Certification",
@@ -103,7 +112,7 @@ const ManageExam = () => {
   ];
   return (
     <>
-      <div className=" p-2 bg-slate-100 h-full">
+      <div className=" p-2 bg-gradient-to-r from-indigo-50 to-indigo-100 h-full">
         <div className=" bg-white p-4 rounded-lg shadow-lg">
           <div className="h-[76vh]">
             {loading ? (

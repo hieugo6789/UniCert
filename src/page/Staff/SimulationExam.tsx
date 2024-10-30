@@ -7,6 +7,7 @@ import useDeleteExam from "../../hooks/SimulationExam/useDeleteExam";
 import ViewExamDetail from "../../components/Exam/ViewExamDetail";
 import UpdateExam from "../../components/Exam/UpdateExam";
 import CreateExam from "../../components/Exam/CreateExam";
+import Coin from "../../assets/images/Coin.png";
 
 const { confirm } = Modal;
 
@@ -32,13 +33,21 @@ const SimulationExam = () => {
       title: "Exam Fee",
       dataIndex: "examFee",
       key: "examFee",
-      render: (fee: number) => <span className="text-green-600">${fee}</span>,
+      render: (fee: number) => (
+        <span className="text-yellow-600 flex justify-between items-center w-16">
+          {fee} <img src={Coin} />
+        </span>
+      ),
     },
     {
       title: "Discount Fee",
       dataIndex: "examDiscountFee",
       key: "examDiscountFee",
-      render: (fee: number) => <span className="text-green-600">${fee}</span>,
+      render: (fee: number) => (
+        <span className="text-yellow-600 flex justify-between items-center w-16">
+          {fee} <img src={Coin} />
+        </span>
+      ),
     },
     {
       title: "Certification",
@@ -118,9 +127,9 @@ const SimulationExam = () => {
       title: "Are you sure delete this simulation exam?",
       icon: <ExclamationCircleOutlined />,
       content: "This action cannot be undone",
-      okText: "Yes",
+      okText: "Delete",
       okType: "danger",
-      cancelText: "No",
+      cancelText: "Cancel",
       onOk: async () => {
         await handleDeleteExam(examId);
         message.success("Exam deleted successfully!");
@@ -134,7 +143,6 @@ const SimulationExam = () => {
   return (
     <>
       <div className="h-[10vh] flex justify-between items-center  text-black p-4">
-        <div className="text-2xl font-semibold">Exam Management</div>
         <div>
           <CreateExam refetchExams={refetchExams} />
         </div>
@@ -142,7 +150,7 @@ const SimulationExam = () => {
           <AvatarAdmin />
         </div>
       </div>
-      <div className=" p-2 bg-slate-100 min-h-[90vh]">
+      <div className=" p-2 bg-gradient-to-r from-indigo-50 to-indigo-100 min-h-[90vh]">
         <div className=" bg-white p-4 rounded-lg shadow-lg">
           <div className="h-[76vh]">
             {loading ? (
