@@ -31,6 +31,7 @@ const useCourseEnrollment = ({ userId }: UseCourseEnrollmentProps) => {
   return {
     courseEnrollment,
     loading,
+    refetchCourseEnrollments: (userId: string) => fetchCourseEnrollments(userId), // Keep userId as a parameter
   };
 };
 export default useCourseEnrollment;
