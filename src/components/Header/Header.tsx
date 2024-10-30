@@ -105,7 +105,9 @@ const Header = () => {
         {isLoggedIn ? (
           <div className="flex items-center space-x-4">
             <div className="text-white mr-2 md:mr-6">
+              <Link to="/cart">
               <ShoppingCartOutlined style={{ fontSize: "24px" }} />
+              </Link>
             </div>
             <AvatarImage />
           </div>
