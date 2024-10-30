@@ -29,6 +29,7 @@ const useExamEnrollment = ({ userId }: UseExamEnrollmentProps) => {
   return {
     examEnrollment,
     loading,
+    refetchExamEnrollments: (userId: string) => fetchExamEnrollments(userId), // Keep userId as a parameter
   };
 };
 export default useExamEnrollment;
