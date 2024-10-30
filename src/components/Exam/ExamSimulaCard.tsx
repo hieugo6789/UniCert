@@ -1,18 +1,11 @@
 import React from 'react';
 import { allExamPaginationData } from '../../models/simulationExam';
 
-// type ExamProps = {
-//   examId: number;
-//   examName: string;
-//   examCode: string;
-//   certId: number;
-//   examDescription: string;
-//   examFee: number;
-//   examDiscountFee?: number;
-//   examImage: string;
-// };
+interface ExamSimulaCardProps extends allExamPaginationData {
+  onClick: () => void;
+}
 
-const ExamSimulaCard: React.FC<allExamPaginationData> = ({
+const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
   examId,
   examName,
   examCode,
@@ -20,6 +13,7 @@ const ExamSimulaCard: React.FC<allExamPaginationData> = ({
   examFee,
   examDiscountFee,
   examImage,
+  onClick,
 }) => {
   return (
     <div className="flex flex-col bg-white shadow-md rounded-lg p-4 w-80">
@@ -43,7 +37,7 @@ const ExamSimulaCard: React.FC<allExamPaginationData> = ({
             <span className="text-green-500 font-bold ml-2">{examDiscountFee.toLocaleString('en-US')}₫</span>
           )}
         </div>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+        <button onClick={onClick} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
           Add To Cart
         </button>
       </div>
