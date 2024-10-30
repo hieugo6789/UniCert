@@ -6,6 +6,9 @@ import bookIcon from "../../../assets/icons/book.png";
 import paperIcon from "../../../assets/icons/paper.png";
 import { BiBook } from "react-icons/bi";
 import { PiExam } from "react-icons/pi";
+import useUpdateCart from "../../../hooks/Cart/useUpdateCart";
+import { useCreateCourseEnrollment } from "../../../hooks/Enrollment/useCreateCourse";
+import { useCreateExamEnrollment } from "../../../hooks/Enrollment/useCreateExam";
 const ITEMS_PER_PAGE = 2;
 
 const Cart = () => {
@@ -14,6 +17,9 @@ const Cart = () => {
   const [currentCoursePage, setCurrentCoursePage] = useState<number>(1);
   const [currentExamPage, setCurrentExamPage] = useState<number>(1);
   const { state, getCart } = useCartByUserId();
+  const { updateCart } = useUpdateCart();
+  const { handleCreateCourseEnrollment } = useCreateCourseEnrollment();
+  const { handleCreateExamEnrollment } = useCreateExamEnrollment();
 
   // Track selected courses and exams
   const [selectedCourses, setSelectedCourses] = useState<any[]>([]);
@@ -21,7 +27,7 @@ const Cart = () => {
 
   useEffect(() => {
     if (userId) {
-      getCart("31");
+      getCart(userId);
     }
   }, [userId]);
 
@@ -74,9 +80,36 @@ const Cart = () => {
 
   // Handle payment action
   const handlePayment = () => {
-    // Implement your payment logic here
-    alert("Proceeding to payment...");
-  };
+    try {
+      // nếu selectedCourse không có thì bỏ qua
+      if (selectedCourses.length > 0)
+        handleCreateCourseEnrollment({
+          userId: userId?.toString() || "", // Correctly call toString()
+          courses: selectedCourses.map((course) => course.courseId),
+        }).catch((error) => {
+          alert("Error in payment" + error);
+        });
+      if (selectedExams.length > 0)
+        handleCreateExamEnrollment({
+          userId: userId?.toString() || "",
+          simulation_Exams: selectedExams.map((exam) => exam.examId),
+        }).catch((error) => {
+          alert("Error in payment" + error);
+        });
+      // Remove selected courses and exams from the cart
+      const updateCourseId = carts?.courseDetails
+        ?.filter((course) => !selectedCourses.includes(course))
+        .map((course) => course.courseId) || [];
+
+      const updateExamId = carts?.examDetails
+        ?.filter((exam) => !selectedExams.includes(exam))
+        .map((exam) => exam.examId) || [];
+
+      updateCart(userId?.toString() || "", { courseId: updateCourseId, examId: updateExamId });
+    } catch (error) {
+      alert("Error in payment" + error);
+    }
+  }
 
   return (
     <div className="container mx-auto p-4 flex">
@@ -166,39 +199,39 @@ const Cart = () => {
 
       {/* Right Sidebar (Selection Summary) */}
       <div className="w-1/4 bg-gray-100 p-4 rounded-lg shadow-md">
-      <div className="mt-6">
+        <div className="mt-6">
           <button
             onClick={handlePayment}
             className="w-full px-4 py-2 bg-green-500 text-white rounded"
           >
             Proceed to Payment
           </button>
-        <h2 className="text-xl font-semibold mb-4">Selected Items</h2>
-        <p className="flex items-center"> Courses Selected: {selectedCourses.length}<BiBook/></p>
-        <p className="flex items-center"> Exams Selected: {selectedExams.length}<PiExam/></p>
-        <div className="mt-4">
-          <h3 className="font-semibold">Courses:</h3>
-          {selectedCourses.map((course) => (
-            <div key={course.courseId} className="flex items-center">
-              <span className="mr-2">
-                <img src={bookIcon} alt="Book Icon" className="w-[60px] inline" />
-              </span>
-              <p>{course.courseName}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-4">
-          <h3 className="font-semibold">Exams:</h3>
-          {selectedExams.map((exam) => (
-            <div key={exam.examId} className="flex items-center">
-              <span className="mr-2">
-                <img src={paperIcon} alt="Paper Icon" className="w-[60px] inline" />
-              </span>
-              <p>{exam.examName}</p>
-            </div>
-          ))}
-        </div>
-        
+          <h2 className="text-xl font-semibold mb-4">Selected Items</h2>
+          <p className="flex items-center"> Courses Selected: {selectedCourses.length}<BiBook /></p>
+          <p className="flex items-center"> Exams Selected: {selectedExams.length}<PiExam /></p>
+          <div className="mt-4">
+            <h3 className="font-semibold">Courses:</h3>
+            {selectedCourses.map((course) => (
+              <div key={course.courseId} className="flex items-center">
+                <span className="mr-2">
+                  <img src={bookIcon} alt="Book Icon" className="w-[60px] inline" />
+                </span>
+                <p>{course.courseName}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4">
+            <h3 className="font-semibold">Exams:</h3>
+            {selectedExams.map((exam) => (
+              <div key={exam.examId} className="flex items-center">
+                <span className="mr-2">
+                  <img src={paperIcon} alt="Paper Icon" className="w-[60px] inline" />
+                </span>
+                <p>{exam.examName}</p>
+              </div>
+            ))}
+          </div>
+
         </div>
       </div>
     </div>
