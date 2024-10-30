@@ -19,6 +19,7 @@ const HistoryPage = () => {
   useEffect(() => {
     // Giả lập dữ liệu các kỳ thi đã mua
     const fetchPurchasedExams = () => {
+      
       refetchExamEnrollments(id?.toString() || "");
     };
 
@@ -26,7 +27,8 @@ const HistoryPage = () => {
     const fetchPurchasedCourses = () => {
       refetchCourseEnrollments(id?.toString() || "");
     };
-
+    setPurchasedCourses([]);
+    setPurchasedExams([]);
     fetchPurchasedExams();
     fetchPurchasedCourses();
   }, [id]);
