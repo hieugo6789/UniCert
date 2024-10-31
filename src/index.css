@@ -32,5 +32,5 @@
 }
 
 .header-bg-pink .ant-table-thead > tr > th {
-  @apply bg-purple-200 text-gray-800 font-semibold ;
+  @apply bg-blue-500 text-white ;
 }

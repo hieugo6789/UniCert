@@ -114,7 +114,7 @@ const ManageCourse = () => {
   ];
   return (
     <>
-      <div className="gap-4 p-2 bg-gradient-to-r from-indigo-50 to-indigo-100 min-h-full">
+      <div className="gap-4 p-2 h-full">
         <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
           {loading ? (
             <div className="text-center text-lg text-yellow-500">
@@ -126,6 +126,7 @@ const ManageCourse = () => {
               columns={columns}
               rowKey="courseId"
               pagination={{ pageSize: 10 }}
+              className="header-bg-pink"
             />
           ) : (
             <div className="text-center text-red-500">

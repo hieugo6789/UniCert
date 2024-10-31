@@ -188,6 +188,7 @@ const JobPosition = () => {
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}
+                className="header-bg-pink"
               />
             ) : (
               <div>No organizations available.</div>

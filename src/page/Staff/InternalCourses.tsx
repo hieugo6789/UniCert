@@ -167,7 +167,7 @@ const InternalCourses = () => {
               columns={columns}
               rowKey="courseId"
               pagination={{ pageSize: 10 }}
-              className="table-auto bg-gray-100"
+              className="header-bg-pink"
             />
           ) : (
             <div className="text-center text-red-500">

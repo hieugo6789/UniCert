@@ -163,6 +163,7 @@ const SimulationExam = () => {
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}
+                className="header-bg-pink"
               />
             ) : (
               <div>No simulation exam available.</div>

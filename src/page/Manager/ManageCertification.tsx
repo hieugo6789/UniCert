@@ -100,8 +100,8 @@ const ManageCertification = () => {
   );
   return (
     <>
-      <div className="gap-4 p-2 bg-gradient-to-r from-indigo-50 to-indigo-100 h-full">
-        <div className=" bg-white p-4 rounded-lg shadow-lg">
+      <div className="gap-4 p-2 h-full">
+        <div className=" bg-white p-4 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
           <div className="h-[76vh]">
             {loading ? (
               <div>Loading...</div>
@@ -113,6 +113,7 @@ const ManageCertification = () => {
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}
+                className="header-bg-pink"
               />
             ) : (
               <div>No certifications available.</div>
