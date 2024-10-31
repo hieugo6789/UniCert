@@ -155,7 +155,7 @@ const InternalCourses = () => {
           <AvatarAdmin />
         </div>
       </div>
-      <div className="gap-4 p-2 bg-gradient-to-r from-indigo-50 to-indigo-100 min-h-[90vh]">
+      <div className="gap-4 p-2 h-[90vh]">
         <div className="col-span-10 bg-white p-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
           {loading ? (
             <div className="text-center text-lg text-yellow-500">

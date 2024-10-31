@@ -150,7 +150,7 @@ const SimulationExam = () => {
           <AvatarAdmin />
         </div>
       </div>
-      <div className=" p-2 bg-gradient-to-r from-indigo-50 to-indigo-100 min-h-[90vh]">
+      <div className=" p-2  min-h-[90vh]">
         <div className=" bg-white p-4 rounded-lg shadow-lg">
           <div className="h-[76vh]">
             {loading ? (

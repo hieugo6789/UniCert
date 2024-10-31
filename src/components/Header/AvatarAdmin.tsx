@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useProfile from "../../hooks/useProfile";
 import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
-import { Avatar, Dropdown, Menu, Button } from "antd";
+import { Dropdown, Menu, Button } from "antd";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { LuLogOut } from "react-icons/lu";
@@ -41,18 +41,26 @@ const AvatarAdmin = () => {
   return (
     <>
       {token ? (
-        <Dropdown
-          overlay={menu}
-          className="cursor-pointer"
-          trigger={["click"]}
-        >
-          <Avatar
-            src={
-              state.profile.userImage ? state.profile.userImage : defaultAvatar
-            }
-            className="size-12"
-          />
-        </Dropdown>
+        <div className="flex items-center gap-2 rounded-lg ">
+          <div className="flex-grow text-right mr-1">
+            <p className="text-lg font-bold">{state.profile.username}</p>
+            <p className="block text-sm text-gray-400">{state.profile.role}</p>
+          </div>
+          <Dropdown
+            overlay={menu}
+            className="cursor-pointer"
+            trigger={["click"]}
+          >
+            <img
+              src={
+                state.profile.userImage
+                  ? state.profile.userImage
+                  : defaultAvatar
+              }
+              className="size-12 rounded-lg"
+            />
+          </Dropdown>
+        </div>
       ) : (
         <Button
           type="primary"
