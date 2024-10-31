@@ -152,7 +152,7 @@ const JobPosition = () => {
   );
   return (
     <>
-      <div className="h-[10vh] flex justify-between items-center">
+      <div className="h-[10vh] flex justify-between items-center ">
         <div className="flex items-center w-full ml-10">
           <div className="relative flex items-center border-2 border-transparent focus-within:border-blue-500 rounded-full w-1/5">
             <Input
@@ -175,7 +175,7 @@ const JobPosition = () => {
           <AvatarAdmin />
         </div>
       </div>
-      <div className=" gap-4 p-2 bg-gradient-to-r from-indigo-50 to-indigo-100 h-[90vh]">
+      <div className=" gap-4 p-2  h-[90vh]">
         <div className=" bg-white p-4 rounded-lg shadow-lg">
           <div className="h-[76vh]">
             {loading ? (
