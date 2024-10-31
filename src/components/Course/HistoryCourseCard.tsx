@@ -31,9 +31,14 @@ const HistoryCourseCard: React.FC<CourseEnrollmentCardProps> = ({ enrollment }) 
                   <p className="text-lg font-medium text-gray-800">{course.courseName}</p>
                   <p className="text-gray-500">Code: {course.courseCode}</p>
                   <p className="text-gray-500">
-                    Fee: ${course.courseFee}{' '}
-                    {course.courseDiscountFee > 0 && (
-                      <span className="text-red-500 line-through">${course.courseDiscountFee}</span>
+                    
+                    {course.courseDiscountFee > 0 ? (
+                      <div>
+                        Fee: ${course.courseDiscountFee}{' '}
+                        <span className="text-red-500 line-through">${course.courseFee}</span>
+                      </div>
+                    ) : (
+                      <span>Fee: ${course.courseFee}</span>
                     )}
                   </p>
                 </div>

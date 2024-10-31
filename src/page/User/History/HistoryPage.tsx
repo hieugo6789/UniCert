@@ -32,12 +32,17 @@ const HistoryPage = () => {
     fetchPurchasedExams();
     fetchPurchasedCourses();
   }, [id]);
+
   useEffect(() => {
-    setPurchasedExams(examEnrollment);
+    const successfulExams = examEnrollment.filter((exam) => exam.examEnrollmentStatus === "Completed");
+    setPurchasedExams(successfulExams);
   }, [examEnrollment]);
+
   useEffect(() => {
-    setPurchasedCourses(courseEnrollment);
+    const successfulCourses = courseEnrollment.filter((course) => course.courseEnrollmentStatus === "Completed");
+    setPurchasedCourses(successfulCourses);
   }, [courseEnrollment]);
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">History</h1>

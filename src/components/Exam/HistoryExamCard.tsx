@@ -1,9 +1,16 @@
 
 import { examEnrollment } from "../../models/enrollment";
+import CustomButton from "../UI/CustomButton";
 interface ExamEnrollmentCardProps {
     enrollment: examEnrollment;
   }
+
 const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment }) => {
+
+  const takeExam = () => {
+    return true;
+  }
+
     return (
       <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="p-4">
@@ -28,12 +35,17 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment }) => {
                 <div>
                   <p className="text-lg font-medium text-gray-800">{exam.examName}</p>
                   <p className="text-gray-500">Code: {exam.examCode}</p>
-                  <p className="text-gray-500">
-                    Fee: ${exam.examFee}{' '}
-                    {exam.examDiscountFee > 0 && (
-                      <span className="text-red-500 line-through">${exam.examDiscountFee}</span>
+                  <p className="text-gray-500">                    
+                    {exam.examDiscountFee > 0 ? (
+                      <div>
+                        Fee: ${exam.examDiscountFee}{' '}
+                        <span className="text-red-500 line-through">${exam.examFee}</span>
+                      </div>
+                    ):(
+                      <span>Fee: ${exam.examFee}</span>
                     )}
                   </p>
+                  <CustomButton label="Take Exam" shining onClick={takeExam} />
                 </div>
               </div>
             ))}
