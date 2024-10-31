@@ -5,18 +5,33 @@ import useCourse from "../../../hooks/Course/useCourse";
 import Loading from "../../../components/UI/Loading";
 import useUpdateCart from "../../../hooks/Cart/useUpdateCart";
 import useCartByUserId from "../../../hooks/Cart/useCartByUserId";
+import useCourseEnrollment from "../../../hooks/Enrollment/useCourse";
+import { courseEnrollment } from "../../../models/enrollment";
 import Cookies from "js-cookie";
 const Courses = () => {
+  const userId = Cookies.get("userId");
   const [courses, setCourses] = useState<allCoursePaginationData[]>([]);
   const { course, loading, refetchCourses } = useCourse();
   const { state, getCart } = useCartByUserId();
   const { updateCart } = useUpdateCart();
-  const userId = Cookies.get("userId");
+  const [purchasedCourses, setPurchasedCourses] = useState<courseEnrollment[]>([]);
+  const { courseEnrollment, loading: courseLoad, refetchCourseEnrollments } = useCourseEnrollment({ userId: userId || "" });
   useEffect(() => {
     if (userId) {
       getCart(userId);
     }
+    const fetchPurchasedCourses = () => {
+      refetchCourseEnrollments(userId || "");
+    };
+    setPurchasedCourses([]);
+    fetchPurchasedCourses();
   }, [userId]);
+
+  useEffect(() => {
+    const successfulCourses = courseEnrollment.filter((course) => course.courseEnrollmentStatus === "Completed");
+    setPurchasedCourses(successfulCourses);
+  }, [courseEnrollment]);
+
   const addToCart = (courseId: string) => async () => {
     const examIds = state.currentCart.examDetails.map((exam: any) => exam.examId);
     const courseIds = state.currentCart.courseDetails.map((course: any) => course.courseId);
@@ -56,9 +71,22 @@ const Courses = () => {
         </h1>
       </div>
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-10 py-10">
-        {courses.map((course, idx) => (
-          <CourseCard key={idx} course={course} onClick={addToCart(course.courseId)} />
-        ))}
+      {courses.map((course, idx) => {
+          const isInCart = state.currentCart.courseDetails.some((c: any) => c.courseId === course.courseId);
+          const isPurchased = (purchasedCourses || []).some((e) => 
+            (e.courseDetails || []).some((c) => c.courseId.toString() === course.courseId)
+          );
+
+          return (
+            <CourseCard
+              key={idx}
+              course={course}
+              onClick={isInCart || isPurchased ? undefined : addToCart(course.courseId)}
+              isInCart={isInCart}
+              isPurchased={isPurchased}
+            />
+          );
+        })}
       </section>
 
       <div className="mt-10 flex justify-center items-center  min-h-screen">
@@ -147,7 +175,7 @@ const Courses = () => {
           </li>
         </ul>
       </div>
-      {loading &&
+      {loading && courseLoad &&
         <Loading />
       }
     </div>
