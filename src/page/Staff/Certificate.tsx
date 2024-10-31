@@ -156,7 +156,6 @@ const Certificate = () => {
             <CreateCert refetchCertificates={refetchCertificates} />
           </div>
         </div>
-
         <div className="mr-10">
           <AvatarAdmin />
         </div>
@@ -174,6 +173,7 @@ const Certificate = () => {
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}
+                className="header-bg-pink"
               />
             ) : (
               <div>No certifications available.</div>
