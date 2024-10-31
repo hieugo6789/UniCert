@@ -5,6 +5,9 @@ import CustomButton from "../../../components/UI/CustomButton";
 import { allCoursePaginationData } from "../../../models/course";
 import useCartByUserId from "../../../hooks/Cart/useCartByUserId";
 import useUpdateCart from "../../../hooks/Cart/useUpdateCart";
+import useCourseEnrollment from "../../../hooks/Enrollment/useCourse";
+import { courseEnrollment } from "../../../models/enrollment";
+import Coin from "../../../assets/images/Coin.png"
 import Cookies from "js-cookie";
 interface certTab {
     certId: number;
@@ -22,6 +25,7 @@ const CourseDetail = () => {
     const { state, getCourseDetails } = useCourseDetail();
     const [cert, setCert] = useState<certTab[]>([]);
     const [voucherList, setVoucherList] = useState<any[]>([]);
+        
 
     useEffect(() => {
         setCert([]);
@@ -62,14 +66,31 @@ const CourseDetail = () => {
             });
         };
     }, []);
+
     const { state:cartState, getCart } = useCartByUserId();
     const { updateCart } = useUpdateCart();
     const userId = Cookies.get("userId");
+    const [purchasedCourses, setPurchasedCourses] = useState<courseEnrollment[]>([]);
+    const { courseEnrollment, refetchCourseEnrollments } = useCourseEnrollment({ userId: userId || "" });
+    const [isInCart, setIsInCart] = useState(false);
+    const [isPurchased, setIsPurchased] = useState(false);
+
     useEffect(() => {
-      if (userId) {
-        getCart(userId);
-      }
-    }, [userId]);
+        if (userId) {
+          getCart(userId);
+        }
+        const fetchPurchasedCourses = () => {
+          refetchCourseEnrollments(userId || "");
+        };
+        setPurchasedCourses([]);
+        fetchPurchasedCourses();
+      }, [userId]);
+    
+    useEffect(() => {
+        const successfulCourses = courseEnrollment.filter((course) => course.courseEnrollmentStatus === "Completed");
+        setPurchasedCourses(successfulCourses);
+    }, [courseEnrollment]);
+
     const addToCart = (courseId: string) => async () => {
       const examIds = cartState.currentCart.examDetails.map((exam: any) => exam.examId);
       const courseIds = cartState.currentCart.courseDetails.map((course: any) => course.courseId);
@@ -87,6 +108,20 @@ const CourseDetail = () => {
       }
       );
     }
+
+    useEffect(() =>{
+        const purchased = (purchasedCourses || []).some((e) =>
+            (e.courseDetails || []).some((c) => c.courseId.toString() === id)
+        );
+        
+        const cart = (cartState.currentCart.courseDetails).some(
+            (course: any) => course.courseId.toString() === id
+        );
+        setIsInCart(cart);
+        setIsPurchased(purchased);
+        console.log("Test", cart);
+    });
+
     return (
         <div className="bg-gray-900">
             <p className="fade-in ml-2 pt-2 font-bold cursor-pointer text-blue-800">
@@ -106,10 +141,30 @@ const CourseDetail = () => {
                     className="fade-in prose list-disc whitespace-pre-wrap text-white text-3xl mt-5 text-center"
                     dangerouslySetInnerHTML={{ __html: courseDetail?.courseDescription || "" }}
                 />
-                <div className="fade-in text-white text-2xl mt-5 text-center">
-                    Course Fee: {courseDetail?.courseFee}
+                <div className="flex items-center justify-center fade-in text-white text-2xl mt-5">
+                    <p>Course Fee: </p>
+                    <img
+                    src={Coin}
+                    alt="Coin Icon"
+                    className="w-5 h-5"
+                    />
+                    <span className="ml-1 text-yellow-600 font-bold">
+                        {courseDetail?.courseFee}
+                    </span>
                 </div>
-                <CustomButton label="Enroll Now" shining onClick={addToCart(state.currentCourse.courseId)} className="mt-5" width="w-1/4"/>
+                {isPurchased ? (
+                    <CustomButton label="Purchased" disabled className="mt-5" width="w-1/6" />
+                ) : isInCart ? (
+                    <CustomButton label="In Cart" disabled className="mt-5" width="w-1/6" />
+                ) : (
+                    <CustomButton
+                        label="Add to Cart"
+                        shining
+                        onClick={addToCart(state.currentCourse.courseId)}
+                        className="mt-5"
+                        width="w-1/6"
+                    />
+                )}
             </div>
 
             {/* Certificate Information */}
