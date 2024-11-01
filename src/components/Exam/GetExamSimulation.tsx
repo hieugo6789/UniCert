@@ -10,6 +10,7 @@ import useUpdateCart from "../../hooks/Cart/useUpdateCart";
 import useExamEnrollment from "../../hooks/Enrollment/useExam";
 import { examEnrollment } from "../../models/enrollment";
 import Cookies from "js-cookie";
+import { showToast } from "../../utils/toastUtils";
 
 const GetExamSimulation = ({ certId }: { certId: number }) => {
   const userId = Cookies.get("userId");
@@ -42,8 +43,12 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
       examId: [...examIds, examId],
       courseId: [...courseIds],
     });
-    getCart(userId || "");
-    alert("Exam added to cart successfully");
+    
+    getCart(userId || "").then(() => {
+      showToast("Exam added to cart successfully", "success");
+    }).catch((error) => {
+      showToast("Failed to add exam to cart"+error, "error");
+    } );
   };
 
   useEffect(() => {
