@@ -176,7 +176,12 @@ const Cart = () => {
       await handleCreatePayment({
         userId: userId?.toString() || "",
         examEnrollmentId: exam.examEnrollment.examEnrollmentId,
-        courseEnrollmentId: course.courseEnrollmentId || 0,
+        courseEnrollmentId: 0,
+      })
+      await handleCreatePayment({
+        userId: userId?.toString() || "",
+        examEnrollmentId: 0,
+        courseEnrollmentId: course.courseEnrollmentId,
       })
       if(createdCourseEnroll.error || createdExamEnroll.error){
         showToast("Error in payment"+course.message+exam.message, "error");
