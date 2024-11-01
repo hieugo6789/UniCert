@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import AvatarImage from "../UI/AvatarImage";
 import Logo from "./Logo";
 import { ShoppingCartOutlined, MenuOutlined } from "@ant-design/icons";
+import useCartByUserId from "../../hooks/Cart/useCartByUserId";
 import Cookies from "js-cookie";
-
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const userId = Cookies.get("userId");
+  const {state, getCart} = useCartByUserId();
   const token = Cookies.get("token");
   console.log(token);
   useEffect(() => {
@@ -19,7 +21,12 @@ const Header = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
+  useEffect(() => {
+    if (userId) {
+      getCart(userId);
+    }
+  }, [userId]);
+  const cartCount = state?.currentCart?.courseDetails?.length + state?.currentCart?.examDetails?.length || 0;
   return (
     <header className="z-100 bg-gray-950 px-4 py-2 sm:px-8 sm:py-4 flex justify-between items-center sticky w-full top-0">
       {/* Logo */}
@@ -90,7 +97,7 @@ const Header = () => {
           to="./majors"
           className="block py-2 px-4 text-white hover:text-gray-400"
         >
-          Majors
+          Majorss
         </Link>
         <Link
           to="/job"
@@ -105,7 +112,14 @@ const Header = () => {
         {isLoggedIn ? (
           <div className="flex items-center space-x-4">
             <div className="text-white mr-2 md:mr-6">
-              <Link to="/cart">
+              <Link to="/cart" className="relative">
+              {cartCount > 0?
+                <span className="bg-red-500 text-white 
+                h-5 w-5 flex items-center justify-center
+                left-3 bottom-3
+                rounded-full absolute"> {cartCount} </span>
+                : null
+              }
               <ShoppingCartOutlined style={{ fontSize: "24px" }} />
               </Link>
             </div>
