@@ -38,9 +38,11 @@ const Job = () => {
     };
     fetchJob();
   }, []);
+
   useEffect(() => {
-    setJobs(job);
-    console.log(job);
+    const approvedJobs = job.filter(j => j.jobPositionPermission === 'Approve');
+    setJobs(approvedJobs);
+    console.log(approvedJobs);
   }, [job]);
   const [keyword, setKeyword] = useState("");
   // Hàm tìm kiếm chứng chỉ bằng API

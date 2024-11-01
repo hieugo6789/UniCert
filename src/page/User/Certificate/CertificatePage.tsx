@@ -45,7 +45,8 @@ const CertificatePage = () => {
 
   useEffect(() => {
     if (certificate.length > 0) {
-      setCertificates(certificate);
+      const approvedCertificates = certificate.filter(cert => cert.permission === 'Approve');
+      setCertificates(approvedCertificates);
     }
   }, [certificate]);
 

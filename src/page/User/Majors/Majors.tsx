@@ -38,8 +38,10 @@ const Majors = () => {
   useEffect(() => {
     refetchMajors();
   }, []);
+
   useEffect(() => {
-    setMajors(major);
+    const approvedMajors = major.filter(m => m.majorPermission === 'Approve');
+    setMajors(approvedMajors);
   }, [major]);
 
   useEffect(() => {
