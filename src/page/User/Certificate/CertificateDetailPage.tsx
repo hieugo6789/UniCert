@@ -56,7 +56,7 @@ const CertificateDetailPage = () => {
           {cert?.certCost !== null && cert?.certCost !== undefined && cert.certCost > 0 && (
             <div>
               <p className="text-lg mt-2">
-                Fee: {cert?.certCost} points for one attempt
+                Fee: {cert?.certCost}$ for this certificate
               </p>
               <div className="mt-4 flex space-x-4">              
               <GetExamSimulation certId={cert?.certId || 0} />              

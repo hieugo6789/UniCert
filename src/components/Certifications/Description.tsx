@@ -7,7 +7,7 @@ const Description = (props: allCertificationData) => (
       className="prose list-disc whitespace-pre-wrap"
       dangerouslySetInnerHTML={{ __html: props?.certDescription || "" }}
     />
-    <h1 className="text-xl font-bold mb-5">Organazations: {props.organizeName}</h1>
+    <h1 className="text-xl font-bold mb-5">Organization: {props.organizeName}</h1>
     <h1 className="text-xl font-bold mb-5">Schedule</h1>
     <h1 className="text-xl font-bold mb-5">Training Course</h1>
   </>

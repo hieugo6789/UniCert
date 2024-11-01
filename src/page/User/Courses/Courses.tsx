@@ -74,9 +74,8 @@ const Courses = () => {
       {courses.map((course, idx) => {
           const isInCart = state.currentCart.courseDetails.some((c: any) => c.courseId === course.courseId);
           const isPurchased = (purchasedCourses || []).some((e) => 
-            (e.courseDetails || []).some((c) => c.courseId.toString() === course.courseId)
-          );
-
+            (e.courseDetails || []).some((c) => c.courseId.toString() === course.courseId.toString())
+          );                
           return (
             <CourseCard
               key={idx}

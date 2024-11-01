@@ -25,6 +25,10 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment }) => {
     showToast("Payment completed successfully", "success");
   };
 
+  const handleTakeExam = (examId: number) => {    
+    console.log(`Starting exam with ID: ${examId}`);    
+  };
+
   return (
     <div className="flex flex-col md:flex-row shadow-xl rounded-xl bg-gray-200 py-1">
       {/* Thông tin Enrollment */}
@@ -57,18 +61,27 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment }) => {
       </div>
 
       {/* Danh sách Exams */}
-      <div className='grid mr-3'>
+      <div className="grid mr-3">
         <h3 className="text-lg font-semibold mt-4 text-gray-700">Exams:</h3>
         <div className="mt-2 space-y-4">
           {enrollment.simulationExamDetail.map((exam) => (
-            <div key={exam.examId} className="flex items-center">
-              <img
-                src={exam.examImage}
-                alt={exam.examName}
-                className="w-16 h-16 rounded-full mr-4"
-              />
-              <div>
+            <div key={exam.examId} className="flex items-center justify-between">
+              <div className="flex items-center">
+                <img
+                  src={exam.examImage}
+                  alt={exam.examName}
+                  className="w-16 h-16 rounded-full mr-4"
+                />
+                <div>
+                  <h4 className="text-md font-semibold">{exam.examName}</h4>
+                  <p className="text-sm text-gray-600">{exam.examDescription}</p>
+                </div>
               </div>
+              <CustomButton
+                label="Take Exam"
+                onClick={() => handleTakeExam(exam.examId)}
+                className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md"
+              />
             </div>
           ))}
         </div>

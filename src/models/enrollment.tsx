@@ -29,6 +29,7 @@ export interface examEnrollment {
       examFee: number;
       examDiscountFee: number;
       examImage: string;
+      examDescription: string;
     }
   ];
 }
