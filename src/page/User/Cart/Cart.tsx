@@ -33,6 +33,16 @@ const Cart = () => {
   const [selectedExams, setSelectedExams] = useState<any[]>([]);
 
   useEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth", // Cuộn mượt mà
+      });
+    };
+    scrollToTop();
+  });
+
+  useEffect(() => {
     if (userId) {
       getCart(userId);
     }
@@ -166,12 +176,18 @@ const Cart = () => {
       await handleCreatePayment({
         userId: userId?.toString() || "",
         examEnrollmentId: exam.examEnrollment.examEnrollmentId,
-        courseEnrollmentId: course.courseEnrollmentId || 0,
+        courseEnrollmentId: 0,
+      })
+      await handleCreatePayment({
+        userId: userId?.toString() || "",
+        examEnrollmentId: 0,
+        courseEnrollmentId: course.courseEnrollmentId,
       })
       if(createdCourseEnroll.error || createdExamEnroll.error){
         showToast("Error in payment"+course.message+exam.message, "error");
       }else{
         showToast("Payment Success", "success");
+        window.location.reload();
       }
     }
   };
