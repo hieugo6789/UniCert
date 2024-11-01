@@ -24,7 +24,7 @@ const ManageCertification = () => {
         if (Array.isArray(prerequisites) && prerequisites.length > 0) {
           return (
             <>
-              {prerequisites.map((prerequisite, index) => (
+              {prerequisites.slice(0, 2).map((prerequisite, index) => (
                 <Tag
                   color="blue"
                   key={index}
@@ -32,10 +32,11 @@ const ManageCertification = () => {
                   {prerequisite}
                 </Tag>
               ))}
+              {prerequisites.length > 2 && <span>...</span>}
             </>
           );
         }
-        return <span>No prerequisites</span>;
+        return <span>No prerequisites</span>; // Fallback for empty or non-array
       },
     },
     {

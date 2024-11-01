@@ -25,7 +25,7 @@ const ManageJobPosition = () => {
         if (Array.isArray(majorDetails) && majorDetails.length > 0) {
           return (
             <>
-              {majorDetails.map((major, index) => (
+              {majorDetails.slice(0, 3).map((major, index) => (
                 <Tag
                   color="blue"
                   key={index}
@@ -33,6 +33,7 @@ const ManageJobPosition = () => {
                   {major.majorCode}
                 </Tag> // Wrap each prerequisite in a Tag
               ))}
+              {majorDetails.length > 3 && <span>...</span>}
             </>
           );
         }
@@ -43,7 +44,6 @@ const ManageJobPosition = () => {
       title: "Certification",
       dataIndex: "certificationDetails",
       key: "certificationDetails",
-      // width: 200,
       render: (certificationDetails: any[]) => {
         if (
           Array.isArray(certificationDetails) &&
@@ -51,7 +51,7 @@ const ManageJobPosition = () => {
         ) {
           return (
             <>
-              {certificationDetails.map((c, index) => (
+              {certificationDetails.slice(0, 3).map((c, index) => (
                 <Tag
                   color="blue"
                   key={index}
@@ -59,6 +59,7 @@ const ManageJobPosition = () => {
                   {c.certCode}
                 </Tag>
               ))}
+              {certificationDetails.length > 3 && <span>...</span>}
             </>
           );
         }

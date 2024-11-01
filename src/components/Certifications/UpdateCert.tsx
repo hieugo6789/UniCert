@@ -46,7 +46,7 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
         certName: currentCert.certName || "",
         certCode: currentCert.certCode || "",
         certDescription: currentCert.certDescription || "",
-        certCost: currentCert.certCost || "",
+        certCost: currentCert.certCost || 0,
         certPointSystem: currentCert.certPointSystem || "",
         certImage: currentCert.certImage || "",
         certValidity: currentCert.certValidity || "",

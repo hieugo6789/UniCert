@@ -30,7 +30,7 @@ const ManageMajor = () => {
         ) {
           return (
             <>
-              {jobPositionDetails.map((job, index) => (
+              {jobPositionDetails.slice(0, 3).map((job, index) => (
                 <Tag
                   color="blue"
                   key={index}
@@ -38,10 +38,11 @@ const ManageMajor = () => {
                   {job.jobPositionCode}
                 </Tag>
               ))}
+              {jobPositionDetails.length > 3 && <span>...</span>}
             </>
           );
         }
-        return <span>No job</span>; // Fallback for empty or non-array
+        return <span>No job</span>;
       },
     },
     {
@@ -55,7 +56,7 @@ const ManageMajor = () => {
         ) {
           return (
             <>
-              {certificationDetails.map((cert, index) => (
+              {certificationDetails.slice(0, 3).map((cert, index) => (
                 <Tag
                   color="blue"
                   key={index}
@@ -63,10 +64,11 @@ const ManageMajor = () => {
                   {cert.certCode}
                 </Tag>
               ))}
+              {certificationDetails.length > 3 && <span>...</span>}
             </>
           );
         }
-        return <span>No certification</span>; // Fallback for empty or non-array
+        return <span>No certification</span>;
       },
     },
     {
