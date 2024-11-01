@@ -15,8 +15,8 @@ const UpdatePermission: React.FC<UpdatePermissionProps> = ({
   refetch,
   updateFunction,
 }) => {
-  const [selectedStatus, setSelectedStatus] = useState<number>(1); // Default to 1 (approve)
-  const [isModalVisible, setIsModalVisible] = useState(false); // Modal visibility state
+  const [selectedStatus, setSelectedStatus] = useState<number>(1);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleUpdate = async () => {
     try {
