@@ -101,7 +101,7 @@ const Certificate = {
   //   requests.get(`api/v1/certification/${name ? name : ""}`),
   getAllCertificates: (name?: string) =>
     requests.get(
-      `api/v1/certification/search${name ? `/?certName=${name}` : ""}`
+      `api/v1/certification/search${name ? `?certName=${name}` : ""}`
     ),
   getCertificateDetail: (certId: number | undefined) =>
     requests.get(`api/v1/certification/${certId}`),

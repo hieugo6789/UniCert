@@ -35,8 +35,6 @@ const Major = () => {
       title: "Job Position",
       dataIndex: "jobPositionDetails",
       key: "jobPositionDetails",
-      width: 350,
-
       render: (jobPositionDetails: any[]) => {
         if (
           Array.isArray(jobPositionDetails) &&
@@ -56,14 +54,13 @@ const Major = () => {
             </>
           );
         }
-        return <span>No job</span>; // Fallback for empty or non-array
+        return <span>No job</span>;
       },
     },
     {
       title: "Certification",
       dataIndex: "certificationDetails",
       key: "certificationDetails",
-      width: 350,
       render: (certificationDetails: any[]) => {
         if (
           Array.isArray(certificationDetails) &&

@@ -39,14 +39,15 @@ const Certificate = () => {
         if (Array.isArray(prerequisites) && prerequisites.length > 0) {
           return (
             <>
-              {prerequisites.map((prerequisite, index) => (
+              {prerequisites.slice(0, 2).map((prerequisite, index) => (
                 <Tag
                   color="blue"
                   key={index}
                 >
                   {prerequisite}
-                </Tag> // Wrap each prerequisite in a Tag
+                </Tag>
               ))}
+              {prerequisites.length > 2 && <span>...</span>}
             </>
           );
         }
