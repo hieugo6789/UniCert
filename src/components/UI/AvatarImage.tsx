@@ -20,7 +20,7 @@ const AvatarImage = () => {
     Cookies.remove("token");
     Cookies.remove("role");
     Cookies.remove("userId");
-    navigate("/logIn");
+    navigate("/login");
   };
 
   const menu = (

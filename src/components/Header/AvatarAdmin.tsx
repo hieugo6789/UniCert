@@ -23,7 +23,7 @@ const AvatarAdmin = () => {
     Cookies.remove("token");
     Cookies.remove("role");
     Cookies.remove("userId");
-    navigate("/logIn");
+    navigate("/login");
   };
 
   const menu = (
@@ -64,7 +64,7 @@ const AvatarAdmin = () => {
       ) : (
         <Button
           type="primary"
-          onClick={() => navigate("/logIn")}
+          onClick={() => navigate("/login")}
         >
           Log In
         </Button>
