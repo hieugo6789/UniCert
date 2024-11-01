@@ -3,7 +3,7 @@ import { courseEnrollment } from '../../models/enrollment';
 import CustomButton from '../UI/CustomButton';
 import { useCreatePayment } from '../../hooks/Payment/useCreatePayment';
 import Cookies from 'js-cookie';
-import coin from "../../assets/images/coin.png";
+import Coin from "../../assets/images/Coin.png"
 import { showToast } from '../../utils/toastUtils';
 interface CourseEnrollmentCardProps {
   enrollment: courseEnrollment;
@@ -44,7 +44,7 @@ const HistoryCourseCard: React.FC<CourseEnrollmentCardProps> = ({ enrollment }) 
         </p>
         <p className="text-lg font-bold text-gray-800 mt-2 flex items-center gap-1">
           Total Price: {enrollment.totalPrice} 
-          <img src={coin} alt="coin" className='h-5'/>
+          <img src={Coin} alt="coin" className='h-5'/>
         </p>
         {enrollStatus === 'OnGoing' && (
           <CustomButton
