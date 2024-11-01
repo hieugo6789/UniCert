@@ -20,44 +20,34 @@ const JobDetail = () => {
   const { state, getJobDetails } = useJobDetail();
   const [certList, setCertList] = useState<certTab[]>([]);
 
-  useEffect(() => {
-    const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth", // Cuộn mượt mà
-      });
-    };
-    scrollToTop();
-  });
+  useEffect(() => {    
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   useEffect(() => {
     setCertList([]);
     getJobDetails(id);
   }, [id]);
 
-  useEffect(() => {
-    if (state) {
-      setJobDetail(state?.currentJob);
-      setCertList(state?.currentJob?.certificationDetails);
+  useEffect(() => {    
+    if (state?.currentJob) {
+      setJobDetail(state.currentJob);
+      setCertList(state.currentJob.certificationDetails || []);
     }
   }, [state]);
 
-  // Observer for fade-in effect
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("show");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+  const handleIntersection = (entries: any) => {
+    entries.forEach((entry: any) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show");
+      }
+    });
+  };
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleIntersection, { threshold: 0.1 });
     const elements = document.querySelectorAll(".fade-in");
     elements.forEach((element) => observer.observe(element));
-
     return () => {
       elements.forEach((element) => observer.unobserve(element));
     };
@@ -69,7 +59,7 @@ const JobDetail = () => {
         {title}
       </h1>
       <p className="text-white text-xl mb-4 font-bold">{description}</p>
-      {certList && certList.filter((cert) => cert.typeName === certTypeName).length === 0 ? (
+      {certList.filter((cert) => cert.typeName === certTypeName).length === 0 ? (
         <p className="text-xl text-white">Not found any certificate</p>
       ) : (
         <div className="flex flex-wrap justify-center gap-4">
