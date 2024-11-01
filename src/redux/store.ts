@@ -33,6 +33,7 @@ import createCertificateReducer from "./slice/Certification/createCertSlice";
 import certTypeReducer from "./slice/Certification/certTypeSlice";
 import certTypeDetailReducer from "./slice/Certification/certTypeDetailSlice";
 import scheduleReducer from "./slice/Schedule/scheduleSlice";
+import deleteScheduleReducer from "./slice/Schedule/deleteScheduleSlice";
 import userDetailReducer from "./slice/Account/userDetailSlice";
 import deleteAccountReducer from "./slice/Account/deleteAccountSlice";
 import profileReducer from "./slice/Profile/profileSlice";
@@ -83,6 +84,7 @@ export const store = configureStore({
     certType: certTypeReducer,
     certTypeDetail: certTypeDetailReducer,
     schedule: scheduleReducer,
+    deleteSchedule: deleteScheduleReducer,
     userDetail: userDetailReducer,
     accountDelete: deleteAccountReducer,
     profile: profileReducer,

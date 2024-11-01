@@ -124,7 +124,7 @@ const Schedule = {
     requests.get(`api/v1/exam-session/${dateInput}`),
   createSchedule: (input: scheduleInput) =>
     requests.post("api/v1/exam-session", input),
-  deleteSchedule: (sessionId: string) =>
+  deleteSchedule: (sessionId: number) =>
     requests.del(`api/v1/exam-session/${sessionId}`),
 };
 

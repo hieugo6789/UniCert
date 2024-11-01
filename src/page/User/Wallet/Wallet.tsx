@@ -101,7 +101,9 @@ const Wallet = () => {
                         </div>
                       </div>
                       <div className="flex flex-col justify-center p-4 text-gray-700 w-full">
-                        <p className=" mb-2">{transaction.amount}</p>
+                        <p className=" mb-2">
+                          {transaction.amount.toLocaleString("vi-VN")} VNĐ
+                        </p>
                         <p className="text-sm font-medium text-gray-500">
                           {transaction.transDesription}
                         </p>

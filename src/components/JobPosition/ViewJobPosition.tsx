@@ -1,4 +1,4 @@
-import { Modal, Spin, Tag } from "antd";
+import { Descriptions, Modal, Spin, Tag } from "antd";
 import useJobDetail from "../../hooks/JobPosition/useJobDetail";
 import { useState } from "react";
 import { EyeOutlined } from "@ant-design/icons";
@@ -9,13 +9,13 @@ interface ViewJobDetailProps {
 
 const ViewJobPosition: React.FC<ViewJobDetailProps> = ({ jobPositionId }) => {
   const { state, getJobDetails } = useJobDetail();
-
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleView = async (jobPositionId: string) => {
     setIsModalVisible(true);
     await getJobDetails(jobPositionId);
   };
+
   return (
     <>
       <EyeOutlined
@@ -23,45 +23,73 @@ const ViewJobPosition: React.FC<ViewJobDetailProps> = ({ jobPositionId }) => {
         onClick={() => handleView(jobPositionId)}
       />
       <Modal
-        width={900}
-        title="Job position Details"
+        width={900} // Same width as ViewOrganize
+        footer={null}
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
-        footer={null}
       >
         {state.isLoading ? (
           <Spin />
         ) : state.currentJob ? (
-          <div className="text-lg">
-            <p>
-              <strong>Name: </strong> {state.currentJob.jobPositionName}
-            </p>
-            <p>
-              <strong>Code: </strong> {state.currentJob.jobPositionCode}
-            </p>
-            <strong>Description: </strong>{" "}
-            <div
-              className="prose list-disc whitespace-pre-wrap text-sm"
-              dangerouslySetInnerHTML={{
-                __html: state.currentJob.jobPositionDescription || "",
-              }}
-            />
-            <p>
-              <strong>Major: </strong>{" "}
-              {state.currentJob.majorDetails?.map((major, index) => (
-                <Tag key={index}>
-                  {major.majorCode} - {major.majorName}
-                </Tag>
-              )) || "No major available"}
-            </p>
-            <p>
-              <strong>Certification: </strong>
-              {state.currentJob.certificationDetails?.map((cert, index) => (
-                <Tag key={index}>
-                  {cert.certCode} -{cert.certName}
-                </Tag>
-              ))}
-            </p>
+          <div>
+            <Descriptions
+              bordered
+              size="middle"
+              column={1}
+              className="mb-4"
+              labelStyle={{ width: "50px", fontWeight: "bold" }}
+              contentStyle={{ width: "600px", textAlign: "left" }}
+              title={
+                <h3 className="text-2xl text-blue-600">Job Position Details</h3>
+              }
+            >
+              <Descriptions.Item label="Name">
+                <span className="text-blue-700">
+                  {state.currentJob.jobPositionName}
+                </span>
+              </Descriptions.Item>
+              <Descriptions.Item label="Code">
+                <span className="text-gray-600">
+                  {state.currentJob.jobPositionCode}
+                </span>
+              </Descriptions.Item>
+              <Descriptions.Item label="Description">
+                <div
+                  className="prose list-disc whitespace-pre-wrap text-sm"
+                  dangerouslySetInnerHTML={{
+                    __html: state.currentJob.jobPositionDescription || "",
+                  }}
+                />
+              </Descriptions.Item>
+              <Descriptions.Item label="Major">
+                {state.currentJob.majorDetails?.length ? (
+                  state.currentJob.majorDetails.map((major, index) => (
+                    <Tag
+                      key={index}
+                      color="blue"
+                    >
+                      {major.majorCode} - {major.majorName}
+                    </Tag>
+                  ))
+                ) : (
+                  <span>No major available</span>
+                )}
+              </Descriptions.Item>
+              <Descriptions.Item label="Certification">
+                {state.currentJob.certificationDetails?.length ? (
+                  state.currentJob.certificationDetails.map((cert, index) => (
+                    <Tag
+                      key={index}
+                      color="green"
+                    >
+                      {cert.certCode} - {cert.certName}
+                    </Tag>
+                  ))
+                ) : (
+                  <span>No certifications available</span>
+                )}
+              </Descriptions.Item>
+            </Descriptions>
           </div>
         ) : (
           <p>No details available.</p>
@@ -70,4 +98,5 @@ const ViewJobPosition: React.FC<ViewJobDetailProps> = ({ jobPositionId }) => {
     </>
   );
 };
+
 export default ViewJobPosition;

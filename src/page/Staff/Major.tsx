@@ -71,7 +71,7 @@ const Major = () => {
             <>
               {certificationDetails.slice(0, 3).map((cert, index) => (
                 <Tag
-                  color="blue"
+                  color="green"
                   key={index}
                 >
                   {cert.certCode}

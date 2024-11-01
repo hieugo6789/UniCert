@@ -16,7 +16,7 @@ const useDeleteMajor = () => {
       const response = await agent.Major.deleteMajor(majorId);
       dispatch(deleteMajorSuccess(response.data));
     } catch (error) {
-      console.error("Error deleting certification:", error);
+      console.error("Error deleting major:", error);
       dispatch(deleteMajorFailure());
     }
   };
