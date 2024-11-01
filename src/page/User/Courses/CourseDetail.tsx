@@ -9,6 +9,7 @@ import useCourseEnrollment from "../../../hooks/Enrollment/useCourse";
 import { courseEnrollment } from "../../../models/enrollment";
 import Coin from "../../../assets/images/Coin.png"
 import Cookies from "js-cookie";
+import { showToast } from "../../../utils/toastUtils";
 interface certTab {
     certId: number;
     certName: string;
@@ -100,11 +101,11 @@ const CourseDetail = () => {
       }
       ).then(() => {
         getCart(userId || "");
-        alert("Course added to cart successfully");
+        showToast("Course added to cart successfully", "success");
       }
       ).catch((error) => {
         console.error("Failed to add course to cart: ", error);
-        alert("Failed to add course to cart");
+        showToast("Failed to add course to cart", "error");
       }
       );
     }
