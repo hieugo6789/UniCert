@@ -11,7 +11,7 @@ const Header = () => {
   const userId = Cookies.get("userId");
   const {state, getCart} = useCartByUserId();
   const token = Cookies.get("token");
-  console.log(token);
+  // console.log(token);
   useEffect(() => {
     if (token) {
       setIsLoggedIn(true);
