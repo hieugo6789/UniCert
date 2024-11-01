@@ -26,6 +26,7 @@ const Major = () => {
   };
 
   const handlePaginationChange = (page: number) => {
+    setCurrentPage(1);
     setCurrentPage(page);
   };
 

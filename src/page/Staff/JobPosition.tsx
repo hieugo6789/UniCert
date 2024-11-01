@@ -22,6 +22,7 @@ const JobPosition = () => {
   const [pageSize] = useState(8);
 
   const handleSearch = () => {
+    setCurrentPage(1);
     refetchJobs(searchTerm);
   };
 

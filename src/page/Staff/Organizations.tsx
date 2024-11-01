@@ -28,6 +28,7 @@ const Organizations = () => {
   });
 
   const handleSearch = () => {
+    setCurrentPage(1);
     refetchOrganizations(searchTerm);
   };
 

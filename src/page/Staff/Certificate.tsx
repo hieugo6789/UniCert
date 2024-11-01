@@ -22,6 +22,7 @@ const Certificate = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = () => {
+    setCurrentPage(1);
     refetchCertificates(searchTerm);
   };
   const handlePaginationChange = (page: number) => {
