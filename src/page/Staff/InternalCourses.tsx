@@ -1,8 +1,8 @@
-import { Button, message, Modal, Table, Tag } from "antd";
+import { message, Modal, Table, Tag } from "antd";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import useCourse from "../../hooks/Course/useCourse";
 import { allCoursePaginationData } from "../../models/course";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import useDeleteCourse from "../../hooks/Course/useDeleteCourse";
 import UpdateCourse from "../../components/Course/UpdateCourse";
 import CreateCourse from "../../components/Course/CreateCourse";
@@ -113,12 +113,10 @@ const InternalCourses = () => {
             courseId={record.courseId}
             refetchCourses={refetchCourses}
           />
-          <Button
-            className="bg-red-500 hover:bg-red-700 transition-all duration-300"
+          <DeleteOutlined
             onClick={() => showDeleteConfirm(record.courseId)}
-          >
-            Delete
-          </Button>
+            style={{ color: "red", marginLeft: 12 }}
+          />
         </div>
       ),
     },

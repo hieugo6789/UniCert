@@ -35,6 +35,8 @@ const Major = () => {
       title: "Job Position",
       dataIndex: "jobPositionDetails",
       key: "jobPositionDetails",
+      width: 350,
+
       render: (jobPositionDetails: any[]) => {
         if (
           Array.isArray(jobPositionDetails) &&
@@ -42,7 +44,7 @@ const Major = () => {
         ) {
           return (
             <>
-              {jobPositionDetails.map((job, index) => (
+              {jobPositionDetails.slice(0, 3).map((job, index) => (
                 <Tag
                   color="blue"
                   key={index}
@@ -50,6 +52,7 @@ const Major = () => {
                   {job.jobPositionCode}
                 </Tag>
               ))}
+              {jobPositionDetails.length > 3 && <span>...</span>}
             </>
           );
         }
@@ -60,6 +63,7 @@ const Major = () => {
       title: "Certification",
       dataIndex: "certificationDetails",
       key: "certificationDetails",
+      width: 350,
       render: (certificationDetails: any[]) => {
         if (
           Array.isArray(certificationDetails) &&
@@ -67,7 +71,7 @@ const Major = () => {
         ) {
           return (
             <>
-              {certificationDetails.map((cert, index) => (
+              {certificationDetails.slice(0, 3).map((cert, index) => (
                 <Tag
                   color="blue"
                   key={index}
@@ -75,10 +79,11 @@ const Major = () => {
                   {cert.certCode}
                 </Tag>
               ))}
+              {certificationDetails.length > 3 && <span>...</span>}
             </>
           );
         }
-        return <span>No certification</span>; // Fallback for empty or non-array
+        return <span>No certification</span>;
       },
     },
     {

@@ -1,6 +1,7 @@
-import { Button, Modal, Spin, Tag } from "antd";
+import { Modal, Spin, Tag } from "antd";
 import useCourseDetail from "../../hooks/Course/useCourseDetail";
 import { useState } from "react";
+import { EyeOutlined } from "@ant-design/icons";
 
 interface ViewCourseDetailProps {
   courseId: string;
@@ -16,7 +17,10 @@ const ViewDetailCourse: React.FC<ViewCourseDetailProps> = ({ courseId }) => {
   };
   return (
     <>
-      <Button onClick={() => handleView(courseId)}>View</Button>
+      <EyeOutlined
+        onClick={() => handleView(courseId)}
+        style={{ color: "blue" }}
+      />
 
       <Modal
         title="Course Details"

@@ -57,7 +57,6 @@ const JobPosition = () => {
       title: "Certification",
       dataIndex: "certificationDetails",
       key: "certificationDetails",
-      // width: 200,
       render: (certificationDetails: any[]) => {
         if (
           Array.isArray(certificationDetails) &&

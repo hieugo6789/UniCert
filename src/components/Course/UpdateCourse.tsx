@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import useUpdateCourse from "../../hooks/Course/useCourseUpdate";
 import useCourseDetail from "../../hooks/Course/useCourseDetail";
-import { Button, Form, Input, message, Modal, Select } from "antd";
+import { Form, Input, message, Modal, Select } from "antd";
 import useCertificate from "../../hooks/Certification/useCertificate";
 import useVoucher from "../../hooks/Voucher/useVoucher";
+import { EditOutlined } from "@ant-design/icons";
 
 interface UpdateCourseProps {
   courseId: string;
@@ -68,12 +69,10 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
 
   return (
     <>
-      <Button
+      <EditOutlined
         onClick={showModal}
-        className="bg-blue-500"
-      >
-        Edit
-      </Button>
+        style={{ marginLeft: 12 }}
+      />
       <Modal
         title="Update Course"
         open={isModalVisible} // Use modal visibility state

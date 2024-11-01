@@ -42,7 +42,7 @@ const AvatarAdmin = () => {
     <>
       {token ? (
         <div className="flex items-center gap-2 rounded-lg ">
-          <div className="flex-grow text-right mr-1">
+          <div className="flex-grow text-right mr-1 w-40">
             <p className="text-lg font-bold">{state.profile.username}</p>
             <p className="block text-sm text-gray-400">{state.profile.role}</p>
           </div>

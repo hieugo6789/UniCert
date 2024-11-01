@@ -31,6 +31,22 @@ export const fetchAllSchedulePagination = createAsyncThunk(
   }
 );
 
+export const fetchAllSchedulePaginationbyID = createAsyncThunk(
+  "admin/fetchAllSchedulePagination",
+  async (dateInput: string) => {
+    try {
+      const response = await agent.Schedule.getScheduleDay(dateInput);
+      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return {
+          message: error.response?.data.error.message,
+          status: error.response?.status,
+        };
+      }
+    }
+  }
+);
 const scheduleSlice = createSlice({
   name: "job",
   initialState,

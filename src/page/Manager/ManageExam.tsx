@@ -4,6 +4,7 @@ import useExam from "../../hooks/SimulationExam/useExam";
 import UpdatePermission from "../../components/Permission/UpdatePermission";
 import usePermissionExam from "../../hooks/SimulationExam/usePermissionExam";
 import Coin from "../../assets/images/Coin.png";
+import ViewExamDetail from "../../components/Exam/ViewExamDetail";
 
 const ManageExam = () => {
   const { exam, loading, refetchExams } = useExam();
@@ -101,6 +102,7 @@ const ManageExam = () => {
       key: "actions",
       render: (record: any) => (
         <>
+          <ViewExamDetail examId={record.examId} />
           <UpdatePermission
             Id={record.examId}
             refetch={refetchExams}

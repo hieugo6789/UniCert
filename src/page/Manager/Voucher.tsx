@@ -114,7 +114,7 @@ const Voucher = () => {
     <>
       <div className="gap-4 p-2  h-full">
         <div className=" bg-white px-4 pt-2 pb-4 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
-          <div className="mb-4 flex justify-start">
+          <div className="mb-2 flex justify-start">
             <CreateVoucher refetchVouchers={refetchVouchers} />
           </div>
 

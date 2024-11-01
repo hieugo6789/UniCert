@@ -5,7 +5,6 @@ import Cookies from "js-cookie";
 import { inputTransaction } from "../../models/transaction";
 import agent from "../../utils/agent";
 
-// Danh sách các gói nạp
 const packages = [
   { points: 10, price: 10000 },
   { points: 20, price: 20000 },
