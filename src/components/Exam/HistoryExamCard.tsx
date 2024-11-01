@@ -1,59 +1,80 @@
-
+import React, { useState } from 'react';
 import { examEnrollment } from "../../models/enrollment";
 import CustomButton from "../UI/CustomButton";
+import Cookies from 'js-cookie';
+import { useCreatePayment } from '../../hooks/Payment/useCreatePayment';
+import coin from "../../assets/images/Coin.png";
+import { showToast } from '../../utils/toastUtils';
+
 interface ExamEnrollmentCardProps {
-    enrollment: examEnrollment;
-  }
+  enrollment: examEnrollment;
+}
 
 const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment }) => {
+  const { handleCreatePayment } = useCreatePayment();
+  const userId = Cookies.get("userId");
+  const [enrollStatus, setEnrollStatus] = useState(enrollment.examEnrollmentStatus);
 
-  const takeExam = () => {
-    return true;
-  }
+  const handleExam = async () => {
+    await handleCreatePayment({
+      userId: userId?.toString() || "",
+      courseEnrollmentId: 0,
+      examEnrollmentId: enrollment.examEnrollmentId,
+    });
+    setEnrollStatus('Completed'); // Cập nhật trạng thái sau khi thi
+    showToast("Payment completed successfully", "success");
+  };
 
-    return (
-      <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-        <div className="p-4">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Enrollment ID: {enrollment.examEnrollmentId}</h2>
-          <p className="text-gray-600">
-            Date: {new Date(enrollment.examEnrollmentDate).toLocaleDateString()}
-          </p>
-          <p className={`text-sm font-semibold mt-1 ${enrollment.examEnrollmentStatus === 'completed' ? 'text-green-500' : 'text-yellow-500'}`}>
-            Status: {enrollment.examEnrollmentStatus}
-          </p>
-          <p className="text-lg font-bold mt-2 text-gray-800">Total Price: ${enrollment.totalPrice}</p>
-          
-          <h3 className="text-lg font-semibold mt-4 text-gray-700">Exams:</h3>
-          <div className="mt-2 space-y-4">
-            {enrollment.simulationExamDetail.map((exam) => (
-              <div key={exam.examId} className="flex items-center">
-                <img
-                  src={exam.examImage}
-                  alt={exam.examName}
-                  className="w-16 h-16 rounded-full mr-4"
-                />
-                <div>
-                  <p className="text-lg font-medium text-gray-800">{exam.examName}</p>
-                  <p className="text-gray-500">Code: {exam.examCode}</p>
-                  <p className="text-gray-500">                    
-                    {exam.examDiscountFee > 0 ? (
-                      <div>
-                        Fee: ${exam.examDiscountFee}{' '}
-                        <span className="text-red-500 line-through">${exam.examFee}</span>
-                      </div>
-                    ):(
-                      <span>Fee: ${exam.examFee}</span>
-                    )}
-                  </p>
-                  <CustomButton label="Take Exam" shining onClick={takeExam} />
-                </div>
+  return (
+    <div className="flex flex-col md:flex-row shadow-xl rounded-xl bg-gray-200 py-1">
+      {/* Thông tin Enrollment */}
+      <div className="p-4 flex-1">
+        <h2 className="text-xl font-bold text-gray-800">
+          Enrollment ID: {enrollment.examEnrollmentId}
+        </h2>
+        <p className="text-sm text-gray-500">
+          Date: {new Date(enrollment.examEnrollmentDate).toLocaleDateString()}
+        </p>
+        <p
+          className={`text-sm font-semibold mt-1 ${enrollStatus === 'Completed'
+            ? 'text-green-500'
+            : 'text-yellow-500'
+            }`}
+        >
+          Status: {enrollStatus}
+        </p>
+        <p className="text-lg font-bold text-gray-800 mt-2 flex items-center gap-1">
+          Total Price: {enrollment.totalPrice}
+          <img src={coin} alt="coin" className='h-5'/>
+        </p>
+        {enrollStatus === 'OnGoing' && (
+          <CustomButton
+            label="Complete Payment"
+            onClick={handleExam}
+            className="mt-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md"
+          />
+        )}
+      </div>
+
+      {/* Danh sách Exams */}
+      <div className='grid mr-3'>
+        <h3 className="text-lg font-semibold mt-4 text-gray-700">Exams:</h3>
+        <div className="mt-2 space-y-4">
+          {enrollment.simulationExamDetail.map((exam) => (
+            <div key={exam.examId} className="flex items-center">
+              <img
+                src={exam.examImage}
+                alt={exam.examName}
+                className="w-16 h-16 rounded-full mr-4"
+              />
+              <div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
-    );
-  };
-  
+    </div>
+  );
+};
 
 export default HistoryExamCard;

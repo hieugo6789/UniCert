@@ -1,5 +1,6 @@
 import React from 'react';
 import { allExamPaginationData } from '../../models/simulationExam';
+import Coin from "../../assets/images/Coin.png"
 
 interface ExamSimulaCardProps extends allExamPaginationData {
   onClick?: () => void;
@@ -39,9 +40,19 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
       </div>
       <div className="flex items-center justify-between mt-auto">
         <div>
-          <span className="text-gray-500 line-through">{examFee.toLocaleString('en-US')}₫</span>
+          <div className="flex items-center">
+            <span className="text-gray-500 line-through mr-1">
+              {examFee.toLocaleString('en-US')}
+            </span>
+            <img src={Coin} alt="Coin Icon" className="w-5 h-5 inline-block" />
+          </div>
           {examDiscountFee && (
-            <span className="text-green-500 font-bold ml-2">{examDiscountFee.toLocaleString('en-US')}₫</span>
+          <div className="flex items-center">
+            <span className="text-green-500 font-bold mr-1">
+              {examDiscountFee.toLocaleString('en-US')}
+            </span>
+            <img src={Coin} alt="Coin Icon" className="w-5 h-5 inline-block" />
+          </div>
           )}
         </div>
         <button onClick={onClick} className={`${buttonStyles} text-white px-4 py-2 rounded-lg`} disabled={isInCart || isPurchased}>

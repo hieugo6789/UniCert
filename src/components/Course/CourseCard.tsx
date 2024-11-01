@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { allCoursePaginationData } from "../../models/course";
-
+import Coin from "../../assets/images/Coin.png"
 interface CourseCardProps {
   course: allCoursePaginationData;
   onClick?: () => void;
@@ -20,8 +20,18 @@ const CourseCard = ({ course, onClick, isInCart, isPurchased }: CourseCardProps)
     >
       <h2 className="text-xl font-bold">{course.courseName}</h2>
       <p className="text-gray-500 mt-2">{course.courseCode}</p>
-      <img src={course.courseImage} alt={course.courseName} className="mt-4 h-30 m-auto shadow-lg" />
-      <p className="text-black-500 mt-4">Course Fee: {course.courseFee}</p>
+      <img src={course.courseImage} alt={course.courseName} className="mt-4 h-30 m-auto shadow-lg" />      
+      <div className="flex items-center mt-4">
+        <p className="text-black-500 ">Course Fee: </p>
+        <img
+          src={Coin}
+          alt="Coin Icon"
+          className="w-5 h-5"
+        />
+        <span className="ml-1 text-yellow-600 font-bold">
+          {course.courseFee}
+        </span>
+      </div>
       <p className="text-black-500 mt-4">Course Duration: {course.courseTime}</p>
       
       {/* Button positioned in the bottom-right corner */}

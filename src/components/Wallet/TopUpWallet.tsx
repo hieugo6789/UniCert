@@ -4,6 +4,7 @@ import useWalletDetail from "../../hooks/Wallet/useWalletDetail";
 import Cookies from "js-cookie";
 import { inputTransaction } from "../../models/transaction";
 import agent from "../../utils/agent";
+import { showToast } from "../../utils/toastUtils";
 
 const packages = [
   { points: 10, price: 10000 },
@@ -50,16 +51,17 @@ const TopUpWallet = () => {
           ) {
             window.location.href = checkoutResponse.data.checkoutUrl;
           } else {
-            alert("Checkout failed. Please try again.");
+            showToast("Checkout failed. Please try again", "error");
           }
         }
       } catch (error) {
         console.error("Error during the top-up and checkout process:", error);
+        showToast("Checkout failed. Please try again", "error");
       }
 
       setTopUpAmount(0);
     } else {
-      alert("Please enter a valid top-up amount.");
+      showToast("Please enter a valid top-up amount.", "error");
     }
   };
 

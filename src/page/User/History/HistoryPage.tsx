@@ -34,13 +34,29 @@ const HistoryPage = () => {
   }, [id]);
 
   useEffect(() => {
-    const successfulExams = examEnrollment.filter((exam) => exam.examEnrollmentStatus === "Completed");
-    setPurchasedExams(successfulExams);
+    
+    const sortedExams = [...examEnrollment].sort((a, b) => {
+      if (a.examEnrollmentStatus === 'OnGoing' && b.examEnrollmentStatus !== 'OnGoing') {
+        return -1; 
+      } else if (a.examEnrollmentStatus !== 'OnGoing' && b.examEnrollmentStatus === 'OnGoing') {
+        return 1; 
+      }
+      return 0; 
+    });
+
+    setPurchasedExams(sortedExams);
   }, [examEnrollment]);
 
   useEffect(() => {
-    const successfulCourses = courseEnrollment.filter((course) => course.courseEnrollmentStatus === "Completed");
-    setPurchasedCourses(successfulCourses);
+    const sortedCourses = [...courseEnrollment].sort((a, b) => {
+      if (a.courseEnrollmentStatus === 'OnGoing' && b.courseEnrollmentStatus !== 'OnGoing') {
+        return -1; 
+      } else if (a.courseEnrollmentStatus !== 'OnGoing' && b.courseEnrollmentStatus === 'OnGoing') {
+        return 1; 
+      }
+      return 0; 
+    });
+    setPurchasedCourses(sortedCourses);
   }, [courseEnrollment]);
 
   return (
@@ -65,7 +81,7 @@ const HistoryPage = () => {
         {activeTab === "exams" ? (
           <div>
             <h2 className="text-xl font-semibold mb-2">Your Purchased Exams</h2>
-            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-10 py-10">
+            <section className="grid gap-6 ">
               {purchasedExams.length > 0 ? (
                 purchasedExams.map((exam) => (
                   <HistoryExamCard key={exam.examEnrollmentId} enrollment={exam} />
@@ -78,7 +94,7 @@ const HistoryPage = () => {
         ) : (
           <div>
             <h2 className="text-xl font-semibold mb-2">Your Purchased Courses</h2>
-            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-10 py-10">
+            <section className="grid gap-6 ">
               {purchasedCourses.length > 0 ? (
                 purchasedCourses.map((course) => (
                   <HistoryCourseCard key={course.courseEnrollmentId} enrollment={course} />

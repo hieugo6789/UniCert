@@ -41,6 +41,8 @@ import ManageJobPosition from "./page/Manager/ManageJobPosition";
 import ManageMajor from "./page/Manager/ManageMajor";
 import ManageOrganize from "./page/Manager/ManageOrganize";
 import Cart from "./page/User/Cart/Cart";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Layout = () => {
   return (
     <>
@@ -119,6 +121,7 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
+      <ToastContainer />
     </>
   );
 }

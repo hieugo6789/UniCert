@@ -1,6 +1,6 @@
 interface CustomButtonProps {
   label: string;
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   width?: string;
   height?: string;
