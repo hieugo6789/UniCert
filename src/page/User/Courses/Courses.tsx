@@ -8,6 +8,7 @@ import useCartByUserId from "../../../hooks/Cart/useCartByUserId";
 import useCourseEnrollment from "../../../hooks/Enrollment/useCourse";
 import { courseEnrollment } from "../../../models/enrollment";
 import Cookies from "js-cookie";
+import { showToast } from "../../../utils/toastUtils";
 const Courses = () => {
   const userId = Cookies.get("userId");
   const [courses, setCourses] = useState<allCoursePaginationData[]>([]);
@@ -40,12 +41,11 @@ const Courses = () => {
       courseId: [...courseIds, courseId],
     }
     ).then(() => {
+      showToast("Course added to cart successfully", "success");
       getCart(userId || "");
-      alert("Course added to cart successfully");
     }
     ).catch((error) => {
-      console.error("Failed to add course to cart: ", error);
-      alert("Failed to add course to cart");
+      showToast("Failed to add course to cart"+error, "error");
     }
     );
   }
