@@ -108,6 +108,8 @@ const Cart = () => {
       await updateCart(userId?.toString() || "", { courseId: updateCourseId, examId: updateExamId });
       getCart(userId?.toString() || "");
       setIsPopupOpen(true);
+      setSelectedCourses([]);
+      setSelectedExams([]);
     } catch (error) {
       showToast("Error in payment" + error, "error");
     }
@@ -138,17 +140,19 @@ const Cart = () => {
   const handlePopupAction = async (continueAction: boolean) => {
     setIsPopupOpen(false);
     if (continueAction) {
-      console.log(createdCourseEnroll);
-      console.log(createdExamEnroll);
+      const course = (createdCourseEnroll?.createdCourseEnrollment as any)?.data || {};
+      const exam = (createdExamEnroll?.createdExamEnrollment as any)?.data || 0;
+      console.log(exam.examEnrollment.examEnrollmentId);
       await handleCreatePayment({
         userId: userId?.toString() || "",
-        examEnrollmentId: createdExamEnroll?.createdExamEnrollment?.examEnrollmentId || 0,
-        courseEnrollmentId: createdCourseEnroll?.createdCourseEnrollment?.courseEnrollmentId || 0,
-      }).then(() => {
-        showToast("Payment Successful", "success");
-      }).catch((error) => {
-        showToast("Error in payment" + error, "error");
-      });
+        examEnrollmentId: exam.examEnrollment.examEnrollmentId,
+        courseEnrollmentId: course.courseEnrollmentId || 0,
+      })
+      if(createdCourseEnroll.error || createdExamEnroll.error){
+        showToast("Error in payment"+course.message+exam.message, "error");
+      }else{
+        showToast("Payment Success", "success");
+      }
     }
   };
   return (
@@ -157,8 +161,8 @@ const Cart = () => {
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded shadow-lg">
-            <h2 className="text-lg font-semibold">Payment Successful</h2>
-            <p>Would you like to proceed with another action?</p>
+            <h2 className="text-lg font-semibold">Payment</h2>
+            <p>Would you like to payment it?</p>
             <div className="mt-4 flex justify-end gap-2">
               <button onClick={() => handlePopupAction(false)} className="px-4 py-2 bg-gray-400 text-white rounded">
                 No
