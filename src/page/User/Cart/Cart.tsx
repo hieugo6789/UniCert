@@ -7,7 +7,7 @@ import { PiExam } from "react-icons/pi";
 import useUpdateCart from "../../../hooks/Cart/useUpdateCart";
 import { useCreateCourseEnrollment } from "../../../hooks/Enrollment/useCreateCourse";
 import { useCreateExamEnrollment } from "../../../hooks/Enrollment/useCreateExam";
-import coin from "../../../assets/images/coin.png";
+import coin from "../../../assets/images/Coin.png";
 import { Link } from "react-router-dom";
 import CustomButton from "../../../components/UI/CustomButton";
 import { useCreatePayment } from "../../../hooks/Payment/useCreatePayment";
