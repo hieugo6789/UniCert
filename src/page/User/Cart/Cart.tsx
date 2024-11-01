@@ -11,6 +11,7 @@ import coin from "../../../assets/images/Coin.png";
 import { Link } from "react-router-dom";
 import CustomButton from "../../../components/UI/CustomButton";
 import { useCreatePayment } from "../../../hooks/Payment/useCreatePayment";
+import useWalletDetail from "../../../hooks/Wallet/useWalletDetail";
 import { showToast } from "../../../utils/toastUtils";
 const ITEMS_PER_PAGE = 10;
 
@@ -24,6 +25,8 @@ const Cart = () => {
   const { state: createdCourseEnroll, handleCreateCourseEnrollment } = useCreateCourseEnrollment();
   const { state: createdExamEnroll, handleCreateExamEnrollment } = useCreateExamEnrollment();
   const { handleCreatePayment } = useCreatePayment();
+  const { wallets, getWalletDetails } = useWalletDetail();
+  const [transactionId, setTransactionId] = useState<number | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const [selectedCourses, setSelectedCourses] = useState<any[]>([]);
@@ -40,6 +43,23 @@ const Cart = () => {
       setCarts(state.currentCart);
     }
   }, [state]);
+
+  useEffect(() => {
+    const pathParts = location.pathname.split("/");
+    const transIdFromPath = pathParts[pathParts.length - 1];
+
+    const transIdNumber = parseInt(transIdFromPath, 10);
+    if (!isNaN(transIdNumber)) {
+      setTransactionId(transIdNumber);
+      console.log("Transaction ID from URL:", transIdNumber);
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (userId) {
+      getWalletDetails(userId, transactionId);
+    }
+  }, [userId, transactionId]);
 
   const loadMoreCourses = () => {
     setCurrentCoursePage((prev) => prev + 1);
@@ -175,8 +195,8 @@ const Cart = () => {
         </div>
       )}
       <div className="flex-1 mr-4">
-        <div className="bg-gray-100 p-4 rounded-xl shadow-xl flex gap-1">
-          <div>
+        <div className="bg-gray-100 p-4 rounded-xl shadow-xl flex gap-4">
+          <div className="flex-1">
             <h2 className="text-xl font-semibold">Courses</h2>
             <div className="flex items-center">
               <input
@@ -220,7 +240,7 @@ const Cart = () => {
             )}
           </div>
 
-          <div>
+          <div className="flex-1">
             <h2 className="text-xl font-semibold">Exams</h2>
             <div className="flex items-center">
               <input
@@ -249,7 +269,7 @@ const Cart = () => {
                     <p className="flex gap-1 items-center">Price: {exam.examDiscountFee} <img src={coin} alt="coin" className="h-4" /></p>
                     <div className="flex gap-1">
                       <CustomButton className="bg-green-600" onClick={() => toggleExamSelection(exam)} label={selectedExams.includes(exam) ? "Remove" : "Payment"} />
-                      <CustomButton onClick={() => handleDeleteExam(exam.examId)} className="bg-red-500" label="Delete This Course" />
+                      <CustomButton onClick={() => handleDeleteExam(exam.examId)} className="bg-red-500" label="Delete This Exam" />
                     </div>
                   </div>
                 </div>
@@ -279,6 +299,7 @@ const Cart = () => {
           <p className="flex items-center"> Courses Selected: {selectedCourses.length}<BiBook /></p>
           <p className="flex items-center"> Exams Selected: {selectedExams.length}<PiExam /></p>
           <p className="flex items-center"> Total: {total} <img src={coin} alt="coin" className="h-4" /></p>
+          <p className="flex items-center"> Wallet: {userId ? wallets[userId]?.point : 0} <img src={coin} alt="coin" className="h-4" /></p>
           <div className="mt-4">
             <h3 className="font-semibold">Courses:</h3>
             {selectedCourses.map((course) => (

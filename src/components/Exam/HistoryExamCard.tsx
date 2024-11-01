@@ -72,7 +72,7 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment }) => {
                   alt={exam.examName}
                   className="w-16 h-16 rounded-full mr-4"
                 />
-                <div>
+                <div className="mr-4">
                   <h4 className="text-md font-semibold">{exam.examName}</h4>
                   <p className="text-sm text-gray-600">{exam.examDescription}</p>
                 </div>

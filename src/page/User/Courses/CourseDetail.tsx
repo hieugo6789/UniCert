@@ -144,14 +144,30 @@ const CourseDetail = () => {
                 />
                 <div className="flex items-center justify-center fade-in text-white text-2xl mt-5">
                     <p>Course Fee: </p>
-                    <img
-                    src={Coin}
-                    alt="Coin Icon"
-                    className="w-5 h-5"
-                    />
-                    <span className="ml-1 text-yellow-600 font-bold">
-                        {courseDetail?.courseFee}
-                    </span>
+                    {courseDetail?.courseDiscountFee === courseDetail?.courseFee ? (
+                        // Nếu courseDiscountFee bằng courseFee, chỉ hiển thị courseDiscountFee
+                        <div className="flex items-center ml-2">
+                        <img src={Coin} alt="Coin Icon" className="w-5 h-5" />
+                        <span className="ml-1 text-yellow-600 font-bold">
+                            {courseDetail?.courseDiscountFee?.toLocaleString('en-US')}
+                        </span>
+                        </div>
+                    ) : (                        
+                        <>                        
+                        <div className="flex items-center ml-2">
+                            <span className="text-yellow-600 font-bold">
+                            {courseDetail?.courseDiscountFee?.toLocaleString('en-US')}
+                            </span>
+                            <img src={Coin} alt="Coin Icon" className="w-5 h-5" />
+                        </div>
+                        <div className="flex items-center ml-2">
+                            <span className="text-gray-500 line-through mr-1">
+                            {courseDetail?.courseFee?.toLocaleString('en-US')}
+                            </span>
+                            <img src={Coin} alt="Coin Icon" className="w-5 h-5" />
+                        </div>
+                        </>
+                    )}
                 </div>
                 {isPurchased ? (
                     <CustomButton label="Purchased" disabled className="mt-5" width="w-1/6" />
