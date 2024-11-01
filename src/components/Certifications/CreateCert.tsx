@@ -157,7 +157,7 @@ const CreateCert = ({
         Certification
       </Button>
       <Modal
-        title="Tạo Certificate"
+        title="Create Certificate"
         open={isModalVisible}
         width={800}
         onOk={handleOK}

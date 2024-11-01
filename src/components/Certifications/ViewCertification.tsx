@@ -1,5 +1,5 @@
 import { EyeOutlined } from "@ant-design/icons";
-import { Modal, Spin } from "antd";
+import { Modal, Spin, Descriptions, Tag } from "antd";
 import useCertDetail from "../../hooks/Certification/useCertDetail";
 import { useState } from "react";
 
@@ -15,6 +15,7 @@ const ViewCertification: React.FC<ViewCertDetailProps> = ({ certId }) => {
     setIsModalVisible(true);
     await getCertDetails(certId);
   };
+
   return (
     <>
       <EyeOutlined
@@ -22,7 +23,7 @@ const ViewCertification: React.FC<ViewCertDetailProps> = ({ certId }) => {
         style={{ color: "blue" }}
       />
       <Modal
-        width={900}
+        width={900} // Adjusted for consistency
         open={isModalVisible}
         footer={null}
         onCancel={() => setIsModalVisible(false)}
@@ -30,60 +31,96 @@ const ViewCertification: React.FC<ViewCertDetailProps> = ({ certId }) => {
         {state.isLoading ? (
           <Spin />
         ) : state.currentCert ? (
-          <div className="text-lg">
-            <p>
-              <strong>Name: </strong> {state.currentCert.certName}
-            </p>
-            <p>
-              <strong>Code: </strong> {state.currentCert.certCode}
-            </p>
-            <p>
-              <strong>Description: </strong>
-            </p>
-            <div
-              className="prose list-disc whitespace-pre-wrap text-sm"
-              dangerouslySetInnerHTML={{
-                __html: state.currentCert.certDescription || "",
-              }}
-            />
-            <p>
-              <strong>Point system: </strong>{" "}
+          <Descriptions
+            bordered
+            size="middle"
+            column={1}
+            className="mb-4"
+            labelStyle={{ width: "100px", fontWeight: "bold" }}
+            contentStyle={{ width: "600px", textAlign: "left" }}
+            title={
+              <h3 className="text-2xl text-blue-600">Certification Details</h3>
+            }
+          >
+            <Descriptions.Item label="Name">
+              <span className="text-blue-700">
+                {state.currentCert.certName}
+              </span>
+            </Descriptions.Item>
+            <Descriptions.Item label="Code">
+              <span className="text-gray-600">
+                {state.currentCert.certCode}
+              </span>
+            </Descriptions.Item>
+            <Descriptions.Item label="Description">
+              <div
+                className="prose list-disc whitespace-pre-wrap text-sm"
+                dangerouslySetInnerHTML={{
+                  __html: state.currentCert.certDescription || "",
+                }}
+              />
+            </Descriptions.Item>
+            <Descriptions.Item label="Point System">
               {state.currentCert.certPointSystem}
-            </p>
-            <p>
-              <strong>Image: </strong>{" "}
+            </Descriptions.Item>
+            <Descriptions.Item label="Image">
               <img
                 src={state.currentCert.certImage}
-                alt="Current Image"
+                alt="Certification"
                 className="w-32 h-32 bg-gray-300 mb-4"
               />
-            </p>
-            <p>
-              <strong>Cost for official exam:</strong>{" "}
+            </Descriptions.Item>
+            <Descriptions.Item label="Cost for Official Exam">
               {state.currentCert.certCost} $
-            </p>
-            <p>
-              <strong>Period: </strong> {state.currentCert.certValidity}
-            </p>
-            <p>
-              <strong>Prerequisite certifications: </strong>{" "}
-              {state.currentCert.certPrerequisite} -{" "}
-              {state.currentCert.certCodePrerequisite}
-            </p>
-            <p>
-              <strong>Organization: </strong> {state.currentCert.organizeName}
-            </p>
-            <p>
-              <strong>Level: </strong> {state.currentCert.typeName}
-            </p>
-            <p>
-              <strong>Major:</strong> {state.currentCert.majorNames}
-            </p>
-            <p>
-              <strong>Job position:</strong>{" "}
-              {state.currentCert.jobPositionNames}
-            </p>
-          </div>
+            </Descriptions.Item>
+            <Descriptions.Item label="Validity Period">
+              {state.currentCert.certValidity}
+            </Descriptions.Item>
+            <Descriptions.Item label="Prerequisite Certifications">
+              {state.currentCert.certPrerequisite?.length
+                ? state.currentCert.certPrerequisite.map(
+                    (prerequisite, index) => (
+                      <Tag
+                        color="blue"
+                        key={index}
+                      >
+                        {prerequisite}
+                      </Tag>
+                    )
+                  )
+                : "No Prerequisite Certifications"}
+            </Descriptions.Item>
+            <Descriptions.Item label="Organization">
+              {state.currentCert.organizeName}
+            </Descriptions.Item>
+            <Descriptions.Item label="Level">
+              {state.currentCert.typeName}
+            </Descriptions.Item>
+            <Descriptions.Item label="Major">
+              {state.currentCert.majorNames?.length
+                ? state.currentCert.majorNames.map((major, index) => (
+                    <Tag
+                      color="green"
+                      key={index}
+                    >
+                      {major}
+                    </Tag>
+                  ))
+                : "None"}
+            </Descriptions.Item>
+            <Descriptions.Item label="Job Positions">
+              {state.currentCert.jobPositionNames?.length
+                ? state.currentCert.jobPositionNames.map((job, index) => (
+                    <Tag
+                      color="purple"
+                      key={index}
+                    >
+                      {job}
+                    </Tag>
+                  ))
+                : "None"}
+            </Descriptions.Item>
+          </Descriptions>
         ) : (
           <p>No details available.</p>
         )}
@@ -91,4 +128,5 @@ const ViewCertification: React.FC<ViewCertDetailProps> = ({ certId }) => {
     </>
   );
 };
+
 export default ViewCertification;

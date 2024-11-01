@@ -68,7 +68,7 @@ const JobPosition = () => {
             <>
               {certificationDetails.slice(0, 3).map((c, index) => (
                 <Tag
-                  color="blue"
+                  color="green"
                   key={index}
                 >
                   {c.certCode}

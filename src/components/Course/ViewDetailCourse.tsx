@@ -1,4 +1,4 @@
-import { Modal, Spin, Tag } from "antd";
+import { Modal, Spin, Descriptions, Tag } from "antd";
 import useCourseDetail from "../../hooks/Course/useCourseDetail";
 import { useState } from "react";
 import { EyeOutlined } from "@ant-design/icons";
@@ -15,15 +15,15 @@ const ViewDetailCourse: React.FC<ViewCourseDetailProps> = ({ courseId }) => {
     setIsModalVisible(true);
     await getCourseDetails(courseId);
   };
+
   return (
     <>
       <EyeOutlined
         onClick={() => handleView(courseId)}
-        style={{ color: "blue" }}
+        style={{ color: "blue", cursor: "pointer" }}
       />
 
       <Modal
-        title="Course Details"
         width={900}
         open={isModalVisible}
         footer={null}
@@ -32,62 +32,91 @@ const ViewDetailCourse: React.FC<ViewCourseDetailProps> = ({ courseId }) => {
         {state.isLoading ? (
           <Spin />
         ) : state.currentCourse ? (
-          <div className="text-lg">
-            <div>
-              <img src={state.currentCourse.courseImage} />
-            </div>
-            <p>
-              <strong>Name: </strong> {state.currentCourse.courseName}
-            </p>
-            <p>
-              <strong>Code: </strong> {state.currentCourse.courseCode}
-            </p>
-            <p>
-              <strong>Description: </strong>{" "}
-              {state.currentCourse.courseDescription}
-            </p>
-            <p>
-              <strong>Course time: </strong> {state.currentCourse.courseTime}
-            </p>
-            <p>
-              <strong>Fee: </strong> {state.currentCourse.courseFee}
-            </p>
-            <p>
-              <strong>Discount fee: </strong>{" "}
-              {state.currentCourse.courseDiscountFee}
-            </p>
-            <p>
-              <strong>Voucher: </strong>{" "}
-              {state.currentCourse.voucherDetails?.map((v, index) => (
-                <div key={index}>
-                  <p>{v.voucherName}</p>
-                  <div>
-                    {
-                      <span>
-                        {new Date(v.creationDate).toLocaleDateString()}
-                      </span>
-                    }{" "}
-                    -{" "}
-                    {<span>{new Date(v.expiryDate).toLocaleDateString()}</span>}
+          <Descriptions
+            bordered
+            size="middle"
+            column={1}
+            className="mb-4"
+            labelStyle={{ width: "50px", fontWeight: "bold" }}
+            contentStyle={{ width: "600px", textAlign: "left" }}
+            title={<h3 className="text-2xl text-blue-600">Course Details</h3>}
+          >
+            <Descriptions.Item label="Image">
+              <img
+                src={state.currentCourse.courseImage}
+                alt="Course"
+                className=" object-cover rounded-lg shadow-md mb-4"
+              />
+            </Descriptions.Item>
+            <Descriptions.Item label="Name">
+              <span className="text-blue-700">
+                {state.currentCourse.courseName}
+              </span>
+            </Descriptions.Item>
+            <Descriptions.Item label="Code">
+              <span className="text-gray-600">
+                {state.currentCourse.courseCode}
+              </span>
+            </Descriptions.Item>
+            <Descriptions.Item label="Description">
+              <div
+                className="prose list-disc whitespace-pre-wrap text-sm"
+                dangerouslySetInnerHTML={{
+                  __html: state.currentCourse.courseDescription || "",
+                }}
+              />
+            </Descriptions.Item>
+            <Descriptions.Item label="Course Time">
+              {state.currentCourse.courseTime}
+            </Descriptions.Item>
+            <Descriptions.Item label="Fee">
+              {state.currentCourse.courseFee} $
+            </Descriptions.Item>
+            <Descriptions.Item label="Discount Fee">
+              {state.currentCourse.courseDiscountFee} $
+            </Descriptions.Item>
+            <Descriptions.Item label="Vouchers">
+              {state.currentCourse.voucherDetails?.length ? (
+                state.currentCourse.voucherDetails.map((v, index) => (
+                  <div
+                    key={index}
+                    className="mb-2"
+                  >
+                    <p className="font-semibold text-gray-700">
+                      {v.voucherName} - {v.percentage}%
+                    </p>
+                    <div className="text-sm text-gray-500">
+                      {new Date(v.creationDate).toLocaleDateString()} -{" "}
+                      {new Date(v.expiryDate).toLocaleDateString()}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </p>
-
-            <p>
-              <strong>Certification: </strong>
-              {state.currentCourse.certificationDetails?.map((cert, index) => (
-                <Tag key={index}>
-                  {cert.certCode} - {cert.certName}
-                </Tag>
-              )) || "No certifications available"}
-            </p>
-          </div>
+                ))
+              ) : (
+                <span>No vouchers available</span>
+              )}
+            </Descriptions.Item>
+            <Descriptions.Item label="Certifications">
+              {state.currentCourse.certificationDetails?.length ? (
+                state.currentCourse.certificationDetails.map((cert, index) => (
+                  <Tag
+                    color="blue"
+                    key={index}
+                    className="mb-1"
+                  >
+                    {cert.certCode} - {cert.certName}
+                  </Tag>
+                ))
+              ) : (
+                <span>No certifications available</span>
+              )}
+            </Descriptions.Item>
+          </Descriptions>
         ) : (
-          <p>No details available.</p>
+          <p className="text-center text-gray-500">No details available.</p>
         )}
       </Modal>
     </>
   );
 };
+
 export default ViewDetailCourse;
