@@ -3,7 +3,7 @@ import { examEnrollment } from "../../models/enrollment";
 import CustomButton from "../UI/CustomButton";
 import Cookies from 'js-cookie';
 import { useCreatePayment } from '../../hooks/Payment/useCreatePayment';
-import coin from "../../assets/images/coin.png";
+import coin from "../../assets/images/Coin.png";
 import { showToast } from '../../utils/toastUtils';
 
 interface ExamEnrollmentCardProps {
