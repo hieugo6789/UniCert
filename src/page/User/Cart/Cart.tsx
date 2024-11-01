@@ -33,6 +33,16 @@ const Cart = () => {
   const [selectedExams, setSelectedExams] = useState<any[]>([]);
 
   useEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth", // Cuộn mượt mà
+      });
+    };
+    scrollToTop();
+  });
+
+  useEffect(() => {
     if (userId) {
       getCart(userId);
     }
@@ -172,6 +182,7 @@ const Cart = () => {
         showToast("Error in payment"+course.message+exam.message, "error");
       }else{
         showToast("Payment Success", "success");
+        window.location.reload();
       }
     }
   };
