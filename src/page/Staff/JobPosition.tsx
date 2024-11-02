@@ -37,18 +37,22 @@ const JobPosition = () => {
       dataIndex: "majorDetails",
       key: "majorDetails",
       render: (majorDetails: any[]) => {
-        if (Array.isArray(majorDetails) && majorDetails.length > 0) {
+        const approvedMajor = majorDetails
+          .filter((major) => major.majorPermission === "Approve")
+          .slice(0, 3);
+        if (Array.isArray(approvedMajor) && approvedMajor.length > 0) {
           return (
             <>
-              {majorDetails.slice(0, 3).map((major, index) => (
+              {approvedMajor.map((major, index) => (
                 <Tag
                   color="blue"
                   key={index}
                 >
                   {major.majorCode}
-                </Tag> // Wrap each prerequisite in a Tag
+                </Tag>
               ))}
-              {majorDetails.length > 3 && <span>...</span>}
+              {majorDetails.filter((ma) => ma.majorPermission === "Approve")
+                .length > 3 && <span>...</span>}
             </>
           );
         }
@@ -60,13 +64,16 @@ const JobPosition = () => {
       dataIndex: "certificationDetails",
       key: "certificationDetails",
       render: (certificationDetails: any[]) => {
+        const approvedCertifications = certificationDetails
+          .filter((cert) => cert.permission === "Approve")
+          .slice(0, 3);
         if (
-          Array.isArray(certificationDetails) &&
-          certificationDetails.length > 0
+          Array.isArray(approvedCertifications) &&
+          approvedCertifications.length > 0
         ) {
           return (
             <>
-              {certificationDetails.slice(0, 3).map((c, index) => (
+              {approvedCertifications.map((c, index) => (
                 <Tag
                   color="green"
                   key={index}
@@ -74,7 +81,9 @@ const JobPosition = () => {
                   {c.certCode}
                 </Tag>
               ))}
-              {certificationDetails.length > 3 && <span>...</span>}
+              {certificationDetails.filter(
+                (cert) => cert.permission === "Approve"
+              ).length > 3 && <span>...</span>}
             </>
           );
         }
@@ -193,7 +202,7 @@ const JobPosition = () => {
                 className="header-bg-pink"
               />
             ) : (
-              <div>No organizations available.</div>
+              <div>No job positions available.</div>
             )}
           </div>
           <div className="mt-6 flex justify-end">

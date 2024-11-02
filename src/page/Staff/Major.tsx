@@ -37,13 +37,13 @@ const Major = () => {
       dataIndex: "jobPositionDetails",
       key: "jobPositionDetails",
       render: (jobPositionDetails: any[]) => {
-        if (
-          Array.isArray(jobPositionDetails) &&
-          jobPositionDetails.length > 0
-        ) {
+        const jobApproved = jobPositionDetails
+          .filter((job) => job.jobPositionPermission === "Approve")
+          .slice(0, 3);
+        if (Array.isArray(jobApproved) && jobApproved.length > 0) {
           return (
             <>
-              {jobPositionDetails.slice(0, 3).map((job, index) => (
+              {jobApproved.map((job, index) => (
                 <Tag
                   color="blue"
                   key={index}
@@ -51,7 +51,9 @@ const Major = () => {
                   {job.jobPositionCode}
                 </Tag>
               ))}
-              {jobPositionDetails.length > 3 && <span>...</span>}
+              {jobPositionDetails.filter(
+                (job) => job.jobPositionPermission === "Approve"
+              ).length > 3 && <span>...</span>}
             </>
           );
         }
@@ -63,13 +65,13 @@ const Major = () => {
       dataIndex: "certificationDetails",
       key: "certificationDetails",
       render: (certificationDetails: any[]) => {
-        if (
-          Array.isArray(certificationDetails) &&
-          certificationDetails.length > 0
-        ) {
+        const approvedCerts = certificationDetails
+          .filter((cert) => cert.permission === "Approve")
+          .slice(0, 3);
+        if (Array.isArray(approvedCerts) && approvedCerts.length > 0) {
           return (
             <>
-              {certificationDetails.slice(0, 3).map((cert, index) => (
+              {approvedCerts.map((cert, index) => (
                 <Tag
                   color="green"
                   key={index}
@@ -77,7 +79,9 @@ const Major = () => {
                   {cert.certCode}
                 </Tag>
               ))}
-              {certificationDetails.length > 3 && <span>...</span>}
+              {certificationDetails.filter(
+                (cert) => cert.permission === "Approve"
+              ).length > 3 && <span>...</span>}
             </>
           );
         }

@@ -10,6 +10,7 @@ export interface allJobPaginationData {
       majorCode: string;
       majorName: string;
       majorDescription: string;
+      majorPermission: string;
     }
   ];
   certificationDetails: [
@@ -22,6 +23,7 @@ export interface allJobPaginationData {
       typeName: string;
       organizeName: string;
       certValidity: string;
+      permission: string;
     }
   ];
 }
@@ -38,6 +40,7 @@ export interface currentJob {
       majorCode: string;
       majorName: string;
       majorDescription: string;
+      majorPermission: string;
     }
   ];
   certificationDetails: [
@@ -50,6 +53,7 @@ export interface currentJob {
       typeName: string;
       organizeName: string;
       certValidity: string;
+      permission: string;
     }
   ];
 }

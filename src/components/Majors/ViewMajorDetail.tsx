@@ -15,6 +15,12 @@ const ViewMajorDetail: React.FC<ViewMajorDetailProps> = ({ majorId }) => {
     setIsModalVisible(true);
     await getMajorDetails(majorId);
   };
+  const approvedJobPosition = state.currentMajor.jobPositionDetails?.filter(
+    (job) => job.jobPositionPermission === "Approve"
+  );
+  const approvedCertification = state.currentMajor.certificationDetails?.filter(
+    (cert) => cert.permission === "Approve"
+  );
 
   return (
     <>
@@ -60,8 +66,8 @@ const ViewMajorDetail: React.FC<ViewMajorDetailProps> = ({ majorId }) => {
                 />
               </Descriptions.Item>
               <Descriptions.Item label="Job Positions">
-                {state.currentMajor.jobPositionDetails?.length ? (
-                  state.currentMajor.jobPositionDetails.map((job, index) => (
+                {approvedJobPosition?.length ? (
+                  approvedJobPosition.map((job, index) => (
                     <Tag
                       key={index}
                       color="blue"
@@ -74,8 +80,8 @@ const ViewMajorDetail: React.FC<ViewMajorDetailProps> = ({ majorId }) => {
                 )}
               </Descriptions.Item>
               <Descriptions.Item label="Certifications">
-                {state.currentMajor.certificationDetails?.length ? (
-                  state.currentMajor.certificationDetails.map((cert, index) => (
+                {approvedCertification?.length ? (
+                  approvedCertification.map((cert, index) => (
                     <Tag
                       key={index}
                       color="green"
