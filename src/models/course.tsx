@@ -17,6 +17,7 @@ export interface allCoursePaginationData {
       certDescription: string;
       certImage: string;
       typeName: string;
+      permission: string;
     }
   ];
   voucherDetails: [
@@ -51,6 +52,7 @@ export interface currentCourse {
       certDescription: string;
       certImage: string;
       typeName: string;
+      permission: string;
     }
   ];
   voucherDetails: [

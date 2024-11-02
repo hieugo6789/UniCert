@@ -47,13 +47,16 @@ const ManageCourse = () => {
       dataIndex: "certificationDetails",
       key: "certificationDetails",
       render: (certificationDetails: any[]) => {
+        const approvedCertifications = certificationDetails
+          .filter((cert) => cert.permission === "Approve")
+          .slice(0, 3);
         if (
-          Array.isArray(certificationDetails) &&
-          certificationDetails.length > 0
+          Array.isArray(approvedCertifications) &&
+          approvedCertifications.length > 0
         ) {
           return (
             <>
-              {certificationDetails.map((cert, index) => (
+              {approvedCertifications.map((cert, index) => (
                 <Tag
                   color="blue"
                   key={index}

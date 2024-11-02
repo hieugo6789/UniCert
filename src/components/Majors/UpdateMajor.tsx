@@ -135,14 +135,16 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
               mode="multiple"
             >
               {job.length > 0 &&
-                job.map((j) => (
-                  <Select.Option
-                    key={j.jobPositionId}
-                    value={j.jobPositionId}
-                  >
-                    {j.jobPositionName}
-                  </Select.Option>
-                ))}
+                job
+                  .filter((j) => j.jobPositionPermission === "Approve")
+                  .map((j) => (
+                    <Select.Option
+                      key={j.jobPositionId}
+                      value={j.jobPositionId}
+                    >
+                      {j.jobPositionName}
+                    </Select.Option>
+                  ))}
             </Select>
           </Form.Item>
           <Form.Item
@@ -155,14 +157,16 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
               mode="multiple"
             >
               {certificate.length > 0 &&
-                certificate.map((cert) => (
-                  <Select.Option
-                    key={cert.certId}
-                    value={cert.certId}
-                  >
-                    {cert.certName}
-                  </Select.Option>
-                ))}
+                certificate
+                  .filter((cert) => cert.permission === "Approve")
+                  .map((cert) => (
+                    <Select.Option
+                      key={cert.certId}
+                      value={cert.certId}
+                    >
+                      {cert.certName}
+                    </Select.Option>
+                  ))}
             </Select>
           </Form.Item>
         </Form>

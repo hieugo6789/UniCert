@@ -16,6 +16,11 @@ const ViewDetailCourse: React.FC<ViewCourseDetailProps> = ({ courseId }) => {
     await getCourseDetails(courseId);
   };
 
+  const approvedCertification =
+    state.currentCourse.certificationDetails?.filter(
+      (cert) => cert.permission === "Approve"
+    );
+
   return (
     <>
       <EyeOutlined
@@ -96,8 +101,8 @@ const ViewDetailCourse: React.FC<ViewCourseDetailProps> = ({ courseId }) => {
               )}
             </Descriptions.Item>
             <Descriptions.Item label="Certifications">
-              {state.currentCourse.certificationDetails?.length ? (
-                state.currentCourse.certificationDetails.map((cert, index) => (
+              {approvedCertification?.length ? (
+                approvedCertification.map((cert, index) => (
                   <Tag
                     color="blue"
                     key={index}

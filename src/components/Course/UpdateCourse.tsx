@@ -198,14 +198,16 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
               placeholder="Select Certification"
               style={{ width: "100%" }}
             >
-              {certificate.map((cert) => (
-                <Select.Option
-                  key={cert.certId}
-                  value={cert.certId}
-                >
-                  {cert.certName}
-                </Select.Option>
-              ))}
+              {certificate
+                .filter((cert) => cert.permission === "Approve")
+                .map((cert) => (
+                  <Select.Option
+                    key={cert.certId}
+                    value={cert.certId}
+                  >
+                    {cert.certName}
+                  </Select.Option>
+                ))}
             </Select>
           </Form.Item>
         </Form>

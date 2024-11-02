@@ -149,14 +149,16 @@ const CreateJob = ({
               style={{ width: "100%" }}
               mode="multiple"
             >
-              {major.map((m) => (
-                <Select.Option
-                  key={m.majorId}
-                  value={m.majorId}
-                >
-                  {m.majorName}
-                </Select.Option>
-              ))}
+              {major
+                .filter((m) => m.majorPermission === "Approve")
+                .map((m) => (
+                  <Select.Option
+                    key={m.majorId}
+                    value={m.majorId}
+                  >
+                    {m.majorName}
+                  </Select.Option>
+                ))}
             </Select>
           </Form.Item>
           <Form.Item label="Certification">
@@ -166,14 +168,16 @@ const CreateJob = ({
               style={{ width: "100%" }}
               mode="multiple"
             >
-              {certificate.map((cert) => (
-                <Select.Option
-                  key={cert.certId}
-                  value={cert.certId}
-                >
-                  {cert.certName}
-                </Select.Option>
-              ))}
+              {certificate
+                .filter((cert) => cert.permission === "Approve")
+                .map((cert) => (
+                  <Select.Option
+                    key={cert.certId}
+                    value={cert.certId}
+                  >
+                    {cert.certName}
+                  </Select.Option>
+                ))}
             </Select>
           </Form.Item>
         </Form>
