@@ -73,7 +73,7 @@ const InternalCourses = () => {
             </>
           );
         }
-        return <span>No cert</span>; // Fallback for empty or non-array
+        return <span>Cert pending</span>; // Fallback for empty or non-array
       },
     },
     {

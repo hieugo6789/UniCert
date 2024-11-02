@@ -53,6 +53,7 @@ export interface currentExamDetail {
       typeName: string;
       organizeName: string;
       certValidity: string;
+      permission: string;
     }
   ];
   voucherDetails: [
