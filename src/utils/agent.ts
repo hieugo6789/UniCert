@@ -20,6 +20,7 @@ import {
   createExamEnrollment,
 } from "../models/enrollment";
 import { createExam, updateExam } from "../models/simulationExam";
+import { createFeedback, updateFeedback } from "../models/feedback";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -193,6 +194,17 @@ const SimulationExam = {
     ),
 };
 
+const FeedBack = {
+  getFeedbackByExamId: (examId: number) =>
+    requests.get(`api/v1/feedback/exam/${examId}`),
+  createFeedback: (input: createFeedback) =>
+    requests.post("api/v1/feedback/exam", input),
+  deleteFeedback: (feedbackId: number) =>
+    requests.del(`api/v1/feedback/exam/${feedbackId}`),
+  updateFeedback: (feedbackId: number, input: updateFeedback) =>
+    requests.put(`api/v1/feedback/exam/${feedbackId}`, input),
+};
+
 const Voucher = {
   getAllVoucher: (name?: string) =>
     requests.get(`api/v1/voucher/${name ? name : ""}`),
@@ -253,6 +265,7 @@ const agent = {
   Schedule,
   Profile,
   SimulationExam,
+  FeedBack,
   Voucher,
   TransactionWallet,
   Checkout,
