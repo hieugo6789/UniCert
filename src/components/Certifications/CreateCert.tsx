@@ -338,7 +338,27 @@ const CreateCert = ({
                   key={cert.certId}
                   value={cert.certId}
                 >
-                  {cert.certName}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span>{cert.certName}</span>
+                    <span
+                      style={{
+                        color:
+                          cert.permission === "Approve"
+                            ? "green"
+                            : cert.permission === "Reject"
+                            ? "red"
+                            : "blue",
+                      }}
+                    >
+                      {cert.permission}
+                    </span>
+                  </div>
                 </Select.Option>
               ))}
             </Select>
@@ -359,7 +379,27 @@ const CreateCert = ({
                   key={m.majorId}
                   value={m.majorId}
                 >
-                  {m.majorName}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span>{m.majorName}</span>
+                    <span
+                      style={{
+                        color:
+                          m.majorPermission === "Approve"
+                            ? "green"
+                            : m.majorPermission === "Reject"
+                            ? "red"
+                            : "blue",
+                      }}
+                    >
+                      {m.majorPermission}
+                    </span>
+                  </div>
                 </Select.Option>
               ))}
             </Select>
@@ -382,7 +422,27 @@ const CreateCert = ({
                   key={j.jobPositionId}
                   value={j.jobPositionId}
                 >
-                  {j.jobPositionName}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    {j.jobPositionName}
+                    <span
+                      style={{
+                        color:
+                          j.jobPositionPermission === "Approve"
+                            ? "green"
+                            : j.jobPositionPermission === "Reject"
+                            ? "red"
+                            : "blue",
+                      }}
+                    >
+                      {j.jobPositionPermission}
+                    </span>
+                  </div>
                 </Select.Option>
               ))}
             </Select>

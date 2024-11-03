@@ -14,5 +14,11 @@ export interface currentFeedback {
   feedbackCreatedAt: Date;
   feedbackImage: string;
 }
-export interface createFeedback {}
+export interface createFeedback {
+  userId: string;
+  examId: number;
+  feedbackDescription: string;
+  feedbackImage: string;
+  feedbackCreatedAt: Date;
+}
 export interface updateFeedback {}

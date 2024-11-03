@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useExamDetail from "../../hooks/SimulationExam/useExamDetail";
 import { EyeOutlined } from "@ant-design/icons";
-import { Card, Descriptions, Modal, Spin } from "antd";
+import { Card, Descriptions, Modal, Spin, Tag } from "antd";
 
 interface ViewExamDetailProps {
   examId: number;
@@ -15,6 +15,9 @@ const ViewExamDetail: React.FC<ViewExamDetailProps> = ({ examId }) => {
     setIsModalVisible(true);
     await getExamDetails(examId);
   };
+  const approvedCertification = state.currentExam.certificationDetails?.filter(
+    (cert) => cert.permission === "Approve"
+  );
   return (
     <>
       <EyeOutlined
@@ -89,6 +92,21 @@ const ViewExamDetail: React.FC<ViewExamDetailProps> = ({ examId }) => {
                   ))
                 ) : (
                   <span>No vouchers available</span>
+                )}
+              </Descriptions.Item>
+              <Descriptions.Item label="Certifications">
+                {approvedCertification?.length ? (
+                  approvedCertification.map((cert, index) => (
+                    <Tag
+                      color="blue"
+                      key={index}
+                      className="mb-1"
+                    >
+                      {cert.certCode} - {cert.certName}
+                    </Tag>
+                  ))
+                ) : (
+                  <span>Certification is pending or rejected</span>
                 )}
               </Descriptions.Item>
             </Descriptions>

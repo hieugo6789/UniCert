@@ -46,6 +46,7 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
         majorName: currentMajor.majorName || "",
         majorCode: currentMajor.majorCode || "",
         majorDescription: currentMajor.majorDescription || "",
+        majorImage: currentMajor.majorImage || "",
         jobPositionId: jobPositionIds,
         certId: certIds,
       });
@@ -126,6 +127,15 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
             />
           </Form.Item>
           <Form.Item
+            label="Major Image"
+            name="majorImage"
+            rules={[
+              { required: true, message: "Please input the major image!" },
+            ]}
+          >
+            <Input placeholder="Enter major image" />
+          </Form.Item>
+          <Form.Item
             label="Job Position"
             name="jobPositionId"
           >
@@ -134,17 +144,34 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
               style={{ width: "100%" }}
               mode="multiple"
             >
-              {job.length > 0 &&
-                job
-                  .filter((j) => j.jobPositionPermission === "Approve")
-                  .map((j) => (
-                    <Select.Option
-                      key={j.jobPositionId}
-                      value={j.jobPositionId}
+              {job.map((j) => (
+                <Select.Option
+                  key={j.jobPositionId}
+                  value={j.jobPositionId}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    {j.jobPositionName}
+                    <span
+                      style={{
+                        color:
+                          j.jobPositionPermission === "Approve"
+                            ? "green"
+                            : j.jobPositionPermission === "Reject"
+                            ? "red"
+                            : "blue",
+                      }}
                     >
-                      {j.jobPositionName}
-                    </Select.Option>
-                  ))}
+                      {j.jobPositionPermission}
+                    </span>
+                  </div>
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
           <Form.Item
@@ -156,17 +183,34 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
               style={{ width: "100%" }}
               mode="multiple"
             >
-              {certificate.length > 0 &&
-                certificate
-                  .filter((cert) => cert.permission === "Approve")
-                  .map((cert) => (
-                    <Select.Option
-                      key={cert.certId}
-                      value={cert.certId}
+              {certificate.map((cert) => (
+                <Select.Option
+                  key={cert.certId}
+                  value={cert.certId}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span>{cert.certName}</span>
+                    <span
+                      style={{
+                        color:
+                          cert.permission === "Approve"
+                            ? "green"
+                            : cert.permission === "Reject"
+                            ? "red"
+                            : "blue",
+                      }}
                     >
-                      {cert.certName}
-                    </Select.Option>
-                  ))}
+                      {cert.permission}
+                    </span>
+                  </div>
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
         </Form>

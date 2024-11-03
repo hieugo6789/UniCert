@@ -82,6 +82,7 @@ const CreateJob = ({
       </Button>
       <Modal
         title="Create New Job Position"
+        width={900}
         open={isModalVisible}
         onOk={handleOK}
         onCancel={handleCancel}
@@ -149,16 +150,34 @@ const CreateJob = ({
               style={{ width: "100%" }}
               mode="multiple"
             >
-              {major
-                .filter((m) => m.majorPermission === "Approve")
-                .map((m) => (
-                  <Select.Option
-                    key={m.majorId}
-                    value={m.majorId}
+              {major.map((m) => (
+                <Select.Option
+                  key={m.majorId}
+                  value={m.majorId}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
                   >
-                    {m.majorName}
-                  </Select.Option>
-                ))}
+                    <span>{m.majorName}</span>
+                    <span
+                      style={{
+                        color:
+                          m.majorPermission === "Approve"
+                            ? "green"
+                            : m.majorPermission === "Reject"
+                            ? "red"
+                            : "blue",
+                      }}
+                    >
+                      {m.majorPermission}
+                    </span>
+                  </div>
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
           <Form.Item label="Certification">
@@ -168,16 +187,34 @@ const CreateJob = ({
               style={{ width: "100%" }}
               mode="multiple"
             >
-              {certificate
-                .filter((cert) => cert.permission === "Approve")
-                .map((cert) => (
-                  <Select.Option
-                    key={cert.certId}
-                    value={cert.certId}
+              {certificate.map((cert) => (
+                <Select.Option
+                  key={cert.certId}
+                  value={cert.certId}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
                   >
-                    {cert.certName}
-                  </Select.Option>
-                ))}
+                    <span>{cert.certName}</span>
+                    <span
+                      style={{
+                        color:
+                          cert.permission === "Approve"
+                            ? "green"
+                            : cert.permission === "Reject"
+                            ? "red"
+                            : "blue",
+                      }}
+                    >
+                      {cert.permission}
+                    </span>
+                  </div>
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
         </Form>

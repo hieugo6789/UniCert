@@ -17,6 +17,7 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
     majorName: "",
     majorCode: "",
     majorDescription: "",
+    majorImage: "",
     jobPositionId: [] as number[],
     certId: [] as number[],
   });
@@ -137,6 +138,20 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
               }
             />
           </Form.Item>
+          <Form.Item
+            label="Major Image"
+            name="majorImage"
+            rules={[
+              { required: true, message: "Please input the major image!" },
+            ]}
+          >
+            <Input
+              name="majorImage"
+              value={formData.majorImage}
+              onChange={handleInputChange}
+              placeholder="Enter major image"
+            />
+          </Form.Item>
           <Form.Item label="Job Position">
             <Select
               placeholder="Select Job position"
@@ -144,16 +159,34 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
               style={{ width: "100%" }}
               mode="multiple"
             >
-              {job
-                .filter((j) => j.jobPositionPermission === "Approve")
-                .map((j) => (
-                  <Select.Option
-                    key={j.jobPositionId}
-                    value={j.jobPositionId}
+              {job.map((j) => (
+                <Select.Option
+                  key={j.jobPositionId}
+                  value={j.jobPositionId}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
                   >
                     {j.jobPositionName}
-                  </Select.Option>
-                ))}
+                    <span
+                      style={{
+                        color:
+                          j.jobPositionPermission === "Approve"
+                            ? "green"
+                            : j.jobPositionPermission === "Reject"
+                            ? "red"
+                            : "blue",
+                      }}
+                    >
+                      {j.jobPositionPermission}
+                    </span>
+                  </div>
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
           <Form.Item label="Certification">
@@ -163,16 +196,34 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
               style={{ width: "100%" }}
               mode="multiple"
             >
-              {certificate
-                .filter((cert) => cert.permission === "Approve")
-                .map((cert) => (
-                  <Select.Option
-                    key={cert.certId}
-                    value={cert.certId}
+              {certificate.map((cert) => (
+                <Select.Option
+                  key={cert.certId}
+                  value={cert.certId}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
                   >
-                    {cert.certName}
-                  </Select.Option>
-                ))}
+                    <span>{cert.certName}</span>
+                    <span
+                      style={{
+                        color:
+                          cert.permission === "Approve"
+                            ? "green"
+                            : cert.permission === "Reject"
+                            ? "red"
+                            : "blue",
+                      }}
+                    >
+                      {cert.permission}
+                    </span>
+                  </div>
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
         </Form>

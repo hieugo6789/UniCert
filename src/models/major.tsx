@@ -3,6 +3,7 @@ export interface allMajorPaginationData {
   majorCode: string;
   majorName: string;
   majorDescription: string;
+  majorImage: string;
   majorPermission: string;
   jobPositionDetails: [
     {
@@ -32,6 +33,7 @@ export interface currentMajor {
   majorCode: string;
   majorName: string;
   majorDescription: string;
+  majorImage: string;
   majorPermission: string;
   jobPositionDetails: [
     {
@@ -61,6 +63,7 @@ export interface MajorInput {
   majorCode: string;
   majorName: string;
   majorDescription: string;
+  majorImage: string;
   jobPositionId: number[];
   certId: number[];
 }
@@ -69,6 +72,7 @@ export interface UpdateMajor {
   majorCode: string;
   majorName: string;
   majorDescription: string;
+  majorImage: string;
   jobPositionId: number[];
   certId: number[];
 }

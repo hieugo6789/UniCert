@@ -112,7 +112,7 @@ const ViewDetailCourse: React.FC<ViewCourseDetailProps> = ({ courseId }) => {
                   </Tag>
                 ))
               ) : (
-                <span>No certifications available</span>
+                <span>Certification is pending or rejected</span>
               )}
             </Descriptions.Item>
           </Descriptions>

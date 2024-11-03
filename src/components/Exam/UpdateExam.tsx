@@ -184,7 +184,27 @@ const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
                   key={cert.certId}
                   value={cert.certId}
                 >
-                  {cert.certName}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span>{cert.certName}</span>
+                    <span
+                      style={{
+                        color:
+                          cert.permission === "Approve"
+                            ? "green"
+                            : cert.permission === "Reject"
+                            ? "red"
+                            : "blue",
+                      }}
+                    >
+                      {cert.permission}
+                    </span>
+                  </div>
                 </Select.Option>
               ))}
             </Select>
