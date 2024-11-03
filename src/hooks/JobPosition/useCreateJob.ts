@@ -17,7 +17,7 @@ export function useCreateJob() {
       const response = await agent.JobPosition.createJobPosition(jobData);
       dispatch(createJobSuccess(response));
     } catch (error) {
-      console.error("Error creating certification:", error);
+      console.error("Error creating job position:", error);
       dispatch(createJobFailure());
     }
   };

@@ -197,6 +197,8 @@ const SimulationExam = {
 const FeedBack = {
   getFeedbackByExamId: (examId: number) =>
     requests.get(`api/v1/feedback/exam/${examId}`),
+  getFeedbackDetail: (feedbackId: number) =>
+    requests.get(`api/v1/feedback/exam/${feedbackId}`),
   createFeedback: (input: createFeedback) =>
     requests.post("api/v1/feedback/exam", input),
   deleteFeedback: (feedbackId: number) =>

@@ -23,6 +23,9 @@ import examDetailReducer from "./slice/SimulationExam/examDetailSlice";
 import createExamReducer from "./slice/SimulationExam/createExamSlice";
 import deleteExamReducer from "../redux/slice/SimulationExam/deleteExamSlice";
 import feedbackReducer from "./slice/Feedback/feedbackSlice";
+import feedbackDetailReducer from "./slice/Feedback/feedbackDetailSlice";
+import createFeedbackReducer from "./slice/Feedback/createFeedbackSlice";
+import deleteFeedbackReducer from "./slice/Feedback/feedbackSlice";
 import voucherReducer from "../redux/slice/Voucher/voucherSlice";
 import voucherDetailReducer from "./slice/Voucher/voucherDetailSlice";
 import createVoucherReducer from "../redux/slice/Voucher/createVoucherSlice";
@@ -75,6 +78,9 @@ export const store = configureStore({
     createExam: createExamReducer,
     deleteExam: deleteExamReducer,
     feedback: feedbackReducer,
+    feedbackDetail: feedbackDetailReducer,
+    createFeedback: createFeedbackReducer,
+    deleteFeedback: deleteFeedbackReducer,
     voucher: voucherReducer,
     voucherDetail: voucherDetailReducer,
     createVoucher: createVoucherReducer,
