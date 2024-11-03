@@ -33,7 +33,12 @@ const MajorDetailPage: React.FC = () => {
     const getJob = () => {      
       if (state?.currentMajor) {
         setMajor(state.currentMajor);
-        setAllCerts(state.currentMajor.certificationDetails);
+        const approvedCerts = state.currentMajor.certificationDetails
+          ? state.currentMajor.certificationDetails.filter(
+              (cert) => cert.permission === "Approve"
+            )
+          : [];
+        setAllCerts(approvedCerts);
         setFilteredCerts(state.currentMajor.certificationDetails);        
       }
     };
@@ -51,7 +56,12 @@ const MajorDetailPage: React.FC = () => {
 
   useEffect(() => {
     if (jobState.currentJob) {      
-      setFilteredCerts(jobState?.currentJob?.certificationDetails);
+      const approvedJobCerts = jobState.currentJob.certificationDetails
+        ? jobState.currentJob.certificationDetails.filter(
+            (cert) => cert.permission === "Approve"
+          )
+        : [];
+      setFilteredCerts(approvedJobCerts);
     }
   }, [jobState.currentJob]);  
 
@@ -113,13 +123,12 @@ const MajorDetailPage: React.FC = () => {
               onChange={handleJobPositionChange}
             >
               <option value="all">All Job Positions</option>
-              {major.jobPositionDetails.map((job, index) => (
-                <option
-                  key={index}
-                  value={job.jobPositionId.toString()}
-                >
-                  {job.jobPositionName}
-                </option>
+              {major.jobPositionDetails
+                .filter((job) => job.jobPositionPermission === "Approve")
+                .map((job, index) => (
+                  <option key={index} value={job.jobPositionId.toString()}>
+                    {job.jobPositionName}
+                  </option>
               ))}
             </select>
           </div>
