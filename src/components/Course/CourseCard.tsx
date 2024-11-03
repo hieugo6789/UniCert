@@ -1,14 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { allCoursePaginationData } from "../../models/course";
-import Coin from "../../assets/images/Coin.png"
+import Coin from "../../assets/images/Coin.png";
+
 interface CourseCardProps {
   course: allCoursePaginationData;
   onClick?: () => void;
   isInCart: boolean;
   isPurchased: boolean;
+  hideButton?: boolean; // Thêm prop hideButton
 }
 
-const CourseCard = ({ course, onClick, isInCart, isPurchased }: CourseCardProps) => {
+const CourseCard = ({ course, onClick, isInCart, isPurchased, hideButton }: CourseCardProps) => {
   const navigate = useNavigate();
   const buttonText = isPurchased ? "Purchased" : isInCart ? "In Cart" : "Add To Cart";
   const buttonStyles = isPurchased || isInCart ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700";
@@ -33,7 +35,7 @@ const CourseCard = ({ course, onClick, isInCart, isPurchased }: CourseCardProps)
           </div>
         ) : (          
           <>            
-          <div className="flex items-center ml-2">
+            <div className="flex items-center ml-2">
               <span className="text-yellow-600 font-bold">
                 {course.courseDiscountFee.toLocaleString('en-US')}
               </span>
@@ -49,17 +51,19 @@ const CourseCard = ({ course, onClick, isInCart, isPurchased }: CourseCardProps)
         )}
       </div>
       
-      {/* Button positioned in the bottom-right corner */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();  // Prevent navigating on button click
-          if (onClick) onClick();
-        }}
-        className={`${buttonStyles} text-white px-4 py-2 rounded-lg absolute bottom-4 right-4`}
-        disabled={isInCart || isPurchased}
-      >
-        {buttonText}
-      </button>
+      {/* Chỉ render nút nếu hideButton là false */}
+      {!hideButton && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();  // Prevent navigating on button click
+            if (onClick) onClick();
+          }}
+          className={`${buttonStyles} text-white px-4 py-2 rounded-lg absolute bottom-4 right-4`}
+          disabled={isInCart || isPurchased}
+        >
+          {buttonText}
+        </button>
+      )}
     </div>
   );
 };
