@@ -7,14 +7,20 @@ import { useParams } from "react-router-dom";
 import { allCertificationData } from "../../../models/certificate";
 import useCertDetail from "../../../hooks/Certification/useCertDetail";
 import GetExamSimulation from "../../../components/Exam/GetExamSimulation";
+import useSchedule from "../../../hooks/Schedule/useSchedule";
+import { allSchedulePaginationData } from "../../../models/schedule";
+import useCourse from "../../../hooks/Course/useCourse";
+import { allCoursePaginationData } from "../../../models/course";
 
 const CertificateDetailPage = () => {
   const [activeTab, setActiveTab] = useState("Description");
-  const [cert, setCertificate] = useState<allCertificationData | undefined>(
-    undefined
-  );
+  const [cert, setCertificate] = useState<allCertificationData | undefined>(undefined);
   const id = Number(useParams().id);
   const { state, getCertDetails } = useCertDetail();
+  const { schedule } = useSchedule();  
+  const [filteredSchedule, setFilteredSchedule] = useState<allSchedulePaginationData[]>([]);
+  const [filteredCourses, setFilteredCourses] = useState<allCoursePaginationData[]>([]);
+  const { course, refetchCourses } = useCourse();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,10 +33,32 @@ const CertificateDetailPage = () => {
     fetchData();
   }, [id]);
 
-  useEffect(() => {
-    // getCertDetails(id);
-    setCertificate(state?.currentCert);
+  useEffect(() => {    
+    setCertificate(state?.currentCert);    
   }, [state]);
+
+  useEffect(() => {
+    const filtered = schedule.filter(session => Number(session.certId) === id);
+    setFilteredSchedule(filtered);    
+  }, [schedule, id]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        await refetchCourses();
+      } catch (error) {
+        console.error('Failed to fetch courses: ', error);
+      }
+    };
+    fetchCourses();
+  }, []);
+
+  useEffect(() => {
+    const filteredCourses = course.filter(course => 
+      course.certificationDetails[0]?.certId === cert?.certId
+    );
+    setFilteredCourses(filteredCourses);
+  }, [course, cert]);
 
   useEffect(() => {
     const scrollToTop = () => {
@@ -110,7 +138,7 @@ const CertificateDetailPage = () => {
           ))}
       </div>
       <div className="p-4">
-        {activeTab === "Description" && cert && <Description {...cert} />}        
+        {activeTab === "Description" && cert && <Description props={cert} schedule={filteredSchedule} course={filteredCourses}/>}        
         {activeTab === "Exam Details" && cert && <ExamDetails {...cert} />}
         {activeTab === "Feedback" && <Feedback />}
       </div>
