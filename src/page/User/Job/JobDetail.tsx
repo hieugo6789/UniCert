@@ -32,7 +32,12 @@ const JobDetail = () => {
   useEffect(() => {    
     if (state?.currentJob) {
       setJobDetail(state.currentJob);
-      setCertList(state.currentJob.certificationDetails || []);
+      const approvedJobCerts = state.currentJob.certificationDetails
+        ? state.currentJob.certificationDetails.filter(
+            (cert) => cert.permission === "Approve"
+          )
+        : [];
+      setCertList(approvedJobCerts);
     }
   }, [state]);
 
