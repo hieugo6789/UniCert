@@ -1,4 +1,4 @@
-import { updateExam } from "../../models/simulationExam";
+import { updateExam } from "../../models/SimulationExam/simulationExam";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   UpdateDetailExamFailure,

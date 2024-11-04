@@ -1,4 +1,4 @@
-import { createExam } from "../../models/simulationExam";
+import { createExam } from "../../models/SimulationExam/simulationExam";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   createExamFailure,

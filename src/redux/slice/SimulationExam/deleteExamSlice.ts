@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { deleteExam } from "../../../models/simulationExam";
+import { deleteExam } from "../../../models/SimulationExam/simulationExam";
 
 interface DeleteExamState {
   exam: deleteExam;

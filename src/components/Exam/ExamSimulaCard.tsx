@@ -1,6 +1,6 @@
-import React from 'react';
-import { allExamPaginationData } from '../../models/simulationExam';
-import Coin from "../../assets/images/Coin.png"
+import React from "react";
+import { allExamPaginationData } from "../../models/SimulationExam/simulationExam";
+import Coin from "../../assets/images/Coin.png";
 
 interface ExamSimulaCardProps extends allExamPaginationData {
   onClick?: () => void;
@@ -20,8 +20,15 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
   isInCart,
   isPurchased,
 }) => {
-  const buttonText = isPurchased ? "Purchased" : isInCart ? "In Cart" : "Add To Cart";
-  const buttonStyles = isPurchased || isInCart ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700";
+  const buttonText = isPurchased
+    ? "Purchased"
+    : isInCart
+    ? "In Cart"
+    : "Add To Cart";
+  const buttonStyles =
+    isPurchased || isInCart
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-blue-600 hover:bg-blue-700";
 
   return (
     <div className="flex flex-col bg-white shadow-md rounded-lg p-4 w-80">
@@ -40,31 +47,47 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
       </div>
       <div className="flex items-center justify-between mt-auto">
         <div>
-          {examDiscountFee === examFee ? (            
+          {examDiscountFee === examFee ? (
             <div className="flex items-center">
               <span className="text-green-500 font-bold mr-1">
-                {examDiscountFee.toLocaleString('en-US')}
+                {examDiscountFee.toLocaleString("en-US")}
               </span>
-              <img src={Coin} alt="Coin Icon" className="w-5 h-5 inline-block" />
+              <img
+                src={Coin}
+                alt="Coin Icon"
+                className="w-5 h-5 inline-block"
+              />
             </div>
           ) : (
-            <div>              
+            <div>
               <div className="flex items-center">
                 <span className="text-gray-500 line-through mr-1">
-                  {examFee.toLocaleString('en-US')}
+                  {examFee.toLocaleString("en-US")}
                 </span>
-                <img src={Coin} alt="Coin Icon" className="w-5 h-5 inline-block" />
+                <img
+                  src={Coin}
+                  alt="Coin Icon"
+                  className="w-5 h-5 inline-block"
+                />
               </div>
               <div className="flex items-center">
                 <span className="text-green-500 font-bold mr-1">
-                  {examDiscountFee.toLocaleString('en-US')}
+                  {examDiscountFee.toLocaleString("en-US")}
                 </span>
-                <img src={Coin} alt="Coin Icon" className="w-5 h-5 inline-block" />
+                <img
+                  src={Coin}
+                  alt="Coin Icon"
+                  className="w-5 h-5 inline-block"
+                />
               </div>
             </div>
           )}
         </div>
-        <button onClick={onClick} className={`${buttonStyles} text-white px-4 py-2 rounded-lg`} disabled={isInCart || isPurchased}>
+        <button
+          onClick={onClick}
+          className={`${buttonStyles} text-white px-4 py-2 rounded-lg`}
+          disabled={isInCart || isPurchased}
+        >
           {buttonText}
         </button>
       </div>
