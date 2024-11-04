@@ -10,6 +10,7 @@ import { courseEnrollment } from "../../../models/enrollment";
 import Coin from "../../../assets/images/Coin.png"
 import Cookies from "js-cookie";
 import { showToast } from "../../../utils/toastUtils";
+
 interface certTab {
     certId: number;
     certName: string;
@@ -27,6 +28,13 @@ const CourseDetail = () => {
     const [cert, setCert] = useState<certTab[]>([]);
     const [voucherList, setVoucherList] = useState<any[]>([]);
         
+    const userId = Cookies.get("userId");
+    const [purchasedCourses, setPurchasedCourses] = useState<courseEnrollment[]>([]);
+    const { state: cartState, getCart } = useCartByUserId();
+    const { updateCart } = useUpdateCart();
+    const { courseEnrollment, refetchCourseEnrollments } = useCourseEnrollment({ userId: userId || "" });
+    const [isInCart, setIsInCart] = useState(false);
+    const [isPurchased, setIsPurchased] = useState(false);
 
     useEffect(() => {
         setCert([]);
@@ -38,11 +46,16 @@ const CourseDetail = () => {
             setCourseDetail(state?.currentCourse);
             setCert(state?.currentCourse?.certificationDetails || []);
             setVoucherList(state?.currentCourse.voucherDetails || []);
-            console.log(courseDetail);
         }
     }, [state]);
 
-    // Function to handle the fade-in effect
+    useEffect(() => {
+        const observer = new IntersectionObserver(handleIntersection, { threshold: 0.1 });
+        const elements = document.querySelectorAll(".fade-in");
+        elements.forEach((element) => observer.observe(element));
+        return () => elements.forEach((element) => observer.unobserve(element));
+    }, []);
+
     const handleIntersection = (entries: any) => {
         entries.forEach((entry: any) => {
             if (entry.isIntersecting) {
@@ -52,76 +65,58 @@ const CourseDetail = () => {
     };
 
     useEffect(() => {
-        const observer = new IntersectionObserver(handleIntersection, {
-            threshold: 0.1,
-        });
-
-        const elements = document.querySelectorAll(".fade-in");
-        elements.forEach((element) => {
-            observer.observe(element);
-        });
-
-        return () => {
-            elements.forEach((element) => {
-                observer.unobserve(element);
-            });
-        };
-    }, []);
-
-    const { state:cartState, getCart } = useCartByUserId();
-    const { updateCart } = useUpdateCart();
-    const userId = Cookies.get("userId");
-    const [purchasedCourses, setPurchasedCourses] = useState<courseEnrollment[]>([]);
-    const { courseEnrollment, refetchCourseEnrollments } = useCourseEnrollment({ userId: userId || "" });
-    const [isInCart, setIsInCart] = useState(false);
-    const [isPurchased, setIsPurchased] = useState(false);
-
-    useEffect(() => {
         if (userId) {
-          getCart(userId);
+            getCart(userId);
+            refetchCourseEnrollments(userId);
+        } else {
+            setPurchasedCourses([]);
+            setIsInCart(false);
+            setIsPurchased(false);
         }
-        const fetchPurchasedCourses = () => {
-          refetchCourseEnrollments(userId || "");
-        };
-        setPurchasedCourses([]);
-        fetchPurchasedCourses();
-      }, [userId]);
-    
+    }, [userId]);
+
     useEffect(() => {
         const successfulCourses = courseEnrollment.filter((course) => course.courseEnrollmentStatus === "Completed");
         setPurchasedCourses(successfulCourses);
     }, [courseEnrollment]);
 
-    const addToCart = (courseId: string) => async () => {
-      const examIds = cartState.currentCart.examDetails.map((exam: any) => exam.examId);
-      const courseIds = cartState.currentCart.courseDetails.map((course: any) => course.courseId);
-      updateCart(userId?.toString() || "", {
-        examId: [...examIds],
-        courseId: [...courseIds, courseId],
-      }
-      ).then(() => {
-        getCart(userId || "");
-        showToast("Course added to cart successfully", "success");
-      }
-      ).catch((error) => {
-        console.error("Failed to add course to cart: ", error);
-        showToast("Failed to add course to cart", "error");
-      }
-      );
-    }
-
-    useEffect(() =>{
-        const purchased = (purchasedCourses || []).some((e) =>
+    useEffect(() => {
+        const purchased = purchasedCourses.some((e) =>
             (e.courseDetails || []).some((c) => c.courseId.toString() === id)
         );
-        
-        const cart = (cartState.currentCart.courseDetails).some(
+        const cart = cartState.currentCart?.courseDetails?.some(
             (course: any) => course.courseId.toString() === id
         );
-        setIsInCart(cart);
-        setIsPurchased(purchased);
-        console.log("Test", cart);
-    });
+        setIsInCart(!!cart);
+        setIsPurchased(!!purchased);
+    }, [purchasedCourses, cartState.currentCart, id]);
+
+    const addToCart = (courseId: string) => async () => {
+        if (!userId) {
+            showToast("Please log in to add courses to your cart.", "error");
+            return;
+        }
+        const examIds = cartState.currentCart.examDetails.map((exam: any) => exam.examId);
+        const courseIds = cartState.currentCart.courseDetails.map((course: any) => course.courseId);
+        try {
+            await updateCart(userId, { examId: [...examIds], courseId: [...courseIds, courseId] });
+            getCart(userId);
+            showToast("Course added to cart successfully", "success");
+        } catch (error) {
+            console.error("Failed to add course to cart: ", error);
+            showToast("Failed to add course to cart", "error");
+        }
+    };
+
+    useEffect(() => {
+        const scrollToTop = () => {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth", // Cuộn mượt mà
+          });
+        };
+        scrollToTop();
+      });
 
     return (
         <div className="bg-gray-900">
@@ -132,128 +127,70 @@ const CourseDetail = () => {
 
             {/* Course Header */}
             <div className="w-full min-h-36 p-10 text-center">
-                <h1 className="fade-in uppercase text-8xl md:text-8xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
+                <h1 className="fade-in uppercase text-8xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
                     {courseDetail?.courseName || "Course not found"}
                 </h1>
-                <h2 className="fade-in text-white text-5xl font-bold mt-5 text-center">
-                    Course Details
-                </h2>
-                <div
-                    className="fade-in prose list-disc whitespace-pre-wrap text-white text-3xl mt-5 text-center"
-                    dangerouslySetInnerHTML={{ __html: courseDetail?.courseDescription || "" }}
-                />
+                <h2 className="fade-in text-white text-5xl font-bold mt-5">Course Details</h2>
+                <div className="fade-in prose text-white text-3xl mt-5" dangerouslySetInnerHTML={{ __html: courseDetail?.courseDescription || "" }} />
+
                 <div className="flex items-center justify-center fade-in text-white text-2xl mt-5">
                     <p>Course Fee: </p>
                     {courseDetail?.courseDiscountFee === courseDetail?.courseFee ? (
-                        // Nếu courseDiscountFee bằng courseFee, chỉ hiển thị courseDiscountFee
                         <div className="flex items-center ml-2">
-                        <img src={Coin} alt="Coin Icon" className="w-5 h-5" />
-                        <span className="ml-1 text-yellow-600 font-bold">
-                            {courseDetail?.courseDiscountFee?.toLocaleString('en-US')}
-                        </span>
-                        </div>
-                    ) : (                        
-                        <>                        
-                        <div className="flex items-center ml-2">
-                            <span className="text-yellow-600 font-bold">
-                            {courseDetail?.courseDiscountFee?.toLocaleString('en-US')}
-                            </span>
                             <img src={Coin} alt="Coin Icon" className="w-5 h-5" />
+                            <span className="ml-1 text-yellow-600 font-bold">{courseDetail?.courseDiscountFee?.toLocaleString('en-US')}</span>
                         </div>
-                        <div className="flex items-center ml-2">
-                            <span className="text-gray-500 line-through mr-1">
-                            {courseDetail?.courseFee?.toLocaleString('en-US')}
-                            </span>
-                            <img src={Coin} alt="Coin Icon" className="w-5 h-5" />
-                        </div>
+                    ) : (
+                        <>
+                            <div className="flex items-center ml-2">
+                                <span className="text-yellow-600 font-bold">{courseDetail?.courseDiscountFee?.toLocaleString('en-US')}</span>
+                                <img src={Coin} alt="Coin Icon" className="w-5 h-5" />
+                            </div>
+                            <div className="flex items-center ml-2">
+                                <span className="text-gray-500 line-through mr-1">{courseDetail?.courseFee?.toLocaleString('en-US')}</span>
+                                <img src={Coin} alt="Coin Icon" className="w-5 h-5" />
+                            </div>
                         </>
                     )}
                 </div>
+
                 {isPurchased ? (
                     <CustomButton label="Purchased" disabled className="mt-5" width="w-1/6" />
                 ) : isInCart ? (
                     <CustomButton label="In Cart" disabled className="mt-5" width="w-1/6" />
                 ) : (
-                    <CustomButton
-                        label="Add to Cart"
-                        shining
-                        onClick={addToCart(state.currentCourse.courseId)}
-                        className="mt-5"
-                        width="w-1/6"
-                    />
+                    <CustomButton label="Add to Cart" shining onClick={addToCart(state.currentCourse.courseId)} className="mt-5" width="w-1/6" />
                 )}
             </div>
 
             {/* Certificate Information */}
-            <div className="grid grid-cols-2 auto-rows-auto text-center gap-10 px-10 h-auto">
-                {cert && cert.map((cert) => (
-                    <div key={cert.certId} className="p-5 bg-gray-700 bg-opacity-30 rounded-lg shadow-lg flex flex-col items-center justify-between">
-                        <h1 className="uppercase text-3xl md:text-3xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
+            <div className="grid grid-cols-2 gap-10 px-10">
+                {cert.map((cert) => (
+                    <div key={cert.certId} className="p-5 bg-gray-700 rounded-lg shadow-lg flex flex-col items-center">
+                        <h1 className="uppercase text-3xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
                             Prepare for the certificate
                         </h1>
-
-                        {/* Thêm tên chứng chỉ bên trên hình ảnh */}
                         <p className="text-white text-2xl font-semibold mt-4 mb-2">{cert.certName}</p>
-
                         <div className="w-36 h-36 m-auto">
-                            <img
-                            src={cert.certImage}
-                            alt={cert.certName}
-                            className="hover:scale-105 transition-transform cursor-pointer"
-                            onClick={() => navigate("/certificate/" + cert.certId)}
-                            />
+                            <img src={cert.certImage} alt={cert.certName} className="hover:scale-105 transition-transform cursor-pointer" onClick={() => navigate("/certificate/" + cert.certId)} />
                         </div>
                     </div>
                 ))}
-                
                 <div className="m-auto fade-in">
-                    <CustomButton
-                    shining
-                    label="Get more certificates"
-                    onClick={() => navigate("/certificate")}
-                    className="bg-red-500 fade-in"
-                    />
+                    <CustomButton label="Get more certificates" shining onClick={() => navigate("/certificate")} className="fade-in" />
                 </div>
             </div>
+
+            {/* Voucher Information */}
             <div className="text-center px-5">
-                <h1 className="text-white text-5xl font-bold mt-10 text-center">Voucher Available</h1>
-                <div className="text-white text-2xl mt-5 text-center p-5">
-                    {voucherList.length > 0 ? (
-                        voucherList.map((voucher) => (
-                            <div className="flex w-full max-w-sm bg-white rounded-lg shadow-md overflow-hidden">
-                                {/* Left Side - Coupon Code */}
-                                <div className="flex items-center justify-center bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-4 py-6">
-                                    <span className="text-lg font-bold vertical-text">{voucher.voucherName}</span>
-                                </div>
-
-                                {/* Right Side - Voucher Details */}
-                                <div className="flex flex-col justify-center flex-1 p-4 bg-red-500 text-white">
-                                    <div className="text-center">
-                                        <h2 className="text-2xl font-bold">{voucher.percentage}% OFF</h2>
-                                        <p className="text-sm">Sitewide</p>
-                                    </div>
-                                    <div className="mt-2">
-                                        <p className="text-center text-lg font-semibold">{voucher.voucherName}</p>
-                                        <p className="text-center text-sm">{voucher.voucherDescription}</p>
-                                    </div>
-                                    <div className=" text-center text-sm">
-                                        <p>Valid Until: {new Date(voucher.expiryDate).toLocaleDateString()}</p>
-                                    </div>
-                                    <CustomButton
-                                    label="Get Voucher"
-                                    shining
-                                    onClick={() => navigate("/voucher/" + voucher.voucherId)}
-                                    className="bg-blue-500 mt-2"
-                                />
-                                </div>
-                                
-                            </div>
-                        ))
-                    ) : (
-                        <p className="text-white text-2xl mt-5 text-center">No voucher available</p>
-                    )}
-
-
+                <h1 className="text-white text-5xl font-bold mt-10">Voucher Available</h1>
+                <div className="text-white text-3xl flex flex-wrap justify-center">
+                    {voucherList.length ? voucherList.map((voucher, index) => (
+                        <div key={index} className="p-4 m-2 bg-blue-700 rounded-md">
+                            <p>{voucher.name}</p>
+                            <p>{voucher.description}</p>
+                        </div>
+                    )) : <p>No vouchers available.</p>}
                 </div>
             </div>
         </div>

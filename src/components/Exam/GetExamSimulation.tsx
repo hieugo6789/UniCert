@@ -37,6 +37,10 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
 
   // Hàm thêm vào giỏ hàng
   const addToCart = (examId: string) => async () => {
+    if (!userId) {
+      showToast("Please log in to add courses to your cart.", "error");
+      return;
+    }
     const examIds = state.currentCart.examDetails.map((exam: any) => exam.examId);
     const courseIds = state.currentCart.courseDetails.map((course: any) => course.courseId);
     await updateCart(userId?.toString() || "", {
