@@ -16,25 +16,27 @@ const SimulationExamSidebar: React.FC<SidebarProps> = ({
   flaggedQuestions,
 }) => {
   return (
-    <div className="w-full bg-gray-200 h-full shadow-lg p-4 relative xl:w-2/12 xl:fixed top-4 right-0 md:top-6 xl:top-20">
+    <div className="w-full bg-gray-200 h-full shadow-lg p-4 relative xl:w-2/12 xl:fixed top-4 right-0 md:top-6 xl:top-20 overflow-y-auto max-h-screen">
       <h2 className="text-lg font-bold mb-4">Question Grid</h2>
+      <CustomButton label="Submit" className="col-span-4 mb-4" />
       <div className="grid grid-cols-4 gap-2">
         {questions.map((q, index) => (
           <button
             key={q.id}
             onClick={() => setCurrentQuestionIndex(index)}
             className={`w-full h-10 rounded 
-              ${index === currentQuestionIndex ? 'bg-green-700 text-white' : ''} 
-              ${selectedAnswers[index] !== null ? 'bg-blue-500 text-white' : 'bg-white text-black'}
-              ${flaggedQuestions[index] ? 'bg-yellow-500 text-white' : ''}`}
+              ${index === currentQuestionIndex ? 'bg-green-700 text-white' : 
+                selectedAnswers[index] != null ? 'bg-blue-500 text-white' : 
+                flaggedQuestions[index] ? 'bg-yellow-500 text-white' : 
+                'bg-white text-black'}`}
           >
             {index + 1}
           </button>
         ))}
-        <CustomButton label="Submit" className="col-span-4 mt-4" />
       </div>
     </div>
   );
 };
+
 
 export default SimulationExamSidebar;
