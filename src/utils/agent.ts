@@ -19,8 +19,12 @@ import {
   createCourseEnrollment,
   createExamEnrollment,
 } from "../models/enrollment";
-import { createExam, updateExam } from "../models/simulationExam";
+import {
+  createExam,
+  updateExam,
+} from "../models/SimulationExam/simulationExam";
 import { createFeedback, updateFeedback } from "../models/feedback";
+import { createQuestion } from "../models/SimulationExam/question";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -193,6 +197,10 @@ const SimulationExam = {
       `api/v1/simulation-exam/update-permission/${examId}?permission=${permission}`
     ),
 };
+const Question = {
+  createQuestion: (input: createQuestion) =>
+    requests.post(`api/v1/question`, input),
+};
 
 const FeedBack = {
   getFeedbackByExamId: (examId: number) =>
@@ -267,6 +275,7 @@ const agent = {
   Schedule,
   Profile,
   SimulationExam,
+  Question,
   FeedBack,
   Voucher,
   TransactionWallet,

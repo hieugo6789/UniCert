@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { currentExamDetail } from "../../../models/simulationExam";
+import { currentExamDetail } from "../../../models/SimulationExam/simulationExam";
 
 export interface CreateExamState {
   isCreating: boolean;

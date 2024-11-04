@@ -68,17 +68,11 @@ const Decentralization = () => {
       dataIndex: "role",
       key: "role",
       render: (role: string) => {
-        const roleStyles: { [key: string]: string } = {
-          Manager: "bg-purple-500 text-white",
-          Student: "bg-blue-500 text-white",
-          Staff: "bg-red-600 text-white",
-          Admin: "bg-green-400 text-white",
-        };
         return (
           <div
-            className={`px-3 py-1 rounded-lg flex justify-center max-w-20 ${
-              roleStyles[role] || "bg-gray-200 text-black"
-            }`}
+            className={
+              "px-3 py-1 rounded-lg flex justify-center max-w-20 bg-blue-500 text-white "
+            }
           >
             {role}
           </div>

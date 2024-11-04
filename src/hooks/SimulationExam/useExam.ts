@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../redux/hook";
-import { allExamPaginationData } from "../../models/simulationExam";
+import { allExamPaginationData } from "../../models/SimulationExam/simulationExam";
 import { fetchAllExamPagination } from "../../redux/slice/SimulationExam/examSlice";
 
 const useExam = () => {

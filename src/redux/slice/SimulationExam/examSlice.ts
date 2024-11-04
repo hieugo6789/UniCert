@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import agent from "../../../utils/agent";
-import { currentExam } from "../../../models/simulationExam";
+import { currentExam } from "../../../models/SimulationExam/simulationExam";
 
 interface ExamState {
   exams: currentExam[];
