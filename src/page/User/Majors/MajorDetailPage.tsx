@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom"; // To get the majorId from URL params
+import React, { useEffect, useState, useRef } from "react";
+import { Link, useParams } from "react-router-dom"; 
 import { allMajorPaginationData } from "../../../models/major";
 import { cardCertificate } from "../../../models/certificate";
 import useMajorDetail from "../../../hooks/Major/useMajorDetail";
@@ -7,14 +7,22 @@ import useJobDetail from "../../../hooks/JobPosition/useJobDetail";
 import CertificateCard from "../../../components/Certifications/CertificateCard";
 
 const MajorDetailPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>(); // Extract majorId from the URL
+  const { id } = useParams<{ id: string }>();
   const [major, setMajor] = useState<allMajorPaginationData | null>(null);
   const [allCerts, setAllCerts] = useState<cardCertificate[]>([]);
   const [filteredCerts, setFilteredCerts] = useState<cardCertificate[]>([]);
   const [selectedJob, setSelectedJob] = useState<string>("all");
+  const [searchInput, setSearchInput] = useState<string>(""); // State for search input
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8; // Number of items to display per page
 
   const { state, getMajorDetails } = useMajorDetail();
   const { state: jobState, getJobDetails } = useJobDetail();
+
+  // Create a ref for the certifications header
+  const certificationsHeaderRef = useRef<HTMLHeadingElement>(null);
 
   // Fetch Major Details
   useEffect(() => {
@@ -30,7 +38,7 @@ const MajorDetailPage: React.FC = () => {
 
   // Fetch Job Details associated with the Major
   useEffect(() => {
-    const getJob = () => {      
+    const getJob = () => {
       if (state?.currentMajor) {
         setMajor(state.currentMajor);
         const approvedCerts = state.currentMajor.certificationDetails
@@ -39,7 +47,7 @@ const MajorDetailPage: React.FC = () => {
             )
           : [];
         setAllCerts(approvedCerts);
-        setFilteredCerts(state.currentMajor.certificationDetails);        
+        setFilteredCerts(approvedCerts);
       }
     };
     getJob();
@@ -48,14 +56,14 @@ const MajorDetailPage: React.FC = () => {
   useEffect(() => {
     setFilteredCerts([]);
     if (selectedJob === "all")
-      setFilteredCerts(allCerts);
+    setFilteredCerts(allCerts);
     else
-      getJobDetails(selectedJob);    
+      getJobDetails(selectedJob);
     return;
   }, [selectedJob]);
 
   useEffect(() => {
-    if (jobState.currentJob) {      
+    if (jobState.currentJob) {
       const approvedJobCerts = jobState.currentJob.certificationDetails
         ? jobState.currentJob.certificationDetails.filter(
             (cert) => cert.permission === "Approve"
@@ -66,10 +74,31 @@ const MajorDetailPage: React.FC = () => {
   }, [jobState.currentJob]);  
 
   // Handle filtering by job position  
-  const handleJobPositionChange = (event: React.ChangeEvent<HTMLSelectElement>) =>    
-    { 
-      setSelectedJob(event.target.value);      
-    };
+  const handleJobPositionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedJob(event.target.value);
+    setCurrentPage(1); // Reset to first page when changing filter
+  };
+
+  // Handle search input change
+  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSearchInput(value);
+    const searchResults = allCerts.filter(cert =>
+      cert.certName.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredCerts(searchResults);
+    setCurrentPage(1); // Reset to first page when searching
+  };
+
+  // Handle page change
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    
+    // Scroll to the certifications header
+    if (certificationsHeaderRef.current) {
+      certificationsHeaderRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   if (!major) {
     return <div>Major not found.</div>;
@@ -78,12 +107,19 @@ const MajorDetailPage: React.FC = () => {
     return <div>Job Position not found.</div>;
   }
 
+  // Calculate the items to display based on the current page
+  const indexOfLastCert = currentPage * itemsPerPage;
+  const indexOfFirstCert = indexOfLastCert - itemsPerPage;
+  const currentCerts = filteredCerts.slice(indexOfFirstCert, indexOfLastCert);
+  
+  // Calculate total pages
+  const totalPages = Math.ceil(filteredCerts.length / itemsPerPage);
+
   return (
     <div className="p-6">
       {/* Major Info Section */}
       <div className="bg-purple-500 text-white p-6 rounded-md shadow-md mb-6">
         <h1 className="text-4xl font-bold">{major.majorName}</h1>
-
         <div className="mt-4">
           <span className="font-semibold">Major Code:</span> {major.majorCode}
         </div>
@@ -94,26 +130,26 @@ const MajorDetailPage: React.FC = () => {
               __html: state.currentMajor.majorDescription || "",
             }}
           />
-          {/* {major.majorDescription} */}
         </div>
       </div>
 
       {/* Filter Section */}
       <div className="p-4 text-center">
-        <h2 className="text-xl font-bold mb-6 text-left">
+        <h2 className="text-xl font-bold mb-6 text-left" ref={certificationsHeaderRef}>
           Certifications for this major
         </h2>
-        <div className="relative mb-6 w-full m-auto ">
+        <div className="relative mb-6 w-full m-auto">
           <input
             type="text"
             placeholder="Search..."
+            value={searchInput} // Bind input value to searchInput state
+            onChange={handleSearchInputChange} // Update search input
             className="bg-gray-300 text-white w-full rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
           <span className="absolute right-3 top-2 text-black">🔍</span>
         </div>
         <div className="flex flex-row items-center">
           <p className="mr-3">Filter by</p>
-
           <div>
             <label className="sr-only">Job Position</label>
             <select
@@ -128,17 +164,17 @@ const MajorDetailPage: React.FC = () => {
                 .map((job, index) => (
                   <option key={index} value={job.jobPositionId.toString()}>
                     {job.jobPositionName}
-                  </option>
+                </option>
               ))}
             </select>
           </div>
         </div>
       </div>
 
-      {/* Certificates Grid */}
-      {filteredCerts?.length > 0 ? (
+      {/* Certifications Grid */}
+      {currentCerts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
-          {filteredCerts.map((cert, index) => (
+          {currentCerts.map((cert, index) => (
             <CertificateCard
               key={index}
               {...cert}
@@ -146,7 +182,7 @@ const MajorDetailPage: React.FC = () => {
           ))}
         </div>
       ) : (
-        <div className="w-1/3 h-1/12 m-auto rounded-xl ">
+        <div className="text-center">
           <img
             className="w-full rounded-xl shadow"
             src="https://dmf76jm51vpov.cloudfront.net/www2/images/main/2020/webpage/Course-not-Found.jpg"
@@ -154,27 +190,42 @@ const MajorDetailPage: React.FC = () => {
           />
           <p>
             We can't get course now. Please retry later or back to{" "}
-            <Link
-              className="text-blue-500"
-              to="/"
-            >
-              {" "}
-              HOMEPAGE
-            </Link>
+            <Link className="text-blue-500" to="/">HOMEPAGE</Link>
           </p>
         </div>
       )}
-      <div className="flex justify-center mt-6 gap-4">
-        <button className="p-2">◀</button>
-        {[1, 2, 3, 4, 5].map((page) => (
+
+      {/* Pagination */}
+      <div className="flex justify-center items-center p-4">
+        <button
+          className={`mr-2 ${currentPage === 1 ? "cursor-not-allowed" : ""}`}
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          ◀
+        </button>
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
           <button
             key={page}
-            className="p-2 bg-gray-200 rounded-full"
+            className={`mx-1 px-3 py-1 border rounded-full ${
+              currentPage === page
+                ? "bg-purple-500 text-white"
+                : "bg-gray-200"
+            }`}
+            onClick={() => handlePageChange(page)}
           >
             {page}
           </button>
         ))}
-        <button className="p-2">▶</button>
+        <button
+          className={`ml-2 ${
+            currentPage === totalPages ? "cursor-not-allowed" : ""
+          }`}
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          ▶
+        </button>
       </div>
     </div>
   );

@@ -51,14 +51,12 @@ const CertificatePage = () => {
   }, [certificate]);
 
   useEffect(() => {
-    const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth", // Cuộn mượt mà
-      });
-    };
-    scrollToTop();
-  });
+    const filteredMajors = certificate.filter(cert => 
+      cert.certName.toLowerCase().includes(keyword.toLowerCase()) && 
+      cert.permission === "Approve"
+    );
+    setCertificates(filteredMajors);
+  }, [keyword, certificate]);
 
   const handleSearch = async () => {
     refetchCertificates(keyword);
@@ -66,12 +64,6 @@ const CertificatePage = () => {
 
   const changeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
   };
 
   //pagination
@@ -87,7 +79,21 @@ const CertificatePage = () => {
     if (page > 0 && page <= totalPages) {
       setCurrentPage(page);
     }
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 120,
+        behavior: "smooth", // Cuộn mượt mà
+      });
+    };
+    scrollToTop();
   };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Cuộn mượt mà
+    });
+  }, []);
 
   return (
     <>
@@ -107,8 +113,7 @@ const CertificatePage = () => {
               placeholder="Search..."
               className="bg-gray-300 text-white w-full rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
               onChange={changeKeyword}
-              value={keyword}
-              onKeyPress={handleKeyPress}
+              value={keyword}              
             />
             <button
               className="absolute right-3 top-2 text-black"
@@ -155,7 +160,7 @@ const CertificatePage = () => {
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
           >
-            {"<"}
+            ◀
           </button>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
@@ -177,7 +182,7 @@ const CertificatePage = () => {
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
-            {">"}
+            ▶
           </button>
         </div>
 
