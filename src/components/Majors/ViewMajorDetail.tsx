@@ -65,6 +65,13 @@ const ViewMajorDetail: React.FC<ViewMajorDetailProps> = ({ majorId }) => {
                   }}
                 />
               </Descriptions.Item>
+              <Descriptions.Item label="Image">
+                <img
+                  src={state.currentMajor.majorImage}
+                  alt="Major Image"
+                  className="w-32 h-32 bg-gray-300 mb-4"
+                />
+              </Descriptions.Item>
               <Descriptions.Item label="Job Positions">
                 {approvedJobPosition?.length ? (
                   approvedJobPosition.map((job, index) => (

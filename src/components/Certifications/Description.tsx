@@ -28,18 +28,22 @@ const Description = ({ props, schedule, course}: DescriptionProps) => (
     ) : (
       <p className="mb-2">No schedule available.</p>
     )}
-    <h1 className="text-xl font-bold mb-5">Training Course</h1>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-      {course.map((course) => (
-        <CourseCard 
-          key={course.courseId} 
-          course={course} 
-          isInCart={false} 
-          isPurchased={false}
-          hideButton={true}
-        />
-      ))}
-    </div>
+    <h1 className="text-xl font-bold mb-2">Training Course</h1>
+    {course.length > 0 ? (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        {course.map((course) => (
+          <CourseCard 
+            key={course.courseId} 
+            course={course} 
+            isInCart={false} 
+            isPurchased={false}
+            hideButton={true}
+          />
+        ))}
+      </div>
+    ) : (
+      <p className="mb-2">No course available.</p>
+    )}
   </>
 );
 
