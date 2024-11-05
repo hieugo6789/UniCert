@@ -14,10 +14,20 @@ export interface currentQuestion {
 export interface createQuestion {
   questionName: string;
   examId: number;
-  answers: [
-    {
-      text: string;
-      isCorrect: boolean;
-    }
-  ];
+  answers: {
+    text: string;
+    isCorrect: boolean;
+  }[];
+}
+export interface deleteQuestion {
+  questionId: number;
+}
+
+export interface updateQuestion {
+  questionName: string;
+  examId: number;
+  answers: {
+    text: string;
+    isCorrect: true;
+  }[];
 }

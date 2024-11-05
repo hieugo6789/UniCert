@@ -24,7 +24,10 @@ import {
   updateExam,
 } from "../models/SimulationExam/simulationExam";
 import { createFeedback, updateFeedback } from "../models/feedback";
-import { createQuestion } from "../models/SimulationExam/question";
+import {
+  createQuestion,
+  updateQuestion,
+} from "../models/SimulationExam/question";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -200,6 +203,10 @@ const SimulationExam = {
 const Question = {
   createQuestion: (input: createQuestion) =>
     requests.post(`api/v1/question`, input),
+  deleteQuestion: (questionId: number) =>
+    requests.del(`api/v1/question/${questionId}`),
+  updateQuestion: (questionId: number, data: updateQuestion) =>
+    requests.put(`api/v1/question/${questionId}`, data),
 };
 
 const FeedBack = {

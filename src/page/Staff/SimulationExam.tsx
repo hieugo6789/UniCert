@@ -8,6 +8,7 @@ import ViewExamDetail from "../../components/Exam/ViewExamDetail";
 import UpdateExam from "../../components/Exam/UpdateExam";
 import CreateExam from "../../components/Exam/CreateExam";
 import Coin from "../../assets/images/Coin.png";
+import { Link } from "react-router-dom";
 
 const { confirm } = Modal;
 
@@ -121,6 +122,12 @@ const SimulationExam = () => {
             onClick={() => showDeleteConfirm(record.examId)}
             style={{ color: "red", marginLeft: 12 }}
           />
+          <Link
+            to={`/staff/simulationExam/${record.examId}`}
+            style={{ marginLeft: 12 }}
+          >
+            Question
+          </Link>
         </>
       ),
     },

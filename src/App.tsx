@@ -41,9 +41,10 @@ import ManageJobPosition from "./page/Manager/ManageJobPosition";
 import ManageMajor from "./page/Manager/ManageMajor";
 import ManageOrganize from "./page/Manager/ManageOrganize";
 import Cart from "./page/User/Cart/Cart";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import SimulationExamPage from "./page/User/Exam/SimulationExamPage";
+import ManageQuestion from "./page/Staff/ManageQuestion";
 const Layout = () => {
   return (
     <>
@@ -77,8 +78,8 @@ function App() {
         { path: "wallet/bill", element: <Bill /> },
         { path: "wallet/:transId", element: <Wallet /> },
         { path: "wallet/0", element: <Wallet /> },
-        { path: "/cart", element:<Cart/>},
-        { path: "/exam/:id", element:<SimulationExamPage/>},
+        { path: "/cart", element: <Cart /> },
+        { path: "/exam/:id", element: <SimulationExamPage /> },
       ],
     },
     { path: "/login", element: <Login /> },
@@ -113,6 +114,7 @@ function App() {
         { path: "schedule", element: <Schedule /> },
         { path: "internalCourses", element: <InternalCourses /> },
         { path: "simulationExam", element: <SimulationExam /> },
+        { path: "simulationExam/:id", element: <ManageQuestion /> },
         { path: "jobPosition", element: <JobPosition /> },
         { path: "major", element: <Major /> },
         { path: "organizations", element: <Organizations /> },

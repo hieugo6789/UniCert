@@ -22,7 +22,9 @@ import examReducer from "../redux/slice/SimulationExam/examSlice";
 import examDetailReducer from "./slice/SimulationExam/examDetailSlice";
 import createExamReducer from "./slice/SimulationExam/createExamSlice";
 import deleteExamReducer from "../redux/slice/SimulationExam/deleteExamSlice";
+import questionDetailReducer from "./slice/SimulationExam/Question/questionDetailSlice";
 import createQuestionReducer from "./slice/SimulationExam/Question/createQuestionSlice";
+import deleteQuestionReducer from "./slice/SimulationExam/Question/deleteQuestionSlice";
 import feedbackReducer from "./slice/Feedback/feedbackSlice";
 import feedbackDetailReducer from "./slice/Feedback/feedbackDetailSlice";
 import createFeedbackReducer from "./slice/Feedback/createFeedbackSlice";
@@ -78,7 +80,9 @@ export const store = configureStore({
     examDetail: examDetailReducer,
     createExam: createExamReducer,
     deleteExam: deleteExamReducer,
+    questionDetail: questionDetailReducer,
     createQuestion: createQuestionReducer,
+    deleteQuestion: deleteQuestionReducer,
     feedback: feedbackReducer,
     feedbackDetail: feedbackDetailReducer,
     createFeedback: createFeedbackReducer,
