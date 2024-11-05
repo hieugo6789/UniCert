@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Description from "../../../components/Certifications/Description";
 import certificationDefault from "../../../assets/images/Certification/certificationDefault.png";
-import Feedback from "../../../components/Certifications/Feedback";
+// import Feedback from "../../../components/Certifications/Feedback";
 import ExamDetails from "../../../components/Certifications/ExamDetails";
 import { useParams } from "react-router-dom";
 import { allCertificationData } from "../../../models/certificate";
@@ -140,7 +140,7 @@ const CertificateDetailPage = () => {
       <div className="p-4">
         {activeTab === "Description" && cert && <Description props={cert} schedule={filteredSchedule} course={filteredCourses}/>}        
         {activeTab === "Exam Details" && cert && <ExamDetails {...cert} />}
-        {activeTab === "Feedback" && <Feedback />}
+        {activeTab === "Feedback"}
       </div>
     </div>
   );
