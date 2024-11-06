@@ -1,4 +1,4 @@
-import { Form, Input, message, Modal, Select } from "antd";
+import { Form, Input, InputNumber, message, Modal, Select } from "antd";
 import useUpdateExam from "../../hooks/SimulationExam/useUpdateExam";
 import useCertificate from "../../hooks/Certification/useCertificate";
 import useVoucher from "../../hooks/Voucher/useVoucher";
@@ -39,6 +39,8 @@ const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
         examCode: currentExam.examCode,
         examDescription: currentExam.examDescription,
         examFee: currentExam.examFee,
+        duration: currentExam.duration,
+        questionCount: currentExam.questionCount,
         voucherIds: Vouchers,
         examImage: currentExam.examImage,
         certId: currentExam.certId,
@@ -119,29 +121,42 @@ const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
               },
             ]}
           >
-            <Input placeholder="Enter exam fee" />
+            <InputNumber
+              placeholder="Enter exam fee"
+              style={{ width: "100%" }}
+            />
           </Form.Item>
           <Form.Item
-            label="Vouchers"
-            name="voucherIds"
+            label="Duration"
+            name="duration"
+            rules={[
+              {
+                required: true,
+                message: "Please enter duration",
+              },
+            ]}
           >
-            <Select
-              placeholder="Select vouchers"
+            <InputNumber
+              placeholder="Enter duration"
               style={{ width: "100%" }}
-              mode="multiple"
-            >
-              {voucher
-                .filter((v) => v.voucherStatus === true)
-                .map((v) => (
-                  <Select.Option
-                    key={v.voucherId}
-                    value={v.voucherId}
-                  >
-                    {v.voucherName}
-                  </Select.Option>
-                ))}
-            </Select>
+            />
           </Form.Item>
+          <Form.Item
+            label="Total questions"
+            name="questionCount"
+            rules={[
+              {
+                required: true,
+                message: "Please enter total questions",
+              },
+            ]}
+          >
+            <InputNumber
+              placeholder="Enter total questions"
+              style={{ width: "100%" }}
+            />
+          </Form.Item>
+
           <Form.Item
             label="Image"
             name="examImage"
@@ -207,6 +222,27 @@ const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
                   </div>
                 </Select.Option>
               ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="Vouchers"
+            name="voucherIds"
+          >
+            <Select
+              placeholder="Select vouchers"
+              style={{ width: "100%" }}
+              mode="multiple"
+            >
+              {voucher
+                .filter((v) => v.voucherStatus === true)
+                .map((v) => (
+                  <Select.Option
+                    key={v.voucherId}
+                    value={v.voucherId}
+                  >
+                    {v.voucherName}
+                  </Select.Option>
+                ))}
             </Select>
           </Form.Item>
         </Form>

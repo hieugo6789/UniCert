@@ -21,6 +21,8 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
     voucherIds: [] as number[],
     examImage: "",
     certId: 0,
+    duration: 0,
+    questionCount: 0,
   });
 
   const showModal = () => {
@@ -79,7 +81,7 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
         Exam
       </Button>
       <Modal
-        title="Create New Course"
+        title="Create New Exam"
         width={900}
         open={isModalVisible}
         onOk={handleOK}
@@ -93,7 +95,7 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
           initialValues={formData}
         >
           <Form.Item
-            label="Course Name"
+            label="Exam Name"
             name="examName"
             rules={[
               {
@@ -110,7 +112,7 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
             />
           </Form.Item>
           <Form.Item
-            label="Course Code"
+            label="Exam Code"
             name="examCode"
             rules={[
               {
@@ -128,7 +130,7 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
           </Form.Item>
 
           <Form.Item
-            label="Course Description"
+            label="Exam Description"
             name="examDescription"
             rules={[
               {
@@ -164,27 +166,48 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
               style={{ width: "100%" }}
             />
           </Form.Item>
-          <Form.Item label="Voucher">
-            <Select
-              placeholder="Select Voucher"
-              onChange={handleSelectVoucherChange}
+          <Form.Item
+            label="Duration (minutes)"
+            name="duration"
+            rules={[
+              {
+                required: true,
+                message: "Please input duration!",
+              },
+            ]}
+          >
+            <InputNumber
+              name="duration"
+              value={formData.duration}
+              onChange={(value) =>
+                setFormData({ ...formData, duration: value ?? 0 })
+              }
+              placeholder="Enter duration"
               style={{ width: "100%" }}
-              mode="multiple"
-            >
-              {voucher
-                .filter((v) => v.voucherStatus === true)
-                .map((v) => (
-                  <Select.Option
-                    key={v.voucherId}
-                    value={v.voucherId}
-                  >
-                    {v.voucherName}
-                  </Select.Option>
-                ))}
-            </Select>
+            />
           </Form.Item>
           <Form.Item
-            label="Course Image"
+            label="Total questions"
+            name="questionCount"
+            rules={[
+              {
+                required: true,
+                message: "Please input total questions!",
+              },
+            ]}
+          >
+            <InputNumber
+              name="questionCount"
+              value={formData.questionCount}
+              onChange={(value) =>
+                setFormData({ ...formData, questionCount: value ?? 0 })
+              }
+              placeholder="Enter total questions"
+              style={{ width: "100%" }}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Exam Image"
             name="examImage"
             rules={[
               {
@@ -243,6 +266,25 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
                   </div>
                 </Select.Option>
               ))}
+            </Select>
+          </Form.Item>
+          <Form.Item label="Voucher">
+            <Select
+              placeholder="Select Voucher"
+              onChange={handleSelectVoucherChange}
+              style={{ width: "100%" }}
+              mode="multiple"
+            >
+              {voucher
+                .filter((v) => v.voucherStatus === true)
+                .map((v) => (
+                  <Select.Option
+                    key={v.voucherId}
+                    value={v.voucherId}
+                  >
+                    {v.voucherName}
+                  </Select.Option>
+                ))}
             </Select>
           </Form.Item>
         </Form>
