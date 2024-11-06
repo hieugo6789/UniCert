@@ -45,6 +45,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SimulationExamPage from "./page/User/Exam/SimulationExamPage";
 import ManageQuestion from "./page/Staff/ManageQuestion";
+import ExamDetailPage from "./page/User/Exam/ExamDetailPage";
 const Layout = () => {
   return (
     <>
@@ -79,7 +80,8 @@ function App() {
         { path: "wallet/:transId", element: <Wallet /> },
         { path: "wallet/0", element: <Wallet /> },
         { path: "/cart", element: <Cart /> },
-        { path: "/exam/:id", element: <SimulationExamPage /> },
+        { path: "/exam/:id", element: <ExamDetailPage /> },
+        { path: "/exam/:id/simulation", element: <SimulationExamPage /> },
       ],
     },
     { path: "/login", element: <Login /> },
