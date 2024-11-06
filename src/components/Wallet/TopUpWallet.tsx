@@ -12,6 +12,7 @@ const packages = [
   { points: 50, price: 50000 },
   { points: 100, price: 100000 },
   { points: 500, price: 500000 },
+  { points: 1000, price: 1000000 },
 ];
 
 const TopUpWallet = () => {

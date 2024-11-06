@@ -8,6 +8,8 @@ export interface allExamPaginationData {
   examDiscountFee: number;
   examImage: string;
   examPermission: string;
+  duration: number;
+  questionCount: number;
 }
 export interface currentExam {
   examId: number;
@@ -19,6 +21,8 @@ export interface currentExam {
   examDiscountFee: number;
   examImage: string;
   examPermission: string;
+  duration: number;
+  questionCount: number;
 }
 
 export interface currentExamDetail {
@@ -31,6 +35,8 @@ export interface currentExamDetail {
   examDiscountFee: number;
   examImage: string;
   examPermission: string;
+  duration: number;
+  questionCount: number;
   listQuestions: [
     {
       questionId: number;
@@ -77,6 +83,8 @@ export interface createExam {
   examFee: number;
   voucherIds: number[];
   examImage: string;
+  duration: number;
+  questionCount: number;
 }
 
 export interface deleteExam {
@@ -91,4 +99,6 @@ export interface updateExam {
   examFee: number;
   voucherIds: number[];
   examImage: string;
+  duration: number;
+  questionCount: number;
 }

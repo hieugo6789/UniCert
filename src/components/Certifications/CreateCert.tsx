@@ -17,7 +17,7 @@ const CreateCert = ({
   refetchCertificates: () => void;
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { handleCreateCert } = useCreateCert();
+  const { state, handleCreateCert } = useCreateCert();
   const [form] = Form.useForm(); // Initialize form instance
   const [formData, setFormData] = useState({
     certName: "",
@@ -164,6 +164,7 @@ const CreateCert = ({
         onCancel={handleCancel}
         okText="OK"
         cancelText="Cancel"
+        confirmLoading={state.isCreating}
       >
         <Form
           form={form}

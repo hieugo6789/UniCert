@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Checkbox, Form, Input, Modal } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useCreateQuestion } from "../../../hooks/SimulationExam/Question/useCreateQuestion";
 import { useParams } from "react-router-dom";
@@ -77,10 +78,11 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
   return (
     <>
       <Button
+        icon={<PlusOutlined />}
         type="primary"
         onClick={showModal}
       >
-        Create Question
+        Question
       </Button>
       <Modal
         title="Create Question"
