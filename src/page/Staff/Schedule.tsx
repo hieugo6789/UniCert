@@ -3,13 +3,15 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { Button, Descriptions, Modal, Spin, Tag } from "antd";
+import { Descriptions, Dropdown, Menu, Modal, Spin, Tag } from "antd";
+import { EllipsisOutlined } from "@ant-design/icons";
 import useSchedule from "../../hooks/Schedule/useSchedule";
 import useDeleteSchedule from "../../hooks/Schedule/useDeleteSchedule";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import CreateSchedule from "../../components/Calendar/CreateSchedule";
 import useScheduleDetail from "../../hooks/Schedule/useScheduleDetail"; // Hook for fetching schedule details
 import useCertDetail from "../../hooks/Certification/useCertDetail";
+import UpdateSchedule from "../../components/Calendar/UpdateSchedule";
 
 const Schedule: React.FC = () => {
   const { schedule, loading, refetchSchedule } = useSchedule();
@@ -23,43 +25,45 @@ const Schedule: React.FC = () => {
   useEffect(() => {
     const formattedEvents = schedule.map((session) => ({
       id: session.sessionId.toString(),
+      sessionId: session.sessionId,
       title: session.sessionCode,
       sessionName: session.sessionName,
       start: session.sessionDate, // Ensure sessionDate is a Date or ISO string
       end: session.sessionDate, // Use end if there is an end time
+      sessionDate: session.sessionDate,
       location: session.sessionAddress,
       time: session.sessionTime,
-      sessionId: session.sessionId,
       certId: session.certId,
     }));
     setEvents(formattedEvents);
   }, [schedule]);
 
-  // Handle event click to fetch details and show in modal
   const handleEventClick = (eventInfo: any) => {
     const sessionId = eventInfo.event.extendedProps.sessionId;
     getScheduleDetails(sessionId); // Fetch the details
     const certId = eventInfo.event.extendedProps.certId;
     getCertDetails(certId);
     setSelectedSchedule(eventInfo.event); // Store the clicked event's details
-    setDetailModalVisible(true); // Show the modal
+    setDetailModalVisible(true);
   };
 
-  // Handle closing the detail modal
   const handleCloseDetailModal = () => {
     setDetailModalVisible(false);
     setSelectedSchedule(null); // Clear the selected schedule
   };
 
-  const confirmDelete = (sessionId: number) => {
+  const handleDeleteClick = (sessionId: number) => {
     Modal.confirm({
       title: "Delete Schedule",
       content: "Are you sure you want to delete this schedule?",
       onOk: async () => {
-        await handleDeleteSchedule(sessionId);
-        refetchSchedule();
-        setDetailModalVisible(false);
-        setSelectedSchedule(null);
+        await handleDeleteSchedule(sessionId); // Call your delete function here
+        refetchSchedule(); // Refetch schedule after deletion
+        setDetailModalVisible(false); // Close the modal after deletion
+        setSelectedSchedule(null); // Clear the selected schedule
+      },
+      onCancel() {
+        // Optionally handle cancellation
       },
     });
   };
@@ -81,6 +85,7 @@ const Schedule: React.FC = () => {
             <FullCalendar
               plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
               initialView="dayGridMonth"
+              timeZone="Asia/Ho_Chi_Minh"
               events={events}
               headerToolbar={{
                 left: "prev,next",
@@ -93,9 +98,50 @@ const Schedule: React.FC = () => {
                 hour12: true,
               }}
               eventContent={(eventInfo) => (
-                <div className="flex items-center justify-between w-full ">
+                <div className="flex items-center justify-between w-full">
                   <div className="px-2">
-                    <i>{eventInfo.event.title}</i> - <b>{eventInfo.timeText}</b>
+                    <i>{eventInfo.event.title}</i> -{" "}
+                    <b>
+                      {new Date(
+                        eventInfo.event.start as Date
+                      ).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </b>
+                  </div>
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <Dropdown
+                      overlay={
+                        <Menu>
+                          <Menu.Item key="update">
+                            <UpdateSchedule
+                              sessionId={
+                                eventInfo.event.extendedProps.sessionId
+                              }
+                              refetchSchedules={refetchSchedule}
+                            />
+                          </Menu.Item>
+                          <Menu.Item
+                            key="delete"
+                            danger
+                            onClick={() =>
+                              handleDeleteClick(
+                                eventInfo.event.extendedProps.sessionId
+                              )
+                            }
+                          >
+                            Delete
+                          </Menu.Item>
+                        </Menu>
+                      }
+                      trigger={["click"]}
+                      placement="bottomRight"
+                    >
+                      <EllipsisOutlined
+                        style={{ fontSize: "18px", cursor: "pointer" }}
+                      />
+                    </Dropdown>
                   </div>
                 </div>
               )}
@@ -154,16 +200,6 @@ const Schedule: React.FC = () => {
                 <Tag color="green">{certDetail?.currentCert.certName} </Tag>
               </Descriptions.Item>
             </Descriptions>
-            <div className="flex justify-end gap-4">
-              <Button
-                danger
-                onClick={() =>
-                  confirmDelete(selectedSchedule.extendedProps.sessionId)
-                }
-              >
-                Delete
-              </Button>
-            </div>
           </div>
         ) : (
           <p>No details available.</p>
