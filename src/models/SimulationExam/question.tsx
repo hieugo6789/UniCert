@@ -28,6 +28,6 @@ export interface updateQuestion {
   examId: number;
   answers: {
     text: string;
-    isCorrect: true;
+    isCorrect: boolean;
   }[];
 }

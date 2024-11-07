@@ -9,7 +9,6 @@ import UpdateExam from "../../components/Exam/UpdateExam";
 import CreateExam from "../../components/Exam/CreateExam";
 import Coin from "../../assets/images/Coin.png";
 import { Link } from "react-router-dom";
-import UploadExamTemplate from "../../components/Exam/UploadExamTemplate";
 
 const { confirm } = Modal;
 
@@ -156,7 +155,6 @@ const SimulationExam = () => {
       <div className="h-[10vh] flex justify-between items-center  text-black p-4">
         <div className="flex justify-between items-center">
           <CreateExam refetchExams={refetchExams} />
-          <UploadExamTemplate refetchExams={refetchExams} />
         </div>
         <div className="mr-10">
           <AvatarAdmin />

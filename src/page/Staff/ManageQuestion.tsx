@@ -1,25 +1,45 @@
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useExamDetail from "../../hooks/SimulationExam/useExamDetail";
 import CreateQuestion from "../../components/Exam/Question/CreateQuestion";
 import { Button, Dropdown, Menu } from "antd";
 import { EllipsisOutlined } from "@ant-design/icons";
 import useDeleteQuestion from "../../hooks/SimulationExam/Question/useDeleteQuestion";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
-// import useUpdateQuestion from "../../hooks/SimulationExam/Question/useUpdateQuestion";
+import UploadExamTemplate from "../../components/Exam/UploadExamTemplate";
+import UpdateQuestion from "../../components/Exam/Question/UpdateQuestion";
 
 const ManageQuestion = () => {
   const { id } = useParams();
   const { state, getExamDetails } = useExamDetail();
   const { handleDeleteQuestion } = useDeleteQuestion();
-  // const { updateQuestionDetails, state: updateQuestionState } =
-  //   useUpdateQuestion();
+
+  // State to manage modal visibility and selected question ID
+  const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
+  const [selectedQuestionId, setSelectedQuestionId] = useState<number | null>(
+    null
+  );
 
   useEffect(() => {
     if (id) {
       getExamDetails(Number(id));
     }
-  }, []);
+  }, [id]);
+
+  const handleUpdateQuestion = (questionId: number) => {
+    setSelectedQuestionId(questionId);
+    setIsUpdateModalVisible(true);
+  };
+
+  const handleClickDeleteQuestion = async (questionId: number) => {
+    try {
+      await handleDeleteQuestion(questionId);
+      await getExamDetails(Number(id));
+    } catch (error) {
+      console.error("Error deleting question:", error);
+    }
+  };
+
   const menu = (questionId: number) => (
     <Menu
       items={[
@@ -37,37 +57,29 @@ const ManageQuestion = () => {
     />
   );
 
-  const handleUpdateQuestion = (questionId: number) => {
-    console.log("Updating question with ID:", questionId);
-    // Logic for updating question
-  };
-
-  const handleClickDeleteQuestion = async (questionId: number) => {
-    try {
-      await handleDeleteQuestion(questionId);
-      await getExamDetails(Number(id));
-    } catch (error) {
-      console.error("Error deleting question:", error);
-    }
-  };
   return (
     <>
-      <div className="h-[8vh] flex justify-between items-center">
-        <div className="ml-10">
+      <div className="h-[10vh] flex justify-between items-center">
+        <div className="ml-10 flex items-center">
           <CreateQuestion
             onQuestionCreated={() => getExamDetails(Number(id))}
+          />
+          <UploadExamTemplate
+            examId={Number(id)}
+            refetchExams={() => getExamDetails(Number(id))}
           />
         </div>
         <div className="mr-10">
           <AvatarAdmin />
         </div>
       </div>
-      <div className="gap-4 p-2 min-h-[92vh]">
-        <div className=" ">
+
+      <div className="gap-4 p-2 min-h-[90vh]">
+        <div>
           {state.currentExam.listQuestions?.map((question, index) => (
             <div
               key={index}
-              className="mb-4 relative border p-4 rounded-md shadow-sm  bg-white"
+              className="mb-4 relative border p-4 rounded-md shadow-sm bg-white"
             >
               <Dropdown
                 overlay={menu(question.questionId)}
@@ -96,6 +108,15 @@ const ManageQuestion = () => {
           ))}
         </div>
       </div>
+
+      {/* UpdateQuestion modal */}
+      {selectedQuestionId !== null && (
+        <UpdateQuestion
+          questionId={selectedQuestionId}
+          visible={isUpdateModalVisible}
+          onClose={() => setIsUpdateModalVisible(false)}
+        />
+      )}
     </>
   );
 };

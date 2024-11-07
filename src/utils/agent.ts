@@ -30,7 +30,6 @@ import {
 } from "../models/SimulationExam/question";
 import { createScore } from "../models/score";
 
-
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
   get: <T>(url: string, params?: T) =>
@@ -207,6 +206,8 @@ const SimulationExam = {
     ),
 };
 const Question = {
+  questionDetail: (questionId: number) =>
+    requests.get(`api/v1/question/${questionId}`),
   createQuestion: (input: createQuestion) =>
     requests.post(`api/v1/question`, input),
   deleteQuestion: (questionId: number) =>
@@ -279,9 +280,7 @@ const Payment = {
 };
 
 const Score = {
-  submitScore: (input: createScore) =>
-    requests.post(`api/v1/score`, input),
-
+  submitScore: (input: createScore) => requests.post(`api/v1/score`, input),
 };
 
 const agent = {
