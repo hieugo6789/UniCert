@@ -46,6 +46,7 @@ import "react-toastify/dist/ReactToastify.css";
 import SimulationExamPage from "./page/User/Exam/SimulationExamPage";
 import ManageQuestion from "./page/Staff/ManageQuestion";
 import ExamDetailPage from "./page/User/Exam/ExamDetailPage";
+import SubmitExamPage from "./page/User/Exam/SubmitExamPage";
 const Layout = () => {
   return (
     <>
@@ -82,6 +83,7 @@ function App() {
         { path: "/cart", element: <Cart /> },
         { path: "/exam/:id", element: <ExamDetailPage /> },
         { path: "/exam/:id/simulation", element: <SimulationExamPage /> },
+        { path: "/exam/:id/simulation/submit", element: <SubmitExamPage /> },
       ],
     },
     { path: "/login", element: <Login /> },
