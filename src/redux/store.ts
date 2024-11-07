@@ -55,6 +55,7 @@ import createCourseEnrollmentReducer from "./slice/Enrollment/createCourseEnroll
 import examPaymentReducer from "./slice/Payment/examPaymentSlice";
 import coursePaymentReducer from "./slice/Payment/coursePaymentSlice";
 import createPaymentReducer from "./slice/Payment/createPaymentSlice";
+import createScoreReducer from "./slice/Scope/createScore";
 
 export const store = configureStore({
   reducer: {
@@ -113,6 +114,7 @@ export const store = configureStore({
     examPayment: examPaymentReducer,
     coursePayment: coursePaymentReducer,
     createPayment: createPaymentReducer,
+    createScore: createScoreReducer,
   },
 });
 
