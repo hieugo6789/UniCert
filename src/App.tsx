@@ -47,6 +47,7 @@ import SimulationExamPage from "./page/User/Exam/SimulationExamPage";
 import ManageQuestion from "./page/Staff/ManageQuestion";
 import ExamDetailPage from "./page/User/Exam/ExamDetailPage";
 import SubmitExamPage from "./page/User/Exam/SubmitExamPage";
+import ExamResultPage from "./page/User/Exam/ExamResultPage";
 const Layout = () => {
   return (
     <>
@@ -84,6 +85,7 @@ function App() {
         { path: "/exam/:id", element: <ExamDetailPage /> },
         { path: "/exam/:id/simulation", element: <SimulationExamPage /> },
         { path: "/exam/:id/simulation/submit", element: <SubmitExamPage /> },
+        { path: "/exam/:id/simulation/result", element: <ExamResultPage /> },
       ],
     },
     { path: "/login", element: <Login /> },
