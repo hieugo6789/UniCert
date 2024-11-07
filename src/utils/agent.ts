@@ -7,7 +7,7 @@ import {
   updateOrganize,
 } from "../models/organization";
 import { UpdateRole } from "../models/user";
-import { scheduleInput, updateSchedule } from "../models/schedule";
+import { scheduleInput } from "../models/schedule";
 import { createCertificate, updateCert } from "../models/certificate";
 import { createJobInput, updateJobInput } from "../models/jobPosition";
 import { inputTransaction } from "../models/transaction";
@@ -135,10 +135,6 @@ const Schedule = {
     requests.post("api/v1/exam-session", input),
   deleteSchedule: (sessionId: number) =>
     requests.del(`api/v1/exam-session/${sessionId}`),
-  getScheduleDetail: (sessionId: number) =>
-    requests.get(`api/v1/exam-session/${sessionId}`),
-  updateScheduleDetail: (sessionId: number, data: updateSchedule) =>
-    requests.put(`api/v1/exam-session/${sessionId}`, data),
 };
 
 const Account = {
@@ -277,11 +273,10 @@ const Payment = {
     requests.get(`api/v1/payment/get-CourseEnrollment-by-userId/${userId}`),
 };
 
-const Scope = {
-  submitScore: (input: createScore) => requests.post(`api/v1/score`, input),
+const Score = {
+  submitScore: (input: createScore) =>
+    requests.post(`api/v1/score`, input),
 
-  // getScope: () => requests.get("api/v1/scope"),
-  // getScopeDetail: (scopeId: string) => requests.get(`api/v1/scope/${scopeId}`),
 };
 
 const agent = {
@@ -303,6 +298,6 @@ const agent = {
   Cart,
   Payment,
   Enrollment,
-  Scope,
+  Score,
 };
 export default agent;
