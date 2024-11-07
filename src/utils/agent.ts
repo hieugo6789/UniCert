@@ -28,6 +28,7 @@ import {
   createQuestion,
   updateQuestion,
 } from "../models/SimulationExam/question";
+import { createScore } from "../models/score";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -215,11 +216,11 @@ const FeedBack = {
   getFeedbackDetail: (feedbackId: number) =>
     requests.get(`api/v1/feedback/exam/${feedbackId}`),
   createFeedback: (input: createFeedback) =>
-    requests.post("api/v1/feedback/exam", input),
+    requests.post("api/v1/feedback", input),
   deleteFeedback: (feedbackId: number) =>
-    requests.del(`api/v1/feedback/exam/${feedbackId}`),
+    requests.del(`api/v1/feedback/${feedbackId}`),
   updateFeedback: (feedbackId: number, input: updateFeedback) =>
-    requests.put(`api/v1/feedback/exam/${feedbackId}`, input),
+    requests.put(`api/v1/feedback/${feedbackId}`, input),
 };
 
 const Voucher = {
@@ -272,6 +273,14 @@ const Payment = {
     requests.get(`api/v1/payment/get-CourseEnrollment-by-userId/${userId}`),
 };
 
+const Scope = {
+  submitScore: (input: createScore) =>
+    requests.post(`api/v1/score`, input),
+
+  // getScope: () => requests.get("api/v1/scope"),
+  // getScopeDetail: (scopeId: string) => requests.get(`api/v1/scope/${scopeId}`),
+};
+
 const agent = {
   Major,
   Account,
@@ -291,5 +300,6 @@ const agent = {
   Cart,
   Payment,
   Enrollment,
+  Scope,
 };
 export default agent;
