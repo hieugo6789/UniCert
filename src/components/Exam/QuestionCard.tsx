@@ -3,14 +3,14 @@ import { FaFlag } from 'react-icons/fa';
 type QuestionProps = {
   question: {
     questionText: string;
-    options: string[];
+    options: { answerId: number; answerText: string }[]; // Changed to include answerId
     correctAnswerIndex: number;
   };
   currentQuestionIndex: number;
   selectedAnswer: number | null;
   flagged: boolean;
   onFlag: () => void;
-  onSelectAnswer: (answerIndex: number) => void;
+  onSelectAnswer: (answerId: number) => void; // Accepting answerId
 };
 
 const QuestionCard: React.FC<QuestionProps> = ({
@@ -32,13 +32,13 @@ const QuestionCard: React.FC<QuestionProps> = ({
         <FaFlag size={24} />
       </button>
       <div className="space-y-2">
-        {question.options.map((option, index) => (
+        {question.options.map((option) => (
           <button
-            key={index}
-            onClick={() => onSelectAnswer(index)}
-            className={`w-full p-2 border rounded ${selectedAnswer === index ? 'bg-blue-500 text-white' : 'hover:bg-blue-100'}`}
+            key={option.answerId} // Use answerId as key
+            onClick={() => onSelectAnswer(option.answerId)} // Passing answerId to onSelectAnswer
+            className={`w-full p-2 border rounded ${selectedAnswer === option.answerId ? 'bg-blue-500 text-white' : 'hover:bg-blue-100'}`}
           >
-            {option}
+            {option.answerText}
           </button>
         ))}
       </div>
