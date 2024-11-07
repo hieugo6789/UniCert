@@ -56,7 +56,8 @@ import examPaymentReducer from "./slice/Payment/examPaymentSlice";
 import coursePaymentReducer from "./slice/Payment/coursePaymentSlice";
 import createPaymentReducer from "./slice/Payment/createPaymentSlice";
 import createScoreReducer from "./slice/Score/createScore";
-
+import scheduleDetailReducer from "./slice/Schedule/scheduleDetailSlice";
+import createScheduleReducer from "./slice/Schedule/createSchedule";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -115,6 +116,8 @@ export const store = configureStore({
     coursePayment: coursePaymentReducer,
     createPayment: createPaymentReducer,
     createScore: createScoreReducer,
+    scheduleDetail: scheduleDetailReducer,
+    createSchedule: createScheduleReducer,
   },
 });
 
