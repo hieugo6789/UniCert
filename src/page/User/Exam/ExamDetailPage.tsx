@@ -24,9 +24,9 @@ const ExamDetailPage = () => {
     }, [id]);
 
     useEffect(() => {
+        console.log(state);
         setExam(state.currentExam);
     }, [state]);
-
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
             <h1 className="text-3xl font-bold text-center mb-6">Exam Details</h1>
@@ -42,8 +42,9 @@ const ExamDetailPage = () => {
                         <span>Fee: {exam?.examFee}</span>
                         <img src={coin} alt="Coin Icon" className="w-6 h-6" />
                     </div>
-                    {exam.examPermission === "Approve" &&
-                        <CustomButton label='Start Exam' className='mt-6' onClick={() => navigate("./simulation")} />}
+                    {/* {exam.examPermission === "Approve" && */}
+                        <CustomButton label='Start Exam' className='mt-6' onClick={() => navigate("./simulation")} />
+                            {/* } */}
                 </div>
             </div>
 
