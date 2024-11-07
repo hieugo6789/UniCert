@@ -22,14 +22,16 @@ const SimulationExamPage = () => {
       const formattedQuestions = state.currentExam.listQuestions.map((q: any) => ({
         id: q.questionId,
         questionText: q.questionName,
-        options: q.answers.map((answer: any) => answer.answerText), // Sử dụng đúng tên trường 'answerText'
-        correctAnswerIndex: -1, // Nếu không có thông tin đáp án đúng, đặt mặc định là -1
+        options: q.answers.map((answer: any) => ({
+          answerId: answer.answerId, // Include the actual answer ID
+          answerText: answer.answerText,
+        })),
+        correctAnswerId: -1, // Default if correct answer ID is unknown
       }));
       setQuestions(formattedQuestions);
       console.log(formattedQuestions);
     }
   }, [state]);
-
 
   const [flaggedQuestions, setFlaggedQuestions] = useState<boolean[]>(Array(questions.length).fill(false));
 
@@ -42,9 +44,9 @@ const SimulationExamPage = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<(number | null)[]>(Array(questions.length).fill(null));
 
-  const handleSelectAnswer = (questionIndex: number, answerIndex: number) => {
+  const handleSelectAnswer = (questionIndex: number, answerId: number) => {
     const newAnswers = [...selectedAnswers];
-    newAnswers[questionIndex] = answerIndex;
+    newAnswers[questionIndex] = answerId; // Store the answerId
     setSelectedAnswers(newAnswers);
   };
 
@@ -82,7 +84,7 @@ const SimulationExamPage = () => {
             selectedAnswer={selectedAnswers[currentQuestionIndex]}
             flagged={flaggedQuestions[currentQuestionIndex]}
             onFlag={() => handleFlagQuestion(currentQuestionIndex)}
-            onSelectAnswer={(answerIndex) => handleSelectAnswer(currentQuestionIndex, answerIndex)}
+            onSelectAnswer={(answerId) => handleSelectAnswer(currentQuestionIndex, answerId)}
           />
         )}
         <div className="flex items-center justify-between">
@@ -104,7 +106,6 @@ const SimulationExamPage = () => {
             }}
             label="Next Question"
           />
-
         </div>
       </div>
       <div className="w-full col-span-1">
