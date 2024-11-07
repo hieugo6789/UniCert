@@ -4,7 +4,7 @@ export interface allSchedulePaginationData {
   sessionCode: string;
   sessionDate: Date;
   sessionAddress: string;
-  certId: string;
+  certId: number;
   sessionTime: string;
   sessionCreatedAt: Date;
 }
@@ -15,20 +15,28 @@ export interface currentSchedule {
   sessionCode: string;
   sessionDate: Date;
   sessionAddress: string;
-  certId: string;
+  certId: number;
   sessionTime: string;
   sessionCreatedAt: Date;
 }
 export interface scheduleInput {
-  sessionName: number;
+  sessionName: string;
   sessionCode: string;
   sessionDate: Date;
   sessionAddress: string;
-  certId: string;
+  certId: number;
   sessionTime: string;
   sessionCreatedAt: Date;
 }
 
 export interface deleteSchedule {
   sessionId: number;
+}
+
+export interface updateSchedule {
+  sessionName: string;
+  sessionCode: string;
+  sessionDate: Date;
+  sessionAddress: string;
+  sessionTime: string;
 }
