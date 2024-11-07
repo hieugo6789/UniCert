@@ -5,12 +5,14 @@ import Cookies from 'js-cookie';
 import { useCreatePayment } from '../../hooks/Payment/useCreatePayment';
 import coin from "../../assets/images/Coin.png";
 import { showToast } from '../../utils/toastUtils';
+import { useNavigate } from 'react-router-dom';
 
 interface ExamEnrollmentCardProps {
   enrollment: examEnrollment;
 }
 
 const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment }) => {
+  const navigate = useNavigate();
   const { handleCreatePayment } = useCreatePayment();
   const userId = Cookies.get("userId");
   const [enrollStatus, setEnrollStatus] = useState(enrollment.examEnrollmentStatus);
@@ -26,7 +28,8 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment }) => {
   };
 
   const handleTakeExam = (examId: number) => {    
-    console.log(`Starting exam with ID: ${examId}`);    
+    console.log(`Starting exam with ID: ${examId}`);   
+    navigate(`/exam/${examId}`);
   };
 
   return (
