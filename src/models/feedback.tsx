@@ -5,6 +5,11 @@ export interface feedbackPagination {
   examId: number;
   feedbackCreatedAt: Date;
   feedbackImage: string;
+  userDetails: {
+    userId: number;
+    username: string;
+    userImage: string;
+  };
 }
 export interface currentFeedback {
   feedbackId: number;
@@ -13,6 +18,11 @@ export interface currentFeedback {
   examId: number;
   feedbackCreatedAt: Date;
   feedbackImage: string;
+  userDetails: {
+    userId: number;
+    username: string;
+    userImage: string;
+  };
 }
 export interface createFeedback {
   userId: string;
