@@ -7,7 +7,7 @@ import {
   updateOrganize,
 } from "../models/organization";
 import { UpdateRole } from "../models/user";
-import { scheduleInput } from "../models/schedule";
+import { scheduleInput, updateSchedule } from "../models/schedule";
 import { createCertificate, updateCert } from "../models/certificate";
 import { createJobInput, updateJobInput } from "../models/jobPosition";
 import { inputTransaction } from "../models/transaction";
@@ -29,6 +29,7 @@ import {
   updateQuestion,
 } from "../models/SimulationExam/question";
 import { createScore } from "../models/score";
+
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -135,6 +136,10 @@ const Schedule = {
     requests.post("api/v1/exam-session", input),
   deleteSchedule: (sessionId: number) =>
     requests.del(`api/v1/exam-session/${sessionId}`),
+  getScheduleDetail: (sessionId: number) =>
+    requests.get(`api/v1/exam-session/${sessionId}`),
+  updateScheduleDetail: (sessionId: number, data: updateSchedule) =>
+    requests.put(`api/v1/exam-session/${sessionId}`, data),
 };
 
 const Account = {
