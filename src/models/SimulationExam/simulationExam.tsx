@@ -10,6 +10,19 @@ export interface allExamPaginationData {
   examPermission: string;
   duration: number;
   questionCount: number;
+  certificationDetails: [
+    {
+      certId: number;
+      certName: string;
+      certCode: string;
+      certDescription: string;
+      certImage: string;
+      typeName: string;
+      organizeName: string;
+      certValidity: string;
+      permission: string;
+    }
+  ];
 }
 export interface currentExam {
   examId: number;
@@ -23,6 +36,19 @@ export interface currentExam {
   examPermission: string;
   duration: number;
   questionCount: number;
+  certificationDetails: [
+    {
+      certId: number;
+      certName: string;
+      certCode: string;
+      certDescription: string;
+      certImage: string;
+      typeName: string;
+      organizeName: string;
+      certValidity: string;
+      permission: string;
+    }
+  ];
 }
 
 export interface currentExamDetail {

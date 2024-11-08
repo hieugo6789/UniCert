@@ -15,7 +15,7 @@ const ViewExamDetail: React.FC<ViewExamDetailProps> = ({ examId }) => {
     setIsModalVisible(true);
     await getExamDetails(examId);
   };
-  const approvedCertification = state.currentExam.certificationDetails?.filter(
+  const approvedCertification = state.currentExam?.certificationDetails?.filter(
     (cert) => cert.permission === "Approve"
   );
   return (
@@ -118,18 +118,25 @@ const ViewExamDetail: React.FC<ViewExamDetailProps> = ({ examId }) => {
                   key={question.questionId}
                   className="shadow-md p-4 border border-gray-200 rounded-lg"
                 >
-                  <p className="text-lg font-semibold">
-                    Q{index + 1}: {question.questionName}
-                  </p>
+                  <p className="text-lg font-semibold">Q{index + 1}:</p>
+                  <div
+                    className="prose list-disc whitespace-pre-wrap text-large mb-1"
+                    dangerouslySetInnerHTML={{
+                      __html: question.questionName || "",
+                    }}
+                  />
                   <div className="space-y-2 mt-2">
-                    {question.answers.map((answer) => (
-                      <div
-                        key={answer.answerId}
-                        className="pl-4 py-1 rounded-md bg-gray-100"
-                      >
-                        <strong>A{answer.answerId}:</strong> {answer.answerText}
-                      </div>
-                    ))}
+                    {question.answers.map((answer, index) => {
+                      const answerLetter = ["A", "B", "C", "D"][index]; // Gán ABCD
+                      return (
+                        <div
+                          key={answer.answerId}
+                          className="pl-4 py-1 rounded-md bg-gray-100"
+                        >
+                          <strong>{answerLetter}:</strong> {answer.answerText}
+                        </div>
+                      );
+                    })}
                   </div>
                 </Card>
               ))}
