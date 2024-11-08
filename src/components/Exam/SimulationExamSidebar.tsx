@@ -31,7 +31,7 @@ const SimulationExamSidebar: React.FC<SidebarProps> = ({
   };
 
   return (
-    <div className="w-full bg-gray-200 h-full shadow-lg p-4 relative xl:w-2/12 xl:fixed top-4 right-0 md:top-6 xl:top-20 overflow-y-auto max-h-screen">
+    <div className="w-full bg-gray-200 h-full shadow-lg p-4 relative xl:w-2/12 xl:fixed top-4 right-0 md:top-6 xl:top-20 overflow-y-auto min-h-screen">
       <h2 className="text-lg font-bold mb-4">Question Grid</h2>
       <CustomButton onClick={handleSubmitExam} label="Submit Exam" />
       <div className="grid grid-cols-4 gap-2">
