@@ -18,21 +18,31 @@ const Description = ({ props, schedule, course}: DescriptionProps) => (
     <h1 className="text-xl font-bold mb-2">Organization: {props.organizeName}</h1>
     <h1 className="text-xl font-bold mb-2">Schedule</h1>
     {schedule.length > 0 ? (
-      <ul className="list-disc list-inside mb-4">
+      <div className="space-y-4 mb-2">
         {schedule.map((session) => (
-          <li key={session.sessionId} className="mb-2">
-            <span className="font-medium">{session.sessionName}</span> - {new Date(session.sessionDate).toLocaleString("vi-VN", { 
-                hour: "2-digit", 
-                minute: "2-digit", 
-                day: "2-digit", 
-                month: "2-digit", 
-                year: "numeric" 
-            }).replace(",", "")}
-            {" "}at <span>{session.sessionAddress}</span>
-            {" "}on <span>{session.sessionTime}</span>
-          </li>
+          <div key={session.sessionId} className="bg-white p-4 rounded-lg shadow-md border rounded-xl">
+            <div className="flex flex-col gap-2">
+              <h2 className="text-lg font-semibold text-blue-600">{session.sessionName}</h2>
+              <p>
+                <strong>Exam Day: </strong>
+                {new Date(session.sessionDate).toLocaleString("vi-VN", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric"
+                }).replace(",", "")}
+              </p>
+              <p>
+                <strong>Location:</strong> <span>{session.sessionAddress}</span>
+              </p>
+              <p>
+                <strong>Time:</strong> <span>{session.sessionTime}</span>
+              </p>              
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     ) : (
       <p className="mb-2">No schedule available.</p>
     )}
