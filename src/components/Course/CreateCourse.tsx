@@ -91,7 +91,7 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
         <Form
           form={form}
           layout="vertical"
-          initialValues={formData}
+          // initialValues={formData}
         >
           <Form.Item
             label="Course Name"
