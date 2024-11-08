@@ -1,4 +1,4 @@
-import { FaFlag } from 'react-icons/fa';
+import { FaFlag } from "react-icons/fa";
 
 type QuestionProps = {
   question: {
@@ -23,11 +23,21 @@ const QuestionCard: React.FC<QuestionProps> = ({
 }) => {
   return (
     <div className="bg-white p-6 rounded shadow relative">
-      <h2 className="text-xl font-bold mb-4">Question: {currentQuestionIndex + 1}</h2>
-      <p className="mb-4">{question.questionText}</p>
+      <h2 className="text-xl font-bold mb-4">
+        Question: {currentQuestionIndex + 1}
+      </h2>
+      <div
+        className="prose list-disc whitespace-pre-wrap text-large mb-1"
+        dangerouslySetInnerHTML={{
+          __html: question.questionText || "",
+        }}
+      />
+      {/* <p className="mb-4">{question.questionText}</p> */}
       <button
         onClick={onFlag}
-        className={`absolute top-4 right-4 ${flagged ? 'text-yellow-500' : 'text-gray-400'}`}
+        className={`absolute top-4 right-4 ${
+          flagged ? "text-yellow-500" : "text-gray-400"
+        }`}
       >
         <FaFlag size={24} />
       </button>
@@ -36,7 +46,11 @@ const QuestionCard: React.FC<QuestionProps> = ({
           <button
             key={option.answerId} // Use answerId as key
             onClick={() => onSelectAnswer(option.answerId)} // Passing answerId to onSelectAnswer
-            className={`w-full p-2 border rounded ${selectedAnswer === option.answerId ? 'bg-blue-500 text-white' : 'hover:bg-blue-100'}`}
+            className={`w-full p-2 border rounded ${
+              selectedAnswer === option.answerId
+                ? "bg-blue-500 text-white"
+                : "hover:bg-blue-100"
+            }`}
           >
             {option.answerText}
           </button>
