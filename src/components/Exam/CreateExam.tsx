@@ -32,9 +32,20 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
     try {
       // Validate fields before submission
       await form.validateFields();
-      console.log(formData);
+      // console.log(formData);
       await handleCreateExam(formData);
-
+      form.resetFields();
+      setFormData({
+        examName: "",
+        examCode: "",
+        examDescription: "",
+        examFee: 0,
+        voucherIds: [],
+        examImage: "",
+        certId: 0,
+        duration: 0,
+        questionCount: 0,
+      });
       setIsModalVisible(false);
       refetchExams();
     } catch (error) {
@@ -92,7 +103,7 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
         <Form
           form={form}
           layout="vertical"
-          initialValues={formData}
+          // initialValues={formData}
         >
           <Form.Item
             label="Exam Name"
@@ -237,6 +248,7 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
               placeholder="Select Certification"
               onChange={handleSelectCertChange}
               style={{ width: "100%" }}
+              value={formData.certId}
             >
               {certificate.map((cert) => (
                 <Select.Option
@@ -274,6 +286,7 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
               onChange={handleSelectVoucherChange}
               style={{ width: "100%" }}
               mode="multiple"
+              value={formData.voucherIds}
             >
               {voucher
                 .filter((v) => v.voucherStatus === true)
