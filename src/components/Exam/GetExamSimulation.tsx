@@ -18,6 +18,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
   const { exam, loading, refetchExams } = useExamByCertId(certId);
   const { state, getCart } = useCartByUserId();
   const [purchasedExams, setPurchasedExams] = useState<examEnrollment[]>([]);
+  const [approvedExams, setApprovedExams] = useState<any[]>([]);
   const { examEnrollment, loading: examLoad, refetchExamEnrollments } = useExamEnrollment({ userId: userId || "" });
   const { updateCart } = useUpdateCart();
 
@@ -34,6 +35,14 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
     const successfulExams = examEnrollment.filter((exam) => exam.examEnrollmentStatus === "Completed");
     setPurchasedExams(successfulExams);
   }, [examEnrollment]);
+
+  // Lọc các kỳ thi có permission approve
+  useEffect(() => {
+    if (exam && exam.length > 0) {
+      const filteredExams = exam.filter(examItem => examItem.examPermission === 'Approve');
+      setApprovedExams(filteredExams);
+    }
+  }, [exam]);
 
   // Hàm thêm vào giỏ hàng
   const addToCart = (examId: string) => async () => {
@@ -56,7 +65,8 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
   };
 
   useEffect(() => {
-    if (isModalVisible) refetchExams(certId);
+    if (isModalVisible) 
+      refetchExams(certId);
   }, [isModalVisible, certId]);
 
   const showModal = () => {
@@ -81,8 +91,8 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
           <Loading />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {exam && exam.length > 0 ? (
-              exam.map((examItem) => {
+            {approvedExams && approvedExams.length > 0 ? (
+              approvedExams.map((examItem) => {
                 const isInCart = (state.currentCart?.examDetails || []).some((e: any) => e.examId === examItem.examId);
                 const isPurchased = (purchasedExams || []).some((e) => 
                   (e.simulationExamDetail || []).some((simExam) => simExam.examId === examItem.examId)
@@ -99,7 +109,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
                 );
               })
             ) : (
-              <p className="text-gray-500">No exams available for this certificate.</p>
+              <p className="text-gray-500">No approved exams available for this certificate.</p>
             )}
           </div>
         )}

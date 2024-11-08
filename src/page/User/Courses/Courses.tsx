@@ -64,7 +64,10 @@ const Courses = () => {
   }, []);
 
   useEffect(() => {
-    setCourses(course);
+    if (course.length > 0) {
+      const approvedCourses = course.filter(c => c.coursePermission === 'Approve');
+      setCourses(approvedCourses);
+    }
   }, [course]);
 
   useEffect(() => {

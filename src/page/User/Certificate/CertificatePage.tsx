@@ -51,11 +51,11 @@ const CertificatePage = () => {
   }, [certificate]);
 
   useEffect(() => {
-    const filteredMajors = certificate.filter(cert => 
+    const filteredCertificates = certificate.filter(cert => 
       cert.certName.toLowerCase().includes(keyword.toLowerCase()) && 
       cert.permission === "Approve"
     );
-    setCertificates(filteredMajors);
+    setCertificates(filteredCertificates);
   }, [keyword, certificate]);
 
   const handleSearch = async () => {
