@@ -21,7 +21,15 @@ const Description = ({ props, schedule, course}: DescriptionProps) => (
       <ul className="list-disc list-inside mb-4">
         {schedule.map((session) => (
           <li key={session.sessionId} className="mb-2">
-            <span className="font-medium">{session.sessionName}</span> - {new Date(session.sessionDate).toLocaleDateString()} at <span>{session.sessionAddress}</span>
+            <span className="font-medium">{session.sessionName}</span> - {new Date(session.sessionDate).toLocaleString("vi-VN", { 
+                hour: "2-digit", 
+                minute: "2-digit", 
+                day: "2-digit", 
+                month: "2-digit", 
+                year: "numeric" 
+            }).replace(",", "")}
+            {" "}at <span>{session.sessionAddress}</span>
+            {" "}on <span>{session.sessionTime}</span>
           </li>
         ))}
       </ul>
@@ -30,7 +38,7 @@ const Description = ({ props, schedule, course}: DescriptionProps) => (
     )}
     <h1 className="text-xl font-bold mb-2">Training Course</h1>
     {course.length > 0 ? (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {course.map((course) => (
           <CourseCard 
             key={course.courseId} 
