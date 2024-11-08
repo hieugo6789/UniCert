@@ -91,9 +91,13 @@ const ManageQuestion = () => {
                   className="absolute top-2 right-2"
                 />
               </Dropdown>
-              <h2 className="font-bold text-lg mb-2">
-                {question.questionName}
-              </h2>
+
+              <div
+                className="prose list-disc whitespace-pre-wrap text-large mb-1"
+                dangerouslySetInnerHTML={{
+                  __html: question.questionName || "",
+                }}
+              />
               <div className="grid grid-cols-2 gap-4">
                 {question.answers?.map((answer, answerIndex) => (
                   <div
@@ -115,6 +119,7 @@ const ManageQuestion = () => {
           questionId={selectedQuestionId}
           visible={isUpdateModalVisible}
           onClose={() => setIsUpdateModalVisible(false)}
+          onUpdateComplete={() => getExamDetails(Number(id))}
         />
       )}
     </>

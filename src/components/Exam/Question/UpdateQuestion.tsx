@@ -3,17 +3,20 @@ import { Modal, Form, Input, Button, Checkbox, Space } from "antd";
 import useUpdateQuestion from "../../../hooks/SimulationExam/Question/useUpdateQuestion";
 import { updateQuestion } from "../../../models/SimulationExam/question";
 import useQuestionDetail from "../../../hooks/SimulationExam/Question/useQuestionDetail";
+import MyEditor from "../../Editor/MyEditor";
 
 interface UpdateQuestionProps {
   questionId: number;
   visible: boolean;
   onClose: () => void;
+  onUpdateComplete: () => void;
 }
 
 const UpdateQuestion: React.FC<UpdateQuestionProps> = ({
   questionId,
   visible,
   onClose,
+  onUpdateComplete,
 }) => {
   const { updateQuestionDetails } = useUpdateQuestion();
   const { state: questionDetail, getQuestionDetails } = useQuestionDetail();
@@ -40,10 +43,11 @@ const UpdateQuestion: React.FC<UpdateQuestionProps> = ({
     }
   }, [questionDetail, form]);
 
-  const handleFinish = (values: updateQuestion) => {
-    updateQuestionDetails(questionId, values);
+  const handleFinish = async (values: updateQuestion) => {
+    await updateQuestionDetails(questionId, values);
     console.log(values);
     onClose();
+    onUpdateComplete();
   };
 
   return (
@@ -63,7 +67,12 @@ const UpdateQuestion: React.FC<UpdateQuestionProps> = ({
           name="questionName"
           label="Question Name"
         >
-          <Input />
+          <MyEditor
+            value={form.getFieldValue("questionName")}
+            onChange={(content) =>
+              form.setFieldsValue({ questionName: content })
+            }
+          />
         </Form.Item>
         <Form.Item
           name="examId"

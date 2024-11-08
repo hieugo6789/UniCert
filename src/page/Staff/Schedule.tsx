@@ -62,16 +62,14 @@ const Schedule: React.FC = () => {
         setDetailModalVisible(false); // Close the modal after deletion
         setSelectedSchedule(null); // Clear the selected schedule
       },
-      onCancel() {
-        // Optionally handle cancellation
-      },
+      onCancel() {},
     });
   };
 
   return (
     <>
       <div className="h-[10vh] flex justify-between items-center">
-        <div>
+        <div className="ml-10">
           <CreateSchedule refetchSchedules={refetchSchedule} />
         </div>
         <div className="mr-10">

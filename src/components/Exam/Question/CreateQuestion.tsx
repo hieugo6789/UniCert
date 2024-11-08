@@ -4,6 +4,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useCreateQuestion } from "../../../hooks/SimulationExam/Question/useCreateQuestion";
 import { useParams } from "react-router-dom";
+import MyEditor from "../../Editor/MyEditor";
 
 interface CreateQuestionProps {
   onQuestionCreated: () => void; // Callback prop to trigger refetch
@@ -102,11 +103,11 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
               { required: true, message: "Please input the question name!" },
             ]}
           >
-            <Input
-              name="questionName"
+            <MyEditor
               value={formData.questionName}
-              onChange={(e) => handleInputChange(e)}
-              placeholder="Enter question name"
+              onChange={(content) =>
+                setFormData({ ...formData, questionName: content })
+              }
             />
           </Form.Item>
           {formData.answers.map((answer, index) => (
