@@ -206,21 +206,21 @@ const Organizations = () => {
             cancelText="Cancel"
           >
             <Input
-              placeholder="Nhập tên tổ chức"
+              placeholder="Enter organization name"
               name="organizeName"
               value={formData.organizeName}
               onChange={handleInputChange}
               className="mb-2"
             />
             <Input
-              placeholder="Nhập địa chỉ tổ chức"
+              placeholder="Enter organization address"
               name="organizeAddress"
               value={formData.organizeAddress}
               onChange={handleInputChange}
               className="mb-2"
             />
             <Input
-              placeholder="Nhập thông tin liên lạc"
+              placeholder="Enter contact information"
               name="organizeContact"
               value={formData.organizeContact}
               onChange={handleInputChange}

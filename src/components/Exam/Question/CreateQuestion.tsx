@@ -15,6 +15,7 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
   const { id } = useParams();
   const { handleCreateQuestion } = useCreateQuestion();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [resetEditor, setResetEditor] = useState(false);
 
   const [form] = Form.useForm();
   const [formData, setFormData] = useState({
@@ -33,6 +34,12 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
       await handleCreateQuestion(formData);
       setIsModalVisible(false);
       form.resetFields();
+      setFormData({
+        examId: Number(id),
+        questionName: "",
+        answers: [{ text: "", isCorrect: false }],
+      });
+      setResetEditor(true);
       onQuestionCreated();
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -105,9 +112,11 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
           >
             <MyEditor
               value={formData.questionName}
-              onChange={(content) =>
-                setFormData({ ...formData, questionName: content })
-              }
+              onChange={(content) => {
+                setFormData({ ...formData, questionName: content });
+                setResetEditor(false);
+              }}
+              reset={resetEditor}
             />
           </Form.Item>
           {formData.answers.map((answer, index) => (

@@ -124,7 +124,15 @@ const SimulationExam = () => {
           />
           <Link
             to={`/staff/simulationExam/${record.examId}`}
-            style={{ marginLeft: 12 }}
+            style={{
+              marginLeft: 12,
+              color: "#007bff",
+              fontWeight: "bold",
+              cursor: "pointer",
+              transition: "color 0.2s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "#0056b3")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "#007bff")}
           >
             Question
           </Link>

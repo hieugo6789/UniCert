@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 interface MyEditorProps {
   value: string;
   onChange: (content: string) => void;
+  reset?: boolean; // Thiết lập reset là tùy chọn
 }
 
-const MyEditor: React.FC<MyEditorProps> = ({ value, onChange }) => {
+const MyEditor: React.FC<MyEditorProps> = ({
+  value,
+  onChange,
+  reset = false,
+}) => {
   const modules = {
     toolbar: [
       [{ header: "1" }, { header: "2" }, { font: [] }],
@@ -20,7 +25,7 @@ const MyEditor: React.FC<MyEditorProps> = ({ value, onChange }) => {
         { list: "bullet" },
         { indent: "-1" },
         { indent: "+1" },
-      ], // Danh sách và thụt lề
+      ],
       [{ align: [] }],
       ["link", "image"],
     ],
@@ -44,6 +49,13 @@ const MyEditor: React.FC<MyEditorProps> = ({ value, onChange }) => {
     "align",
     "script",
   ];
+
+  // Reset nội dung khi `reset` được bật
+  useEffect(() => {
+    if (reset) {
+      onChange("");
+    }
+  }, [reset, onChange]);
 
   return (
     <div>

@@ -35,7 +35,16 @@ const CreateSchedule = ({
       // Validate fields before submission
       await form.validateFields();
       await handleCreateSchedule(formData);
-
+      form.resetFields();
+      setFormData({
+        sessionName: "",
+        sessionCode: "",
+        sessionAddress: "",
+        sessionDate: currentDate,
+        certId: 0,
+        sessionTime: "",
+        sessionCreatedAt: currentDate,
+      });
       setIsModalVisible(false);
       refetchSchedules();
     } catch (error) {
@@ -86,8 +95,6 @@ const CreateSchedule = ({
           form={form}
           layout="vertical"
           initialValues={{
-            sessionName: formData.sessionName,
-            sessionCode: formData.sessionCode,
             sessionDate: formData.sessionDate.toISOString().substring(0, 16),
           }}
         >
