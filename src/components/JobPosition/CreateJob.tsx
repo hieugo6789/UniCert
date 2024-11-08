@@ -33,8 +33,15 @@ const CreateJob = ({
     try {
       // Validate fields before submission
       await form.validateFields();
-
       await handleCreateJob(formData);
+      form.resetFields();
+      setFormData({
+        jobPositionName: "",
+        jobPositionCode: "",
+        jobPositionDescription: "",
+        majorId: [],
+        certId: [],
+      });
       setIsModalVisible(false);
       refetchJobPositions();
     } catch (error) {
@@ -92,7 +99,10 @@ const CreateJob = ({
         <Form
           form={form}
           layout="vertical"
-          initialValues={formData}
+          initialValues={{
+            majorId: [],
+            certId: [],
+          }}
         >
           <Form.Item
             label="Job position Name"
@@ -149,6 +159,7 @@ const CreateJob = ({
               onChange={handleSelectMajorChange}
               style={{ width: "100%" }}
               mode="multiple"
+              value={formData.majorId}
             >
               {major.map((m) => (
                 <Select.Option
@@ -186,6 +197,7 @@ const CreateJob = ({
               onChange={handleSelectCertChange}
               style={{ width: "100%" }}
               mode="multiple"
+              value={formData.certId}
             >
               {certificate.map((cert) => (
                 <Select.Option

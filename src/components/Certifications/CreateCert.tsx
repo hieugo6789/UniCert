@@ -29,9 +29,9 @@ const CreateCert = ({
     certValidity: "",
     typeId: 0,
     organizeId: 0,
-    certIdPrerequisites: [0] as number[],
-    majorIds: [0] as number[],
-    jobIds: [0] as number[],
+    certIdPrerequisites: [] as number[],
+    majorIds: [] as number[],
+    jobIds: [] as number[],
   });
   const { organization } = useOrganization();
   const { certificate } = useCertificate();
@@ -59,6 +59,21 @@ const CreateCert = ({
         certImage: uploadedImageUrl,
       };
       await handleCreateCert(updatedFormData);
+      form.resetFields();
+      setFormData({
+        certName: "",
+        certCode: "",
+        certDescription: "",
+        certCost: 0,
+        certPointSystem: "",
+        certImage: "",
+        certValidity: "",
+        typeId: 0,
+        organizeId: 0,
+        certIdPrerequisites: [],
+        majorIds: [],
+        jobIds: [],
+      });
       setIsModalVisible(false);
       refetchCertificates();
     } catch (error) {
@@ -169,7 +184,7 @@ const CreateCert = ({
         <Form
           form={form}
           layout="vertical"
-          initialValues={formData}
+          // initialValues={{ certIdPrerequisites: [], majorIds: [], jobIds: [] }}
         >
           <Form.Item
             label="Name"
@@ -292,6 +307,7 @@ const CreateCert = ({
               placeholder="Select Certification level"
               onChange={handleSelectTypeChange}
               style={{ width: "100%" }}
+              value={formData.typeId}
             >
               {certType.map((ct) => (
                 <Select.Option
@@ -315,6 +331,7 @@ const CreateCert = ({
               placeholder="Select Organization"
               onChange={handleSelectChange}
               style={{ width: "100%" }}
+              value={formData.organizeId}
             >
               {organization.map((org) => (
                 <Select.Option
@@ -333,6 +350,7 @@ const CreateCert = ({
               onChange={handleSelectCertChange}
               style={{ width: "100%" }}
               mode="multiple"
+              value={formData.certIdPrerequisites}
             >
               {certificate.map((cert) => (
                 <Select.Option
@@ -374,6 +392,7 @@ const CreateCert = ({
               onChange={handleSelectMajorChange}
               style={{ width: "100%" }}
               mode="multiple"
+              value={formData.majorIds}
             >
               {major.map((m) => (
                 <Select.Option
@@ -417,6 +436,7 @@ const CreateCert = ({
               onChange={handleSelectJobChange}
               style={{ width: "100%" }}
               mode="multiple"
+              value={formData.jobIds}
             >
               {job.map((j) => (
                 <Select.Option

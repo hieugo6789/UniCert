@@ -42,6 +42,15 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
       };
 
       await handleCreateMajor(updatedFormData);
+      form.resetFields();
+      setFormData({
+        majorName: "",
+        majorCode: "",
+        majorDescription: "",
+        majorImage: "",
+        jobPositionId: [],
+        certId: [],
+      });
       setIsModalVisible(false);
       refetchMajors();
     } catch (error) {
@@ -134,7 +143,7 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
         <Form
           form={form}
           layout="vertical"
-          initialValues={formData}
+          initialValues={{ jobPositionId: [], certId: [] }}
         >
           <Form.Item
             label="Major Name"
@@ -184,7 +193,7 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
           </Form.Item>
           <Form.Item
             label="Major Image"
-            name="majorImage"            
+            name="majorImage"
           >
             <img
               src={previewImage || formData.majorImage}
@@ -192,7 +201,7 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
               className="w-32 h-32 bg-gray-300 mb-4"
             />
             <Input
-              name="majorImage"              
+              name="majorImage"
               onChange={handleImageChange}
               placeholder="Enter major image"
               type="file"
@@ -205,6 +214,7 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
               onChange={handleSelectJobChange}
               style={{ width: "100%" }}
               mode="multiple"
+              value={formData.jobPositionId}
             >
               {job.map((j) => (
                 <Select.Option
@@ -242,6 +252,7 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
               onChange={handleSelectCertChange}
               style={{ width: "100%" }}
               mode="multiple"
+              value={formData.certId}
             >
               {certificate.map((cert) => (
                 <Select.Option
