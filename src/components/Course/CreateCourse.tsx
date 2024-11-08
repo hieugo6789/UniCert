@@ -33,7 +33,17 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
       await form.validateFields();
       console.log(formData);
       await handleCreateCourse(formData);
-
+      form.resetFields();
+      setFormData({
+        courseName: "",
+        courseCode: "",
+        courseTime: "",
+        courseDescription: "",
+        courseFee: 0,
+        voucherIds: [],
+        courseImage: "",
+        certId: 0,
+      });
       setIsModalVisible(false);
       refetchCourses();
     } catch (error) {
@@ -187,6 +197,7 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
               onChange={handleSelectVoucherChange}
               style={{ width: "100%" }}
               mode="multiple"
+              value={formData.voucherIds}
             >
               {voucher
                 .filter((v) => v.voucherStatus === true)
@@ -231,6 +242,7 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
               placeholder="Select Certification"
               onChange={handleSelectCertChange}
               style={{ width: "100%" }}
+              value={formData.certId}
             >
               {certificate.map((cert) => (
                 <Select.Option

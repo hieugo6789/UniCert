@@ -134,7 +134,7 @@ const InternalCourses = () => {
       cancelText: "Cancel",
       onOk: async () => {
         await handleDeleteCourse(courseId);
-        message.success("major deleted successfully!");
+        message.success("course deleted successfully!");
         refetchCourses();
       },
       onCancel() {
