@@ -101,7 +101,7 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
         <Form
           form={form}
           layout="vertical"
-          initialValues={formData}
+          // initialValues={formData}
         >
           <Form.Item
             label="Question Name"
