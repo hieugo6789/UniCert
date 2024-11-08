@@ -26,6 +26,7 @@ const ScoreDetailSlice = createSlice({
     },
     ScoreDetailFailure: (state) => {
       state.isLoading = false;
+      state.currentScore = [];
       state.error = true;
     },
   },

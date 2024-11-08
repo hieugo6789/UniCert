@@ -59,6 +59,16 @@ const HistoryPage = () => {
     setPurchasedCourses(sortedCourses);
   }, [courseEnrollment]);
 
+  useEffect(() => {        
+    const scrollToTop = () => {
+        window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+        });
+    };
+    scrollToTop();          
+  });
+
   return (
     <div className="p-6">
       <h1 className="text-4xl font-bold mb-4">History</h1>

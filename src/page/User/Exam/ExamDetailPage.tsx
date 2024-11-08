@@ -28,6 +28,16 @@ const ExamDetailPage = () => {
         // console.log(state);
         setExam(state.currentExam);
     }, [state]);
+
+    useEffect(() => {        
+        const scrollToTop = () => {
+            window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+            });
+        };
+        scrollToTop();          
+    }, []);
     return (
         <div className=" mx-auto p-6  rounded-lg">
             <h1 className="text-3xl font-bold text-center mb-6">Exam Details</h1>

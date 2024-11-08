@@ -10,11 +10,15 @@ const useScoreDetail = () => {
   const getScoreDetails = async (userId: number, examId: number) => {
     dispatch(ScoreDetailsStart());
     try {
-      const response = await agent.Score.getCoreByUserAndExam(userId, examId);
-      dispatch(ScoreDetailSuccess(response.data));
+      const response = await agent.Score.getCoreByUserAndExam(userId, examId);      
+      if (response.data && response.data.length > 0) {
+        dispatch(ScoreDetailSuccess(response.data));
+      } else {
+        dispatch(ScoreDetailFailure());
+      }
     } catch (error) {
-      console.error("Error fetching Schedule details:", error);
-      dispatch(ScoreDetailFailure());
+      console.error("Error fetching exam details:", error);
+      dispatch(ScoreDetailFailure());      
     }
   };
   return { state, getScoreDetails };
