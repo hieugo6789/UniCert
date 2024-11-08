@@ -4,11 +4,12 @@ import useExamDetail from '../../../hooks/SimulationExam/useExamDetail';
 import { useNavigate, useParams } from 'react-router-dom';
 import coin from '../../../assets/images/Coin.png';
 import CustomButton from '../../../components/UI/CustomButton';
+import ExamResultTable from '../../../components/Exam/ExamResultTable';
 
 const ExamDetailPage = () => {
     const id = useParams().id || 0;
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState("Feedback");
+    const [activeTab, setActiveTab] = useState("Detail");
     const [exam, setExam] = useState<any>(undefined);
     const { state, getExamDetails } = useExamDetail();
 
@@ -24,11 +25,11 @@ const ExamDetailPage = () => {
     }, [id]);
 
     useEffect(() => {
-        console.log(state);
+        // console.log(state);
         setExam(state.currentExam);
     }, [state]);
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+        <div className=" mx-auto p-6  rounded-lg">
             <h1 className="text-3xl font-bold text-center mb-6">Exam Details</h1>
 
             <div className="flex flex-col md:flex-row gap-8">
@@ -50,7 +51,7 @@ const ExamDetailPage = () => {
 
             <div className="mt-10">
                 <div className="flex border-b border-gray-200 text-gray-600">
-                    {["Description", "Feedback"].map((tab) => (
+                    {["Detail", "Feedback"].map((tab) => (
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab)}
@@ -63,9 +64,10 @@ const ExamDetailPage = () => {
                 </div>
 
                 <div className="p-6">
-                    {activeTab === "Description" && (
+                    {activeTab === "Detail" && (
                         <div>
-                            <p className="text-gray-700 leading-relaxed">{exam?.examDescription}</p>
+                            {/* <p className="text-gray-700 leading-relaxed">{exam?.examDescription}</p> */}
+                            {activeTab === "Detail" && (<ExamResultTable />)}
                         </div>
                     )}
                     {activeTab === "Feedback" && <ExamFeedback />}

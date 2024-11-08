@@ -23,7 +23,7 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment }) => {
       courseEnrollmentId: 0,
       examEnrollmentId: enrollment.examEnrollmentId,
     });
-    setEnrollStatus('Completed'); // Cập nhật trạng thái sau khi thi
+    setEnrollStatus('Completed');
     showToast("Payment completed successfully", "success");
   };
 

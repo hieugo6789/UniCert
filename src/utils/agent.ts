@@ -281,6 +281,9 @@ const Payment = {
 
 const Score = {
   submitScore: (input: createScore) => requests.post(`api/v1/score`, input),
+    getCoreByUserAndExam: (userId: number, examId: number) =>
+    requests.get(`api/v1/score/${userId}?examId=${examId}`),
+  
 };
 
 const agent = {

@@ -61,7 +61,7 @@ const HistoryPage = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">History</h1>
+      <h1 className="text-4xl font-bold mb-4">History</h1>
       <div className="flex border-b-2 border-gray-200 mb-4">
         <button
           className={`p-2 ${activeTab === "exams" ? "border-b-4 border-blue-500 text-blue-500" : ""}`}
@@ -79,7 +79,7 @@ const HistoryPage = () => {
 
       <div>
         {activeTab === "exams" ? (
-          <div>
+          <div className="mr-20 ml-20">
             <h2 className="text-xl font-semibold mb-2">Your Purchased Exams</h2>
             <section className="grid gap-6 ">
               {purchasedExams.length > 0 ? (
@@ -92,7 +92,7 @@ const HistoryPage = () => {
             </section>
           </div>
         ) : (
-          <div>
+          <div className="mr-20 ml-20">
             <h2 className="text-xl font-semibold mb-2">Your Purchased Courses</h2>
             <section className="grid gap-6 ">
               {purchasedCourses.length > 0 ? (
