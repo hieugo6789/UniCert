@@ -120,10 +120,13 @@ const CourseDetail = () => {
 
     return (
         <div className="bg-gray-900">
-            <p className="fade-in ml-2 pt-2 font-bold cursor-pointer text-blue-800">
-                <Link to="/">Home </Link>
-                {">"} <Link to="/courses">Courses</Link> {">"} {courseDetail?.courseName}
-            </p>
+            <nav className="flex items-center space-x-2 p-4 text-gray-300">
+                <Link to="/" className="hover:text-blue-400 transition-colors duration-300">Home</Link>
+                <span>/</span>
+                <Link to="/courses" className="hover:text-blue-400 transition-colors duration-300">Courses</Link>
+                <span>/</span>
+                <span className="text-blue-400">{courseDetail?.courseName}</span>
+            </nav>
 
             {/* Course Header */}
             <div className="w-full min-h-36 p-10 text-center">
