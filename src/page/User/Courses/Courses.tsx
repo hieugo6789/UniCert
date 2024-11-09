@@ -74,91 +74,107 @@ const Courses = () => {
     const scrollToTop = () => {
       window.scrollTo({
         top: 0,
-        behavior: "smooth", // Cuộn mượt mà
+        behavior: "smooth",
       });
     };
     scrollToTop();
   });
 
   return (
-    <div>
-      <div className="text-center py-10 bg-purple-400 text-white">
-        <h1 className="text-4xl font-bold">
-          Explore courses to review certifications
-        </h1>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-purple-600 to-purple-400 text-white py-16">
+        <div className="container mx-auto px-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
+            Explore Our Training Courses
+          </h1>
+          <p className="text-center text-lg text-purple-100 max-w-3xl mx-auto">
+            Comprehensive preparation courses designed to help you pass your certification exams. 
+            Our courses include practice tests, exam tips, and detailed explanations of key concepts.
+          </p>
+        </div>
       </div>
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-10 py-10">
-        {courses.map((course, idx) => {
-          const isInCart = !!(userId && state.currentCart.courseDetails.some((c: any) => c.courseId === course.courseId));
-          const isPurchased = !!(userId && (purchasedCourses || []).some((e) => 
-            (e.courseDetails || []).some((c) => c.courseId.toString() === course.courseId.toString())
-          ));                
-          return (
-            <CourseCard
-              key={idx}
-              course={course}
-              onClick={isInCart || isPurchased ? undefined : addToCart(course.courseId)}
-              isInCart={isInCart}
-              isPurchased={isPurchased}
-            />
-          );
-        })}
-      </section>
 
-      <div className="mt-10 flex justify-center items-center min-h-screen">
-        <div className="w-11/12 p-8 grid grid-cols-1 md:grid-cols-2 gap-8 bg-white">
-          {/* Left side */}
-          <div className="flex flex-col justify-center">
-            <h1 className="text-3xl font-bold text-gray-800 mb-4">
-              Quickly build skills and earn certificates to get a job in the field you want with Unicert.
-            </h1>
-          </div>
+      {/* Courses Grid */}
+      <div className="container mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {courses.map((course, idx) => {
+            const isInCart = !!(userId && state.currentCart.courseDetails.some((c: any) => c.courseId === course.courseId));
+            const isPurchased = !!(userId && (purchasedCourses || []).some((e) => 
+              (e.courseDetails || []).some((c) => c.courseId.toString() === course.courseId.toString())
+            ));                
+            return (
+              <CourseCard
+                key={idx}
+                course={course}
+                onClick={isInCart || isPurchased ? undefined : addToCart(course.courseId)}
+                isInCart={isInCart}
+                isPurchased={isPurchased}
+              />
+            );
+          })}
+        </div>
+      </div>
 
-          {/* Right side */}
-          <div className="flex flex-col space-y-6">
-            <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 text-white">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <p className="text-gray-600 text-lg">
-                Complete the course and get a certificate from Unicert
+      {/* Features Section */}
+      <div className="bg-white py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <h2 className="text-3xl font-bold text-gray-800">
+                Prepare for Success with Our Exam Prep Courses
+              </h2>
+              <p className="text-lg text-gray-600">
+                Our preparation courses are specifically designed to help you master the content 
+                and format of certification exams. Get ready to pass your certification exam with confidence.
               </p>
             </div>
-
-            <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 text-white">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
+            <div className="space-y-8">
+              <div className="flex items-center space-x-4 bg-purple-50 p-6 rounded-xl">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800">Practice Tests</h3>
+                  <p className="text-gray-600">Simulate the real exam environment with our practice tests</p>
+                </div>
               </div>
-              <p className="text-gray-600 text-lg">
-                Apply for a job with the certificate you have earned
-              </p>
+              <div className="flex items-center space-x-4 bg-purple-50 p-6 rounded-xl">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800">Study Materials</h3>
+                  <p className="text-gray-600">Comprehensive study guides and exam tips</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* logo carousel */}
-      <div x-data="{}" x-init="$nextTick(() => {
-          let ul = $refs.logos;
-          ul.insertAdjacentHTML('afterend', ul.outerHTML);
-          ul.nextSibling.setAttribute('aria-hidden', 'true');
-        })"
-        className="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]"
-      >
-        <ul x-ref="logos" className="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll">
-          <li><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRk9I4ShLVuwDVX2-9DHBxIjc0rm-mjbRlvVg&s" alt="Facebook" /></li>
-          <li><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlg7j2mGIyJd7KlIolTsvlMsOPL_XUaVGuRJBAhfhF72uumbgaBAdtqEeGF34iPNiS1Tk&usqp=CAU" alt="Disney" /></li>
-          <li><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlg7j2mGIyJd7KlIolTsvlMsOPL_XUaVGuRJBAhfhF72uumbgaBAdtqEeGF34iPNiS1Tk&usqp=CAU" alt="Airbnb" /></li>
-          <li><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlg7j2mGIyJd7KlIolTsvlMsOPL_XUaVGuRJBAhfhF72uumbgaBAdtqEeGF34iPNiS1Tk&usqp=CAU" alt="Apple" /></li>
-          <li><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlg7j2mGIyJd7KlIolTsvlMsOPL_XUaVGuRJBAhfhF72uumbgaBAdtqEeGF34iPNiS1Tk&usqp=CAU" alt="Spark" /></li>
-          <li><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlg7j2mGIyJd7KlIolTsvlMsOPL_XUaVGuRJBAhfhF72uumbgaBAdtqEeGF34iPNiS1Tk&usqp=CAU" alt="Samsung" /></li>
-          <li><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlg7j2mGIyJd7KlIolTsvlMsOPL_XUaVGuRJBAhfhF72uumbgaBAdtqEeGF34iPNiS1Tk&usqp=CAU" alt="Quora" /></li>
-          <li><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlg7j2mGIyJd7KlIolTsvlMsOPL_XUaVGuRJBAhfhF72uumbgaBAdtqEeGF34iPNiS1Tk&usqp=CAU" alt="BBC" /></li>
-        </ul>
+      {/* Partners Section */}
+      <div className="bg-gray-50 py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-bold text-center text-gray-800 mb-12">
+            Prepare for Certifications From Leading Providers
+          </h2>
+          <div className="flex justify-center items-center flex-wrap gap-12">
+            {['AWS', 'Microsoft', 'CompTIA', 'Cisco', 'Oracle', 'Google'].map((partner) => (
+              <div key={partner} className="text-gray-600 font-semibold text-lg">
+                {partner}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {loading && courseLoad && <Loading />}
