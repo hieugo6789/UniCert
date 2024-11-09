@@ -83,70 +83,126 @@ const Majors = () => {
   };
 
   return (
-    <>
-      <div>
-        <div className="text-center py-10 bg-purple-400 text-white">
-          <h1 className="text-4xl font-bold">Obtain certification through your major</h1>
+    <div className="bg-gray-50 min-h-screen">
+      {/* Hero Section - Tiêu đề chính xác */}
+      <div className="bg-gradient-to-r from-purple-600 to-purple-400 text-white py-16">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Obtain certification through your major
+          </h1>
+          <p className="text-lg text-purple-100">
+            Explore certifications that align with your major and boost your career potential
+          </p>
+        </div>
+      </div>
+
+      {/* Search Section - Cải thiện */}
+      <div className="container mx-auto px-4 -mt-8">
+        <div className="relative w-full max-w-2xl mx-auto">
+          <input
+            type="text"
+            placeholder="Search for majors..."
+            className="w-full px-6 py-4 rounded-full shadow-lg border-2 border-transparent
+            focus:outline-none focus:ring-4 focus:ring-purple-200 focus:border-purple-500
+            transition-all duration-300 ease-in-out transform
+            hover:shadow-xl focus:scale-[1.02]"
+            onChange={changeKeyword}
+          />
+          <button
+            className="absolute right-4 top-1/2 -translate-y-1/2 
+            text-gray-400 hover:text-purple-500 transition-colors duration-300"            
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-6 w-6 transform hover:scale-110 transition-transform duration-300" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Majors Grid Section - Đã bỏ chữ Popular */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+            Pick your major
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Choose from our wide range of majors and discover the perfect certification path for your career goals
+          </p>
         </div>
 
-        <div className="py-10 text-center">
-          <h2 className="text-2xl font-bold mb-6">Pick your major</h2>
+        {/* Navigation Controls */}
+        <div className="flex items-center justify-center gap-6 mb-8">
+          <button
+            onClick={handlePrevPage}
+            className="p-4 rounded-full bg-white shadow-lg hover:bg-purple-50 disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 group"
+            disabled={currentPage === 0}
+          >
+            <svg className="w-6 h-6 text-purple-600 group-hover:text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
 
-          <div className="relative mb-6 w-1/2 m-auto">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="bg-gray-300 text-white w-full rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              value={keyword}
-              onChange={changeKeyword}              
-            />
-            <span className="absolute right-3 top-2 text-black">🔍</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {displayedMajors.map((major) => (
+              <MajorCard key={major.majorId} {...major} />
+            ))}
           </div>
 
-          <div className="flex items-center justify-center gap-4">
-            <button
-              onClick={handlePrevPage}
-              className="p-2"
-              disabled={currentPage === 0}
-              style={{ opacity: currentPage === 0 ? 0.5 : 1 }}
-            >
-              ◀
-            </button>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {displayedMajors.map((major) => (
-                <MajorCard key={major.majorId} {...major} />
-              ))}
-            </div>
-
-            <button
-              onClick={handleNextPage}
-              className="p-2"
-              disabled={currentPage === maxPage - 1}
-              style={{ opacity: currentPage === maxPage - 1 ? 0.5 : 1 }}
-            >
-              ▶
-            </button>
-          </div>
-
-          <div className="mt-8">
-            <span className="text-lg font-semibold text-gray-700">
-              Page {currentPage + 1} of {maxPage}
-            </span>
-          </div>
+          <button
+            onClick={handleNextPage}
+            className="p-4 rounded-full bg-white shadow-lg hover:bg-purple-50 disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 group"
+            disabled={currentPage === maxPage - 1}
+          >
+            <svg className="w-6 h-6 text-purple-600 group-hover:text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
 
-        <div className="py-10 bg-gray-100 text-center">
-          <h2 className="text-2xl font-bold mb-6">Best certifications for you</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-4">
+        {/* Pagination Info */}
+        <div className="flex justify-center items-center gap-2 mt-8">
+          <span className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full font-medium">
+            Page {currentPage + 1}
+          </span>
+          <span className="text-gray-500">of</span>
+          <span className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full font-medium">
+            {maxPage}
+          </span>
+        </div>
+      </div>
+
+      {/* Best Certifications Section - Cải thiện */}
+      <div className="bg-white py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+              Featured Certifications
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Explore our top-rated certifications chosen by industry experts
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {topCert.map((cert) => (
               <CertificateCard {...cert} key={cert.certId} />
             ))}
           </div>
         </div>
       </div>
+
       {loading && <Loading />}
-    </>
+    </div>
   );
 };
 
