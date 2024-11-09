@@ -9,6 +9,12 @@ import useCourseEnrollment from "../../../hooks/Enrollment/useCourse";
 import { courseEnrollment } from "../../../models/enrollment";
 import Cookies from "js-cookie";
 import { showToast } from "../../../utils/toastUtils";
+import aws from "../../../assets/images/Organization/aws.png";
+import microsoft from "../../../assets/images/Organization/microsoft.png";
+import comptia from "../../../assets/images/Organization/comptia.png";
+import cisco from "../../../assets/images/Organization/cisco.png";
+import oracle from "../../../assets/images/Organization/oracle.png";
+import google from "../../../assets/images/Organization/google.png";
 
 const Courses = () => {
   const userId = Cookies.get("userId");
@@ -165,14 +171,41 @@ const Courses = () => {
       <div className="bg-gray-50 py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold text-center text-gray-800 mb-12">
-            Prepare for Certifications From Leading Providers
+            Prepare for Certifications From Leading Organizations
           </h2>
           <div className="flex justify-center items-center flex-wrap gap-12">
-            {['AWS', 'Microsoft', 'CompTIA', 'Cisco', 'Oracle', 'Google'].map((partner) => (
-              <div key={partner} className="text-gray-600 font-semibold text-lg">
-                {partner}
-              </div>
-            ))}
+            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+              <img 
+                src={aws} 
+                alt="AWS" 
+                className="h-12 md:h-16 object-contain hover:scale-110 transition-transform duration-300 cursor-pointer"
+              />
+              <img 
+                src={microsoft} 
+                alt="Microsoft" 
+                className="h-12 md:h-16 object-contain hover:scale-110 transition-transform duration-300 cursor-pointer"
+              />
+              <img 
+                src={comptia} 
+                alt="CompTIA" 
+                className="h-12 md:h-16 object-contain hover:scale-110 transition-transform duration-300 cursor-pointer"
+              />
+              <img 
+                src={cisco} 
+                alt="Cisco" 
+                className="h-12 md:h-16 object-contain hover:scale-110 transition-transform duration-300 cursor-pointer"
+              />
+              <img 
+                src={oracle} 
+                alt="Oracle" 
+                className="h-12 md:h-16 object-contain hover:scale-110 transition-transform duration-300 cursor-pointer"
+              />
+              <img 
+                src={google} 
+                alt="Google" 
+                className="h-12 md:h-16 object-contain hover:scale-110 transition-transform duration-300 cursor-pointer"
+              />
+            </div>
           </div>
         </div>
       </div>
