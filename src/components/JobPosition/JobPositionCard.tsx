@@ -10,40 +10,48 @@ const JobPositionCard = ({ job }: { job: allJobPaginationData }) => {
     const navigate = useNavigate();
     return (
         <div
-            className="bg-violet-100 shadow-lg rounded-lg text-white p-4 text-left hover:bg-gray-200 cursor-pointer duration-300 ease-in-out hover:scale-105"
+            className="bg-white border border-gray-200 shadow-md rounded-xl p-6 text-left 
+            hover:shadow-lg cursor-pointer duration-300 ease-in-out hover:scale-[1.02]"
             onClick={() => navigate("/job/" + job.jobPositionId)}
         >
-            <div className="mt-4">
-                <h2 className="text-xl font-bold text-gray-800">{job.jobPositionName}</h2>
-                {/* <p className="text-sm text-gray-600">{job.jobPositionDescription}</p> */}
-                <div
-                    className="prose list-disc whitespace-pre-wrap text-sm text-gray-600"
+            <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-bold text-gray-800 line-clamp-1">
+                        {job.jobPositionName}
+                    </h2>
+                    <span className="text-sm px-3 py-1 bg-purple-100 text-purple-600 rounded-full">
+                        {job.jobPositionCode}
+                    </span>
+                </div>
+
+                <div className="prose text-sm text-gray-600 line-clamp-3"
                     dangerouslySetInnerHTML={{ __html: job.jobPositionDescription || "" }}
                 />
-                <h1 className="text-black">
-                    Major:
-                    {job.majorDetails.length.toString() === "0" ? (
-                        " No major."
+
+                <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-gray-700 font-medium">Majors:</span>
+                    {!job.majorDetails?.length ? (
+                        <span className="text-gray-500 italic">No major required</span>
                     ) : (
-                        job.majorDetails
-                            .map((major, index) => (
+                        <div className="flex flex-wrap gap-2">
+                            {job.majorDetails?.map((major) => (
                                 <span
                                     key={major.majorId}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         navigate("/major/" + major.majorId);
                                     }}
+                                    className="px-3 py-1 text-sm bg-gray-100 text-gray-600 rounded-full
+                                    hover:bg-purple-100 hover:text-purple-600 cursor-pointer"
                                 >
-                                    {" " + major.majorName}
-                                    {index < job.majorDetails.length - 1 ? ", " : "."}
+                                    {major.majorName}
                                 </span>
-                            ))
+                            ))}
+                        </div>
                     )}
-                </h1>
+                </div>
             </div>
         </div>
-
-
     );
 };
 

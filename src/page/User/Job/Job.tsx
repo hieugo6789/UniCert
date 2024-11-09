@@ -90,39 +90,67 @@ const Job = () => {
   });
 
   return (
-    <>
-      <div className="text-center py-10 bg-purple-400 text-white">
-        <h1 className="text-4xl font-bold">Explore your job position</h1>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-purple-500 to-purple-700 text-white py-16">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Explore Your Career Path
+          </h1>
+          <p className="text-lg text-purple-100">
+            Discover job positions that match your skills and aspirations
+          </p>
+        </div>
       </div>
 
-      <div className="py-10 text-center px-5">
-        <div className="relative mb-6 w-1/2 m-auto">
+      {/* Search Section */}
+      <div className="container mx-auto px-4 -mt-8">
+        <div className="relative w-full max-w-2xl mx-auto">
           <input
             type="text"
-            placeholder="Search your job..."
-            className="bg-gray-300 text-white w-full rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"            
+            placeholder="Search for job positions..."
+            className="w-full px-6 py-4 rounded-full shadow-lg border-2 border-transparent
+            focus:outline-none focus:ring-4 focus:ring-purple-200 focus:border-purple-500
+            transition-all duration-300 ease-in-out transform
+            hover:shadow-xl focus:scale-[1.02]"
             onChange={changeKeyword}
           />
           <button
-            className="absolute right-3 top-2 text-black"
-            onClick={() => refetchJobs(keyword)} // Optional button to trigger search
+            className="absolute right-4 top-1/2 -translate-y-1/2 
+            text-gray-400 hover:text-purple-500 transition-colors duration-300"            
           >
-            🔍
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-6 w-6 transform hover:scale-110 transition-transform duration-300" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
+              />
+            </svg>
           </button>
         </div>
-        <div className="flex flex-col md:flex-row">
-          <div className="w-full md:w-3/4">
-            <h1 className="text-2xl font-bold">All job positions</h1>
-            <div className="grid grid-cols-1 gap-6 p-4 w-full">
+      </div>
+
+      {/* Content Section */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Main Content */}
+          <div className="lg:w-3/4">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Available Positions</h2>
+            <div className="space-y-6">
               {paginatedJobs.map((job) => (
-                <JobPositionCard
-                  job={job}
-                  key={job.jobPositionId}
-                />
+                <JobPositionCard job={job} key={job.jobPositionId} />
               ))}
             </div>
-            {/* Pagination Component */}
-            <div className="mt-6 flex justify-end">
+            
+            {/* Pagination */}
+            <div className="mt-8 flex justify-center">
               <Pagination
                 current={currentPage}
                 pageSize={pageSize}
@@ -132,21 +160,20 @@ const Job = () => {
             </div>
           </div>
 
-          <div className="w-full md:w-1/4">
-            <h1 className="text-2xl font-bold">Top certificates</h1>
-            <div className="grid grid-cols-1 gap-5 p-4 w-full">
+          {/* Sidebar */}
+          <div className="lg:w-1/4">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Top Certificates</h2>
+            <div className="space-y-4">
               {topCert.map((cert) => (
-                <CertificateCard
-                  {...cert}
-                  key={cert.certId}
-                />
+                <CertificateCard {...cert} key={cert.certId} />
               ))}
             </div>
           </div>
         </div>
       </div>
+
       {loading && <Loading />}
-    </>
+    </div>
   );
 };
 
