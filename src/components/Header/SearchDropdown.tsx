@@ -10,7 +10,11 @@ import { allMajorPaginationData } from '../../models/major';
 import { allJobPaginationData } from '../../models/jobPosition';
 import { allCoursePaginationData } from '../../models/course';
 
-const SearchDropdown = () => {
+interface SearchDropdownProps {
+  onItemSelect?: () => void;
+}
+
+const SearchDropdown = ({ onItemSelect }: SearchDropdownProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -70,6 +74,20 @@ const SearchDropdown = () => {
     }
   }, [searchTerm, course]);
 
+  // Add click outside listener
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setIsOpen(true);
@@ -78,25 +96,28 @@ const SearchDropdown = () => {
   const handleItemClick = (type: string, id: string) => {
     setIsOpen(false);
     setSearchTerm('');
+    if (onItemSelect) {
+      onItemSelect();
+    }
     navigate(`/${type}/${id}`);
   };
 
   return (
-    <div ref={dropdownRef} className="relative w-full sm:w-6/12 md:w-4/12 lg:w-3/12">
+    <div ref={dropdownRef} className="relative w-full">
       <div className="relative">
         <input
           type="text"
           value={searchTerm}
           onChange={handleInputChange}
           onFocus={() => setIsOpen(true)}
-          placeholder="Search courses, certifications..."
-          className="bg-gray-200 text-black w-full rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          placeholder="Search certifications, courses..."
+          className="w-full bg-gray-200 text-black rounded-full px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"
         />
-        <SearchOutlined className="absolute right-3 top-2.5 text-gray-500" />
+        <SearchOutlined className="absolute right-3 top-3 text-gray-500" />
       </div>
 
       {isOpen && searchTerm && (
-        <div className="absolute w-full mt-1 bg-white rounded-lg shadow-lg border z-50 max-h-[80vh] overflow-y-auto">
+        <div className="absolute w-full mt-1 bg-white rounded-lg shadow-lg border z-50 max-h-[60vh] overflow-y-auto">
           {/* Certificates Section */}
           {filteredCertificates.length > 0 && (
             <div className="p-3 border-b">
@@ -105,10 +126,10 @@ const SearchDropdown = () => {
                 <div
                   key={item.certId}
                   onClick={() => handleItemClick('certificate', item.certId.toString())}
-                  className="flex items-center gap-3 py-2 px-3 hover:bg-gray-100 cursor-pointer rounded"
+                  className="flex items-center gap-3 py-2.5 px-3 hover:bg-gray-100 cursor-pointer rounded transition-colors"
                 >
-                  <img src={item.certImage} alt="" className="w-8 h-8 rounded-full object-cover" />
-                  <span>{item.certName}</span>
+                  <img src={item.certImage} alt="" className="w-10 h-10 rounded-full object-cover" />
+                  <span className="text-sm line-clamp-2">{item.certName}</span>
                 </div>
               ))}
             </div>
@@ -122,10 +143,10 @@ const SearchDropdown = () => {
                 <div
                   key={item.majorId}
                   onClick={() => handleItemClick('major', item.majorId)}
-                  className="flex items-center gap-3 py-2 px-3 hover:bg-gray-100 cursor-pointer rounded"
+                  className="flex items-center gap-3 py-2.5 px-3 hover:bg-gray-100 cursor-pointer rounded transition-colors"
                 >
-                  <img src={item.majorImage} alt="" className="w-8 h-8 rounded-full object-cover" />
-                  <span>{item.majorName}</span>
+                  <img src={item.majorImage} alt="" className="w-10 h-10 rounded-full object-cover" />
+                  <span className="text-sm line-clamp-2">{item.majorName}</span>
                 </div>
               ))}
             </div>
@@ -139,9 +160,9 @@ const SearchDropdown = () => {
                 <div
                   key={item.jobPositionId}
                   onClick={() => handleItemClick('job', item.jobPositionId)}
-                  className="py-2 px-3 hover:bg-gray-100 cursor-pointer rounded"
+                  className="py-2.5 px-3 hover:bg-gray-100 cursor-pointer rounded transition-colors"
                 >
-                  {item.jobPositionName}
+                  <span className="text-sm line-clamp-2">{item.jobPositionName}</span>
                 </div>
               ))}
             </div>
@@ -155,10 +176,10 @@ const SearchDropdown = () => {
                 <div
                   key={item.courseId}
                   onClick={() => handleItemClick('course', item.courseId)}
-                  className="flex items-center gap-3 py-2 px-3 hover:bg-gray-100 cursor-pointer rounded"
+                  className="flex items-center gap-3 py-2.5 px-3 hover:bg-gray-100 cursor-pointer rounded transition-colors"
                 >
-                  <img src={item.courseImage} alt="" className="w-8 h-8 rounded-full object-cover" />
-                  <span>{item.courseName}</span>
+                  <img src={item.courseImage} alt="" className="w-10 h-10 rounded-full object-cover" />
+                  <span className="text-sm line-clamp-2">{item.courseName}</span>
                 </div>
               ))}
             </div>
@@ -167,7 +188,7 @@ const SearchDropdown = () => {
           {/* No Results */}
           {!filteredCertificates.length && !filteredMajors.length && 
            !filteredJobs.length && !filteredCourses.length && (
-            <div className="p-4 text-center text-gray-500">
+            <div className="p-4 text-center text-gray-500 text-sm">
               No results found
             </div>
           )}
