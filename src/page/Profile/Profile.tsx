@@ -131,53 +131,70 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-      <div className="flex max-w-7xl mx-auto py-8 px-4 gap-8">
+      <div className="flex flex-col lg:flex-row max-w-7xl mx-auto py-4 lg:py-8 px-4 gap-4 lg:gap-8">
         {/* Sidebar */}
-        <div className="w-1/4 bg-white shadow-lg rounded-2xl p-6">
-          <div className="flex flex-col items-center mb-8">
-            <div className="relative group">
-              <img
-                src={form.userImage ? form.userImage : DefaultAvatar}
-                alt="avatar"
-                className="w-32 h-32 rounded-full object-cover border-4 border-purple-200 
-                  shadow-lg cursor-pointer hover:border-purple-300 transition-all"
-                onClick={() => setIsOpenAvatarModal(true)}
-              />
-            </div>
-            <p className="font-bold text-xl mt-4 text-gray-800">{form.fullname}</p>
-            <p className="text-gray-500 text-sm">{form.email}</p>
-          </div>
-
-          <nav className="space-y-3">
-            <div className="bg-purple-50 rounded-xl p-3">
-              <p className="text-purple-600 font-semibold text-center">Profile</p>
-            </div>
-            <div 
-              className="hover:bg-gray-50 rounded-xl p-3 cursor-pointer transition-colors"
-              onClick={handleChangePassword}
+        <div className="w-full lg:w-1/4">
+          {/* Back button */}
+          <button
+            className="mb-4 flex items-center gap-2 px-4 py-2 
+              bg-purple-600 hover:bg-purple-700 
+              text-white font-medium rounded-lg 
+              transition-colors duration-200 
+              shadow-sm hover:shadow-md"
+            onClick={handleBack}
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-5 w-5" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
             >
-              <p className="text-gray-600 text-center hover:text-purple-600">Change Password</p>
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M10 19l-7-7m0 0l7-7m-7 7h18" 
+              />
+            </svg>
+            Back
+          </button>
+
+          {/* Profile card */}
+          <div className="bg-white shadow-lg rounded-2xl p-4 lg:p-6">
+            <div className="flex flex-col items-center mb-6 lg:mb-8">
+              <div className="relative group">
+                <img
+                  src={form.userImage ? form.userImage : DefaultAvatar}
+                  alt="avatar"
+                  className="w-24 lg:w-32 h-24 lg:h-32 rounded-full object-cover border-4 border-purple-200 
+                    shadow-lg cursor-pointer hover:border-purple-300 transition-all"
+                  onClick={() => setIsOpenAvatarModal(true)}
+                />
+              </div>
+              <p className="font-bold text-lg lg:text-xl mt-4 text-gray-800">{form.fullname}</p>
+              <p className="text-gray-500 text-sm break-all text-center">{form.email}</p>
             </div>
-          </nav>
+
+            <nav className="space-y-3">
+              <div className="bg-purple-50 rounded-xl p-3">
+                <p className="text-purple-600 font-semibold text-center">Profile</p>
+              </div>
+              <div 
+                className="hover:bg-gray-50 rounded-xl p-3 cursor-pointer transition-colors"
+                onClick={handleChangePassword}
+              >
+                <p className="text-gray-600 text-center hover:text-purple-600">Change Password</p>
+              </div>
+            </nav>
+          </div>
         </div>
 
         {/* Main Content */}
-        <div className="w-3/4 bg-white rounded-2xl shadow-lg p-8">
-          <div className="flex justify-between items-center mb-4">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-800">Public Profile</h2>
-              <p className="text-gray-500">Manage your profile information</p>
-            </div>
-            <button
-              className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg 
-                hover:bg-gray-200 transition-colors"
-              onClick={handleBack}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              Back
-            </button>
+        <div className="w-full lg:w-3/4 bg-white rounded-2xl shadow-lg p-4 lg:p-8">
+          <div className="mb-4">
+            <h2 className="text-xl lg:text-2xl font-bold text-gray-800">Public Profile</h2>
+            <p className="text-gray-500">Manage your profile information</p>
           </div>
 
           <Formik
@@ -204,167 +221,176 @@ const Profile = () => {
                   </div>
                 )}
 
-                <div className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Username
-                    </label>
-                    <Field
-                      name="username"
-                      type="text"
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        !isEditing 
-                          ? 'bg-gray-50 text-gray-500' 
-                          : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
-                      }`}
-                      disabled={true}
-                    />
-                    <ErrorMessage
-                      name="username"
-                      component="div"
-                      className="mt-1 text-sm text-red-500"
-                    />
-                  </div>
+                <div className="space-y-4 lg:space-y-6">
+                  {/* Form fields grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+                    {/* Username field */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Username
+                      </label>
+                      <Field
+                        name="username"
+                        type="text"
+                        className={`w-full px-4 py-2 rounded-lg border ${
+                          !isEditing 
+                            ? 'bg-gray-50 text-gray-500' 
+                            : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                        }`}
+                        disabled={true}
+                      />
+                      <ErrorMessage
+                        name="username"
+                        component="div"
+                        className="mt-1 text-sm text-red-500"
+                      />
+                    </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Full Name
-                    </label>
-                    <Field
-                      name="fullname"
-                      type="text"
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        !isEditing 
-                          ? 'bg-gray-50 text-gray-500' 
-                          : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
-                      }`}
-                      disabled={!isEditing}
-                    />
-                    <ErrorMessage
-                      name="fullname"
-                      component="div"
-                      className="mt-1 text-sm text-red-500"
-                    />
-                  </div>
+                    {/* Full Name field */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Full Name
+                      </label>
+                      <Field
+                        name="fullname"
+                        type="text"
+                        className={`w-full px-4 py-2 rounded-lg border ${
+                          !isEditing 
+                            ? 'bg-gray-50 text-gray-500' 
+                            : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                        }`}
+                        disabled={!isEditing}
+                      />
+                      <ErrorMessage
+                        name="fullname"
+                        component="div"
+                        className="mt-1 text-sm text-red-500"
+                      />
+                    </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Date of Birth
-                    </label>
-                    <Field name="dob">
-                      {({ field, form }: any) => {
-                        const formatDate = (date: any) => {
-                          if (!date) return '';
-                          try {
-                            const d = new Date(date);
-                            if (isNaN(d.getTime())) return '';
-                            return `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getFullYear()}`;
-                          } catch {
-                            return '';
-                          }
-                        };
+                    {/* Date of Birth field */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Date of Birth
+                      </label>
+                      <Field name="dob">
+                        {({ field, form }: any) => {
+                          const formatDate = (date: any) => {
+                            if (!date) return '';
+                            try {
+                              const d = new Date(date);
+                              if (isNaN(d.getTime())) return '';
+                              return `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getFullYear()}`;
+                            } catch {
+                              return '';
+                            }
+                          };
 
-                        const parseDate = (dateStr: string) => {
-                          if (!dateStr) return null;
-                          const [day, month, year] = dateStr.split('/');
-                          return `${year}-${month}-${day}`;
-                        };
+                          const parseDate = (dateStr: string) => {
+                            if (!dateStr) return null;
+                            const [day, month, year] = dateStr.split('/');
+                            return `${year}-${month}-${day}`;
+                          };
 
-                        return (
-                          <input
-                            type="date"
-                            {...field}
-                            value={parseDate(formatDate(field.value))}
-                            onChange={(e) => {
-                              const date = e.target.value ? new Date(e.target.value) : null;
-                              form.setFieldValue('dob', date);
-                            }}
-                            className={`w-full px-4 py-2 rounded-lg border ${
-                              !isEditing 
-                                ? 'bg-gray-50 text-gray-500' 
-                                : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
-                            }`}
-                            disabled={!isEditing}
-                          />
-                        );
-                      }}
-                    </Field>
-                    <ErrorMessage
-                      name="dob"
-                      component="div"
-                      className="mt-1 text-sm text-red-500"
-                    />
-                  </div>
+                          return (
+                            <input
+                              type="date"
+                              {...field}
+                              value={parseDate(formatDate(field.value))}
+                              onChange={(e) => {
+                                const date = e.target.value ? new Date(e.target.value) : null;
+                                form.setFieldValue('dob', date);
+                              }}
+                              className={`w-full px-4 py-2 rounded-lg border ${
+                                !isEditing 
+                                  ? 'bg-gray-50 text-gray-500' 
+                                  : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                              }`}
+                              disabled={!isEditing}
+                            />
+                          );
+                        }}
+                      </Field>
+                      <ErrorMessage
+                        name="dob"
+                        component="div"
+                        className="mt-1 text-sm text-red-500"
+                      />
+                    </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Email
-                    </label>
-                    <Field
-                      name="email"
-                      type="email"
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        !isEditing 
-                          ? 'bg-gray-50 text-gray-500' 
-                          : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
-                      }`}
-                      disabled={!isEditing}
-                    />
-                    <ErrorMessage
-                      name="email"
-                      component="div"
-                      className="mt-1 text-sm text-red-500"
-                    />
-                  </div>
+                    {/* Email field */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Email
+                      </label>
+                      <Field
+                        name="email"
+                        type="email"
+                        className={`w-full px-4 py-2 rounded-lg border ${
+                          !isEditing 
+                            ? 'bg-gray-50 text-gray-500' 
+                            : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                        }`}
+                        disabled={!isEditing}
+                      />
+                      <ErrorMessage
+                        name="email"
+                        component="div"
+                        className="mt-1 text-sm text-red-500"
+                      />
+                    </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Phone Number
-                    </label>
-                    <Field
-                      name="phoneNumber"
-                      type="text"
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        !isEditing 
-                          ? 'bg-gray-50 text-gray-500' 
-                          : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
-                      }`}
-                      disabled={!isEditing}
-                    />
-                    <ErrorMessage
-                      name="phoneNumber"
-                      component="div"
-                      className="mt-1 text-sm text-red-500"
-                    />
-                  </div>
+                    {/* Phone Number field */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Phone Number
+                      </label>
+                      <Field
+                        name="phoneNumber"
+                        type="text"
+                        className={`w-full px-4 py-2 rounded-lg border ${
+                          !isEditing 
+                            ? 'bg-gray-50 text-gray-500' 
+                            : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                        }`}
+                        disabled={!isEditing}
+                      />
+                      <ErrorMessage
+                        name="phoneNumber"
+                        component="div"
+                        className="mt-1 text-sm text-red-500"
+                      />
+                    </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Address
-                    </label>
-                    <Field
-                      name="address"
-                      type="text"
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        !isEditing 
-                          ? 'bg-gray-50 text-gray-500' 
-                          : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
-                      }`}
-                      disabled={!isEditing}
-                    />
-                    <ErrorMessage
-                      name="address"
-                      component="div"
-                      className="mt-1 text-sm text-red-500"
-                    />
+                    {/* Address field - spans full width */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Address
+                      </label>
+                      <Field
+                        name="address"
+                        type="text"
+                        className={`w-full px-4 py-2 rounded-lg border ${
+                          !isEditing 
+                            ? 'bg-gray-50 text-gray-500' 
+                            : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                        }`}
+                        disabled={!isEditing}
+                      />
+                      <ErrorMessage
+                        name="address"
+                        component="div"
+                        className="mt-1 text-sm text-red-500"
+                      />
+                    </div>
                   </div>
                 </div>
 
                 {isEditing && (
-                  <div className="flex justify-center mt-8">
+                  <div className="flex justify-center mt-6 lg:mt-8">
                     <button
                       type="submit"
-                      className="px-8 py-3 bg-purple-600 text-white rounded-lg
+                      className="w-full sm:w-auto px-8 py-3 bg-purple-600 text-white rounded-lg
                         hover:bg-purple-700 transition-colors focus:outline-none 
                         focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                     >

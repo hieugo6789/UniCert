@@ -100,7 +100,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <div className="relative w-full">
+      <div className="relative w-full hidden md:block">
         <div className="fade-in">
           <CustomCarousel />
         </div>

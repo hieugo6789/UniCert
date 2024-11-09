@@ -1,5 +1,5 @@
 import CertificateCard from "../../../components/Certifications/CertificateCard";
-import defaultCertThumb from "../../../assets/images/Certification/defaultCertThumb.png";
+import banner from "../../../assets/images/Certification/banner1.jpg"
 import { useEffect, useState } from "react";
 import { allCertificationData, cardCertificate } from "../../../models/certificate";
 import useCertificate from "../../../hooks/Certification/useCertificate";
@@ -239,7 +239,7 @@ const CertificatePage = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="relative h-full">
                   <img
-                    src={defaultCertThumb}
+                    src={banner}
                     alt="Student benefits"
                     className="absolute inset-0 w-full h-full object-cover"
                   />
