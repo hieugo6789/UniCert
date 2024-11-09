@@ -116,46 +116,61 @@ const MajorDetailPage: React.FC = () => {
   const totalPages = Math.ceil(filteredCerts.length / itemsPerPage);
 
   return (
-    <div className="p-6">
-      {/* Major Info Section */}
-      <div className="bg-purple-500 text-white p-6 rounded-md shadow-md mb-6">
-        <h1 className="text-4xl font-bold">{major.majorName}</h1>
-        <div className="mt-4">
-          <span className="font-semibold">Major Code:</span> {major.majorCode}
-        </div>
-        <div className="mt-4">
-          <span className="font-semibold">Major Description:</span>{" "}
-          <div
-            dangerouslySetInnerHTML={{
-              __html: state.currentMajor.majorDescription || "",
-            }}
-          />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Major Info Section - Improved styling */}
+      <div className="bg-gradient-to-r from-purple-600 to-purple-400 text-white p-8 rounded-2xl shadow-xl mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold mb-6 flex items-center">
+          <span className="mr-3">🎓</span>
+          {major.majorName}
+        </h1>
+        <div className="space-y-4">
+          <div className="flex items-center">
+            <span className="font-semibold bg-purple-700 px-3 py-1 rounded-full text-sm">
+              Major Code: {major.majorCode}
+            </span>
+          </div>
+          <div className="mt-6">
+            <h2 className="text-xl font-semibold mb-2">About this Major</h2>
+            <div className="prose prose-invert"
+              dangerouslySetInnerHTML={{
+                __html: state.currentMajor.majorDescription || "",
+              }}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Filter Section */}
-      <div className="p-4 text-center">
-        <h2 className="text-xl font-bold mb-6 text-left" ref={certificationsHeaderRef}>
-          Certifications for this major
+      {/* Filter Section - Enhanced UI */}
+      <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800 flex items-center" ref={certificationsHeaderRef}>
+          <span className="mr-3">📜</span>
+          Available Certifications
         </h2>
-        <div className="relative mb-6 w-full m-auto">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchInput} // Bind input value to searchInput state
-            onChange={handleSearchInputChange} // Update search input
-            className="bg-gray-300 text-white w-full rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
-          />
-          <span className="absolute right-3 top-2 text-black">🔍</span>
-        </div>
-        <div className="flex flex-row items-center">
-          <p className="mr-3">Filter by</p>
-          <div>
-            <label className="sr-only">Job Position</label>
+        
+        <div className="flex flex-col md:flex-row gap-4 items-center mb-6">
+          {/* Search Input */}
+          <div className="relative flex-1 w-full">
+            <input
+              type="text"
+              placeholder="Search certifications..."
+              value={searchInput}
+              onChange={handleSearchInputChange}
+              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg
+                focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                transition-all duration-300"
+            />
+            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              🔍
+            </span>
+          </div>
+
+          {/* Job Position Filter */}
+          <div className="flex items-center space-x-3 w-full md:w-auto">
+            <span className="text-gray-600 whitespace-nowrap">Filter by:</span>
             <select
-              id="jobPosition"
-              name="jobPosition"
-              className="h-full bg-white rounded-md border-0 py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+              className="flex-1 md:w-64 px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg
+                focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                cursor-pointer transition-all duration-300"
               onChange={handleJobPositionChange}
             >
               <option value="all">All Job Positions</option>
@@ -164,69 +179,85 @@ const MajorDetailPage: React.FC = () => {
                 .map((job, index) => (
                   <option key={index} value={job.jobPositionId.toString()}>
                     {job.jobPositionName}
-                </option>
-              ))}
+                  </option>
+                ))}
             </select>
           </div>
+        </div>
+
+        {/* Results Count */}
+        <div className="text-sm text-gray-600 mb-4">
+          Showing {currentCerts.length} of {filteredCerts.length} certifications
         </div>
       </div>
 
       {/* Certifications Grid */}
       {currentCerts.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {currentCerts.map((cert, index) => (
-            <CertificateCard
-              key={index}
-              {...cert}
-            />
+            <CertificateCard key={index} {...cert} />
           ))}
         </div>
       ) : (
-        <div className="text-center">
+        <div className="text-center bg-white rounded-2xl shadow-lg p-8">
           <img
-            className="w-full rounded-xl shadow"
+            className="w-full max-w-md mx-auto rounded-xl shadow-md mb-6"
             src="https://dmf76jm51vpov.cloudfront.net/www2/images/main/2020/webpage/Course-not-Found.jpg"
             alt="course not found"
           />
-          <p>
-            We can't get course now. Please retry later or back to{" "}
-            <Link className="text-blue-500" to="/">HOMEPAGE</Link>
+          <p className="text-gray-600">
+            No certifications found. Please try different search criteria or{" "}
+            <Link className="text-purple-500 hover:text-purple-600 font-medium" to="/">
+              return to homepage
+            </Link>
           </p>
         </div>
       )}
 
-      {/* Pagination */}
-      <div className="flex justify-center items-center p-4">
-        <button
-          className={`mr-2 ${currentPage === 1 ? "cursor-not-allowed" : ""}`}
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          ◀
-        </button>
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+      {/* Pagination - Improved styling */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center mt-8 bg-white rounded-xl shadow p-4">
           <button
-            key={page}
-            className={`mx-1 px-3 py-1 border rounded-full ${
-              currentPage === page
-                ? "bg-purple-500 text-white"
-                : "bg-gray-200"
-            }`}
-            onClick={() => handlePageChange(page)}
+            className={`w-10 h-10 flex items-center justify-center rounded-full
+              ${currentPage === 1 
+                ? 'text-gray-400 cursor-not-allowed' 
+                : 'text-purple-500 hover:bg-purple-50'
+              }`}
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
           >
-            {page}
+            ◀
           </button>
-        ))}
-        <button
-          className={`ml-2 ${
-            currentPage === totalPages ? "cursor-not-allowed" : ""
-          }`}
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          ▶
-        </button>
-      </div>
+          
+          <div className="flex space-x-2 mx-4">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                className={`w-10 h-10 rounded-full transition-all duration-300
+                  ${currentPage === page
+                    ? 'bg-purple-500 text-white'
+                    : 'text-gray-600 hover:bg-purple-50'
+                  }`}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+
+          <button
+            className={`w-10 h-10 flex items-center justify-center rounded-full
+              ${currentPage === totalPages 
+                ? 'text-gray-400 cursor-not-allowed' 
+                : 'text-purple-500 hover:bg-purple-50'
+              }`}
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            ▶
+          </button>
+        </div>
+      )}
     </div>
   );
 };
