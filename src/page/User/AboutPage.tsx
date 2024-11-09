@@ -1,7 +1,5 @@
-import Hexagon from "../../assets/images/AboutPage/Hexagon.png";
+import Logo from "../../assets/images/UniCertLogo.png";
 import Achie from "../../assets/images/AboutPage/Achievement.png";
-import LeadershipBadge from "../../assets/images/AboutPage/LeadershipBadge.png";
-import LeaderShipBadgeFrame from "../../assets/images/AboutPage/LeaderShipBadgeFrame.png";
 import { useEffect } from "react";
 const achievements = [
   { title: "4 Years in FPT University", description: "Final-year students at FPT University", icon: "📅" },
@@ -20,95 +18,138 @@ const leaders = [
   {
     name: "Tuấn Minh",
     image: "https://www.cdpp.gov.au/system/files/2023-12/Raelene%20Sharp.png",
+    role: "Frontend Developer",
   },
   {
     name: "Bình Minh",
     image: "https://www.cdpp.gov.au/system/files/2023-12/Raelene%20Sharp.png",
+    role: "Frontend Developer",
   },
   {
     name: "Thành Đạt",
     image: "https://www.cdpp.gov.au/system/files/2023-12/Raelene%20Sharp.png",
+    role: "Backend Developer",
   },
   {
     name: "Trung Tín",
     image: "https://www.cdpp.gov.au/system/files/2023-12/Raelene%20Sharp.png",
+    role: "Frontend Developer",
   },
 ];
 
 const AboutPage = () => {
   useEffect(() => {
-    const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth", // Cuộn mượt mà
-      });
-    };
-    scrollToTop();
-  });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   return (
-    <div>
-      {/* About */}
-      <div className="text-center my-16">
-        <h1 className="text-4xl font-bold">About Us</h1>
-        <div className="flex justify-center items-center mt-8 space-x-8">
-          <div className="max-w-xs">
-          <p>We are a dedicated platform offering detailed and accurate certification information, mock tests, and study resources for students. Our goal is to empower learners to excel in their professional certification exams.</p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-purple-600 to-purple-400 text-white py-20">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">About Unicert</h1>
+          <p className="text-xl text-purple-100 max-w-2xl mx-auto">
+            Empowering students with professional certifications for a better future
+          </p>
+        </div>
+      </div>
+
+      {/* About Section */}
+      <div className="container mx-auto px-4 py-16">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+          <div className="md:w-1/3">
+            <div className="bg-white p-6 rounded-2xl shadow-lg">
+              <p className="text-gray-600 leading-relaxed">
+                We are a dedicated platform offering detailed and accurate certification information, 
+                mock tests, and study resources for students. Our goal is to empower learners to 
+                excel in their professional certification exams.
+              </p>
+            </div>
           </div>
-          <div className="w-2/12">
+          
+          <div className="md:w-1/3 flex justify-center">
             <img
-              src={Hexagon}
-              alt=""
+              src={Logo}
+              alt="Unicert Logo"
+              className="w-48 md:w-64 transform hover:scale-105 transition-transform duration-300"
             />
           </div>
-          <div className="max-w-xs">
-          <p>With a strong commitment to education, we’ve helped thousands of students achieve their certification dreams across multiple industries and technologies.</p>
+          
+          <div className="md:w-1/3">
+            <div className="bg-white p-6 rounded-2xl shadow-lg">
+              <p className="text-gray-600 leading-relaxed">
+                With a strong commitment to education, we've helped thousands of students achieve 
+                their certification dreams across multiple industries and technologies.
+              </p>
+            </div>
           </div>
         </div>
       </div>
-      {/* Achievement */}
-      <div className="text-center my-16">
-        <h1 className="text-4xl font-bold mb-20">Achievement</h1>
-        <div className="flex justify-center mt-8 space-x-8">
-          {achievements.map((achieve, index) => (
-            <div
-              key={index}
-              className="flex flex-col"
-            >
-              <div className="relative flex justify-center items-center w-full h-full">
-                <img
-                  src={Achie}
-                  alt="achievement icon"
-                  className="absolute w-20"
-                />
-                <span className="text-4xl absolute">{achieve.icon}</span>
+
+      {/* Achievement Section */}
+      <div className="bg-white py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
+            Our Achievements
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {achievements.map((achieve, index) => (
+              <div
+                key={index}
+                className="bg-purple-50 rounded-2xl p-6 text-center transform hover:scale-105 transition-all duration-300"
+              >
+                <div className="relative flex justify-center items-center mb-6">
+                  <img
+                    src={Achie}
+                    alt="achievement background"
+                    className="w-24"
+                  />
+                  <span className="absolute text-4xl">{achieve.icon}</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-3">
+                  {achieve.title}
+                </h3>
+                <p className="text-gray-600">
+                  {achieve.description}
+                </p>
               </div>
-              <h3 className="mt-20 text-xl font-bold">{achieve.title}</h3>
-              <p className="max-w-xs">{achieve.description}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-      {/* The Leadership*/}
-      <div className="text-center my-16">
-        <h1 className="text-4xl font-bold">The Leadership</h1>
-        <div className="flex justify-center mt-8 space-x-8">
+
+      {/* Leadership Section */}
+      <div className="container mx-auto px-4 py-24">
+        <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-16">
+          Meet Our Team
+        </h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {leaders.map((leader, index) => (
             <div
               key={index}
-              className="relative flex flex-col items-center"
+              className="flex flex-col items-center group"
             >
-              <img src={LeadershipBadge} />
-
-              <img
-                src={leader.image}
-                alt={leader.name}
-                className="absolute top-10 clip-hexagon w-full mr-5"
-              />
-              <img
-                src={LeaderShipBadgeFrame}
-                className="absolute"
-              />
-              <h3 className="mt-4 text-xl font-bold">{leader.name}</h3>
+              <div className="relative w-48 h-48 mb-6">
+                <div className="w-full h-full overflow-hidden" 
+                     style={{
+                       clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
+                     }}>
+                  <img
+                    src={leader.image}
+                    alt={leader.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">
+                  {leader.name}
+                </h3>
+                <p className="text-purple-600">{leader.role}</p>
+              </div>
             </div>
           ))}
         </div>

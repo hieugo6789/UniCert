@@ -88,13 +88,7 @@ const Header = () => {
           className="block py-2 px-4 text-white hover:text-gray-400"
         >
           Courses
-        </Link>
-        <Link
-          to="./about"
-          className="block py-2 px-4 text-white hover:text-gray-400"
-        >
-          About Us
-        </Link>
+        </Link>        
         <Link
           to="./majors"
           className="block py-2 px-4 text-white hover:text-gray-400"
@@ -106,6 +100,12 @@ const Header = () => {
           className="block py-2 px-4 text-white hover:text-gray-400"
         >
           Job Position
+        </Link>
+        <Link
+          to="./about"
+          className="block py-2 px-4 text-white hover:text-gray-400"
+        >
+          About Us
         </Link>
       </nav>
 
