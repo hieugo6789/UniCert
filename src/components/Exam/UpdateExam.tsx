@@ -5,6 +5,7 @@ import useVoucher from "../../hooks/Voucher/useVoucher";
 import useExamDetail from "../../hooks/SimulationExam/useExamDetail";
 import { useEffect, useState } from "react";
 import { EditOutlined } from "@ant-design/icons";
+import axios from "axios";
 
 interface UpdateExamProps {
   examId: number;
