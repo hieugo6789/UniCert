@@ -56,80 +56,102 @@ const JobDetail = () => {
     return () => {
       elements.forEach((element) => observer.unobserve(element));
     };
-  }, []);
-
-  const renderCertifications = (certTypeName: string, title: string, description: string) => (
-    <div className="p-5 fade-in bg-gray-700 bg-opacity-30 rounded-lg shadow-lg">
-      <h1 className="uppercase text-2xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
-        {title}
-      </h1>
-      <p className="text-white text-xl mb-4 font-bold">{description}</p>
-      {certList.filter((cert) => cert.typeName === certTypeName).length === 0 ? (
-        <p className="text-xl text-white">Not found any certificate</p>
-      ) : (
-        <div className="flex flex-wrap justify-center gap-4">
-          {certList
-            .filter((cert) => cert.typeName === certTypeName)
-            .map((cert) => (
-              <div key={cert.certId} className="w-32 h-32">
-                <img
-                  src={cert.certImage}
-                  alt={cert.certName}
-                  className="hover:scale-105 transition-transform cursor-pointer"
-                  onClick={() => navigate("/certificate/" + cert.certId)}
-                />
-              </div>
-            ))}
-        </div>
-      )}
-    </div>
-  );
+  }, []);    
 
   return (
-    <div className="bg-gray-900">
-      <p className="fade-in ml-2 pt-2 font-bold cursor-pointer text-blue-800">
-        <Link to="/">Home </Link>
-        {">"} <Link to="/job">Job Position</Link> {">"} {jobDetail?.jobPositionName}
-      </p>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
+      {/* Breadcrumb */}
+      <nav className="px-4 py-3 text-sm md:text-base">
+        <div className="max-w-7xl mx-auto flex items-center space-x-2 text-gray-300">
+          <Link to="/" className="hover:text-blue-400 transition-colors">Home</Link>
+          <span>/</span>
+          <Link to="/job" className="hover:text-blue-400 transition-colors">Job Position</Link>
+          <span>/</span>
+          <span className="text-blue-400">{jobDetail?.jobPositionName}</span>
+        </div>
+      </nav>
       
-      {/* Header - Title */}
-      <div className="w-full min-h-36 p-10 text-center">
-        <h1 className="fade-in uppercase text-8xl md:text-8xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
-          {jobDetail?.jobPositionName || "Không tìm thấy khóa học"}
+      {/* Header Section */}
+      <header className="max-w-7xl mx-auto px-4 py-12 md:py-8 text-center">
+        <h1 className="fade-in text-4xl md:text-6xl lg:text-8xl font-extrabold bg-clip-text text-transparent 
+          bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] 
+          bg-[length:200%_auto] animate-gradient uppercase tracking-tight">
+          {jobDetail?.jobPositionName || "Position Not Found"}
         </h1>
-        <h2 className="fade-in text-white text-5xl font-bold mt-5 text-center">
-          What's {jobDetail?.jobPositionName || "____"}
+        
+        <h2 className="fade-in mt-6 text-3xl md:text-5xl font-bold text-white">
+          What's <span className="text-blue-400">{jobDetail?.jobPositionName || "____"}</span>
         </h2>
-        <div
-          className="fade-in prose list-disc whitespace-pre-wrap text-white text-3xl mt-5 text-center"
-          dangerouslySetInnerHTML={{
-            __html: jobDetail?.jobPositionDescription || "",
-          }}
-        />
-      </div>
+          
+        <div className="fade-in mt-8 max-w-4xl mx-auto prose prose-lg prose-invert text-white text-2xl">
+          <div dangerouslySetInnerHTML={{
+            __html: jobDetail?.jobPositionDescription || ""
+          }} />
+        </div>
+      </header>
 
-      {/* Certificates by type */}
-      <div className="grid grid-cols-2 text-center min-h-screen gap-10 px-10">
-        {renderCertifications("Foundation", "1. Foundation", "Knowledge-based certification for foundational understanding.")}
-        {renderCertifications("Associate", "2. Associate", "Certification for those with basic skills and applied knowledge.")}
-        {renderCertifications("Professional", "3. Professional", "Certification for professionals with advanced expertise.")}
-        {renderCertifications("Expert", "4. Expert", "Certification for experts who demonstrate mastery in the field.")}
-        {renderCertifications("Specialty", "5. Specialty", "Certification focused on specialized skills in a specific area of expertise.")}
+      {/* Certificates Grid */}
+      <main className="max-w-7xl mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Certificate Sections */}
+          {[
+            { type: "Foundation", title: "1. Foundation", desc: "Knowledge-based certification for foundational understanding." },
+            { type: "Associate", title: "2. Associate", desc: "Certification for those with basic skills and applied knowledge." },
+            { type: "Professional", title: "3. Professional", desc: "Certification for professionals with advanced expertise." },
+            { type: "Expert", title: "4. Expert", desc: "Certification for experts who demonstrate mastery in the field." },
+            { type: "Specialty", title: "5. Specialty", desc: "Certification focused on specialized skills in a specific area of expertise." }
+          ].map((section) => (
+            <div key={section.type} className="fade-in">
+              <div className="h-full p-6 md:p-8 bg-gray-800 bg-opacity-50 rounded-2xl backdrop-blur-sm 
+                border border-gray-700 shadow-xl">
+                <h3 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent 
+                  bg-gradient-to-r from-indigo-400 via-sky-400 to-fuchsia-400">
+                  {section.title}
+                </h3>
+                
+                <p className="mt-3 text-lg text-gray-300 font-medium">
+                  {section.desc}
+                </p>
 
-        <div className="m-auto fade-in">
+                <div className="mt-6">
+                  {certList.filter((cert) => cert.typeName === section.type).length === 0 ? (
+                    <p className="text-gray-400 italic">No certificates available</p>
+                  ) : (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                      {certList
+                        .filter((cert) => cert.typeName === section.type)
+                        .map((cert) => (
+                          <div key={cert.certId} 
+                            onClick={() => navigate("/certificate/" + cert.certId)}
+                            className="aspect-square rounded-lg overflow-hidden cursor-pointer 
+                              transform hover:scale-105 transition-all duration-300">
+                            <img
+                              src={cert.certImage}
+                              alt={cert.certName}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA Button */}
+        <div className="mt-12 text-center">
           <CustomButton
             shining
-            label="Get more certificates"
+            label="Explore More Certificates"
             onClick={() => navigate("/certificate")}
-            className="bg-red-500 fade-in"
+            className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 
+              hover:to-purple-600 text-white px-8 py-3 rounded-xl font-semibold 
+              transform hover:scale-105 transition-all duration-300"
           />
         </div>
-      </div>
-
-      {/* Importance of certificate section */}
-      <div>
-        <h1>Why should get Certificate?</h1>
-      </div>
+      </main>
     </div>
   );
 };
