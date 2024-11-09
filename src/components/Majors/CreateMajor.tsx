@@ -51,6 +51,8 @@ const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
         jobPositionId: [],
         certId: [],
       });
+      setSelectedImage(null);
+      setPreviewImage(null);
       setIsModalVisible(false);
       refetchMajors();
     } catch (error) {

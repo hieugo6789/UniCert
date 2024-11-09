@@ -32,8 +32,20 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
     try {
       // Validate fields before submission
       await form.validateFields();
-      // console.log(formData);
-      await handleCreateExam(formData);
+      
+      let uploadedImageUrl = formData.examImage;
+
+      if (selectedImage) {
+        uploadedImageUrl = await uploadCloudinary();
+        console.log("New uploaded image URL:", uploadedImageUrl);
+      }
+
+      const updatedFormData = {
+        ...formData,
+        examImage: uploadedImageUrl,
+      };
+
+      await handleCreateExam(updatedFormData);
       form.resetFields();
       setFormData({
         examName: "",
@@ -46,6 +58,8 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
         duration: 0,
         questionCount: 0,
       });
+      setSelectedImage(null);
+      setPreviewImage(null);
       setIsModalVisible(false);
       refetchExams();
     } catch (error) {
@@ -79,6 +93,39 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
       ...formData,
       certId: value,
     });
+  };
+
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      console.log("Selected image file:", file);
+      setSelectedImage(file);
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  };  
+
+  const uploadCloudinary = async () => {
+    if (selectedImage) {
+      const formUpload = new FormData();
+      formUpload.append("api_key", "994636724857583");
+      formUpload.append("file", selectedImage);
+      formUpload.append("upload_preset", "upload_image");
+      formUpload.append("folder", "Exam");
+
+      try {
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/unicert/image/upload",
+          formUpload
+        );
+        console.log("Exam upload successfully:", response.data.url);
+        return response.data.url;
+      } catch (error) {
+        console.error("Error uploading avatar:", error);
+      }
+    }
   };
 
   return (
@@ -219,19 +266,18 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
           </Form.Item>
           <Form.Item
             label="Exam Image"
-            name="examImage"
-            rules={[
-              {
-                required: true,
-                message: "Please input the exam image!",
-              },
-            ]}
+            name="examImage"            
           >
+            <img
+              src={previewImage || formData.examImage}
+              alt="Current Image"
+              className="w-32 h-32 bg-gray-300 mb-4"
+            />
             <Input
-              name="examImage"
-              value={formData.examImage}
-              onChange={handleInputChange}
-              placeholder="Enter exam image"
+              name="examImage"            
+              type="file"              
+              onChange={handleImageChange}              
+              required
             />
           </Form.Item>
           <Form.Item

@@ -52,7 +52,19 @@ const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
       // Validate fields before submission
       await form.validateFields();
       const formData = form.getFieldsValue();
-      await updateExamDetails(examId, formData);
+      let uploadedImageUrl = formData.examImage;
+
+      if (selectedImage) {
+        uploadedImageUrl = await uploadCloudinary();
+        console.log("New uploaded image URL:", uploadedImageUrl);
+      }
+
+      const updatedFormData = {
+        ...formData,
+        examImage: uploadedImageUrl,
+      };
+
+      await updateExamDetails(examId, updatedFormData);
       message.success("exam updated successfully!");
       refetchExams();
       setIsModalVisible(false); // Close modal after success
@@ -65,6 +77,40 @@ const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
     setIsModalVisible(false);
     form.resetFields(); // Reset the form when closing the modal
   };
+
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      console.log("Selected image file:", file);
+      setSelectedImage(file);
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  };  
+
+  const uploadCloudinary = async () => {
+    if (selectedImage) {
+      const formUpload = new FormData();
+      formUpload.append("api_key", "994636724857583");
+      formUpload.append("file", selectedImage);
+      formUpload.append("upload_preset", "upload_image");
+      formUpload.append("folder", "Exam");
+
+      try {
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/unicert/image/upload",
+          formUpload
+        );
+        console.log("Exam upload successfully:", response.data.url);
+        return response.data.url;
+      } catch (error) {
+        console.error("Error uploading avatar:", error);
+      }
+    }
+  };
+
   return (
     <>
       <EditOutlined
@@ -159,15 +205,19 @@ const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
 
           <Form.Item
             label="Image"
-            name="examImage"
-            rules={[
-              {
-                required: true,
-                message: "Please enter the exam image",
-              },
-            ]}
+            name="examImage"            
           >
-            <Input placeholder="Enter exam image" />
+            <img
+              src={previewImage || examDetailState.currentExam.examImage}
+              alt="Current Image"
+              className="w-32 h-32 bg-gray-300 mb-4"
+            />
+            <Input
+              name="examImage"
+              type="file"              
+              onChange={handleImageChange} 
+              required             
+            />
           </Form.Item>
           {/* <Form.Item
             label="Description"

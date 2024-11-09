@@ -5,6 +5,7 @@ import { Form, Input, message, Modal, Select } from "antd";
 import useCertificate from "../../hooks/Certification/useCertificate";
 import useVoucher from "../../hooks/Voucher/useVoucher";
 import { EditOutlined } from "@ant-design/icons";
+import axios from "axios";
 
 interface UpdateCourseProps {
   courseId: string;
@@ -49,11 +50,23 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
   }, [courseDetailState.currentCourse, courseId, form]);
 
   const handleUpdate = async () => {
-    try {
-      // Validate fields before submission
+    try {      
       await form.validateFields();
       const formData = form.getFieldsValue();
-      await updateCourseDetails(courseId, formData);
+
+      let uploadedImageUrl = formData.courseImage;
+
+      if (selectedImage) {
+        uploadedImageUrl = await uploadCloudinary();
+        console.log("New uploaded image URL:", uploadedImageUrl);
+      }
+
+      const updatedFormData = {
+        ...formData,
+        courseImage: uploadedImageUrl,
+      };
+
+      await updateCourseDetails(courseId, updatedFormData);
       message.success("Course updated successfully!");
       refetchCourses();
       setIsModalVisible(false); // Close modal after success
@@ -66,6 +79,39 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
     setIsModalVisible(false);
     form.resetFields(); // Reset the form when closing the modal
   };
+
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      console.log("Selected image file:", file);
+      setSelectedImage(file);
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  };
+
+  const uploadCloudinary = async () => {
+    if (selectedImage) {
+      const formUpload = new FormData();
+      formUpload.append("api_key", "994636724857583");
+      formUpload.append("file", selectedImage);
+      formUpload.append("upload_preset", "upload_image");
+      formUpload.append("folder", "Course");
+
+      try {
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/unicert/image/upload",
+          formUpload
+        );
+        console.log("Course upload successfully:", response.data.url);
+        return response.data.url;
+      } catch (error) {
+        console.error("Error uploading avatar:", error);
+      }
+    }
+  };
+
 
   return (
     <>
@@ -160,19 +206,7 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
                   </Select.Option>
                 ))}
             </Select>
-          </Form.Item>
-          <Form.Item
-            label="Image"
-            name="courseImage"
-            rules={[
-              {
-                required: true,
-                message: "Please enter the Course image",
-              },
-            ]}
-          >
-            <Input placeholder="Enter Course image" />
-          </Form.Item>
+          </Form.Item>          
           {/* <Form.Item
             label="Description"
             name="jobPositionDescription"
@@ -227,6 +261,22 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
                 </Select.Option>
               ))}
             </Select>
+          </Form.Item>
+          <Form.Item
+            label="Image"
+            name="courseImage"            
+          >
+            <img
+              src={previewImage || courseDetailState.currentCourse.courseImage}
+              alt="Current Image"
+              className="w-32 h-32 bg-gray-300 mb-4"
+            />
+            <Input
+              placeholder="Image"
+              type="file"
+              onChange={handleImageChange}
+              required              
+            />
           </Form.Item>
         </Form>
       </Modal>

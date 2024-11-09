@@ -74,6 +74,8 @@ const CreateCert = ({
         majorIds: [],
         jobIds: [],
       });
+      setSelectedImage(null);
+      setPreviewImage(null);
       setIsModalVisible(false);
       refetchCertificates();
     } catch (error) {
