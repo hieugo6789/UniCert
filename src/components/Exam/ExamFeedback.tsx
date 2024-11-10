@@ -160,7 +160,7 @@ const ExamFeedback = () => {
     };
 
     return (
-        <div className="p-6 bg-gray-100 min-h-screen">
+        <div className="p-6 bg-gray-100">
             <h1 className="text-3xl font-semibold text-center mb-6">Feedback</h1>
 
             {/* Add New Feedback */}
@@ -200,8 +200,12 @@ const ExamFeedback = () => {
 
             {/* Display Feedback */}
             <div className="space-y-4">
-            {feedbacks.map((feedback) => (
-                <div key={feedback.feedbackId} className="bg-white rounded-lg shadow p-4 flex items-start space-x-4">
+                {/* if not have any feedback, show message */}
+                {feedbacks.length === 0 && (
+                    <p className="text-center text-gray-500">No feedback yet.</p>
+                )}
+                {feedbacks.map((feedback) => (
+                    <div key={feedback.feedbackId} className="bg-white rounded-lg shadow p-4 flex items-start space-x-4">
                     <img
                         src={feedback.userDetails.userImage}
                         alt={feedback.userDetails.username}
