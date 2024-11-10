@@ -9,6 +9,7 @@ const SimulationExamPage = () => {
   const id = Number(useParams().id || 0);
   const [questions, setQuestions] = useState<any[]>([]);
   const { state, getExamDetails } = useExamDetail();
+  const [duration, setDuration] = useState(0);
 
   useEffect(() => {
     const fetchExamDetails = async () => {
@@ -19,17 +20,18 @@ const SimulationExamPage = () => {
 
   useEffect(() => {
     if (state && state.currentExam && state.currentExam.listQuestions) {
+      console.log(state.currentExam);
+      setDuration(state.currentExam.duration);
       const formattedQuestions = state.currentExam.listQuestions.map((q: any) => ({
         id: q.questionId,
         questionText: q.questionName,
         options: q.answers.map((answer: any) => ({
-          answerId: answer.answerId, // Include the actual answer ID
+          answerId: answer.answerId,
           answerText: answer.answerText,
         })),
-        correctAnswerId: -1, // Default if correct answer ID is unknown
+        correctAnswerId: -1,
       }));
       setQuestions(formattedQuestions);
-      console.log(formattedQuestions);
     }
   }, [state]);
 
@@ -46,12 +48,15 @@ const SimulationExamPage = () => {
 
   const handleSelectAnswer = (questionIndex: number, answerId: number) => {
     const newAnswers = [...selectedAnswers];
-    newAnswers[questionIndex] = answerId; // Store the answerId
+    newAnswers[questionIndex] = answerId;
     setSelectedAnswers(newAnswers);
   };
 
-  const timer = 600;
-  const [timeLeft, setTimeLeft] = useState(timer);
+  const [timeLeft, setTimeLeft] = useState(duration * 60);
+
+  useEffect(() => {
+    setTimeLeft(duration * 60);
+  }, [duration]);
 
   useEffect(() => {
     if (timeLeft === 0) {
@@ -72,10 +77,10 @@ const SimulationExamPage = () => {
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-5 min-h-screen bg-gray-100">
-      <div className="flex flex-col p-4 w-full xl:col-span-4">
-        <div className="bg-gray-100 p-4 mb-4">
-          <h2 className="text-lg font-bold">Time Left</h2>
-          <div className="text-4xl font-bold">{formatTime(timeLeft)}</div>
+      <div className="flex flex-col p-4 w-full xl:col-span-4 pb-32 xl:pb-4">
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+          <h2 className="text-lg font-semibold text-gray-700">Time Remaining</h2>
+          <div className="text-4xl font-bold text-blue-600 mt-2">{formatTime(timeLeft)}</div>
         </div>
         {questions[currentQuestionIndex] && (
           <QuestionCard
@@ -87,28 +92,38 @@ const SimulationExamPage = () => {
             onSelectAnswer={(answerId) => handleSelectAnswer(currentQuestionIndex, answerId)}
           />
         )}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mt-6">
           <CustomButton
-            className="mt-4"
+            className={`px-6 py-3 rounded-lg transition-all duration-200 ${
+              currentQuestionIndex > 0 
+                ? "bg-blue-600 hover:bg-blue-700 text-white"
+                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+            }`}
             onClick={() => {
               if (currentQuestionIndex > 0) {
                 setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
               }
             }}
             label="Previous Question"
+            disabled={currentQuestionIndex === 0}
           />
           <CustomButton
-            className="mt-4"
+            className={`px-6 py-3 rounded-lg transition-all duration-200 ${
+              currentQuestionIndex < questions.length - 1
+                ? "bg-blue-600 hover:bg-blue-700 text-white" 
+                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+            }`}
             onClick={() => {
               if (currentQuestionIndex < questions.length - 1) {
                 setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
               }
             }}
             label="Next Question"
+            disabled={currentQuestionIndex === questions.length - 1}
           />
         </div>
       </div>
-      <div className="w-full col-span-1">
+      <div className="w-full col-span-1 xl:border-l xl:border-gray-200">
         <SimulationExamSidebar
           questions={questions}
           currentQuestionIndex={currentQuestionIndex}
