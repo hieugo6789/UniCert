@@ -15,10 +15,26 @@ const initialState: FeedbackState = {
   error: null,
 };
 export const fetchAllFeedback = createAsyncThunk(
-  "admin/fetchAllFeedback",
+  "student/fetchAllFeedback",
   async (examId: number) => {
     try {
       const response = await agent.FeedBack.getFeedbackByExamId(examId);
+      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return {
+          message: error.response?.data.error.message,
+          status: error.response?.status,
+        };
+      }
+    }
+  }
+);
+export const fetchFeedbackByCertId = createAsyncThunk(
+  "students/fetchFeedbackByCertId",
+  async (certId: number) => {
+    try {
+      const response = await agent.FeedBack.getFeedbackByCertId(certId);
       return response;
     } catch (error) {
       if (error instanceof AxiosError) {

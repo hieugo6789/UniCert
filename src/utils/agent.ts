@@ -221,6 +221,8 @@ const FeedBack = {
     requests.get(`api/v1/feedback/exam/${examId}`),
   getFeedbackDetail: (feedbackId: number) =>
     requests.get(`api/v1/feedback/exam/${feedbackId}`),
+  getFeedbackByCertId: (certId: number) =>
+    requests.get(`api/v1/feedback/cert/${certId}`),
   createFeedback: (input: createFeedback) =>
     requests.post("api/v1/feedback", input),
   deleteFeedback: (feedbackId: number) =>
@@ -281,9 +283,8 @@ const Payment = {
 
 const Score = {
   submitScore: (input: createScore) => requests.post(`api/v1/score`, input),
-    getCoreByUserAndExam: (userId: number, examId: number) =>
+  getCoreByUserAndExam: (userId: number, examId: number) =>
     requests.get(`api/v1/score/${userId}?examId=${examId}`),
-  
 };
 
 const agent = {
