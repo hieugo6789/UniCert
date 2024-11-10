@@ -11,6 +11,8 @@ import useSchedule from "../../../hooks/Schedule/useSchedule";
 import { allSchedulePaginationData } from "../../../models/schedule";
 import useCourse from "../../../hooks/Course/useCourse";
 import { allCoursePaginationData } from "../../../models/course";
+import Feedback from "../../../components/Certifications/Feedback";
+import useFeedbackByCertId from "../../../hooks/Feedback/useFeedbackByCertId";
 
 const CertificateDetailPage = () => {
   const [activeTab, setActiveTab] = useState("Description");
@@ -21,6 +23,7 @@ const CertificateDetailPage = () => {
   const [filteredSchedule, setFilteredSchedule] = useState<allSchedulePaginationData[]>([]);
   const [filteredCourses, setFilteredCourses] = useState<allCoursePaginationData[]>([]);
   const { course, refetchCourses } = useCourse();
+  const { feedback } = useFeedbackByCertId({ certId: id });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -138,14 +141,14 @@ const CertificateDetailPage = () => {
       {/* Tabs Navigation */}
       <div className="container mx-auto px-4">
         <div className="bg-white rounded-xl shadow-lg mt-8 overflow-hidden">
-          <div className="flex border-b">
+          <div className="flex flex-wrap sm:flex-nowrap border-b overflow-x-auto">
             {["Description", cert?.certCost && cert.certCost > 0 ? "Exam Details" : null, "Feedback"]
               .filter(Boolean)
               .map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab!)}
-                  className={`px-8 py-4 font-medium transition-colors duration-200
+                  className={`flex-shrink-0 w-full sm:w-auto px-4 sm:px-8 py-3 sm:py-4 font-medium transition-colors duration-200
                     ${activeTab === tab
                       ? "border-b-2 border-purple-500 text-purple-600 bg-purple-50"
                       : "text-gray-600 hover:text-purple-500 hover:bg-purple-50"
@@ -162,7 +165,7 @@ const CertificateDetailPage = () => {
               <Description props={cert} schedule={filteredSchedule} course={filteredCourses}/>
             )}
             {activeTab === "Exam Details" && cert && <ExamDetails {...cert} />}
-            {activeTab === "Feedback"}
+            {activeTab === "Feedback" && <Feedback feedback={feedback}/>}
           </div>
         </div>
       </div>

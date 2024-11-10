@@ -4,11 +4,11 @@ export interface feedbackPagination {
   userId: number;
   examId: number;
   feedbackCreatedAt: Date;
-  feedbackImage: string;
+  feedbackImage?: string;
   userDetails: {
     userId: number;
     username: string;
-    userImage: string;
+    userImage?: string;
   };
 }
 export interface currentFeedback {
