@@ -39,33 +39,74 @@ const ExamDetailPage = () => {
         scrollToTop();          
     }, []);
     return (
-        <div className=" mx-auto p-6  rounded-lg">
-            <h1 className="text-3xl font-bold text-center mb-6">Exam Details</h1>
+        <div className="max-w-7xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+            <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">{exam?.examName}</h1>
 
             <div className="flex flex-col md:flex-row gap-8">
                 <div className="w-full md:w-1/3">
-                    <img src={exam?.examImage} alt="Exam Thumbnail" className="w-full h-full rounded-lg object-cover shadow-md" />
-                </div>
-                <div className="w-full md:w-2/3">
-                    <h2 className="text-2xl font-semibold text-gray-800">{exam?.examName}</h2>
-                    <p className="mt-4 text-gray-600">{exam?.examDescription}</p>
-                    <div className="mt-6 flex items-center gap-2 text-lg font-medium text-gray-800">
-                        <span>Fee: {exam?.examFee}</span>
-                        <img src={coin} alt="Coin Icon" className="w-6 h-6" />
+                    <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg group">
+                        <img 
+                            src={exam?.examImage || 'placeholder.jpg'} 
+                            alt={exam?.examName || 'Exam Thumbnail'} 
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
-                    {/* {exam.examPermission === "Approve" && */}
-                        <CustomButton label='Start Exam' className='mt-6' onClick={() => navigate("./simulation")} />
-                            {/* } */}
+                </div>
+                <div className="w-full md:w-2/3 space-y-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div className="flex items-center gap-3 bg-blue-50/80 backdrop-blur px-4 py-3 rounded-lg hover:bg-blue-100 transition-colors duration-300 shadow-sm">
+                            <svg className="w-5 h-5 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span className="text-gray-600 whitespace-nowrap">Duration:</span>
+                            <span className="font-medium text-blue-600 ml-auto">{exam?.duration} minutes</span>
+                        </div>
+                        <div className="flex items-center gap-3 bg-green-50/80 backdrop-blur px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-300 shadow-sm">
+                            <svg className="w-5 h-5 text-green-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            <span className="text-gray-600 whitespace-nowrap">Questions:</span>
+                            <span className="font-medium text-green-600 ml-auto">{exam?.listQuestions?.length || 0}</span>
+                        </div>
+                        <div className="flex items-center gap-3 bg-yellow-50/80 backdrop-blur px-4 py-3 rounded-lg hover:bg-yellow-100 transition-colors duration-300 shadow-sm">
+                            <svg className="w-5 h-5 text-yellow-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span className="text-gray-600 whitespace-nowrap">Fee:</span>
+                            <span className="font-medium text-yellow-600">{exam?.examFee}</span>
+                            <img src={coin} alt="Coin" className="w-6 h-6 animate-bounce" />
+                        </div>
+                    </div>
+
+                    <div className="bg-gray-50/50 rounded-lg p-4">
+                        <p className="text-gray-600 leading-relaxed">{exam?.examDescription}</p>
+                    </div>
+
+                    <CustomButton 
+                        label='Start Exam'
+                        onClick={() => navigate("./simulation")}
+                        className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-3"
+                    >
+                        <svg className="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Start Exam
+                    </CustomButton>
                 </div>
             </div>
 
-            <div className="mt-10">
-                <div className="flex border-b border-gray-200 text-gray-600">
+            <div className="mt-12">
+                <div className="flex border-b border-gray-200">
                     {["Detail", "Feedback"].map((tab) => (
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab)}
-                            className={`flex-1 p-4 text-center font-semibold hover:text-blue-500 transition-colors duration-300 ${activeTab === tab ? "border-b-4 border-blue-500 text-blue-500" : ""
+                            className={`flex-1 p-4 text-center font-semibold transition-all duration-300
+                                ${activeTab === tab 
+                                    ? "border-b-4 border-blue-500 text-blue-600 bg-blue-50/70 backdrop-blur" 
+                                    : "text-gray-600 hover:text-blue-500 hover:bg-gray-50/70"
                                 }`}
                         >
                             {tab}
@@ -75,12 +116,15 @@ const ExamDetailPage = () => {
 
                 <div className="p-6">
                     {activeTab === "Detail" && (
-                        <div>
-                            {/* <p className="text-gray-700 leading-relaxed">{exam?.examDescription}</p> */}
-                            {activeTab === "Detail" && (<ExamResultTable />)}
+                        <div className="space-y-8 animate-fadeIn">
+                            <ExamResultTable />
                         </div>
                     )}
-                    {activeTab === "Feedback" && <ExamFeedback />}
+                    {activeTab === "Feedback" && (
+                        <div className="animate-fadeIn">
+                            <ExamFeedback />
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
