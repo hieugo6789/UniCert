@@ -3,14 +3,14 @@ import { FaFlag } from "react-icons/fa";
 type QuestionProps = {
   question: {
     questionText: string;
-    options: { answerId: number; answerText: string }[]; // Changed to include answerId
+    options: { answerId: number; answerText: string }[];
     correctAnswerIndex: number;
   };
   currentQuestionIndex: number;
   selectedAnswer: number | null;
   flagged: boolean;
   onFlag: () => void;
-  onSelectAnswer: (answerId: number) => void; // Accepting answerId
+  onSelectAnswer: (answerId: number) => void;
 };
 
 const QuestionCard: React.FC<QuestionProps> = ({
@@ -22,37 +22,46 @@ const QuestionCard: React.FC<QuestionProps> = ({
   onSelectAnswer,
 }) => {
   return (
-    <div className="bg-white p-6 rounded shadow relative">
-      <h2 className="text-xl font-bold mb-4">
-        Question: {currentQuestionIndex + 1}
-      </h2>
-      <div
-        className="prose list-disc whitespace-pre-wrap text-large mb-1"
-        dangerouslySetInnerHTML={{
-          __html: question.questionText || "",
-        }}
-      />
-      {/* <p className="mb-4">{question.questionText}</p> */}
-      <button
-        onClick={onFlag}
-        className={`absolute top-4 right-4 ${
-          flagged ? "text-yellow-500" : "text-gray-400"
-        }`}
-      >
-        <FaFlag size={24} />
-      </button>
-      <div className="space-y-2">
+    <div className="bg-white rounded-lg shadow-lg p-8 relative">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold text-gray-800">
+          Question {currentQuestionIndex + 1}
+        </h2>
+        <button
+          onClick={onFlag}
+          className={`p-2 rounded-full transition-colors duration-200 ${
+            flagged 
+              ? "bg-yellow-100 text-yellow-500" 
+              : "bg-gray-100 text-gray-400 hover:bg-gray-200"
+          }`}
+          title={flagged ? "Remove flag" : "Flag question"}
+        >
+          <FaFlag size={20} />
+        </button>
+      </div>
+
+      <div className="mb-8">
+        <div
+          className="prose prose-lg max-w-none text-gray-700 leading-relaxed"
+          dangerouslySetInnerHTML={{
+            __html: question.questionText || "",
+          }}
+        />
+      </div>
+
+      <div className="space-y-3">
         {question.options.map((option) => (
           <button
-            key={option.answerId} // Use answerId as key
-            onClick={() => onSelectAnswer(option.answerId)} // Passing answerId to onSelectAnswer
-            className={`w-full p-2 border rounded ${
-              selectedAnswer === option.answerId
-                ? "bg-blue-500 text-white"
-                : "hover:bg-blue-100"
-            }`}
+            key={option.answerId}
+            onClick={() => onSelectAnswer(option.answerId)}
+            className={`w-full p-4 text-left rounded-lg border-2 transition-all duration-200
+              ${selectedAnswer === option.answerId
+                ? "border-blue-500 bg-blue-50 text-blue-700 font-medium"
+                : "border-gray-200 hover:border-blue-200 hover:bg-blue-50"
+              }
+            `}
           >
-            {option.answerText}
+            <span className="block text-base">{option.answerText}</span>
           </button>
         ))}
       </div>
