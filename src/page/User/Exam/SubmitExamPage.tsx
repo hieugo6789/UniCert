@@ -49,12 +49,35 @@ const SubmitExamPage = () => {
     
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-            <h2 className="text-2xl font-bold mb-4">Submit Exam</h2>
-            <p className="mb-6">Are you sure you want to submit your answers?</p>
-            <div className="flex gap-4">
-                <CustomButton onClick={() => navigate(-1)} label="Go Back" />
-                <CustomButton onClick={handleSubmitResults} label="Submit" />
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-50 to-white">
+            <div className="bg-white rounded-lg shadow-xl p-8 max-w-lg w-full mx-4">
+                <div className="text-center">
+                    <h2 className="text-3xl font-bold text-gray-800 mb-6">Submit Your Exam</h2>
+                    <div className="w-16 h-1 bg-blue-500 mx-auto mb-8"></div>
+                    
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8">
+                        <p className="text-gray-700 text-lg">
+                            Are you sure you want to submit your answers? 
+                            <br/>
+                            <span className="text-sm text-gray-500 mt-2 block">
+                                Please note that this action cannot be undone.
+                            </span>
+                        </p>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <CustomButton 
+                            onClick={() => navigate(-1)}
+                            label="Return to Exam"
+                            className="px-8 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors duration-200"
+                        />
+                        <CustomButton
+                            onClick={handleSubmitResults}
+                            label="Submit Exam"
+                            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );
