@@ -70,7 +70,7 @@ const ExamResultTable = () => {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                        {examResults.map((result, index) => (
+                        {examResults.length > 0 && examResults.map((result, index) => (
                             <tr key={result.scoreId} 
                                 className={`hover:bg-gray-50 transition-colors duration-150`}
                             >
