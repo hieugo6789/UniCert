@@ -286,7 +286,9 @@ const Score = {
   getCoreByUserAndExam: (userId: number, examId: number) =>
     requests.get(`api/v1/score/${userId}?examId=${examId}`),
 };
-
+const Dashboard = {
+  getSummary: () => requests.get("api/v1/dashboard/summary"),
+};
 const agent = {
   Major,
   Account,
@@ -307,5 +309,6 @@ const agent = {
   Payment,
   Enrollment,
   Score,
+  Dashboard,
 };
 export default agent;

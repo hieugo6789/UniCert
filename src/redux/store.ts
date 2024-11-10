@@ -59,6 +59,7 @@ import createScoreReducer from "./slice/Score/createScore";
 import scheduleDetailReducer from "./slice/Schedule/scheduleDetailSlice";
 import createScheduleReducer from "./slice/Schedule/createSchedule";
 import scoreReducer from "./slice/Score/scoreByUserAndExam";
+import dashboardReducer from "./slice/Dashboard/DashboardSlice";
 
 export const store = configureStore({
   reducer: {
@@ -121,6 +122,7 @@ export const store = configureStore({
     scheduleDetail: scheduleDetailReducer,
     createSchedule: createScheduleReducer,
     score: scoreReducer,
+    dashboard: dashboardReducer,
   },
 });
 
