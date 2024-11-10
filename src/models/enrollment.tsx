@@ -12,6 +12,8 @@ export interface currentExamEnrollment {
       examFee: number;
       examDiscountFee: number;
       examImage: string;
+      examDescription: string;
+      examPermission: string;
     }
   ];
 }
@@ -30,6 +32,7 @@ export interface examEnrollment {
       examDiscountFee: number;
       examImage: string;
       examDescription: string;
+      examPermission: string;
     }
   ];
 }
