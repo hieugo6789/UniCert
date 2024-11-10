@@ -55,17 +55,17 @@ const Register = () => {
       .matches(/^[0-9]{10}$/, "Phone number must be exactly 10 digits"),
   });
   return (
-    <div className="flex justify-center items-center h-screen bg-white">
-      <div className="flex-1 flex justify-center items-center">
+    <div className="flex flex-col md:flex-row justify-center items-center min-h-screen bg-white p-4">
+      <div className="hidden md:flex md:flex-1 justify-center items-center">
         <img
           src={image}
           alt="Image"
           className="w-2/3"
         />
       </div>
-      <div className="flex-1">
-        <div className="max-w-md mx-auto  p-8 ">
-          <h2 className="text-3xl font-bold mb-6 text-center">Register</h2>
+      <div className="w-full md:flex-1 max-w-md">
+        <div className="w-full p-4 md:p-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">Register</h2>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
