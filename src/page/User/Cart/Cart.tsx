@@ -118,27 +118,19 @@ const Cart = () => {
       }
 
       // Tạo course enrollment nếu có
-      let courseEnrollmentResult;
       if (selectedCourses.length > 0) {
-        courseEnrollmentResult = await handleCreateCourseEnrollment({
+        await handleCreateCourseEnrollment({
           userId: userId?.toString() || "",
           courses: selectedCourses.map((course) => course.courseId),
         });
       }
 
       // Tạo exam enrollment nếu có
-      let examEnrollmentResult;
       if (selectedExams.length > 0) {
-        examEnrollmentResult = await handleCreateExamEnrollment({
+        await handleCreateExamEnrollment({
           userId: userId?.toString() || "",
           simulation_Exams: selectedExams.map((exam) => exam.examId),
         });
-      }
-
-      // Kiểm tra kết quả enrollment
-      if (courseEnrollmentResult?.error || examEnrollmentResult?.error) {
-        showToast("Error creating enrollment", "error");
-        return;
       }
 
       // Cập nhật giỏ hàng
