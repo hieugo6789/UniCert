@@ -31,7 +31,7 @@ const ExamFeedback = () => {
 
     useEffect(() => {
         setFeedbacks(feedback);
-    }, [feedback]);
+    }, [feedback]); 
 
     const vietnamTime = new Date();
     vietnamTime.setHours(vietnamTime.getHours() + 7);
