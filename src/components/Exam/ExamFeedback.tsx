@@ -222,7 +222,7 @@ const ExamFeedback = () => {
                                 <div className="flex space-x-2">
                                     <button
                                         className="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded-lg flex items-center transition-all"
-                                        onClick={() => handleEditFeedback(feedback.feedbackId, feedback.feedbackDescription, feedback.feedbackImage)}
+                                        onClick={() => handleEditFeedback(feedback.feedbackId, feedback.feedbackDescription, feedback.feedbackImage || "")}
                                     >
                                         Edit
                                     </button>
@@ -293,7 +293,7 @@ const ExamFeedback = () => {
                                     src={feedback.feedbackImage}
                                     alt="Feedback Image"
                                     className="w-1/4 h-auto rounded-lg cursor-pointer"
-                                    onClick={() => handleOpenModal(feedback.feedbackImage)}
+                                    onClick={() => handleOpenModal(feedback.feedbackImage || "")}
                                 />
                             </div>
                         )}

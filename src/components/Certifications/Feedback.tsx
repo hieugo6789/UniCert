@@ -1,5 +1,4 @@
 import { feedbackPagination } from "../../models/feedback";
-import { FaQuoteLeft } from "react-icons/fa";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
