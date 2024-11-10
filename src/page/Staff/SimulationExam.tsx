@@ -177,7 +177,7 @@ const SimulationExam = () => {
               <Table
                 columns={columns}
                 dataSource={paginatedData}
-                rowKey="jobPositionId"
+                rowKey="examId"
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}

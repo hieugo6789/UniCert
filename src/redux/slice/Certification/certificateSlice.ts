@@ -30,6 +30,22 @@ export const fetchAllCertificatePagination = createAsyncThunk(
     }
   }
 );
+export const fetchTopCertificate = createAsyncThunk(
+  "students/fetchTopCertificate",
+  async (topN: number) => {
+    try {
+      const response = await agent.Certificate.getTopCertification(topN);
+      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return {
+          message: error.response?.data.error.message,
+          status: error.response?.status,
+        };
+      }
+    }
+  }
+);
 
 const certificateSlice = createSlice({
   name: "Certificate",

@@ -10,6 +10,7 @@ export interface allExamPaginationData {
   examPermission: string;
   duration: number;
   questionCount: number;
+  feedbackCount: number;
   certificationDetails: [
     {
       certId: number;
@@ -36,6 +37,7 @@ export interface currentExam {
   examPermission: string;
   duration: number;
   questionCount: number;
+  feedbackCount: number;
   certificationDetails: [
     {
       certId: number;
@@ -63,6 +65,7 @@ export interface currentExamDetail {
   examPermission: string;
   duration: number;
   questionCount: number;
+  feedbackCount: number;
   listQuestions: [
     {
       questionId: number;

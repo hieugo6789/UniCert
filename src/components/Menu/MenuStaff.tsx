@@ -7,6 +7,7 @@ import { GrWorkshop } from "react-icons/gr";
 import { GiTeacher } from "react-icons/gi";
 import { PiExamBold } from "react-icons/pi";
 import UniCertLogo from "../../assets/images/UniCertLogo.png";
+import { RiFeedbackFill } from "react-icons/ri";
 
 const MenuStaff = () => {
   return (
@@ -128,6 +129,21 @@ const MenuStaff = () => {
             <PiExamBold className="mr-3" />
           </span>
           Simulation Exam
+        </span>
+      </NavLink>
+      <NavLink
+        to="/staff/feedback"
+        className={({ isActive }) =>
+          isActive
+            ? "flex items-center p-2 mb-2 bg-purple-200 rounded-lg"
+            : "flex items-center p-2 mb-2 text-gray-800 hover:bg-gray-100 rounded-lg"
+        }
+      >
+        <span className="pl-2 flex items-center">
+          <span>
+            <RiFeedbackFill className="mr-3" />{" "}
+          </span>
+          Feedback
         </span>
       </NavLink>
     </div>

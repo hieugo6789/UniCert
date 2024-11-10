@@ -8,7 +8,7 @@ import { PlusOutlined } from "@ant-design/icons";
 
 const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { handleCreateExam } = useCreateExam();
+  const { state, handleCreateExam } = useCreateExam();
   const { certificate } = useCertificate();
   const { voucher } = useVoucher();
 
@@ -32,7 +32,7 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
     try {
       // Validate fields before submission
       await form.validateFields();
-      
+
       let uploadedImageUrl = formData.examImage;
 
       if (selectedImage) {
@@ -97,7 +97,7 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  
+
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -105,7 +105,7 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
       setSelectedImage(file);
       setPreviewImage(URL.createObjectURL(file));
     }
-  };  
+  };
 
   const uploadCloudinary = async () => {
     if (selectedImage) {
@@ -146,6 +146,7 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
         onCancel={handleCancel}
         okText="Create"
         cancelText="Cancel"
+        confirmLoading={state.isCreating}
       >
         <Form
           form={form}
@@ -266,7 +267,7 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
           </Form.Item>
           <Form.Item
             label="Exam Image"
-            name="examImage"            
+            name="examImage"
           >
             <img
               src={previewImage || formData.examImage}
@@ -274,9 +275,9 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
               className="w-32 h-32 bg-gray-300 mb-4"
             />
             <Input
-              name="examImage"            
-              type="file"              
-              onChange={handleImageChange}              
+              name="examImage"
+              type="file"
+              onChange={handleImageChange}
               required
             />
           </Form.Item>

@@ -114,6 +114,8 @@ const Certificate = {
     ),
   getCertificateDetail: (certId: number | undefined) =>
     requests.get(`api/v1/certification/${certId}`),
+  getTopCertification: (topN: number) =>
+    requests.get(`/api/v1/top-search/${topN}`),
   createCertificate: (input: createCertificate) =>
     requests.post("/api/v1/certification", input),
   deleteCertificate: (certId: number) =>
@@ -217,6 +219,7 @@ const Question = {
 };
 
 const FeedBack = {
+  getAllFeedback: () => requests.get("api/v1/feedback"),
   getFeedbackByExamId: (examId: number) =>
     requests.get(`api/v1/feedback/exam/${examId}`),
   getFeedbackDetail: (feedbackId: number) =>

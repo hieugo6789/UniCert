@@ -48,6 +48,8 @@ import ManageQuestion from "./page/Staff/ManageQuestion";
 import ExamDetailPage from "./page/User/Exam/ExamDetailPage";
 import SubmitExamPage from "./page/User/Exam/SubmitExamPage";
 import ExamResultPage from "./page/User/Exam/ExamResultPage";
+import Feedback from "./page/Staff/Feedback";
+import FeedbackForStaff from "./components/Feedback/FeedbackForStaff";
 const Layout = () => {
   return (
     <>
@@ -125,6 +127,8 @@ function App() {
         { path: "major", element: <Major /> },
         { path: "organizations", element: <Organizations /> },
         { path: "certificate", element: <Certificate /> },
+        { path: "feedback", element: <Feedback /> },
+        { path: "feedback/exam/:id", element: <FeedbackForStaff /> },
       ],
     },
   ]);
