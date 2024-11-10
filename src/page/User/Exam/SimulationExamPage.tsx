@@ -52,10 +52,12 @@ const SimulationExamPage = () => {
     setSelectedAnswers(newAnswers);
   };
 
-  const [timeLeft, setTimeLeft] = useState(duration * 60);
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
 
   useEffect(() => {
-    setTimeLeft(duration * 60);
+    if (duration > 0) {
+      setTimeLeft(duration * 60);
+    }
   }, [duration]);
 
   useEffect(() => {
@@ -63,10 +65,13 @@ const SimulationExamPage = () => {
       alert("Time's up!");
       return;
     }
-    const countdown = setInterval(() => {
-      setTimeLeft((prevTime) => prevTime - 1);
-    }, 1000);
-    return () => clearInterval(countdown);
+
+    if (timeLeft !== null) {
+      const countdown = setInterval(() => {
+        setTimeLeft((prevTime) => (prevTime as number) - 1);
+      }, 1000);
+      return () => clearInterval(countdown);
+    }
   }, [timeLeft]);
 
   const formatTime = (seconds: number) => {
@@ -80,7 +85,9 @@ const SimulationExamPage = () => {
       <div className="flex flex-col p-4 w-full xl:col-span-4 pb-32 xl:pb-4">
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <h2 className="text-lg font-semibold text-gray-700">Time Remaining</h2>
-          <div className="text-4xl font-bold text-blue-600 mt-2">{formatTime(timeLeft)}</div>
+          <div className="text-4xl font-bold text-blue-600 mt-2">
+            {timeLeft !== null ? formatTime(timeLeft) : "Loading..."}
+          </div>
         </div>
         {questions[currentQuestionIndex] && (
           <QuestionCard
