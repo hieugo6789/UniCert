@@ -11,6 +11,7 @@ import CreateJob from "../../components/JobPosition/CreateJob";
 import UpdateJobPosition from "../../components/JobPosition/UpdateJobPosition";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import ViewJobPosition from "../../components/JobPosition/ViewJobPosition";
+import Notification from "../../components/UI/Notification";
 
 const { confirm } = Modal;
 
@@ -182,7 +183,10 @@ const JobPosition = () => {
             <CreateJob refetchJobPositions={refetchJobs} />
           </div>
         </div>
-        <div className="mr-10">
+        <div className="mr-10 flex items-center">
+          <div className="mr-6">
+            <Notification />
+          </div>
           <AvatarAdmin />
         </div>
       </div>

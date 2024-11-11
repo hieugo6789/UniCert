@@ -9,6 +9,7 @@ import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import UploadExamTemplate from "../../components/Exam/UploadExamTemplate";
 import UpdateQuestion from "../../components/Exam/Question/UpdateQuestion";
 import Breadcrumbs from "../../components/UI/Breadcrumb";
+import Notification from "../../components/UI/Notification";
 
 const ManageQuestion = () => {
   const { id } = useParams();
@@ -70,7 +71,10 @@ const ManageQuestion = () => {
             refetchExams={() => getExamDetails(Number(id))}
           />
         </div>
-        <div className="mr-10">
+        <div className="mr-10 flex items-center">
+          <div className="mr-6">
+            <Notification />
+          </div>
           <AvatarAdmin />
         </div>
       </div>

@@ -8,6 +8,7 @@ import UpdateCourse from "../../components/Course/UpdateCourse";
 import CreateCourse from "../../components/Course/CreateCourse";
 import ViewDetailCourse from "../../components/Course/ViewDetailCourse";
 import Coin from "../../assets/images/Coin.png";
+import Notification from "../../components/UI/Notification";
 
 const { confirm } = Modal;
 
@@ -152,7 +153,10 @@ const InternalCourses = () => {
           </div>
         </div>
 
-        <div className="mr-10">
+        <div className="mr-10 flex items-center">
+          <div className="mr-6">
+            <Notification />
+          </div>
           <AvatarAdmin />
         </div>
       </div>

@@ -9,6 +9,7 @@ import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import UpdateOrganize from "../../components/Organization/UpdateOrganize";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import ViewOrganize from "../../components/Organization/ViewOrganize";
+import Notification from "../../components/UI/Notification";
 
 const { confirm } = Modal;
 
@@ -173,7 +174,10 @@ const Organizations = () => {
             </Button>
           </div>
         </div>
-        <div className="mr-10">
+        <div className="mr-10 flex items-center">
+          <div className="mr-6">
+            <Notification />
+          </div>
           <AvatarAdmin />
         </div>
       </div>
