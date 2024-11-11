@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import MenuManager from "../Menu/MenuManager";
 import AvatarAdmin from "../Header/AvatarAdmin";
+import Notification from "../UI/Notification";
 
 const LayoutManager = () => {
   return (
@@ -10,6 +11,9 @@ const LayoutManager = () => {
       </div>
       <div className="col-span-10 bg-gradient-to-r from-indigo-50 to-indigo-100">
         <div className="h-[9vh] flex justify-end mr-10 items-center">
+          <div className="mr-6">
+            <Notification />
+          </div>
           <AvatarAdmin />
         </div>
         <div className="h-[91vh] ">

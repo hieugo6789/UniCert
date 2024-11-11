@@ -294,6 +294,12 @@ const Score = {
 const Dashboard = {
   getSummary: () => requests.get("api/v1/dashboard/summary"),
 };
+const Notification = {
+  getNotification: (role: string) =>
+    requests.get(`api/v1/notification/${role}`),
+  updateIsRead: (role: string) =>
+    requests.put1(`api/v1/notification/IsRead?role=${role}`),
+};
 const agent = {
   Major,
   Account,
@@ -315,5 +321,6 @@ const agent = {
   Enrollment,
   Score,
   Dashboard,
+  Notification,
 };
 export default agent;
