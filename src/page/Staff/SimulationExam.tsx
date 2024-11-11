@@ -9,6 +9,7 @@ import UpdateExam from "../../components/Exam/UpdateExam";
 import CreateExam from "../../components/Exam/CreateExam";
 import Coin from "../../assets/images/Coin.png";
 import { Link } from "react-router-dom";
+import Notification from "../../components/UI/Notification";
 
 const { confirm } = Modal;
 
@@ -164,7 +165,10 @@ const SimulationExam = () => {
         <div className="flex justify-between items-center">
           <CreateExam refetchExams={refetchExams} />
         </div>
-        <div className="mr-10">
+        <div className="mr-10 flex items-center">
+          <div className="mr-6">
+            <Notification />
+          </div>
           <AvatarAdmin />
         </div>
       </div>

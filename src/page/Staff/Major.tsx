@@ -11,6 +11,7 @@ import useDeleteMajor from "../../hooks/Major/useDeleteMajor";
 import UpdateMajor from "../../components/Majors/UpdateMajor";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import ViewMajorDetail from "../../components/Majors/ViewMajorDetail";
+import Notification from "../../components/UI/Notification";
 
 const { confirm } = Modal;
 
@@ -182,7 +183,10 @@ const Major = () => {
             <CreateMajor refetchMajors={refetchMajors} />
           </div>
         </div>
-        <div className="mr-10">
+        <div className="mr-10 flex items-center">
+          <div className="mr-6">
+            <Notification />
+          </div>
           <AvatarAdmin />
         </div>
       </div>

@@ -11,6 +11,7 @@ import CreateCert from "../../components/Certifications/CreateCert";
 import UpdateCert from "../../components/Certifications/UpdateCert";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import ViewCertification from "../../components/Certifications/ViewCertification";
+import Notification from "../../components/UI/Notification";
 
 const { confirm } = Modal;
 
@@ -158,7 +159,10 @@ const Certificate = () => {
             <CreateCert refetchCertificates={refetchCertificates} />
           </div>
         </div>
-        <div className="mr-10">
+        <div className="mr-10 flex items-center">
+          <div className="mr-6">
+            <Notification />
+          </div>
           <AvatarAdmin />
         </div>
       </div>
