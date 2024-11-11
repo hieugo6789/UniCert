@@ -24,7 +24,7 @@ const useNotification = ({ role }: UseNotificationProps) => {
   };
   useEffect(() => {
     fetchNotifications(role);
-  }, [dispatch, role]);
+  }, [dispatch]);
 
   return { notification, loading };
 };
