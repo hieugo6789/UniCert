@@ -7,6 +7,7 @@ import useFeedback from "../../hooks/Feedback/useFeedback";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { feedbackPagination } from "../../models/feedback";
+import Breadcrumbs from "../UI/Breadcrumb";
 
 const { confirm } = Modal;
 
@@ -56,6 +57,12 @@ const FeedbackForStaff = () => {
         </div>
       </div>
       <div className=" gap-4 p-2 min-h-[90vh]">
+        <Breadcrumbs
+          items={[
+            { label: "Feedback Management", link: "/staff/feedback" },
+            { label: `EID-${id}` },
+          ]}
+        />
         <div className="p-4">
           {loading ? (
             <div className="flex justify-center items-center h-[80vh]">

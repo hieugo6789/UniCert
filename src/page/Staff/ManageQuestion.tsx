@@ -8,6 +8,7 @@ import useDeleteQuestion from "../../hooks/SimulationExam/Question/useDeleteQues
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import UploadExamTemplate from "../../components/Exam/UploadExamTemplate";
 import UpdateQuestion from "../../components/Exam/Question/UpdateQuestion";
+import Breadcrumbs from "../../components/UI/Breadcrumb";
 
 const ManageQuestion = () => {
   const { id } = useParams();
@@ -75,6 +76,12 @@ const ManageQuestion = () => {
       </div>
 
       <div className="gap-4 p-2 min-h-[90vh]">
+        <Breadcrumbs
+          items={[
+            { label: "Exam management", link: "/staff/simulationExam" },
+            { label: `Question` },
+          ]}
+        />
         <div>
           {state.currentExam.listQuestions?.map((question, index) => (
             <div

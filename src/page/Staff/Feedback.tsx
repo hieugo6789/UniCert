@@ -18,7 +18,24 @@ const Feedback = () => {
     navigate(`/staff/feedback/exam/${record.examId}`);
   };
   const columns = [
-    { title: "Name", dataIndex: "examName", key: "examName" },
+    {
+      title: "ID",
+      key: "examName",
+      render: (record: any) => <div>EID-{record.examId}</div>,
+    },
+    { title: "Exam Name", dataIndex: "examName", key: "examName" },
+    {
+      title: "Exam code",
+      key: "examCode",
+      render: (record: any) => (
+        <Tag
+          className="flex items-center w-fit"
+          color="blue"
+        >
+          <div className="ml-1">{record.examCode}</div>
+        </Tag>
+      ),
+    },
     {
       title: "Feedback",
       key: "feedbackCount",
@@ -40,7 +57,7 @@ const Feedback = () => {
 
   return (
     <>
-      <div className="h-[10vh] flex justify-between items-center">
+      <div className="h-[9vh] flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-semibold mb-4 ml-6">
             Feedback Management
@@ -50,7 +67,7 @@ const Feedback = () => {
           <AvatarAdmin />
         </div>
       </div>
-      <div className=" p-2  min-h-[90vh]">
+      <div className=" p-2  min-h-[91vh]">
         <div className=" bg-white p-4 rounded-lg shadow-lg">
           <div className="h-[76vh]">
             {loading ? (
