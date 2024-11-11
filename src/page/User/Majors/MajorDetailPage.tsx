@@ -3,11 +3,11 @@ import { Link, useParams } from "react-router-dom";
 import { allMajorPaginationData } from "../../../models/major";
 import { cardCertificate } from "../../../models/certificate";
 import useMajorDetail from "../../../hooks/Major/useMajorDetail";
-import useJobDetail from "../../../hooks/JobPosition/useJobDetail";
+import useFilterMajor from "../../../hooks/Major/useFilterMajor";
 import CertificateCard from "../../../components/Certifications/CertificateCard";
 
 const MajorDetailPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>(); 
   const [major, setMajor] = useState<allMajorPaginationData | null>(null);
   const [allCerts, setAllCerts] = useState<cardCertificate[]>([]);
   const [filteredCerts, setFilteredCerts] = useState<cardCertificate[]>([]);
@@ -19,7 +19,7 @@ const MajorDetailPage: React.FC = () => {
   const itemsPerPage = 8; // Number of items to display per page
 
   const { state, getMajorDetails } = useMajorDetail();
-  const { state: jobState, getJobDetails } = useJobDetail();
+  const { major: filteredMajor } = useFilterMajor({ jobId: selectedJob, majorId: id || '' });
 
   // Create a ref for the certifications header
   const certificationsHeaderRef = useRef<HTMLHeadingElement>(null);
@@ -51,27 +51,21 @@ const MajorDetailPage: React.FC = () => {
       }
     };
     getJob();
-  }, [state]);
+  }, [state]);  
 
-  useEffect(() => {
-    setFilteredCerts([]);
-    if (selectedJob === "all")
-    setFilteredCerts(allCerts);
-    else
-      getJobDetails(selectedJob);
-    return;
-  }, [selectedJob]);
-
-  useEffect(() => {
-    if (jobState.currentJob) {
-      const approvedJobCerts = jobState.currentJob.certificationDetails
-        ? jobState.currentJob.certificationDetails.filter(
-            (cert) => cert.permission === "Approve"
-          )
-        : [];
-      setFilteredCerts(approvedJobCerts);
+  useEffect(() => {        
+    console.log('filteredMajor:', filteredMajor);
+    if (selectedJob === "all") {
+      setFilteredCerts(allCerts);
+    } else {
+      const approvedCerts = filteredMajor?.flatMap(major => 
+        major.certificationDetails?.filter(cert => cert.permission === "Approve") || []
+      ) || [];
+      
+      setFilteredCerts(approvedCerts);
     }
-  }, [jobState.currentJob]);  
+    return;
+  }, [selectedJob, filteredMajor, allCerts]);
 
   // Handle filtering by job position  
   const handleJobPositionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

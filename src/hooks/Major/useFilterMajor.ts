@@ -30,8 +30,10 @@ const useFilterMajor = ({ jobId, majorId }: useFilterMajorProps) => {
     }
   };
   useEffect(() => {
-    fetchMajors({ jobId, majorId });
-  }, [dispatch]);
+    if (jobId && majorId) {
+      fetchMajors({ jobId, majorId });
+    }
+  }, [jobId, majorId, dispatch]);
 
   return { major, loading };
 };
