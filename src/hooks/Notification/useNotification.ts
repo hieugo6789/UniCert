@@ -26,6 +26,6 @@ const useNotification = ({ role }: UseNotificationProps) => {
     fetchNotifications(role);
   }, [dispatch]);
 
-  return { notification, loading };
+  return { notification, loading, refetch: fetchNotifications };
 };
 export default useNotification;
