@@ -71,6 +71,8 @@ const Major = {
     requests.put1(
       `api/v1/major/Permission?majorId=${majorId}&majorPermission=${permission}`
     ),
+  filterMajor: (majorId: string, jobId: string) =>
+    requests.get(`api/v1/major/${majorId}/jobPosition/${jobId}`),
 };
 const Organization = {
   getAllOrganizations: (name?: string) =>

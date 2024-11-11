@@ -1,13 +1,14 @@
 import { useState } from "react";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import useExam from "../../hooks/SimulationExam/useExam";
-import { Pagination, Table } from "antd";
+import { Pagination, Table, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
+import { FiMessageCircle } from "react-icons/fi";
 
 const Feedback = () => {
   const navigate = useNavigate();
   const { exam, loading } = useExam();
-  const [pageSize] = useState(10);
+  const [pageSize] = useState(9);
 
   const [currentPage, setCurrentPage] = useState(1);
   const handlePaginationChange = (page: number) => {
@@ -18,7 +19,19 @@ const Feedback = () => {
   };
   const columns = [
     { title: "Name", dataIndex: "examName", key: "examName" },
-    { title: "Feedback", dataIndex: "feedbackCount", key: "feedbackCount" },
+    {
+      title: "Feedback",
+      key: "feedbackCount",
+      render: (record: any) => (
+        <Tag
+          className="flex items-center w-fit"
+          color="green"
+        >
+          <FiMessageCircle />
+          <div className="ml-1">{record.feedbackCount}</div>
+        </Tag>
+      ),
+    },
   ];
   const paginatedData = exam.slice(
     (currentPage - 1) * pageSize,
@@ -49,7 +62,7 @@ const Feedback = () => {
                 rowKey="examId"
                 pagination={false}
                 loading={loading}
-                rowClassName={() => "h-[7.3vh] cursor-pointer"}
+                rowClassName={() => "h-[7.7vh] cursor-pointer"}
                 className="header-bg-pink"
                 onRow={(record) => ({
                   onClick: () => handleRowClick(record),

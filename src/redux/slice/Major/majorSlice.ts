@@ -37,6 +37,23 @@ export const fetchAllMajorPagination = createAsyncThunk(
     }
   }
 );
+export const fetchFilterMajor = createAsyncThunk(
+  "admin/fetchFilterMajor",
+  async ({ majorId, jobId }: { majorId: string; jobId: string }) => {
+    try {
+      const response = await agent.Major.filterMajor(majorId, jobId);
+      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return {
+          message:
+            error.response?.data?.error?.message || "Failed to filter majors",
+          status: error.response?.status,
+        };
+      }
+    }
+  }
+);
 const majorSlice = createSlice({
   name: "major",
   initialState,
