@@ -12,9 +12,10 @@ import { allCoursePaginationData } from '../../models/course';
 
 interface SearchDropdownProps {
   onItemSelect?: () => void;
+  isMobile?: boolean;
 }
 
-const SearchDropdown = ({ onItemSelect }: SearchDropdownProps) => {
+const SearchDropdown = ({ onItemSelect, isMobile = false }: SearchDropdownProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -111,22 +112,36 @@ const SearchDropdown = ({ onItemSelect }: SearchDropdownProps) => {
           onChange={handleInputChange}
           onFocus={() => setIsOpen(true)}
           placeholder="Search certifications, courses..."
-          className="w-full bg-gray-200 text-black rounded-full px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"
+          className={`w-full px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+            isMobile 
+              ? 'bg-gray-800 text-white placeholder:text-gray-400 rounded-lg'
+              : 'bg-gray-200 text-black rounded-full'
+          }`}
         />
-        <SearchOutlined className="absolute right-3 top-3 text-gray-500" />
+        <SearchOutlined className={`absolute right-3 top-3 ${isMobile ? 'text-gray-400' : 'text-gray-500'}`} />
       </div>
 
       {isOpen && searchTerm && (
-        <div className="absolute w-full mt-1 bg-white rounded-lg shadow-lg border z-50 max-h-[60vh] overflow-y-auto">
+        <div className={`${
+          isMobile 
+            ? 'fixed left-0 right-0 top-[73px] bottom-0 bg-gray-950 overflow-y-auto'
+            : 'absolute w-full mt-1 bg-white rounded-lg shadow-lg border max-h-[80vh] overflow-y-auto'
+        } z-50`}>
           {/* Certificates Section */}
           {filteredCertificates.length > 0 && (
-            <div className="p-3 border-b">
-              <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2">Certificates</h3>
+            <div className={`p-3 ${isMobile ? 'border-b border-gray-800' : 'border-b'}`}>
+              <h3 className={`text-xs font-semibold uppercase mb-2 ${
+                isMobile ? 'text-gray-400' : 'text-gray-500'
+              }`}>Certificates</h3>
               {filteredCertificates.slice(0, 3).map((item) => (
                 <div
                   key={item.certId}
                   onClick={() => handleItemClick('certificate', item.certId.toString())}
-                  className="flex items-center gap-3 py-2.5 px-3 hover:bg-gray-100 cursor-pointer rounded transition-colors"
+                  className={`flex items-center gap-3 py-2.5 px-3 cursor-pointer rounded transition-colors ${
+                    isMobile 
+                      ? 'hover:bg-gray-800 text-gray-300'
+                      : 'hover:bg-gray-100 text-gray-900'
+                  }`}
                 >
                   <img src={item.certImage} alt="" className="w-10 h-10 rounded-full object-cover" />
                   <span className="text-sm line-clamp-2">{item.certName}</span>
@@ -137,13 +152,19 @@ const SearchDropdown = ({ onItemSelect }: SearchDropdownProps) => {
 
           {/* Majors Section */}
           {filteredMajors.length > 0 && (
-            <div className="p-3 border-b">
-              <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2">Majors</h3>
+            <div className={`p-3 ${isMobile ? 'border-b border-gray-800' : 'border-b'}`}>
+              <h3 className={`text-xs font-semibold uppercase mb-2 ${
+                isMobile ? 'text-gray-400' : 'text-gray-500'
+              }`}>Majors</h3>
               {filteredMajors.slice(0, 3).map((item) => (
                 <div
                   key={item.majorId}
                   onClick={() => handleItemClick('major', item.majorId)}
-                  className="flex items-center gap-3 py-2.5 px-3 hover:bg-gray-100 cursor-pointer rounded transition-colors"
+                  className={`flex items-center gap-3 py-2.5 px-3 cursor-pointer rounded transition-colors ${
+                    isMobile 
+                      ? 'hover:bg-gray-800 text-gray-300'
+                      : 'hover:bg-gray-100 text-gray-900'
+                  }`}
                 >
                   <img src={item.majorImage} alt="" className="w-10 h-10 rounded-full object-cover" />
                   <span className="text-sm line-clamp-2">{item.majorName}</span>
@@ -154,13 +175,19 @@ const SearchDropdown = ({ onItemSelect }: SearchDropdownProps) => {
 
           {/* Job Positions Section */}
           {filteredJobs.length > 0 && (
-            <div className="p-3 border-b">
-              <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2">Job Positions</h3>
+            <div className={`p-3 ${isMobile ? 'border-b border-gray-800' : 'border-b'}`}>
+              <h3 className={`text-xs font-semibold uppercase mb-2 ${
+                isMobile ? 'text-gray-400' : 'text-gray-500'
+              }`}>Job Positions</h3>
               {filteredJobs.slice(0, 3).map((item) => (
                 <div
                   key={item.jobPositionId}
                   onClick={() => handleItemClick('job', item.jobPositionId)}
-                  className="py-2.5 px-3 hover:bg-gray-100 cursor-pointer rounded transition-colors"
+                  className={`py-2.5 px-3 cursor-pointer rounded transition-colors ${
+                    isMobile 
+                      ? 'hover:bg-gray-800 text-gray-300'
+                      : 'hover:bg-gray-100 text-gray-900'
+                  }`}
                 >
                   <span className="text-sm line-clamp-2">{item.jobPositionName}</span>
                 </div>
@@ -170,13 +197,19 @@ const SearchDropdown = ({ onItemSelect }: SearchDropdownProps) => {
 
           {/* Courses Section */}
           {filteredCourses.length > 0 && (
-            <div className="p-3">
-              <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2">Courses</h3>
+            <div className={`p-3 ${isMobile ? 'border-b border-gray-800' : 'border-b'}`}>
+              <h3 className={`text-xs font-semibold uppercase mb-2 ${
+                isMobile ? 'text-gray-400' : 'text-gray-500'
+              }`}>Courses</h3>
               {filteredCourses.slice(0, 3).map((item) => (
                 <div
                   key={item.courseId}
                   onClick={() => handleItemClick('course', item.courseId)}
-                  className="flex items-center gap-3 py-2.5 px-3 hover:bg-gray-100 cursor-pointer rounded transition-colors"
+                  className={`flex items-center gap-3 py-2.5 px-3 cursor-pointer rounded transition-colors ${
+                    isMobile 
+                      ? 'hover:bg-gray-800 text-gray-300'
+                      : 'hover:bg-gray-100 text-gray-900'
+                  }`}
                 >
                   <img src={item.courseImage} alt="" className="w-10 h-10 rounded-full object-cover" />
                   <span className="text-sm line-clamp-2">{item.courseName}</span>
@@ -188,7 +221,9 @@ const SearchDropdown = ({ onItemSelect }: SearchDropdownProps) => {
           {/* No Results */}
           {!filteredCertificates.length && !filteredMajors.length && 
            !filteredJobs.length && !filteredCourses.length && (
-            <div className="p-4 text-center text-gray-500 text-sm">
+            <div className={`p-4 text-center text-sm ${
+              isMobile ? 'text-gray-400' : 'text-gray-500'
+            }`}>
               No results found
             </div>
           )}
