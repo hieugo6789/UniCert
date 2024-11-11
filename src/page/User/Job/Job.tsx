@@ -4,34 +4,11 @@ import useJobPosition from "../../../hooks/JobPosition/useJobPosition";
 import Loading from "../../../components/UI/Loading";
 import JobPositionCard from "../../../components/JobPosition/JobPositionCard";
 import CertificateCard from "../../../components/Certifications/CertificateCard";
-import { cardCertificate } from "../../../models/certificate";
 import { Pagination } from "antd";
+import useTopCert from "../../../hooks/Certification/useTopCert";
 
 const Job = () => {
-  const [topCert] = useState<cardCertificate[]>([
-    {
-      certId: 1,
-      certName: "AWS Certified Developer",
-      certCode: "AWS-CD",
-      certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-      certImage: "",
-      certValidity: "3 years",
-      organizeName: "Amazon Web Services",
-      typeName: "Associate",
-    },
-    {
-      certId: 2,
-      certName: "AWS Certified Developer",
-      certCode: "AWS-CD",
-      certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-      certImage: "",
-      certValidity: "3 years",
-      organizeName: "Amazon Web Services",
-      typeName: "Associate",
-    },
-  ]);
+  const { certificate } = useTopCert({ topN: 2 });
 
   const { job, loading, refetchJobs } = useJobPosition();
   const [jobs, setJobs] = useState<allJobPaginationData[]>([]);
@@ -164,7 +141,7 @@ const Job = () => {
           <div className="lg:w-1/4">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Top Certificates</h2>
             <div className="space-y-4">
-              {topCert.map((cert) => (
+              {certificate.map((cert) => (
                 <CertificateCard {...cert} key={cert.certId} />
               ))}
             </div>

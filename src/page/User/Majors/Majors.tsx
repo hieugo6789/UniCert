@@ -3,34 +3,11 @@ import MajorCard from "../../../components/Majors/MajorCard";
 import { allMajorPaginationData } from "../../../models/major";
 import useMajor from "../../../hooks/Major/useMajor";
 import CertificateCard from "../../../components/Certifications/CertificateCard";
-import { cardCertificate } from "../../../models/certificate";
 import Loading from "../../../components/UI/Loading";
+import useTopCert from "../../../hooks/Certification/useTopCert";
 
 const Majors = () => {
-  const [topCert] = useState<cardCertificate[]>([
-    {
-      certId: 1,
-      certName: "AWS Certified Developer",
-      certCode: "AWS-CD",
-      certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-      certImage: "",
-      certValidity: "3 years",
-      organizeName: "Amazon Web Services",
-      typeName: "Associate",
-    },
-    {
-      certId: 2,
-      certName: "AWS Certified Developer",
-      certCode: "AWS-CD",
-      certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-      certImage: "",
-      certValidity: "3 years",
-      organizeName: "Amazon Web Services",
-      typeName: "Associate",
-    },
-  ]);
+  const { certificate } = useTopCert({ topN: 4 });
 
   const { major, refetchMajors, loading } = useMajor();
   const [majors, setMajors] = useState<allMajorPaginationData[]>([]);
@@ -194,7 +171,7 @@ const Majors = () => {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {topCert.map((cert) => (
+            {certificate.map((cert) => (
               <CertificateCard {...cert} key={cert.certId} />
             ))}
           </div>

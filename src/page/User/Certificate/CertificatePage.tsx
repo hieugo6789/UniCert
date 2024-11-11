@@ -1,36 +1,14 @@
 import CertificateCard from "../../../components/Certifications/CertificateCard";
 import banner from "../../../assets/images/Certification/banner1.jpg"
 import { useEffect, useState } from "react";
-import { allCertificationData, cardCertificate } from "../../../models/certificate";
+import { allCertificationData } from "../../../models/certificate";
 import useCertificate from "../../../hooks/Certification/useCertificate";
 import { Link } from "react-router-dom";
 import Loading from "../../../components/UI/Loading";
+import useTopCert from "../../../hooks/Certification/useTopCert";
 
 const CertificatePage = () => {
-  const [topCert] = useState<cardCertificate[]>([
-    {
-      certId: 1,
-      certName: "AWS Certified Solutions Architect",
-      certCode: "AWS-CSA",
-      certDescription:
-        "The AWS Certified Solutions Architect – Associate examination is intended for individuals who perform a solutions architect role and have one or more years of hands-on experience designing available, cost-efficient, fault-tolerant, and scalable distributed systems on AWS.",            
-      certImage: "",
-      certValidity: "3 years",      
-      organizeName: "Amazon Web Services",      
-      typeName: "Associate",      
-    },
-    {
-      certId: 2,
-      certName: "AWS Certified Developer",
-      certCode: "AWS-CD",
-      certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",          
-      certImage: "",
-      certValidity: "3 years",
-      organizeName: "Amazon Web Services",
-      typeName: "Associate",
-    },
-  ]);
+  const {certificate: topCert} = useTopCert({ topN: 2 });
 
   const [keyword, setKeyword] = useState("");
   const { certificate, loading, refetchCertificates } = useCertificate();

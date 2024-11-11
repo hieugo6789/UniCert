@@ -1,58 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import CustomCarousel from "../../components/Carousel/CustomCarousel";
-import { cardCertificate } from "../../models/certificate";
 import CertificateCard from "../../components/Certifications/CertificateCard";
 import CustomButton from "../../components/UI/CustomButton";
 import { useNavigate  } from "react-router-dom";
-// import Banner1 from "../../assets/images/Banner/Banner1.png";
+import useTopCert from "../../hooks/Certification/useTopCert";
+
 const HomePage = () => {
   const navigate = useNavigate();
-  const [topCert] = useState<cardCertificate[]>([
-    {
-      certId: 1,
-      certName: "AWS Certified Developer",
-      certCode: "AWS-CD",
-      certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",      
-      certImage: "",
-      certValidity: "3 years",      
-      organizeName: "Amazon Web Services",      
-      typeName: "Associate",      
-    },
-    {
-      certId: 2,
-      certName: "AWS Certified Developer",
-      certCode: "AWS-CD",
-      certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",            
-      certImage: "",
-      certValidity: "3 years",      
-      organizeName: "Amazon Web Services",      
-      typeName: "Associate",      
-    },
-    {
-      certId: 3,
-      certName: "AWS Certified Developer",
-      certCode: "AWS-CD",
-      certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",      
-      certImage: "",
-      certValidity: "3 years",      
-      organizeName: "Amazon Web Services",      
-      typeName: "Associate",      
-    },
-    {
-      certId: 4,
-      certName: "AWS Certified Developer",
-      certCode: "AWS-CD",
-      certDescription:
-        "The AWS Certified Developer – Associate examination is intended for individuals who perform a development role and have one or more years of hands-on experience developing and maintaining an AWS-based application.",
-      certImage: "",
-      certValidity: "3 years",      
-      organizeName: "Amazon Web Services",      
-      typeName: "Associate",      
-    },
-  ]);
+  const {certificate} = useTopCert({ topN: 4 });   
 
   // Function to handle the fade-in effect
   const handleIntersection = (entries: any) => {
@@ -65,21 +20,23 @@ const HomePage = () => {
 
   // Add observer to all elements with class 'fade-in'
   useEffect(() => {
+    if (certificate.length === 0) return; // Đợi dữ liệu được load xong
+  
     const observer = new IntersectionObserver(handleIntersection, {
       threshold: 0.1,
     });
-
+  
     const elements = document.querySelectorAll(".fade-in");
     elements.forEach((element) => {
       observer.observe(element);
     });
-
+  
     return () => {
       elements.forEach((element) => {
         observer.unobserve(element);
       });
     };
-  }, []);
+  }, [certificate]);
 
   useEffect(() => {
     const scrollToTop = () => {
@@ -202,9 +159,9 @@ const HomePage = () => {
             Best Certificate For You
           </h1>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {topCert.map((cert) => (
-              <div key={cert.certId} className="fade-in transform hover:scale-105 transition duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {certificate.map((cert) => (
+              <div key={cert.certId} className="fade-in transition duration-300">
                 <CertificateCard {...cert} />
               </div>
             ))}
