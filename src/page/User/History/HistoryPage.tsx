@@ -70,54 +70,79 @@ const HistoryPage = () => {
   });
 
   return (
-    <div className="p-6">
-      <h1 className="text-4xl font-bold mb-4">History</h1>
-      <div className="flex border-b-2 border-gray-200 mb-4">
-        <button
-          className={`p-2 ${activeTab === "exams" ? "border-b-4 border-blue-500 text-blue-500" : ""}`}
-          onClick={() => setActiveTab("exams")}
-        >
-          Purchased Exams
-        </button>
-        <button
-          className={`p-2 ${activeTab === "courses" ? "border-b-4 border-blue-500 text-blue-500" : ""}`}
-          onClick={() => setActiveTab("courses")}
-        >
-          Purchased Courses
-        </button>
-      </div>
-
-      <div>
-        {activeTab === "exams" ? (
-          <div className="mr-20 ml-20">
-            <h2 className="text-xl font-semibold mb-2">Your Purchased Exams</h2>
-            <section className="grid gap-6 ">
-              {purchasedExams.length > 0 ? (
-                purchasedExams.map((exam) => (
-                  <HistoryExamCard key={exam.examEnrollmentId} enrollment={exam} />
-                ))
-              ) : (
-                <p>No purchased exams found.</p>
-              )}
-            </section>
+    <div className="min-h-screen bg-gray-50 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight mb-8">Purchase History</h1>
+          
+          {/* Tabs */}
+          <div className="bg-white rounded-lg shadow mb-8">
+            <nav className="flex justify-center space-x-8" aria-label="Tabs">
+              <button
+                onClick={() => setActiveTab("exams")}
+                className={`px-6 py-4 text-lg font-medium border-b-2 transition-colors duration-200 ${
+                  activeTab === "exams"
+                    ? "border-blue-500 text-blue-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                Exam Enrollments
+              </button>
+              <button
+                onClick={() => setActiveTab("courses")}
+                className={`px-6 py-4 text-lg font-medium border-b-2 transition-colors duration-200 ${
+                  activeTab === "courses"
+                    ? "border-blue-500 text-blue-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                Course Enrollments
+              </button>
+            </nav>
           </div>
-        ) : (
-          <div className="mr-20 ml-20">
-            <h2 className="text-xl font-semibold mb-2">Your Purchased Courses</h2>
-            <section className="grid gap-6 ">
-              {purchasedCourses.length > 0 ? (
-                purchasedCourses.map((course) => (
-                  <HistoryCourseCard key={course.courseEnrollmentId} enrollment={course} />
-                ))
-              ) : (
-                <p>No purchased courses found.</p>
-              )}
-            </section>
+
+          {/* Content */}
+          <div className="space-y-8">
+            {activeTab === "exams" ? (
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Exam Enrollments</h2>
+                {purchasedExams.length > 0 ? (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {purchasedExams.map((exam) => (
+                      <HistoryExamCard key={exam.examEnrollmentId} enrollment={exam} />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <p className="text-gray-500 text-lg">You haven't enrolled in any exams yet.</p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Course Enrollments</h2>
+                {purchasedCourses.length > 0 ? (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {purchasedCourses.map((course) => (
+                      <HistoryCourseCard key={course.courseEnrollmentId} enrollment={course} />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <p className="text-gray-500 text-lg">You haven't enrolled in any courses yet.</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {examLoad && courseLoad && (
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+            <Loading />
           </div>
         )}
       </div>
-
-      {examLoad && courseLoad && <Loading />}
     </div>
   );
 };
