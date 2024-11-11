@@ -5,6 +5,7 @@ export interface feedbackPagination {
   examId: number;
   feedbackCreatedAt: Date;
   feedbackImage?: string;
+  examPermission: string;
   userDetails: {
     userId: number;
     username: string;
@@ -18,6 +19,7 @@ export interface currentFeedback {
   examId: number;
   feedbackCreatedAt: Date;
   feedbackImage: string;
+  examPermission: string;
   userDetails: {
     userId: number;
     username: string;
