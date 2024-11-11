@@ -25,7 +25,7 @@ const useNotification = ({ role }: UseNotificationProps) => {
   useEffect(() => {
     fetchNotifications(role);
 
-    const ws = new WebSocket("https://uni-cert.vercel.app");
+    const ws = new WebSocket("wss://uni-cert.vercel.app");
     ws.onmessage = (event) => {
       const newNotification = JSON.parse(event.data);
       setNotification((prev) => [newNotification, ...prev]);
