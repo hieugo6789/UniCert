@@ -54,7 +54,11 @@ const Notification = () => {
           className="bg-white"
           dataSource={notification}
           renderItem={(notif: allNotificationData) => (
-            <List.Item className="py-2 border-b border-gray-100 last:border-none">
+            <List.Item
+              className={`py-2 border-b border-gray-100 last:border-none ${
+                !notif.isRead ? "bg-blue-100 font-semibold" : ""
+              }`}
+            >
               <p className="text-gray-700">{notif.notificationDescription}</p>
             </List.Item>
           )}

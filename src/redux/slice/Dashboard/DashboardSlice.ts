@@ -31,6 +31,23 @@ export const fetchSummaryDashboard = createAsyncThunk(
   }
 );
 
+export const fetchMonthlyRevenue = createAsyncThunk(
+  "admin/fetchSummaryDashboard",
+  async (year: number) => {
+    try {
+      const response = await agent.Dashboard.getYearRevenue(year);
+      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return {
+          message: error.response?.data.error.message,
+          status: error.response?.status,
+        };
+      }
+    }
+  }
+);
+
 const dashboardSlice = createSlice({
   name: "dashboard",
   initialState,

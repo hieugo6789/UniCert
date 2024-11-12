@@ -293,6 +293,10 @@ const Score = {
 };
 const Dashboard = {
   getSummary: () => requests.get("api/v1/dashboard/summary"),
+  getYearRevenue: (year: number) =>
+    requests.get(`api/v1/dashboard/monthly-revenue/${year}`),
+  getMonthRevenue: (year: number, month: number) =>
+    requests.get(`api/v1/dashboard/weekly-revenue/${year}/${month}`),
 };
 const Notification = {
   getNotification: (role: string) =>
