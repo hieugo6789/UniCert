@@ -79,3 +79,9 @@ export interface createExamEnrollment {
   userId: string;
   simulation_Exams: number[];
 }
+export interface deleteExamEnrollment {
+  examEnrollmentId: number;
+}
+export interface deleteCourseEnrollment {
+  courseEnrollmentId: number;
+}

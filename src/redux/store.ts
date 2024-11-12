@@ -50,8 +50,10 @@ import createTransactionReducer from "./slice/Wallet/createTransactionSlice";
 import cartReducer from "./slice/Cart/CartSlice";
 import examEnrollmentReducer from "./slice/Enrollment/ExamSlice";
 import createExamEnrollmentReducer from "./slice/Enrollment/createExamEnrollSlice";
+import deleteExamEnrollmentReducer from "./slice/Enrollment/deleteExamEnrollSlice";
 import courseEnrollmentReducer from "./slice/Enrollment/CourseSlice";
 import createCourseEnrollmentReducer from "./slice/Enrollment/createCourseEnrollSlice";
+import deleteCourseEnrollmentReducer from "./slice/Enrollment/deleteCourseEnrollSlice";
 import examPaymentReducer from "./slice/Payment/examPaymentSlice";
 import coursePaymentReducer from "./slice/Payment/coursePaymentSlice";
 import createPaymentReducer from "./slice/Payment/createPaymentSlice";
@@ -114,8 +116,10 @@ export const store = configureStore({
     cart: cartReducer,
     examEnrollment: examEnrollmentReducer,
     createExamEnrollment: createExamEnrollmentReducer,
+    deleteExamEnrollment: deleteExamEnrollmentReducer,
     courseEnrollment: courseEnrollmentReducer,
     createCourseEnrollment: createCourseEnrollmentReducer,
+    deleteCourseEnrollment: deleteCourseEnrollmentReducer,
     examPayment: examPaymentReducer,
     coursePayment: coursePaymentReducer,
     createPayment: createPaymentReducer,

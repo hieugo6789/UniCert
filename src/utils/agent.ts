@@ -271,10 +271,14 @@ const Enrollment = {
     requests.get(`api/v1/course-enrollment/user/${userId}`),
   createCourseEnroll: (input: createCourseEnrollment) =>
     requests.post("api/v1/course-enrollment", input),
+  deleteCourseEnrollment: (cEnrollmentId: number) =>
+    requests.del(`api/v1/course-enrollment//${cEnrollmentId}`),
   getExamByUserId: (userId: string) =>
     requests.get(`api/v1/exam-enrollment/get-by-userId/${userId}`),
   createExamEnroll: (input: createExamEnrollment) =>
     requests.post("api/v1/exam-enrollment", input),
+  deleteExamEnrollment: (eEnrollmentId: number) =>
+    requests.del(`api/v1/exam-enrollment/${eEnrollmentId}`),
 };
 
 const Payment = {
