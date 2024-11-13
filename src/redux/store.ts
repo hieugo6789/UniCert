@@ -63,6 +63,9 @@ import createScheduleReducer from "./slice/Schedule/createSchedule";
 import scoreReducer from "./slice/Score/scoreByUserAndExam";
 import dashboardReducer from "./slice/Dashboard/DashboardSlice";
 import notificationReducer from "./slice/Notification/notificationSlice";
+import changePasswordReducer from "./slice/Password/ChangePasswordSlice";
+import resetPasswordReducer from "./slice/Password/ResetPasswordSlice";
+import forgotPasswordReducer from "./slice/Password/ForgotPasswordSlice";
 
 export const store = configureStore({
   reducer: {
@@ -129,6 +132,9 @@ export const store = configureStore({
     score: scoreReducer,
     dashboard: dashboardReducer,
     notification: notificationReducer,
+    changePassword: changePasswordReducer,
+    resetPassword: resetPasswordReducer,
+    forgotPassword: forgotPasswordReducer,
   },
 });
 
