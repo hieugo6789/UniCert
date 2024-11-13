@@ -32,9 +32,14 @@ const createScoreSlice = createSlice({
       state.createdScore = null;
       state.error = true;
     },
+    clearScore: (state) => {
+      state.isCreating = false;
+      state.createdScore = null;
+      state.error = false;
+    },
   },
 });
 
-export const { createScoreStart, createScoreSuccess, createScoreFailure } =
+export const { createScoreStart, createScoreSuccess, createScoreFailure, clearScore } =
   createScoreSlice.actions;
 export default createScoreSlice.reducer;
