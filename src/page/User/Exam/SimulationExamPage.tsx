@@ -3,7 +3,7 @@ import SimulationExamSidebar from "../../../components/Exam/SimulationExamSideba
 import QuestionCard from "../../../components/Exam/QuestionCard";
 import CustomButton from "../../../components/UI/CustomButton";
 import useExamDetail from "../../../hooks/SimulationExam/useExamDetail";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 type Answer = {
   questionId: number;
   userAnswerId: number[];
@@ -59,11 +59,7 @@ const SimulationExamPage = () => {
 
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
 
-  useEffect(() => {
-    if (duration > 0) {
-      setTimeLeft(duration * 60);
-    }
-  }, [duration]);
+
 
   useEffect(() => {
     if (timeLeft === 0) {
@@ -101,6 +97,27 @@ const SimulationExamPage = () => {
       setSelectedAnswers(newSelectedAnswers);
     }
   }, [formattedAnswers, questions]);
+
+  // update timeLeft from location state
+  useEffect(() => {
+    if (location.state?.timeLeft) {
+      setTimeLeft(location.state.timeLeft);
+    } else if (duration > 0) {
+      setTimeLeft(duration * 60);
+    }
+  }, [location.state?.timeLeft, duration]);
+
+  const navigate = useNavigate();
+
+  const handleSubmitExam = () => {
+    const formattedAnswers = questions.map((question, index) => ({
+      questionId: question.id,
+      userAnswerId: [selectedAnswers[index] || 0]
+    }));
+
+    navigate("/exam/" + id + "/simulation/submit", { state: { formattedAnswers, timeLeft } });
+  };
+
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-5 min-h-screen bg-gray-100">
@@ -161,6 +178,8 @@ const SimulationExamPage = () => {
           setCurrentQuestionIndex={setCurrentQuestionIndex}
           selectedAnswers={selectedAnswers}
           flaggedQuestions={flaggedQuestions}
+          timeLeft={timeLeft || 0}
+          handleSubmitExam={handleSubmitExam}
         />
       </div>
     </div>

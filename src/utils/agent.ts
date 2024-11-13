@@ -6,7 +6,7 @@ import {
   createOrganizationModel,
   updateOrganize,
 } from "../models/organization";
-import { UpdateRole } from "../models/user";
+import { ChangePasswordInput, resetPasswordInput, UpdateRole } from "../models/user";
 import { scheduleInput, updateSchedule } from "../models/schedule";
 import { createCertificate, updateCert } from "../models/certificate";
 import { createJobInput, updateJobInput } from "../models/jobPosition";
@@ -308,6 +308,13 @@ const Notification = {
   updateIsRead: (role: string) =>
     requests.put1(`api/v1/notification/IsRead?role=${role}`),
 };
+const ChangePassword = {
+  changePassword: (input: ChangePasswordInput, userId: string) => requests.post(`api/v1/forget-password/change-password/${userId}`, input),
+};
+const resetPassword ={
+  forgotPassword: (input: {email: string}) => requests.post(`api/v1/forget-password/forget-password`, input),
+  resetPassword: (input: resetPasswordInput) => requests.post(`api/v1/forget-password/reset-password`, input),
+}
 const agent = {
   Major,
   Account,
@@ -330,5 +337,7 @@ const agent = {
   Score,
   Dashboard,
   Notification,
+  ChangePassword,
+  resetPassword,
 };
 export default agent;

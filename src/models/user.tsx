@@ -40,3 +40,16 @@ export interface Profile {
   userCreatedAt: Date;
   userImage: string;
 }
+
+
+export interface ChangePasswordInput {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+export interface resetPasswordInput {
+  email: string;
+  resetCode: string;
+  newPassword: string;
+}

@@ -52,6 +52,7 @@ import Feedback from "./page/Staff/Feedback";
 import FeedbackForStaff from "./components/Feedback/FeedbackForStaff";
 import Cookies from "js-cookie";
 import PrivateRoutes from "./routes/PrivateRoutes";
+import ResetPassword from "./page/Login&Register/ResetPassword";
 
 const token = localStorage.getItem("token");
 const role = Cookies.get("role");
@@ -99,6 +100,7 @@ function App() {
     { path: "/login", element: <Login /> },
     { path: "/register", element: <Register /> },
     { path: "/profile", element: <Profile /> },
+    { path: "/reset-password", element: <ResetPassword /> },
     {
       path: "/admin",
       element: (

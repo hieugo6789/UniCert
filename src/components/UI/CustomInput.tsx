@@ -5,6 +5,7 @@ interface CustomInputProps {
     width?: string;
     height?: string;
     placeholder: string;
+    value?: string;
   }
 
 const CustomInput = (props: CustomInputProps) => {
@@ -13,6 +14,7 @@ const CustomInput = (props: CustomInputProps) => {
             <input
               type={props.type}
               placeholder={props.placeholder}
+              value={props.value}
               className={`${props.width} ${
         props.height
       } w-full px-4 py-2 border border-purple-300 rounded-lg placeholder:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400`}

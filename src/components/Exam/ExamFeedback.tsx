@@ -78,6 +78,16 @@ const ExamFeedback = () => {
         setPreviewImage(feedbackImage);  // Set the current feedback image as preview
     };
     
+    // Handle canceling edit
+    const handleCancelEdit = (feedbackId: number) => {
+        setEditingFeedback((prev) => {
+            const updated = { ...prev };
+            delete updated[feedbackId];
+            return updated;
+        });
+        setSelectedImage(null);
+        setPreviewImage(null);
+    };
 
     const handleUpdateFeedback = async (feedbackId: number) => {
         if (editingFeedback[feedbackId] !== undefined) {
@@ -164,43 +174,59 @@ const ExamFeedback = () => {
             <h1 className="text-3xl font-semibold text-center mb-6">Feedback</h1>
 
             {/* Add New Feedback */}
-            <div className="mb-6">
-                <label
-                    htmlFor="uploadFile1"
-                    className="bg-white text-gray-500 font-semibold text-base rounded max-w-full mb-4 h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif]"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-11 mb-2 fill-gray-500" viewBox="0 0 32 32">
-                        <path d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z" />
-                        <path d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z" />
-                    </svg>
-                    Upload file
-
-                    <input type="file" id="uploadFile1" className="hidden" onChange={handleImageChange} />
-                    <p className="text-xs font-medium text-gray-400 mt-2">PNG, JPG SVG, WEBP, and GIF are Allowed.</p>
-                </label>
-                {previewImage && (
-                    <div className="mt-4 mb-4">
-                        <img src={previewImage} alt="Preview" className="w-1/2 h-auto rounded-lg" onClick={() => handleOpenModal(previewImage)}/>
+            <div className="mb-6 max-w-3xl mx-auto">
+                {!previewImage ? (
+                    <label
+                        htmlFor="uploadFile1"
+                        className="bg-white text-gray-500 font-semibold text-base rounded mb-4 h-32 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif] hover:bg-gray-50 transition-all duration-300"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-8 mb-2 fill-gray-500" viewBox="0 0 32 32">
+                            <path d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z" />
+                            <path d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z" />
+                        </svg>
+                        <span className="text-sm">Upload file</span>
+                        <input type="file" id="uploadFile1" className="hidden" onChange={handleImageChange} accept="image/*" />
+                        <p className="text-xs text-gray-400 mt-1">PNG, JPG SVG, WEBP, and GIF are Allowed.</p>
+                    </label>
+                ) : (
+                    <div className="relative group mb-4">
+                        <img 
+                            src={previewImage} 
+                            alt="Preview" 
+                            className="w-full h-48 object-cover rounded-lg cursor-pointer" 
+                            onClick={() => handleOpenModal(previewImage)}
+                        />
+                        <div 
+                            className="absolute top-2 right-2 bg-red-500 p-1 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => {
+                                setSelectedImage(null);
+                                setPreviewImage(null);
+                            }}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </div>
                     </div>
                 )}
 
                 <textarea
                     id="feedbackDescriptionInput"
-                    className="w-full p-4 border-2 border-gray-300 rounded-lg"
+                    className="w-full p-4 border-2 border-gray-300 rounded-lg resize-none focus:border-blue-500 focus:outline-none transition-colors"
                     placeholder="Write your feedback here..."
+                    rows={4}
                 />
 
                 <button
-                    className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg transition-all"
+                    className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg transition-all duration-300 w-full sm:w-auto"
                     onClick={handleSubmitFeedback}
                 >
-                    Submit
+                    Submit Feedback
                 </button>
             </div>
 
             {/* Display Feedback */}
-            <div className="space-y-4">
-                {/* if not have any feedback, show message */}
+            <div className="space-y-4 max-w-3xl mx-auto">
                 {feedbacks.length === 0 && (
                     <p className="text-center text-gray-500">No feedback yet.</p>
                 )}
@@ -250,42 +276,63 @@ const ExamFeedback = () => {
                                             [feedback.feedbackId]: e.target.value,
                                         })
                                     }
-                                    className="w-full p-4 border-2 border-gray-300 rounded-lg mt-2"
+                                    className="w-full p-4 border-2 border-gray-300 rounded-lg mt-2 resize-none focus:border-blue-500 focus:outline-none"
+                                    rows={4}
                                 />
-                                <label
-                                    htmlFor={`uploadFile-${feedback.feedbackId}`}
-                                    className="bg-white text-gray-500 font-semibold text-base rounded max-w-full mb-4 h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif]"
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-11 mb-2 fill-gray-500" viewBox="0 0 32 32">
-                                        <path d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z" />
-                                        <path d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z" />
-                                    </svg>
-                                    Upload file
-
-                                    <input
-                                        type="file"
-                                        id={`uploadFile-${feedback.feedbackId}`}
-                                        className="hidden"
-                                        onChange={handleImageChange}
-                                    />
-                                    <p className="text-xs font-medium text-gray-400 mt-2">PNG, JPG, SVG, WEBP, and GIF are Allowed.</p>
-                                </label>
-                                {previewImage && (
-                                    <div className="mt-4 mb-4">
-                                        <img
-                                            src={previewImage}
-                                            alt="Preview"
-                                            className="w-1/2 h-auto rounded-lg"
-                                            onClick={() => handleOpenModal(previewImage)}
+                                <div className="mt-4">
+                                    <label
+                                        htmlFor={`uploadFile-${feedback.feedbackId}`}
+                                        className="bg-white text-gray-500 font-semibold text-base rounded mb-4 h-32 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto hover:bg-gray-50 transition-all"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-8 mb-2 fill-gray-500" viewBox="0 0 32 32">
+                                            <path d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z" />
+                                            <path d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z" />
+                                        </svg>
+                                        <span className="text-sm">Change Image</span>
+                                        <input
+                                            type="file"
+                                            id={`uploadFile-${feedback.feedbackId}`}
+                                            className="hidden"
+                                            onChange={handleImageChange}
+                                            accept="image/*"
                                         />
-                                    </div>
-                                )}
-                                <button
-                                    className="mt-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg"
-                                    onClick={() => handleUpdateFeedback(feedback.feedbackId)}
-                                >
-                                    Save
-                                </button>
+                                    </label>
+                                    {previewImage && (
+                                        <div className="relative group">
+                                            <img
+                                                src={previewImage}
+                                                alt="Preview"
+                                                className="w-full h-48 object-cover rounded-lg cursor-pointer"
+                                                onClick={() => handleOpenModal(previewImage)}
+                                            />
+                                            <div 
+                                                className="absolute top-2 right-2 bg-red-500 p-1 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
+                                                onClick={() => {
+                                                    setSelectedImage(null);
+                                                    setPreviewImage(null);
+                                                }}
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="mt-4 flex space-x-2">
+                                    <button
+                                        className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg transition-all"
+                                        onClick={() => handleUpdateFeedback(feedback.feedbackId)}
+                                    >
+                                        Save Changes
+                                    </button>
+                                    <button
+                                        className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-6 rounded-lg transition-all"
+                                        onClick={() => handleCancelEdit(feedback.feedbackId)}
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
                             </div>
                         ) : (
                             <p className="mt-2">{feedback.feedbackDescription}</p>
@@ -296,7 +343,7 @@ const ExamFeedback = () => {
                                 <img
                                     src={feedback.feedbackImage}
                                     alt="Feedback Image"
-                                    className="w-1/4 h-auto rounded-lg cursor-pointer"
+                                    className="w-full sm:w-1/2 h-auto rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
                                     onClick={() => handleOpenModal(feedback.feedbackImage || "")}
                                 />
                             </div>
@@ -307,11 +354,19 @@ const ExamFeedback = () => {
             </div>
             {isModalOpen && (
                 <div
-                    className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center modal-background"
+                    className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50 p-4 modal-background"
                     onClick={handleModalClick} 
                 >
-                    <div className="relative bg-white p-2 rounded-lg max-w-screen-lg">
-                        <img src={modalImage || ""} alt="Preview" className="max-w-full max-h-full" />
+                    <div className="relative bg-white p-2 rounded-lg max-w-4xl max-h-[90vh] overflow-auto">
+                        <img src={modalImage || ""} alt="Preview" className="max-w-full h-auto" />
+                        <button
+                            className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors"
+                            onClick={handleCloseModal}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
             )}

@@ -10,6 +10,9 @@ import CustomButton from "../../components/UI/CustomButton";
 import Cookies from "js-cookie";
 import { UserDetail } from "../../models/user";
 import axios from "axios";
+import { useChangePassword } from "../../hooks/Password/useChangePassword";
+import { showToast } from "../../utils/toastUtils";
+
 
 const Profile = () => {
   const [form, setForm] = useState<UserDetail>({
@@ -34,14 +37,14 @@ const Profile = () => {
     if (state.profile) {
       setForm({
         ...form,
-        ...state.profile, // Cập nhật form chỉ khi state.profile có giá trị hợp lệ
-        userImage: state.profile.userImage || DefaultAvatar, // Đảm bảo luôn có giá trị cho userImage
+        ...state.profile,
+        userImage: state.profile.userImage || DefaultAvatar,
       });
     }
   }, [state.profile]);
-  // console.log("profile", form);
+
   const navigate = useNavigate();
-  const [isEditing, setIsEditing] = useState(false); // State to toggle edit mode
+  const [isEditing, setIsEditing] = useState(false);
 
   const initialValues: UserDetail = form;
 
@@ -74,13 +77,88 @@ const Profile = () => {
   };
 
   const [isOpenPasswordModal, setIsOpenPasswordModal] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [passwordErrors, setPasswordErrors] = useState({
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+
   const handleChangePassword = () => {
     setIsOpenPasswordModal(!isOpenPasswordModal);
+    setPasswordErrors({
+      oldPassword: '',
+      newPassword: '',
+      confirmPassword: ''
+    });
   };
-  const handleSavePassword = () => {
+
+  const validatePassword = (name: string, value: string) => {
+    let error = '';
+    
+    if (name === 'newPassword') {
+      if (value.length < 8) {
+        error = 'Password must be at least 8 characters long';
+      } else if (value === passwordForm.oldPassword) {
+        error = 'New password must be different from old password';
+      }
+    }
+
+    if (name === 'confirmPassword') {
+      if (value !== passwordForm.newPassword) {
+        error = 'Passwords do not match';
+      }
+    }
+
+    return error;
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setPasswordForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
+    const error = validatePassword(name, value);
+    setPasswordErrors(prev => ({
+      ...prev,
+      [name]: error
+    }));
+  };
+  
+  const {state:changePaswordState, changePassword} = useChangePassword();
+  const handleSavePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Check for any existing errors
+    if (Object.values(passwordErrors).some(error => error !== '')) {
+      return;
+    }
+
+    const handleChangePassword = async () => {
+      await changePassword(passwordForm, Cookies.get("userId") || "");
+    }
     handleChangePassword();
-    console.log("Save password");
   };
+
+  useEffect(() => {
+    if (changePaswordState.currentInput) {
+      // reset form
+      setPasswordForm({
+        oldPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      });
+      showToast("Password changed successfully", "success");
+      setIsOpenPasswordModal(false);
+    }
+  }, [changePaswordState.currentInput]);
+
   const [isOpenAvatarModal, setIsOpenAvatarModal] = useState(false);  
   const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null); 
   const [previewAvatar, setPreviewAvatar] = useState<string | null>(null);
@@ -409,26 +487,52 @@ const Profile = () => {
         onClose={handleChangePassword}
         title="Change password"
       >
-        <form>
-          <CustomInput
-            placeholder="Old password"
-            type="password"
-            required
-          />
-          <CustomInput
-            placeholder="New password"
-            type="password"
-            required
-          />
+        <form onSubmit={handleSavePassword}>
+          <div>
+            <CustomInput
+              placeholder="Old password"
+              type="password"
+              required
+              onChange={(e) => handlePasswordChange({...e, target: {...e.target, name: 'oldPassword'}})}
+              value={passwordForm.oldPassword}
+            />
+            {passwordErrors.oldPassword && (
+              <p className="text-red-500 text-sm mt-1">{passwordErrors.oldPassword}</p>
+            )}
+          </div>
+          <div>
+            <CustomInput
+              placeholder="New password"
+              type="password"
+              required
+              onChange={(e) => handlePasswordChange({...e, target: {...e.target, name: 'newPassword'}})}
+              value={passwordForm.newPassword}
+            />
+            {passwordErrors.newPassword && (
+              <p className="text-red-500 text-sm mt-1">{passwordErrors.newPassword}</p>
+            )}
+          </div>
+          <div>
+            <CustomInput
+              placeholder="Confirm password"
+              type="password"
+              required
+              onChange={(e) => handlePasswordChange({...e, target: {...e.target, name: 'confirmPassword'}})}
+              value={passwordForm.confirmPassword}
+            />
+            {passwordErrors.confirmPassword && (
+              <p className="text-red-500 text-sm mt-1">{passwordErrors.confirmPassword}</p>
+            )}
+          </div>
           <div className="flex justify-end">
             <CustomButton
               type="submit"
               label="Save"
-              onClick={handleSavePassword}
             />
           </div>
         </form>
       </CustomModal>
+
       <CustomModal
         isOpen={isOpenAvatarModal}
         onClose={() => setIsOpenAvatarModal(false)}
