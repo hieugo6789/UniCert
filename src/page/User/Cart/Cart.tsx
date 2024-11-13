@@ -220,6 +220,9 @@ const Cart = () => {
       } catch (error) {
         showToast(`Payment Error: ${error}`, "error");
       }
+    }else{
+      setSelectedCourses([]);
+      setSelectedExams([]);
     }
   };
   return (
