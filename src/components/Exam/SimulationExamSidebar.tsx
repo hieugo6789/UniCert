@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+
 import CustomButton from "../UI/CustomButton";
 
 type SidebarProps = {
@@ -7,6 +7,8 @@ type SidebarProps = {
   setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
   selectedAnswers: (number | null)[];
   flaggedQuestions: boolean[];
+  timeLeft: number;
+  handleSubmitExam: () => void;
 };
 
 const SimulationExamSidebar: React.FC<SidebarProps> = ({
@@ -15,18 +17,12 @@ const SimulationExamSidebar: React.FC<SidebarProps> = ({
   setCurrentQuestionIndex,
   selectedAnswers,
   flaggedQuestions,
+  handleSubmitExam
 }) => {
-  const id = Number(useParams().id || 0);
-  const navigate = useNavigate();
+  // const id = Number(useParams().id || 0);
+  // const navigate = useNavigate();
 
-  const handleSubmitExam = () => {
-    const formattedAnswers = questions.map((question, index) => ({
-      questionId: question.id,
-      userAnswerId: [selectedAnswers[index] || 0]
-    }));
-
-    navigate("/exam/" + id + "/simulation/submit", { state: { formattedAnswers } });
-  };
+  
 
   return (
     <div className="bg-white shadow-lg p-4 z-50 w-full 
