@@ -51,7 +51,7 @@ import ExamResultPage from "./page/User/Exam/ExamResultPage";
 import Feedback from "./page/Staff/Feedback";
 import FeedbackForStaff from "./components/Feedback/FeedbackForStaff";
 import Cookies from "js-cookie";
-import PrivateRoute from "./routes/privateRoute";
+import PrivateRoutes from "./routes/PrivateRoutes";
 
 const token = localStorage.getItem("token");
 const role = Cookies.get("role");
@@ -102,13 +102,13 @@ function App() {
     {
       path: "/admin",
       element: (
-        <PrivateRoute
+        <PrivateRoutes
           token={token}
           role={role}
           requiredRole="Admin"
         >
           <LayoutAdmin />
-        </PrivateRoute>
+        </PrivateRoutes>
       ),
       children: [
         { path: "dashboard", element: <Dashboard /> },
@@ -119,13 +119,13 @@ function App() {
     {
       path: "/manager",
       element: (
-        <PrivateRoute
+        <PrivateRoutes
           token={token}
           role={role}
           requiredRole="Manager"
         >
           <LayoutManager />
-        </PrivateRoute>
+        </PrivateRoutes>
       ),
       children: [
         { path: "certificate", element: <ManageCertification /> },
@@ -140,13 +140,13 @@ function App() {
     {
       path: "/staff",
       element: (
-        <PrivateRoute
+        <PrivateRoutes
           token={token}
           role={role}
           requiredRole="Staff"
         >
           <LayoutStaff />
-        </PrivateRoute>
+        </PrivateRoutes>
       ),
       children: [
         { path: "schedule", element: <Schedule /> },

@@ -2,15 +2,14 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import ForbiddenPage from "../page/Forbidden/ForbiddenPage";
 
-interface PrivateRouteProps {
+interface PrivateRoutesProps {
   token: string | null;
   role?: string;
   requiredRole?: string;
   children: React.ReactNode;
 }
 
-// Component PrivateRoute
-const PrivateRoute: React.FC<PrivateRouteProps> = ({
+const PrivateRoutes: React.FC<PrivateRoutesProps> = ({
   token,
   role,
   requiredRole,
@@ -31,4 +30,4 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   return <>{children}</>;
 };
 
-export default PrivateRoute;
+export default PrivateRoutes;
