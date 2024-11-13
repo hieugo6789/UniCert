@@ -1,6 +1,6 @@
 import { createScore } from "../../models/score";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { createScoreFailure, createScoreStart, createScoreSuccess } from "../../redux/slice/Score/createScore";
+import { clearScore, createScoreFailure, createScoreStart, createScoreSuccess } from "../../redux/slice/Score/createScore";
 import agent from "../../utils/agent";
 
 export function useCreateScore() {
@@ -17,6 +17,8 @@ export function useCreateScore() {
       dispatch(createScoreFailure());
     }
   };
-
-  return { state, handleCreateScore };
+  const clearCreateScore = () => {
+    dispatch(clearScore());
+  }
+  return { state, handleCreateScore, clearCreateScore };
 }
