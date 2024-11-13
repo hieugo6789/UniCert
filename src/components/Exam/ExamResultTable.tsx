@@ -29,6 +29,20 @@ const ExamResultTable = () => {
         ? (examResults.reduce((acc, cur) => acc + cur.scoreValue, 0) / examResults.length).toFixed(2)
         : null;
 
+    const formatVietnameseDateTime = (utcDate: string) => {
+        const date = new Date(utcDate);        
+        const vietnamTime = new Date(date.getTime() + 7 * 60 * 60 * 1000);
+        
+        return vietnamTime.toLocaleString("vi-VN", {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
+    };
+
     return (
         <div className="bg-white shadow-lg rounded-lg w-full p-4 sm:p-6">
             <h2 className="text-xl sm:text-2xl font-bold text-center mb-4">Exam Results</h2>
@@ -77,19 +91,15 @@ const ExamResultTable = () => {
                                     className={`hover:bg-gray-50 transition-colors duration-150`}
                                 >
                                     <td className="py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm text-gray-600">
-                                        {index + 1}
+                                        {examResults.length - index}
                                     </td>
                                     <td className={`py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm font-medium ${
                                         result.scoreValue >= 5 ? "text-green-600" : "text-red-600"
                                     }`}>
-                                        {result.scoreValue}/10
+                                        {result.scoreValue.toFixed(1)}/10
                                     </td>
                                     <td className="py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm text-gray-600">
-                                        {new Date(result.createdAt).toLocaleString("vi", {
-                                            timeZone: "Asia/Ho_Chi_Minh",
-                                            dateStyle: "medium",
-                                            timeStyle: "short"
-                                        })}
+                                        {formatVietnameseDateTime(result.createdAt)}
                                     </td>
                                 </tr>
                         ))}

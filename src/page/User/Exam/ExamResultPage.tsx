@@ -94,6 +94,21 @@ const ExamResultPage = () => {
         }
     };
 
+    const formatVietnameseDateTime = (date: string | Date) => {
+        const utcDate = new Date(date);        
+        const vietnamTime = new Date(utcDate.getTime() + 7 * 60 * 60 * 1000);
+        
+        return vietnamTime.toLocaleString("en-US", {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
+    };
+
     return (
         <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">
@@ -126,14 +141,7 @@ const ExamResultPage = () => {
                             })}
                         </div>
                         <p className="text-blue-100">
-                            Completed on {new Date(createdAt).toLocaleDateString("en-US", {
-                                weekday: 'long',
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit'
-                            })}
+                            Completed on {formatVietnameseDateTime(createdAt)}
                         </p>
                     </div>
 
