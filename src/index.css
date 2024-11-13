@@ -52,3 +52,28 @@
 .schedule-container::-webkit-scrollbar-thumb:hover {
   background-color: #3b82f6; /* Màu khi hover */
 }
+.custom-scrollbar {
+  overflow-y: auto; 
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 0px; 
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar {
+  width: 8px; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
