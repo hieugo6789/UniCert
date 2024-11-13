@@ -6,6 +6,7 @@ interface ExamSimulaCardProps extends allExamPaginationData {
   onClick?: () => void;
   isInCart: boolean;
   isPurchased: boolean;
+  isInPayment?: boolean;
 }
 
 const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
@@ -19,14 +20,17 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
   onClick,
   isInCart,
   isPurchased,
+  isInPayment
 }) => {
   const buttonText = isPurchased
     ? "Purchased"
     : isInCart
     ? "In Cart"
+    : isInPayment
+    ? "In Payment"
     : "Add To Cart";
   const buttonStyles =
-    isPurchased || isInCart
+    isPurchased || isInCart || isInPayment
       ? "bg-gray-400 cursor-not-allowed"
       : "bg-blue-600 hover:bg-blue-700";
 
@@ -86,7 +90,7 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
         <button
           onClick={onClick}
           className={`${buttonStyles} text-white px-4 py-2 rounded-lg`}
-          disabled={isInCart || isPurchased}
+          disabled={isInCart || isPurchased || isInPayment}
         >
           {buttonText}
         </button>

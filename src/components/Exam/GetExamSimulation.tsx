@@ -36,11 +36,18 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
     setPurchasedExams(successfulExams);
   }, [examEnrollment]);
 
-  // Lọc các kỳ thi có permission approve
+  // Reset exam list when certId changes
+  useEffect(() => {
+    setApprovedExams([]); // Reset approved exams when certId changes
+  }, [certId]);
+
+  // Modify existing useEffect for exam filtering
   useEffect(() => {
     if (exam && exam.length > 0) {
       const filteredExams = exam.filter(examItem => examItem.examPermission === 'Approve');
       setApprovedExams(filteredExams);
+    } else {
+      setApprovedExams([]); // Reset when no exams available
     }
   }, [exam]);
 
@@ -64,17 +71,20 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
     } );
   };
 
-  useEffect(() => {
-    if (isModalVisible) 
-      refetchExams(certId);
-  }, [isModalVisible, certId]);
-
-  const showModal = () => {
+  // Modify modal visibility handler
+  const showModal = async () => {
     setIsModalVisible(true);
+    try {
+      await refetchExams(certId); // Refetch exams when opening modal
+    } catch (error) {
+      console.error("Failed to fetch exams:", error);
+      showToast("Failed to load exams", "error");
+    }
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
+    setApprovedExams([]); // Reset when closing modal
   };
 
   return (
@@ -86,6 +96,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
         onCancel={handleCancel}
         footer={null}
         width={1030}
+        destroyOnClose={true}
       >
         {loading ? (
           <Loading />
@@ -93,23 +104,40 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {approvedExams && approvedExams.length > 0 ? (
               approvedExams.map((examItem) => {
-                const isInCart = (state.currentCart?.examDetails || []).some((e: any) => e.examId === examItem.examId);
-                const isPurchased = (purchasedExams || []).some((e) => 
-                  (e.simulationExamDetail || []).some((simExam) => simExam.examId === examItem.examId)
+                const isInCart = (state.currentCart?.examDetails || []).some(
+                  (e: any) => e.examId === examItem.examId
+                );
+                
+                // Kiểm tra xem exam có đang trong trạng thái OnGoing không
+                const isInPayment = examEnrollment.some(
+                  (e) => e.examEnrollmentStatus === "OnGoing" && 
+                  e.simulationExamDetail.some(
+                    (simExam) => simExam.examId === examItem.examId
+                  )
+                );
+                
+                // Kiểm tra exam đã mua (Completed)
+                const isPurchased = purchasedExams.some(
+                  (e) => e.simulationExamDetail.some(
+                    (simExam) => simExam.examId === examItem.examId
+                  )
                 );
 
                 return (
                   <ExamSimulaCard
                     key={examItem.examId}
                     {...examItem}
-                    onClick={isInCart || isPurchased ? undefined : addToCart(examItem.examId.toString())}
+                    onClick={isInCart || isPurchased || isInPayment ? undefined : addToCart(examItem.examId.toString())}
                     isInCart={isInCart}
                     isPurchased={isPurchased}
+                    isInPayment={isInPayment}
                   />
                 );
               })
             ) : (
-              <p className="text-gray-500">No approved exams available for this certificate.</p>
+              <div className="col-span-3 text-center py-8">
+                <p className="text-gray-500">No approved exams available for this certificate.</p>
+              </div>
             )}
           </div>
         )}
