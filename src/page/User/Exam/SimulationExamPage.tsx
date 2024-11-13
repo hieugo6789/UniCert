@@ -110,11 +110,15 @@ const SimulationExamPage = () => {
   const navigate = useNavigate();
 
   const handleSubmitExam = () => {
+    // Clear any existing state first
+    navigate("/exam/" + id + "/simulation/submit", { replace: true });
+
     const formattedAnswers = questions.map((question, index) => ({
       questionId: question.id,
       userAnswerId: [selectedAnswers[index] || 0]
     }));
 
+    // Navigate with new state
     navigate("/exam/" + id + "/simulation/submit", { state: { formattedAnswers, timeLeft } });
   };
 
