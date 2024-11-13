@@ -14,10 +14,17 @@ const SubmitExamPage = () => {
     const navigate = useNavigate();
     const id = Number(useParams().id || 0);
 
+    // Kiểm tra xem có dữ liệu từ location state không
+    useEffect(() => {
+        if (!location.state?.formattedAnswers) {
+            navigate(`/exam/${id}/simulation`);
+        }
+    }, [location.state, id, navigate]);
+
     // Định nghĩa kiểu dữ liệu cho formattedAnswers
     const formattedAnswers: Answer[] = location.state?.formattedAnswers || [];
     const timeLeft: number = location.state?.timeLeft || 0;
-    const { state, handleCreateScore } = useCreateScore();
+    const { state, handleCreateScore,clearCreateScore } = useCreateScore();
 
     const handleSubmitResults = async () => {
         try {
@@ -45,12 +52,19 @@ const SubmitExamPage = () => {
         if (state.createdScore) {
             console.log(state.createdScore);
             navigate("/exam/"+id+"/simulation/result", { state: state.createdScore }); // Điều hướng đến trang kết quả
+            clearCreateScore();
         }
     }, [state, navigate]);
+
     const handleBackToExam = () => {
         // loại bỏ cách answerId = 0
         const filteredAnswers = formattedAnswers.filter(answer => answer.userAnswerId[0] !== 0);
         navigate("/exam/" + id + "/simulation", { state: { formattedAnswers: filteredAnswers, timeLeft } });
+    }
+
+    // Nếu không có dữ liệu, hiển thị trang trống trong khi chuyển hướng
+    if (!location.state?.formattedAnswers) {
+        return null;
     }
 
     return (
@@ -74,7 +88,8 @@ const SubmitExamPage = () => {
                         <CustomButton 
                             onClick={handleBackToExam}
                             label="Return to Exam"
-                            className="px-8 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors duration-200"
+                            className="px-8 py-3 bg-gray-100 hover:bg-gray-200 text-black rounded-lg font-medium transition-colors duration-200"
+                            variant="secondary"
                         />
                         <CustomButton
                             onClick={handleSubmitResults}
