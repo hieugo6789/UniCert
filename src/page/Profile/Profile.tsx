@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import { UserDetail } from "../../models/user";
 import axios from "axios";
 import { useChangePassword } from "../../hooks/Password/useChangePassword";
+import { showToast } from "../../utils/toastUtils";
 
 
 const Profile = () => {
@@ -81,9 +82,39 @@ const Profile = () => {
     newPassword: '',
     confirmPassword: ''
   });
+  const [passwordErrors, setPasswordErrors] = useState({
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
 
   const handleChangePassword = () => {
     setIsOpenPasswordModal(!isOpenPasswordModal);
+    setPasswordErrors({
+      oldPassword: '',
+      newPassword: '',
+      confirmPassword: ''
+    });
+  };
+
+  const validatePassword = (name: string, value: string) => {
+    let error = '';
+    
+    if (name === 'newPassword') {
+      if (value.length < 8) {
+        error = 'Password must be at least 8 characters long';
+      } else if (value === passwordForm.oldPassword) {
+        error = 'New password must be different from old password';
+      }
+    }
+
+    if (name === 'confirmPassword') {
+      if (value !== passwordForm.newPassword) {
+        error = 'Passwords do not match';
+      }
+    }
+
+    return error;
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,17 +123,29 @@ const Profile = () => {
       ...prev,
       [name]: value
     }));
+
+    const error = validatePassword(name, value);
+    setPasswordErrors(prev => ({
+      ...prev,
+      [name]: error
+    }));
   };
   
   const {state:changePaswordState, changePassword} = useChangePassword();
   const handleSavePassword = async (e: React.FormEvent) => {
     e.preventDefault();
-      const handleChangePassword = async () => {
-        await changePassword(passwordForm, Cookies.get("userId") || "");
-      }
-        handleChangePassword();
 
+    // Check for any existing errors
+    if (Object.values(passwordErrors).some(error => error !== '')) {
+      return;
+    }
+
+    const handleChangePassword = async () => {
+      await changePassword(passwordForm, Cookies.get("userId") || "");
+    }
+    handleChangePassword();
   };
+
   useEffect(() => {
     if (changePaswordState.currentInput) {
       // reset form
@@ -111,6 +154,7 @@ const Profile = () => {
         newPassword: '',
         confirmPassword: ''
       });
+      showToast("Password changed successfully", "success");
       setIsOpenPasswordModal(false);
     }
   }, [changePaswordState.currentInput]);
@@ -444,27 +488,42 @@ const Profile = () => {
         title="Change password"
       >
         <form onSubmit={handleSavePassword}>
-          <CustomInput
-            placeholder="Old password"
-            type="password"
-            required
-            onChange={(e) => handlePasswordChange({...e, target: {...e.target, name: 'oldPassword'}})}
-            value={passwordForm.oldPassword}
-          />
-          <CustomInput
-            placeholder="New password"
-            type="password"
-            required
-            onChange={(e) => handlePasswordChange({...e, target: {...e.target, name: 'newPassword'}})}
-            value={passwordForm.newPassword}
-          />
-          <CustomInput
-            placeholder="Confirm password"
-            type="password"
-            required
-            onChange={(e) => handlePasswordChange({...e, target: {...e.target, name: 'confirmPassword'}})}
-            value={passwordForm.confirmPassword}
-          />
+          <div>
+            <CustomInput
+              placeholder="Old password"
+              type="password"
+              required
+              onChange={(e) => handlePasswordChange({...e, target: {...e.target, name: 'oldPassword'}})}
+              value={passwordForm.oldPassword}
+            />
+            {passwordErrors.oldPassword && (
+              <p className="text-red-500 text-sm mt-1">{passwordErrors.oldPassword}</p>
+            )}
+          </div>
+          <div>
+            <CustomInput
+              placeholder="New password"
+              type="password"
+              required
+              onChange={(e) => handlePasswordChange({...e, target: {...e.target, name: 'newPassword'}})}
+              value={passwordForm.newPassword}
+            />
+            {passwordErrors.newPassword && (
+              <p className="text-red-500 text-sm mt-1">{passwordErrors.newPassword}</p>
+            )}
+          </div>
+          <div>
+            <CustomInput
+              placeholder="Confirm password"
+              type="password"
+              required
+              onChange={(e) => handlePasswordChange({...e, target: {...e.target, name: 'confirmPassword'}})}
+              value={passwordForm.confirmPassword}
+            />
+            {passwordErrors.confirmPassword && (
+              <p className="text-red-500 text-sm mt-1">{passwordErrors.confirmPassword}</p>
+            )}
+          </div>
           <div className="flex justify-end">
             <CustomButton
               type="submit"
