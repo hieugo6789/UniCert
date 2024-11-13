@@ -10,6 +10,8 @@ import CustomButton from "../../components/UI/CustomButton";
 import Cookies from "js-cookie";
 import { UserDetail } from "../../models/user";
 import axios from "axios";
+import { useChangePassword } from "../../hooks/Password/useChangePassword";
+
 
 const Profile = () => {
   const [form, setForm] = useState<UserDetail>({
@@ -34,14 +36,14 @@ const Profile = () => {
     if (state.profile) {
       setForm({
         ...form,
-        ...state.profile, // Cập nhật form chỉ khi state.profile có giá trị hợp lệ
-        userImage: state.profile.userImage || DefaultAvatar, // Đảm bảo luôn có giá trị cho userImage
+        ...state.profile,
+        userImage: state.profile.userImage || DefaultAvatar,
       });
     }
   }, [state.profile]);
-  // console.log("profile", form);
+
   const navigate = useNavigate();
-  const [isEditing, setIsEditing] = useState(false); // State to toggle edit mode
+  const [isEditing, setIsEditing] = useState(false);
 
   const initialValues: UserDetail = form;
 
@@ -74,13 +76,45 @@ const Profile = () => {
   };
 
   const [isOpenPasswordModal, setIsOpenPasswordModal] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+
   const handleChangePassword = () => {
     setIsOpenPasswordModal(!isOpenPasswordModal);
   };
-  const handleSavePassword = () => {
-    handleChangePassword();
-    console.log("Save password");
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setPasswordForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
+  
+  const {state:changePaswordState, changePassword} = useChangePassword();
+  const handleSavePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+      const handleChangePassword = async () => {
+        await changePassword(passwordForm, Cookies.get("userId") || "");
+      }
+        handleChangePassword();
+
+  };
+  useEffect(() => {
+    if (changePaswordState.currentInput) {
+      // reset form
+      setPasswordForm({
+        oldPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      });
+      setIsOpenPasswordModal(false);
+    }
+  }, [changePaswordState.currentInput]);
+
   const [isOpenAvatarModal, setIsOpenAvatarModal] = useState(false);  
   const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null); 
   const [previewAvatar, setPreviewAvatar] = useState<string | null>(null);
@@ -409,26 +443,37 @@ const Profile = () => {
         onClose={handleChangePassword}
         title="Change password"
       >
-        <form>
+        <form onSubmit={handleSavePassword}>
           <CustomInput
             placeholder="Old password"
             type="password"
             required
+            onChange={(e) => handlePasswordChange({...e, target: {...e.target, name: 'oldPassword'}})}
+            value={passwordForm.oldPassword}
           />
           <CustomInput
             placeholder="New password"
             type="password"
             required
+            onChange={(e) => handlePasswordChange({...e, target: {...e.target, name: 'newPassword'}})}
+            value={passwordForm.newPassword}
+          />
+          <CustomInput
+            placeholder="Confirm password"
+            type="password"
+            required
+            onChange={(e) => handlePasswordChange({...e, target: {...e.target, name: 'confirmPassword'}})}
+            value={passwordForm.confirmPassword}
           />
           <div className="flex justify-end">
             <CustomButton
               type="submit"
               label="Save"
-              onClick={handleSavePassword}
             />
           </div>
         </form>
       </CustomModal>
+
       <CustomModal
         isOpen={isOpenAvatarModal}
         onClose={() => setIsOpenAvatarModal(false)}
