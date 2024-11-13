@@ -16,6 +16,7 @@ const SubmitExamPage = () => {
 
     // Định nghĩa kiểu dữ liệu cho formattedAnswers
     const formattedAnswers: Answer[] = location.state?.formattedAnswers || [];
+    const timeLeft: number = location.state?.timeLeft || 0;
     const { state, handleCreateScore } = useCreateScore();
 
     const handleSubmitResults = async () => {
@@ -49,7 +50,7 @@ const SubmitExamPage = () => {
     const handleBackToExam = () => {
         // loại bỏ cách answerId = 0
         const filteredAnswers = formattedAnswers.filter(answer => answer.userAnswerId[0] !== 0);
-        navigate("/exam/" + id + "/simulation", { state: { formattedAnswers: filteredAnswers } });
+        navigate("/exam/" + id + "/simulation", { state: { formattedAnswers: filteredAnswers, timeLeft } });
     }
 
     return (
