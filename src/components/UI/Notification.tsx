@@ -46,7 +46,7 @@ const Notification = () => {
     }
   };
   const notificationList = (
-    <div className="max-w-xs p-4 bg-white shadow-lg rounded-lg overflow-y-auto max-h-80 border border-gray-200">
+    <div className="max-w-sm p-4 bg-white shadow-lg rounded-lg overflow-y-auto max-h-80 border border-gray-200">
       {loading ? (
         <p className="text-center text-gray-500">Loading...</p>
       ) : (
@@ -59,6 +59,11 @@ const Notification = () => {
                 !notif.isRead ? "bg-blue-100 font-semibold" : ""
               }`}
             >
+              <img
+                src={notif.notificationImage}
+                alt={notif.notificationName}
+                className="size-12"
+              />
               <p className="text-gray-700">{notif.notificationDescription}</p>
             </List.Item>
           )}
