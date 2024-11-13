@@ -24,8 +24,11 @@ const ResetPassword = () => {
       .matches(/^\d{6}$/, "Code must be exactly 6 digits")
       .required("Code is required"),
     newPassword: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .max(20, "Password cannot exceed 20 characters")
+      .min(8, "Password must be at least 8 characters")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+        "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
+      )
       .required("New password is required"),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('newPassword')], 'Passwords must match')
