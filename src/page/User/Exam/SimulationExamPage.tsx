@@ -3,13 +3,18 @@ import SimulationExamSidebar from "../../../components/Exam/SimulationExamSideba
 import QuestionCard from "../../../components/Exam/QuestionCard";
 import CustomButton from "../../../components/UI/CustomButton";
 import useExamDetail from "../../../hooks/SimulationExam/useExamDetail";
-import { useParams } from "react-router-dom";
-
+import { useLocation, useParams } from "react-router-dom";
+type Answer = {
+  questionId: number;
+  userAnswerId: number[];
+};
 const SimulationExamPage = () => {
   const id = Number(useParams().id || 0);
   const [questions, setQuestions] = useState<any[]>([]);
   const { state, getExamDetails } = useExamDetail();
   const [duration, setDuration] = useState(0);
+  const location = useLocation();
+  
 
   useEffect(() => {
     const fetchExamDetails = async () => {
@@ -17,7 +22,7 @@ const SimulationExamPage = () => {
     };
     fetchExamDetails();
   }, [id]);
-
+  
   useEffect(() => {
     if (state && state.currentExam && state.currentExam.listQuestions) {
       console.log(state.currentExam);
@@ -80,6 +85,23 @@ const SimulationExamPage = () => {
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
+  // Get formattedAnswers from location state
+  const formattedAnswers: Answer[] = location.state?.formattedAnswers || [];
+
+  // Update selectedAnswers when formattedAnswers or questions change
+  useEffect(() => {
+    console.log(formattedAnswers);
+    if (formattedAnswers.length > 0 && questions.length > 0) {
+      const newSelectedAnswers = questions.map((question) => {
+        const matchingAnswer = formattedAnswers.find(
+          (answer) => answer.questionId === question.id
+        );
+        return matchingAnswer ? matchingAnswer.userAnswerId[0] : null;
+      });
+      setSelectedAnswers(newSelectedAnswers);
+    }
+  }, [formattedAnswers, questions]);
+
   return (
     <div className="grid grid-cols-1 xl:grid-cols-5 min-h-screen bg-gray-100">
       <div className="flex flex-col p-4 w-full xl:col-span-4 pb-32 xl:pb-4">
@@ -102,9 +124,11 @@ const SimulationExamPage = () => {
         <div className="flex items-center justify-between mt-6">
           <CustomButton
             className={`px-6 py-3 rounded-lg transition-all duration-200 ${
-              currentQuestionIndex > 0 
-                ? "bg-blue-600 hover:bg-blue-700 text-white"
-                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              currentQuestionIndex > 0 && selectedAnswers[currentQuestionIndex] !== 0
+                ? "bg-gray-200 text-gray-700"
+                : currentQuestionIndex > 0
+                  ? "bg-blue-600 hover:bg-blue-700 text-white"
+                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
             }`}
             onClick={() => {
               if (currentQuestionIndex > 0) {

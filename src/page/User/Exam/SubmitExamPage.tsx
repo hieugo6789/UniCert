@@ -46,7 +46,11 @@ const SubmitExamPage = () => {
             navigate("/exam/"+id+"/simulation/result", { state: state.createdScore }); // Điều hướng đến trang kết quả
         }
     }, [state, navigate]);
-    
+    const handleBackToExam = () => {
+        // loại bỏ cách answerId = 0
+        const filteredAnswers = formattedAnswers.filter(answer => answer.userAnswerId[0] !== 0);
+        navigate("/exam/" + id + "/simulation", { state: { formattedAnswers: filteredAnswers } });
+    }
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-50 to-white">
@@ -67,7 +71,7 @@ const SubmitExamPage = () => {
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <CustomButton 
-                            onClick={() => navigate(-1)}
+                            onClick={handleBackToExam}
                             label="Return to Exam"
                             className="px-8 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors duration-200"
                         />

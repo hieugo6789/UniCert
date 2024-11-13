@@ -30,16 +30,16 @@ const ExamResultTable = () => {
         : null;
 
     return (
-        <div className="bg-white shadow-lg rounded-lg w-full p-6">
-            <h2 className="text-2xl font-bold text-center mb-4">Exam Results</h2>
+        <div className="bg-white shadow-lg rounded-lg w-full p-4 sm:p-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-center mb-4">Exam Results</h2>
 
             {averageScore && (
                 <div className="text-center mb-6">
-                    <p className={`font-semibold text-lg ${Number(averageScore) >= 5 ? "text-green-600" : "text-red-600"}`}>
+                    <p className={`font-semibold text-base sm:text-lg ${Number(averageScore) >= 5 ? "text-green-600" : "text-red-600"}`}>
                         Average Score: {averageScore}/10
                     </p>
                     {examResults.length > 1 && (
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-xs sm:text-sm text-gray-600 mt-1">
                             Based on {examResults.length} attempts
                         </p>
                     )}
@@ -49,10 +49,10 @@ const ExamResultTable = () => {
             {examResults.length > 0 && (
                 <div className={`text-center mb-6 p-3 rounded-lg ${
                     examResults[0].scoreValue >= 5 
-                        ? "bg-green-50 text-green-700" 
-                        : "bg-red-50 text-red-700"
+                        ? "bg-green-50 text-green-700 border border-green-200" 
+                        : "bg-red-50 text-red-700 border border-red-200"
                 }`}>
-                    <p className="font-semibold">
+                    <p className="font-semibold text-sm sm:text-base">
                         {examResults[0].scoreValue >= 5 
                             ? "Congratulations! You have passed the exam" 
                             : "You have not passed the exam yet. Keep practicing!"}
@@ -60,43 +60,45 @@ const ExamResultTable = () => {
                 </div>
             )}
 
-            <div className="overflow-x-auto rounded-lg border border-gray-200">
+            <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
-                            <th className="py-3 px-6 text-sm font-semibold text-gray-700">Attempt</th>
-                            <th className="py-3 px-6 text-sm font-semibold text-gray-700">Score</th>
-                            <th className="py-3 px-6 text-sm font-semibold text-gray-700">Date & Time</th>
+                            <th className="py-3 px-4 sm:px-6 text-xs sm:text-sm font-semibold text-gray-700">#</th>
+                            <th className="py-3 px-4 sm:px-6 text-xs sm:text-sm font-semibold text-gray-700">Score</th>
+                            <th className="py-3 px-4 sm:px-6 text-xs sm:text-sm font-semibold text-gray-700">Date & Time</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200">
-                        {examResults.length > 0 && examResults.map((result, index) => (
-                            <tr key={result.scoreId} 
-                                className={`hover:bg-gray-50 transition-colors duration-150`}
-                            >
-                                <td className="py-4 px-6 text-center text-sm text-gray-600">
-                                    #{examResults.length - index}
-                                </td>
-                                <td className={`py-4 px-6 text-center font-medium ${
-                                    result.scoreValue >= 5 ? "text-green-600" : "text-red-600"
-                                }`}>
-                                    {result.scoreValue}/10
-                                </td>
-                                <td className="py-4 px-6 text-center text-sm text-gray-600">
-                                    {new Date(result.createdAt).toLocaleString("vi", {
-                                        timeZone: "Asia/Ho_Chi_Minh",
-                                        dateStyle: "medium",
-                                        timeStyle: "short"
-                                    })}
-                                </td>
-                            </tr>
+                    <tbody className="divide-y divide-gray-200 bg-white">
+                        {examResults.length > 0 && [...examResults]
+                            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                            .map((result, index) => (
+                                <tr key={index} 
+                                    className={`hover:bg-gray-50 transition-colors duration-150`}
+                                >
+                                    <td className="py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm text-gray-600">
+                                        {index + 1}
+                                    </td>
+                                    <td className={`py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm font-medium ${
+                                        result.scoreValue >= 5 ? "text-green-600" : "text-red-600"
+                                    }`}>
+                                        {result.scoreValue}/10
+                                    </td>
+                                    <td className="py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm text-gray-600">
+                                        {new Date(result.createdAt).toLocaleString("vi", {
+                                            timeZone: "Asia/Ho_Chi_Minh",
+                                            dateStyle: "medium",
+                                            timeStyle: "short"
+                                        })}
+                                    </td>
+                                </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
 
             {examResults.length === 0 && (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-8 text-gray-500 text-sm sm:text-base">
                     No exam attempts yet
                 </div>
             )}
