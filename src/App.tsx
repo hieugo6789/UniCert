@@ -50,6 +50,12 @@ import SubmitExamPage from "./page/User/Exam/SubmitExamPage";
 import ExamResultPage from "./page/User/Exam/ExamResultPage";
 import Feedback from "./page/Staff/Feedback";
 import FeedbackForStaff from "./components/Feedback/FeedbackForStaff";
+import Cookies from "js-cookie";
+import PrivateRoute from "./routes/privateRoute";
+
+const token = localStorage.getItem("token");
+const role = Cookies.get("role");
+
 const Layout = () => {
   return (
     <>
@@ -95,7 +101,15 @@ function App() {
     { path: "/profile", element: <Profile /> },
     {
       path: "/admin",
-      element: <LayoutAdmin />,
+      element: (
+        <PrivateRoute
+          token={token}
+          role={role}
+          requiredRole="Admin"
+        >
+          <LayoutAdmin />
+        </PrivateRoute>
+      ),
       children: [
         { path: "dashboard", element: <Dashboard /> },
         { path: "decentralization", element: <Decentralization /> },
@@ -104,7 +118,15 @@ function App() {
     },
     {
       path: "/manager",
-      element: <LayoutManager />,
+      element: (
+        <PrivateRoute
+          token={token}
+          role={role}
+          requiredRole="Manager"
+        >
+          <LayoutManager />
+        </PrivateRoute>
+      ),
       children: [
         { path: "certificate", element: <ManageCertification /> },
         { path: "internalCourses", element: <ManageCourse /> },
@@ -117,7 +139,15 @@ function App() {
     },
     {
       path: "/staff",
-      element: <LayoutStaff />,
+      element: (
+        <PrivateRoute
+          token={token}
+          role={role}
+          requiredRole="Staff"
+        >
+          <LayoutStaff />
+        </PrivateRoute>
+      ),
       children: [
         { path: "schedule", element: <Schedule /> },
         { path: "internalCourses", element: <InternalCourses /> },

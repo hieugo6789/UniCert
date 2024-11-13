@@ -45,29 +45,38 @@ const AdminChart: React.FC<DashboardChartProps> = ({
   const years = [2024, 2025];
 
   return (
-    <div className="bg-white mt-6 rounded-lg shadow">
-      <div>Revenue</div>
-      <div className="mb-6 pt-10 ml-10">
-        <label htmlFor="year">Year: </label>
-        <select
-          id="year"
-          value={year}
-          onChange={(e) => onYearChange(Number(e.target.value))}
-        >
-          {years.map((y) => (
-            <option
-              key={y}
-              value={y}
-            >
-              {y}
-            </option>
-          ))}
-        </select>
+    <div className="bg-white mt-6 rounded-lg shadow p-4">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold text-gray-700">Revenue</h2>
+        <div>
+          <label
+            htmlFor="year"
+            className="mr-2 text-gray-600"
+          >
+            Year:{" "}
+          </label>
+          <select
+            id="year"
+            value={year}
+            onChange={(e) => onYearChange(Number(e.target.value))}
+            className="border border-gray-300 rounded px-2 py-1"
+          >
+            {years.map((y) => (
+              <option
+                key={y}
+                value={y}
+              >
+                {y}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
+      {/* Phần loading và biểu đồ */}
       {loading ? (
         <div className="flex justify-center items-center h-96">
-          <Spin size="large" />{" "}
+          <Spin size="large" />
         </div>
       ) : (
         <ResponsiveContainer
