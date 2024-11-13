@@ -80,12 +80,12 @@ const Login = () => {
 
           <p className="text-center text-sm text-gray-500 mt-4">
             Or{" "}
-            <a
-              href="/login"
+            <Link
+              to="/reset-password"
               className="text-purple-600 font-bold hover:underline"
             >
               Forgot password?
-            </a>
+            </Link>
           </p>
           <div className="mt-4 flex-1 h-0.5 bg-gray-300"></div>
 
