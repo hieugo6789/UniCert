@@ -76,7 +76,7 @@ const Notification = () => {
               );
               return (
                 <List.Item
-                  className={`border-b border-gray-100 last:border-none rounded-lg ${
+                  className={`border-b border-gray-100 last:border-none rounded-lg mb-1 ${
                     !notif.isRead ? "bg-blue-100 font-semibold" : ""
                   }`}
                 >

@@ -28,7 +28,7 @@ const useAuth = () => {
     setIsLoading(true);
     dispatch(loginStart());
     try {
-      const { data } = await baseApi.post(`api/v1/Login`, {
+      const { data } = await baseApi.post(`api/v1/login`, {
         email: value.email,
         password: value.password,
       });
@@ -93,7 +93,7 @@ const useAuth = () => {
     setIsLoading(true);
     dispatch(registerStart());
     try {
-      const { data } = await baseApi.post(`api/v1/Register`, {
+      const { data } = await baseApi.post(`api/v1/register`, {
         username: value.username,
         password: value.password,
         email: value.email,

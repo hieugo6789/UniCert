@@ -63,7 +63,7 @@ const Wallet = () => {
         </div>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center min-h-[30vh]">
         <div className="w-full max-w-3xl">
           <h1 className="text-2xl font-bold">History payment</h1>
           <div>

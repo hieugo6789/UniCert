@@ -23,6 +23,7 @@ const AvatarAdmin = () => {
     Cookies.remove("token");
     Cookies.remove("role");
     Cookies.remove("userId");
+    localStorage.clear();
     navigate("/login");
   };
 

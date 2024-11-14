@@ -1,4 +1,5 @@
 import useSummaryDashboard from "../../hooks/Dashboard/useSummaryDashboard";
+import Coin from "../../assets/images/Coin.png";
 
 const Summary = () => {
   const { summary, loading } = useSummaryDashboard();
@@ -48,11 +49,27 @@ const Summary = () => {
         <p className="text-gray-500">Total Courses</p>
       </div>
       <div className="border-l border-gray-200 h-8"></div>
+
       <div className="text-center">
-        <p className="text-2xl font-semibold">
-          {summary.totalStudents.toLocaleString()}
-        </p>
-        <p className="text-gray-500">Total Students</p>
+        <div className="flex items-center">
+          <p className="text-2xl font-semibold">
+            {summary.totalAmountOfTopUp.toLocaleString()}
+          </p>
+        </div>
+        <p className="text-gray-500">Total VND</p>
+      </div>
+      <div className="text-center">
+        <div className="flex items-center">
+          <p className="text-2xl font-semibold">
+            {summary.totalPoint.toLocaleString()}
+          </p>
+          <img
+            src={Coin}
+            alt="Coin"
+            className="w-7 h-7"
+          />
+        </div>
+        <p className="text-gray-500">Total Sale</p>
       </div>
     </div>
   );

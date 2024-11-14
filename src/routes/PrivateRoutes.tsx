@@ -1,20 +1,21 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import ForbiddenPage from "../page/Forbidden/ForbiddenPage";
+import Cookies from "js-cookie";
 
 interface PrivateRoutesProps {
   token: string | null;
-  role?: string;
   requiredRole?: string;
   children: React.ReactNode;
 }
 
 const PrivateRoutes: React.FC<PrivateRoutesProps> = ({
   token,
-  role,
   requiredRole,
   children,
 }) => {
+  const role = Cookies.get("role"); // Lấy role trực tiếp từ cookies
+
   if (!token) {
     return (
       <Navigate
@@ -24,6 +25,7 @@ const PrivateRoutes: React.FC<PrivateRoutesProps> = ({
     );
   }
   if (requiredRole && role !== requiredRole) {
+    console.log(requiredRole, role);
     return <ForbiddenPage />;
   }
 

@@ -5,4 +5,6 @@ export interface summaryDashboard {
   totalJobsPosition: number;
   totalSimulationExams: number;
   totalStudents: number;
+  totalPoint: number;
+  totalAmountOfTopUp: number;
 }

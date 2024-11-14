@@ -50,12 +50,8 @@ import SubmitExamPage from "./page/User/Exam/SubmitExamPage";
 import ExamResultPage from "./page/User/Exam/ExamResultPage";
 import Feedback from "./page/Staff/Feedback";
 import FeedbackForStaff from "./components/Feedback/FeedbackForStaff";
-import Cookies from "js-cookie";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import ResetPassword from "./page/Login&Register/ResetPassword";
-
-const token = localStorage.getItem("token");
-const role = Cookies.get("role");
 
 const Layout = () => {
   return (
@@ -68,6 +64,7 @@ const Layout = () => {
 };
 
 function App() {
+  const token = localStorage.getItem("token");
   const router = createBrowserRouter([
     {
       path: "/",
@@ -106,7 +103,6 @@ function App() {
       element: (
         <PrivateRoutes
           token={token}
-          role={role}
           requiredRole="Admin"
         >
           <LayoutAdmin />
@@ -123,7 +119,6 @@ function App() {
       element: (
         <PrivateRoutes
           token={token}
-          role={role}
           requiredRole="Manager"
         >
           <LayoutManager />
@@ -144,7 +139,6 @@ function App() {
       element: (
         <PrivateRoutes
           token={token}
-          role={role}
           requiredRole="Staff"
         >
           <LayoutStaff />
