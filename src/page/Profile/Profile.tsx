@@ -159,6 +159,13 @@ const Profile = () => {
     }
   }, [changePaswordState.currentInput]);
 
+  // error
+  useEffect(() => {
+    if (changePaswordState.error) {
+      showToast("Change password failed", "error");
+    }
+  }, [changePaswordState.error]);
+
   const [isOpenAvatarModal, setIsOpenAvatarModal] = useState(false);  
   const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null); 
   const [previewAvatar, setPreviewAvatar] = useState<string | null>(null);
