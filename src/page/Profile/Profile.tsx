@@ -29,10 +29,19 @@ const Profile = () => {
     userCreatedAt: new Date(),
     userImage: "string",
   });
+  
+  const navigate = useNavigate();
   const { state, getProfileDetails, updateProfile } = useProfile();
-  useEffect(() => {        
-      getProfileDetails(Cookies.get("userId"));      
-  }, []);
+
+  useEffect(() => {     
+    const userId = Cookies.get("userId");
+    if (!userId) {
+      navigate("/login");
+      return;
+    }
+    getProfileDetails(userId);      
+  }, [navigate]);
+
   useEffect(() => {
     if (state.profile) {
       setForm({
@@ -43,7 +52,6 @@ const Profile = () => {
     }
   }, [state.profile]);
 
-  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
 
   const initialValues: UserDetail = form;

@@ -56,12 +56,12 @@ const ExamFeedback = () => {
                 feedbackCreatedAt: vietnamTime,
             });
         }
+        showToast("Feedback created successfully", "success");
     };
 
     useEffect(() => {
         if (state.createdFeedback) {
-            refetchFeedbacks(Number(id));
-            showToast("Feedback created successfully", "success");
+            refetchFeedbacks(Number(id));            
             (document.getElementById("feedbackDescriptionInput") as HTMLInputElement).value = "";
             setSelectedImage(null);
             setPreviewImage(null);

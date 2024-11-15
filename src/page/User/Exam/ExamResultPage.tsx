@@ -20,21 +20,22 @@ const ExamResultPage = () => {
         if (selectedImage) {
             imageUrl = await uploadCloudinary() || "";
         }
-
+        const vietnamTime = new Date();
+        vietnamTime.setHours(vietnamTime.getHours() + 7);
         await handleCreateFeedback({
             userId: Cookies.get("userId") || "",
             examId: examId,
             feedbackDescription: (document.getElementById("feedbackDescriptionInput") as HTMLInputElement).value,
             feedbackImage: imageUrl,
-            feedbackCreatedAt: new Date(),
+            feedbackCreatedAt: vietnamTime,
         }).then(() => {
             setIsLeaveFeedback(true);
         });
+        showToast("Feedback submitted successfully", "success");
     };
 
     useEffect(() => {
-        if (state.createdFeedback) {
-            showToast("Feedback submitted successfully", "success");
+        if (state.createdFeedback) {            
             (document.getElementById("feedbackDescriptionInput") as HTMLInputElement)!.value = "";
             setSelectedImage(null);
             setPreviewImage(null);
