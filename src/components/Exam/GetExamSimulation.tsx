@@ -16,6 +16,7 @@ import { useCreatePayment } from "../../hooks/Payment/useCreatePayment";
 import Coin from "../../assets/images/Coin.png";
 import useWalletDetail from "../../hooks/Wallet/useWalletDetail";
 import { Modal as AntModal } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const GetExamSimulation = ({ certId }: { certId: number }) => {
   const userId = Cookies.get("userId");
@@ -32,6 +33,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
   const [selectedExam, setSelectedExam] = useState<any>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const { wallets, getWalletDetails } = useWalletDetail();
+  const navigate = useNavigate();
 
   // Lấy cart và các kỳ thi đã mua
   useEffect(() => {
@@ -148,6 +150,12 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
     }
   };
   
+  // Thêm hàm xử lý click vào card
+  const handleCardClick = (examItem: any, isPurchased: boolean) => {
+    if (isPurchased) {
+      navigate(`/exam/${examItem.examId}`);
+    }
+  };
 
   return (
     <>
@@ -187,11 +195,18 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
                   <ExamSimulaCard
                     key={examItem.examId}
                     {...examItem}
-                    onClick={isInCart || isPurchased || isInPayment ? undefined : addToCart(examItem.examId.toString())}
+                    onClick={
+                      isPurchased 
+                        ? () => handleCardClick(examItem, isPurchased)
+                        : isInCart || isInPayment 
+                          ? undefined 
+                          : addToCart(examItem.examId.toString())
+                    }
                     isInCart={isInCart}
                     isPurchased={isPurchased}
                     isInPayment={isInPayment}
                     onBuyNow={() => handleBuyNow(examItem)}
+                    className={isPurchased ? "cursor-pointer hover:shadow-lg transition-shadow" : ""}
                   />
                 );
               })

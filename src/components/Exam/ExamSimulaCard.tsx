@@ -18,15 +18,26 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
   examFee,
   examDiscountFee,
   examImage,
+  duration,
+  questionCount,
   onClick,
   isInCart,
   isPurchased,
   isInPayment,
   onBuyNow
 }) => {
+  const handleClick = () => {
+    if (isPurchased && onClick) {
+      onClick();
+    }
+  };
 
   return (
-    <div className="flex flex-col bg-white shadow-md rounded-lg p-4 w-80">
+    <div 
+      onClick={handleClick}
+      className={`flex flex-col bg-white shadow-md rounded-lg p-4 w-80 
+        ${isPurchased ? 'cursor-pointer hover:shadow-xl hover:scale-[1.05] transition-all duration-200' : ''}`}
+    >
       <div className="flex flex-row items-center justify-between mb-4">
         <span className="text-gray-500">EXAM #{examId}</span>
         <span className="text-sm text-blue-600 font-semibold">{examCode}</span>
@@ -39,6 +50,8 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
       <div className="py-4">
         <h3 className="text-lg font-semibold">{examName}</h3>
         <p className="text-sm text-gray-600">{examDescription}</p>
+        <p className="text-sm text-gray-600">Duration: {duration} minutes</p>
+        <p className="text-sm text-gray-600">Number of questions: {questionCount}</p>
       </div>
       <div className="flex items-center justify-between mt-auto">
         <div>
@@ -102,13 +115,19 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
         ) : (
           <div className="flex gap-2">
             <button
-              onClick={onBuyNow}
+              onClick={(e) => {
+                e.stopPropagation();
+                onBuyNow?.();
+              }}
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
             >
               Buy Now
             </button>
             <button
-              onClick={onClick}
+              onClick={(e) => {
+                e.stopPropagation();
+                onClick?.();
+              }}
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
             >
               Add To Cart
