@@ -10,7 +10,7 @@ import UniCertLogo from "../../assets/images/UniCertLogo.png";
 
 const MenuStaff = () => {
   return (
-    <div className=" w-full bg-white p-6 rounded-lg shadow-lg h-full">
+    <div className=" w-full bg-white p-6 rounded-lg shadow-lg h-screen sticky top-0">
       <div className="flex justify-center pb-6 border-b mb-4">
         <img
           src={UniCertLogo}
