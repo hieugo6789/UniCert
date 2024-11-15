@@ -124,9 +124,10 @@ const Wallet = () => {
         title="Top Up Wallet"
         open={isModalVisible}
         onCancel={handleCancel}
-        footer={null} // No default footer buttons
+        footer={null}
+        width={600}
       >
-        <TopUpWallet /> {/* Render TopUpWallet inside the modal */}
+        <TopUpWallet />
       </Modal>
     </>
   );

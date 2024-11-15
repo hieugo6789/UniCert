@@ -56,7 +56,7 @@ const Summary = () => {
             {summary.totalAmountOfTopUp.toLocaleString()}
           </p>
         </div>
-        <p className="text-gray-500">Total VND</p>
+        <p className="text-gray-500">Total VNĐ</p>
       </div>
       <div className="text-center">
         <div className="flex items-center">

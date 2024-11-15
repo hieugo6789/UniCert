@@ -105,10 +105,15 @@ const Students = () => {
     {
       title: "Coin",
       key: "coin",
-      width: 110,
+      width: 130,
       render: (record: any) => (
         <div className="flex justify-between items-center ">
-          {wallets[record.userId]?.point || 0} <img src={Coin} />
+          {wallets[record.userId]?.point || 0}{" "}
+          <img
+            src={Coin}
+            alt="Coin"
+            className="size-7"
+          />
         </div>
       ),
     },
