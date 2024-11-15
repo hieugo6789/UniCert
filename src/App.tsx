@@ -48,7 +48,7 @@ import ManageQuestion from "./page/Staff/ManageQuestion";
 import ExamDetailPage from "./page/User/Exam/ExamDetailPage";
 import SubmitExamPage from "./page/User/Exam/SubmitExamPage";
 import ExamResultPage from "./page/User/Exam/ExamResultPage";
-import Feedback from "./page/Staff/Feedback";
+import Feedback from "./page/Admin/Feedback";
 import FeedbackForStaff from "./components/Feedback/FeedbackForStaff";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import ResetPassword from "./page/Login&Register/ResetPassword";
@@ -112,6 +112,8 @@ function App() {
         { path: "dashboard", element: <Dashboard /> },
         { path: "decentralization", element: <Decentralization /> },
         { path: "students", element: <Students /> },
+        { path: "feedback", element: <Feedback /> },
+        { path: "feedback/exam/:id", element: <FeedbackForStaff /> },
       ],
     },
     {
@@ -153,8 +155,6 @@ function App() {
         { path: "major", element: <Major /> },
         { path: "organizations", element: <Organizations /> },
         { path: "certificate", element: <Certificate /> },
-        { path: "feedback", element: <Feedback /> },
-        { path: "feedback/exam/:id", element: <FeedbackForStaff /> },
       ],
     },
   ]);

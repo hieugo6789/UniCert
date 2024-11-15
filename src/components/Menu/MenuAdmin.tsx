@@ -6,6 +6,7 @@ import { DashboardOutlined } from "@ant-design/icons";
 import { FiUsers } from "react-icons/fi";
 
 import UniCertLogo from "../../assets/images/UniCertLogo.png";
+import { RiFeedbackFill } from "react-icons/ri";
 const MenuAdmin = () => {
   const location = useLocation();
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
@@ -103,6 +104,21 @@ const MenuAdmin = () => {
           </NavLink>
         </div>
       </div>
+      <NavLink
+        to="/admin/feedback"
+        className={({ isActive }) =>
+          isActive
+            ? "flex items-center p-2 mb-2 bg-purple-200 rounded-lg"
+            : "flex items-center p-2 mb-2 text-gray-800 hover:bg-gray-100 rounded-lg"
+        }
+      >
+        <span className="pl-2 flex items-center">
+          <span>
+            <RiFeedbackFill className="mr-3" />{" "}
+          </span>
+          Feedback
+        </span>
+      </NavLink>
     </div>
   );
 };

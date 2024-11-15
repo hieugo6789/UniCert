@@ -4,7 +4,6 @@ import useExam from "../../hooks/SimulationExam/useExam";
 import { Pagination, Table, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 import { FiMessageCircle } from "react-icons/fi";
-import Notification from "../../components/UI/Notification";
 
 const Feedback = () => {
   const navigate = useNavigate();
@@ -16,7 +15,7 @@ const Feedback = () => {
     setCurrentPage(page);
   };
   const handleRowClick = (record: any) => {
-    navigate(`/staff/feedback/exam/${record.examId}`);
+    navigate(`/admin/feedback/exam/${record.examId}`);
   };
   const columns = [
     {
@@ -65,9 +64,6 @@ const Feedback = () => {
           </h2>
         </div>
         <div className="mr-10 flex items-center">
-          <div className="mr-6">
-            <Notification />
-          </div>
           <AvatarAdmin />
         </div>
       </div>

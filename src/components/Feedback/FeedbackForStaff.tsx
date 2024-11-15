@@ -59,7 +59,7 @@ const FeedbackForStaff = () => {
       <div className=" gap-4 p-2 min-h-[90vh]">
         <Breadcrumbs
           items={[
-            { label: "Feedback Management", link: "/staff/feedback" },
+            { label: "Feedback Management", link: "/admin/feedback" },
             { label: `EID-${id}` },
           ]}
         />
