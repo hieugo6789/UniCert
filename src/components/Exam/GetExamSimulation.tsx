@@ -11,6 +11,11 @@ import useExamEnrollment from "../../hooks/Enrollment/useExam";
 import { examEnrollment } from "../../models/enrollment";
 import Cookies from "js-cookie";
 import { showToast } from "../../utils/toastUtils";
+import { useCreateExamEnrollment } from "../../hooks/Enrollment/useCreateExam";
+import { useCreatePayment } from "../../hooks/Payment/useCreatePayment";
+import Coin from "../../assets/images/Coin.png";
+import useWalletDetail from "../../hooks/Wallet/useWalletDetail";
+import { Modal as AntModal } from "antd";
 
 const GetExamSimulation = ({ certId }: { certId: number }) => {
   const userId = Cookies.get("userId");
@@ -21,6 +26,12 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
   const [approvedExams, setApprovedExams] = useState<any[]>([]);
   const { examEnrollment, loading: examLoad, refetchExamEnrollments } = useExamEnrollment({ userId: userId || "" });
   const { updateCart } = useUpdateCart();
+  const { state: createdExamEnroll, handleCreateExamEnrollment } = useCreateExamEnrollment();
+  const { handleCreatePayment } = useCreatePayment();
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [selectedExam, setSelectedExam] = useState<any>(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const { wallets, getWalletDetails } = useWalletDetail();
 
   // Lấy cart và các kỳ thi đã mua
   useEffect(() => {
@@ -50,6 +61,13 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
       setApprovedExams([]); // Reset when no exams available
     }
   }, [exam]);
+
+  // Thêm useEffect để lấy số dư ví
+  useEffect(() => {
+    if (userId) {
+      getWalletDetails(userId, null);
+    }
+  }, [userId]);
 
   // Hàm thêm vào giỏ hàng
   const addToCart = (examId: string) => async () => {
@@ -87,6 +105,50 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
     setApprovedExams([]); // Reset when closing modal
   };
 
+  // Thêm hàm xử lý Buy Now
+  const handleBuyNow = (examItem: any) => {
+    if (!userId) {
+      showToast("Please log in to purchase exam", "error");
+      return;
+    }
+    setSelectedExam(examItem);
+    setShowPaymentModal(true);
+  };
+  
+  const handleConfirmPayment = async () => {
+    if (!userId || !selectedExam) return;
+  
+    try {
+      setIsProcessing(true);
+        
+      await handleCreateExamEnrollment({
+        userId: userId,
+        simulation_Exams: [selectedExam.examId],
+      });
+  
+      const examEnrollmentId = (createdExamEnroll?.createdExamEnrollment as any)?.data?.examEnrollment?.examEnrollmentId;      
+      if (examEnrollmentId) {
+        await handleCreatePayment({
+          userId: userId,
+          examEnrollmentId: examEnrollmentId,
+          courseEnrollmentId: 0,
+        });
+  
+        showToast("Payment successful", "success");
+        refetchExamEnrollments(userId);
+        setShowPaymentModal(false);
+        handleCancel();
+      } else {
+        showToast("Failed to create Exam Enrollment", "error");
+      }
+    } catch (error) {
+      showToast(`Payment failed: ${error}`, "error");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+  
+
   return (
     <>
       <CustomButton label="Take Exam" shining onClick={showModal} />
@@ -108,7 +170,6 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
                   (e: any) => e.examId === examItem.examId
                 );
                 
-                // Kiểm tra xem exam có đang trong trạng thái OnGoing không
                 const isInPayment = examEnrollment.some(
                   (e) => e.examEnrollmentStatus === "OnGoing" && 
                   e.simulationExamDetail.some(
@@ -116,7 +177,6 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
                   )
                 );
                 
-                // Kiểm tra exam đã mua (Completed)
                 const isPurchased = purchasedExams.some(
                   (e) => e.simulationExamDetail.some(
                     (simExam) => simExam.examId === examItem.examId
@@ -131,6 +191,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
                     isInCart={isInCart}
                     isPurchased={isPurchased}
                     isInPayment={isInPayment}
+                    onBuyNow={() => handleBuyNow(examItem)}
                   />
                 );
               })
@@ -143,6 +204,42 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
         )}
       </Modal>
       {examLoad && <Loading />}
+      <AntModal
+        title="Confirm Payment"
+        visible={showPaymentModal}
+        onCancel={() => setShowPaymentModal(false)}
+        footer={null}
+        destroyOnClose
+      >
+        <div className="p-4">
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">Exam Price:</span>
+              <span className="flex items-center gap-2 font-medium">
+                {selectedExam?.examDiscountFee}
+                <img src={Coin} alt="coin" className="h-5" />
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">Your Balance:</span>
+              <span className="flex items-center gap-2 font-medium">
+                {userId ? wallets[userId]?.point || 0 : 0}
+                <img src={Coin} alt="coin" className="h-5" />
+              </span>
+            </div>
+            <div className="border-t pt-4">
+              <button
+                onClick={handleConfirmPayment}
+                disabled={isProcessing}
+                className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg font-medium 
+                  hover:bg-purple-700 transition-colors disabled:bg-purple-300"
+              >
+                {isProcessing ? "Processing..." : "Confirm Payment"}
+              </button>
+            </div>
+          </div>
+        </div>
+      </AntModal>
     </>
   );
 };

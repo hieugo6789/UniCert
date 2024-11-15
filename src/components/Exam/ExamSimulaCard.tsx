@@ -7,6 +7,7 @@ interface ExamSimulaCardProps extends allExamPaginationData {
   isInCart: boolean;
   isPurchased: boolean;
   isInPayment?: boolean;
+  onBuyNow?: () => void;
 }
 
 const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
@@ -20,19 +21,9 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
   onClick,
   isInCart,
   isPurchased,
-  isInPayment
+  isInPayment,
+  onBuyNow
 }) => {
-  const buttonText = isPurchased
-    ? "Purchased"
-    : isInCart
-    ? "In Cart"
-    : isInPayment
-    ? "In Payment"
-    : "Add To Cart";
-  const buttonStyles =
-    isPurchased || isInCart || isInPayment
-      ? "bg-gray-400 cursor-not-allowed"
-      : "bg-blue-600 hover:bg-blue-700";
 
   return (
     <div className="flex flex-col bg-white shadow-md rounded-lg p-4 w-80">
@@ -87,13 +78,43 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
             </div>
           )}
         </div>
-        <button
-          onClick={onClick}
-          className={`${buttonStyles} text-white px-4 py-2 rounded-lg`}
-          disabled={isInCart || isPurchased || isInPayment}
-        >
-          {buttonText}
-        </button>
+        {isPurchased ? (
+          <button
+            className="bg-gray-400 cursor-not-allowed text-white px-4 py-2 rounded-lg"
+            disabled
+          >
+            Purchased
+          </button>
+        ) : isInPayment ? (
+          <button
+            className="bg-gray-400 cursor-not-allowed text-white px-4 py-2 rounded-lg"
+            disabled
+          >
+            In Payment
+          </button>
+        ) : isInCart ? (
+          <button
+            className="bg-gray-400 cursor-not-allowed text-white px-4 py-2 rounded-lg"
+            disabled
+          >
+            In Cart
+          </button>
+        ) : (
+          <div className="flex gap-2">
+            <button
+              onClick={onBuyNow}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+            >
+              Buy Now
+            </button>
+            <button
+              onClick={onClick}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+            >
+              Add To Cart
+            </button>            
+          </div>
+        )}
       </div>
     </div>
   );
