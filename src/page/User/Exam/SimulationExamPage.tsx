@@ -145,9 +145,7 @@ const SimulationExamPage = () => {
         <div className="flex items-center justify-between mt-6">
           <CustomButton
             className={`px-6 py-3 rounded-lg transition-all duration-200 ${
-              currentQuestionIndex > 0 && selectedAnswers[currentQuestionIndex] !== 0
-                ? "bg-gray-200 text-gray-700"
-                : currentQuestionIndex > 0
+              currentQuestionIndex > 0
                   ? "bg-blue-600 hover:bg-blue-700 text-white"
                   : "bg-gray-200 text-gray-400 cursor-not-allowed"
             }`}
@@ -175,7 +173,7 @@ const SimulationExamPage = () => {
           />
         </div>
       </div>
-      <div className="w-full col-span-1 xl:border-l xl:border-gray-200">
+      <div className="w-full col-span-1 pr-4">
         <SimulationExamSidebar
           questions={questions}
           currentQuestionIndex={currentQuestionIndex}
