@@ -5,7 +5,7 @@ import { allNotificationData } from "../../models/notification";
 import useNotification from "../../hooks/Notification/useNotification";
 import Cookies from "js-cookie";
 import agent from "../../utils/agent";
-import io from "socket.io-client";
+import * as signalR from "@microsoft/signalr";
 import defaultNotification from "../../assets/images/defaultNoti.png";
 
 const Notification = () => {
@@ -15,20 +15,37 @@ const Notification = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   useEffect(() => {
-    const socket = io("https://uni-cert.vercel.app/");
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl(
+        "https://certificateinformationportal.azurewebsites.net/notificationHub",
+        {
+          transport:
+            signalR.HttpTransportType.WebSockets |
+            signalR.HttpTransportType.LongPolling |
+            signalR.HttpTransportType.ServerSentEvents,
+          withCredentials: true,
+        }
+      )
+      .configureLogging(signalR.LogLevel.Information) // Logs errors for debugging.
+      .build();
 
-    socket.on("connect", () => {
-      console.log("Connected to WebSocket server");
-    });
-
-    socket.on("notificationUpdate", () => {
-      console.log("Received notification update");
+    connection.on("ReceiveNotification", (message: string) => {
+      console.log("Received notification:", message);
       refetch(role);
     });
 
+    // Start the connection
+    connection
+      .start()
+      .then(() => console.log("Connected to SignalR server"))
+      .catch((err) => {
+        console.error("SignalR connection error:", err);
+      });
+
     return () => {
-      socket.off("notificationUpdate");
-      socket.disconnect();
+      connection
+        .stop()
+        .catch((err) => console.error("SignalR disconnection error:", err));
     };
   }, [refetch, role]);
 

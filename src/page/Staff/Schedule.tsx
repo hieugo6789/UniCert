@@ -101,7 +101,7 @@ const Schedule: React.FC = () => {
               }}
               eventContent={(eventInfo) => (
                 <div className="flex items-center justify-between w-full">
-                  <div className="px-2">
+                  <div className="px-2 truncate max-w-[150px]">
                     <i>{eventInfo.event.title}</i> -{" "}
                     <b>
                       {new Date(

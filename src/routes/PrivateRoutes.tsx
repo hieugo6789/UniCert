@@ -14,7 +14,7 @@ const PrivateRoutes: React.FC<PrivateRoutesProps> = ({
   requiredRole,
   children,
 }) => {
-  const role = Cookies.get("role"); // Lấy role trực tiếp từ cookies
+  const role = Cookies.get("role");
 
   if (!token) {
     return (

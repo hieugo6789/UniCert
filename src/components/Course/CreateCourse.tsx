@@ -6,6 +6,7 @@ import { useState } from "react";
 import axios from "axios";
 import useVoucher from "../../hooks/Voucher/useVoucher";
 import useCertificate from "../../hooks/Certification/useCertificate";
+import MyEditor from "../Editor/MyEditor";
 
 const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -28,7 +29,7 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
     setIsModalVisible(true);
   };
   const handleOK = async () => {
-    try {      
+    try {
       await form.validateFields();
       console.log(formData);
 
@@ -38,7 +39,7 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
         uploadedImageUrl = await uploadCloudinary();
         console.log("New uploaded image URL:", uploadedImageUrl);
       }
-      
+
       const updatedFormData = {
         ...formData,
         courseImage: uploadedImageUrl,
@@ -212,11 +213,17 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
               },
             ]}
           >
-            <Input
+            {/* <Input
               name="courseDescription"
               value={formData.courseDescription}
               onChange={handleInputChange}
               placeholder="Enter course description"
+            /> */}
+            <MyEditor
+              value={formData.courseDescription}
+              onChange={(content) =>
+                setFormData({ ...formData, courseDescription: content })
+              }
             />
           </Form.Item>
           <Form.Item
@@ -258,7 +265,7 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
                   </Select.Option>
                 ))}
             </Select>
-          </Form.Item>          
+          </Form.Item>
           <Form.Item
             label="Certification"
             name="certId"
@@ -307,7 +314,7 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
           </Form.Item>
           <Form.Item
             label="Course Image"
-            name="courseImage"            
+            name="courseImage"
           >
             <img
               src={previewImage || formData.courseImage}
@@ -316,9 +323,9 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
             />
             <Input
               name="courseImage"
-              type="file"              
-              onChange={handleImageChange} 
-              required             
+              type="file"
+              onChange={handleImageChange}
+              required
             />
           </Form.Item>
         </Form>
