@@ -127,13 +127,19 @@ const ViewExamDetail: React.FC<ViewExamDetailProps> = ({ examId }) => {
                   />
                   <div className="space-y-2 mt-2">
                     {question.answers.map((answer, index) => {
-                      const answerLetter = ["A", "B", "C", "D"][index]; // Gán ABCD
+                      const answerLetter = ["A", "B", "C", "D"][index];
                       return (
                         <div
                           key={answer.answerId}
-                          className="pl-4 py-1 rounded-md bg-gray-100"
+                          className={`pl-4 py-1 rounded-md ${
+                            answer.isCorrect ? "bg-green-100" : "bg-gray-100"
+                          }`}
                         >
                           <strong>{answerLetter}:</strong> {answer.answerText}
+                          {answer.isCorrect && (
+                            <span className="text-green-500 ml-2">✅ </span>
+                          )}
+                          {answer.isCorrect}
                         </div>
                       );
                     })}

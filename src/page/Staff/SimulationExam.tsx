@@ -37,7 +37,11 @@ const SimulationExam = () => {
       key: "examFee",
       render: (fee: number) => (
         <span className="text-yellow-600 flex justify-between items-center w-16">
-          {fee} <img src={Coin} />
+          {fee}{" "}
+          <img
+            src={Coin}
+            className="size-7"
+          />
         </span>
       ),
     },
@@ -47,7 +51,11 @@ const SimulationExam = () => {
       key: "examDiscountFee",
       render: (fee: number) => (
         <span className="text-yellow-600 flex justify-between items-center w-16">
-          {fee} <img src={Coin} />
+          {fee}{" "}
+          <img
+            src={Coin}
+            className="size-7"
+          />
         </span>
       ),
     },

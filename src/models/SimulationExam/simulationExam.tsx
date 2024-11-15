@@ -74,6 +74,7 @@ export interface currentExamDetail {
         {
           answerId: number;
           answerText: string;
+          isCorrect: boolean;
         }
       ];
     }
