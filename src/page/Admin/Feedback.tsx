@@ -59,9 +59,7 @@ const Feedback = () => {
     <>
       <div className="h-[9vh] flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-semibold mb-4 ml-6">
-            Feedback Management
-          </h2>
+          <h2 className="text-2xl font-semibold ml-6">Feedback Management</h2>
         </div>
         <div className="mr-10 flex items-center">
           <AvatarAdmin />

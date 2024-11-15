@@ -16,7 +16,9 @@ const Dashboard = () => {
   return (
     <>
       <div className="h-[9vh] flex justify-between items-center">
-        <div></div>
+        <div>
+          <h2 className="text-2xl font-semibold ml-6">Dashboard</h2>
+        </div>
         <div className="mr-10">
           <AvatarAdmin />
         </div>
