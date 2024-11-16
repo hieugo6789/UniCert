@@ -130,11 +130,11 @@ const CourseDetail = () => {
             </nav>
 
             {/* Course Header */}
-            <div className="w-full px-4 py-6 md:p-10 text-center">
-                <h1 className="fade-in uppercase text-4xl md:text-6xl lg:text-8xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
+            <div className="w-full px-4 py-6 md:p-10 ">
+                <h1 className="text-center fade-in uppercase text-4xl md:text-6xl lg:text-8xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
                     {courseDetail?.courseName || "Course not found"}
                 </h1>
-                <h2 className="fade-in text-white text-3xl md:text-4xl lg:text-5xl font-bold mt-5">
+                <h2 className="fade-in text-white text-3xl md:text-4xl lg:text-5xl font-bold mt-5 text-center">
                     Course Details
                 </h2>
                 <div className="fade-in text-white " 
