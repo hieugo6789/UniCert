@@ -1,17 +1,47 @@
 import { useEffect, useState } from 'react';
 import ExamFeedback from '../../../components/Exam/ExamFeedback';
 import useExamDetail from '../../../hooks/SimulationExam/useExamDetail';
+import useExamEnrollment from '../../../hooks/Enrollment/useExam';
 import { useNavigate, useParams } from 'react-router-dom';
 import coin from '../../../assets/images/Coin.png';
 import CustomButton from '../../../components/UI/CustomButton';
 import ExamResultTable from '../../../components/Exam/ExamResultTable';
+import Cookies from 'js-cookie';
+import { showToast } from '../../../utils/toastUtils';
 
 const ExamDetailPage = () => {
     const id = useParams().id || 0;
     const navigate = useNavigate();
+    const userId = Cookies.get("userId");
     const [activeTab, setActiveTab] = useState("Detail");
     const [exam, setExam] = useState<any>(undefined);
+    const [isPurchased, setIsPurchased] = useState(false);
     const { state, getExamDetails } = useExamDetail();
+    const { examEnrollment, refetchExamEnrollments } = useExamEnrollment({ userId: userId || "" });
+
+    useEffect(() => {
+        if (!userId) {
+            showToast("Please login to access this page", "error");
+            navigate('/login');
+            return;
+        }
+        refetchExamEnrollments(userId || "");
+    }, [userId]);
+
+    useEffect(() => {        
+        const checkExamPurchase = () => {
+            const purchased = examEnrollment.some(
+                (e) => e.examEnrollmentStatus === "Completed" && 
+                e.simulationExamDetail.some(
+                    (simExam) => simExam.examId === Number(id)
+                )
+            );
+            console.log("Test", purchased);
+            setIsPurchased(purchased);
+        };
+
+        checkExamPurchase();
+    }, [userId, id, examEnrollment]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -19,13 +49,13 @@ const ExamDetailPage = () => {
                 getExamDetails(Number(id));
             } catch (error) {
                 console.error("Error fetching exam details:", error);
+                showToast("Error loading exam details", "error");
             }
         };
         fetchData();
     }, [id]);
 
     useEffect(() => {
-        // console.log(state);
         setExam(state.currentExam);
     }, [state]);
 
@@ -38,6 +68,24 @@ const ExamDetailPage = () => {
         };
         scrollToTop();          
     }, []);
+
+    if (!isPurchased) {
+        return (
+            <div className="max-w-7xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+                <div className="text-center py-12">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-4">Please Purchase This Exam First</h2>
+                    <p className="text-gray-600 mb-6">You need to purchase this exam before you can access its details.</p>
+                    <button
+                        onClick={() => navigate("/certificate")}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200"
+                    >
+                        Go Back
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="max-w-7xl mx-auto p-6 bg-white rounded-lg shadow-lg">
             <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">{exam?.examName}</h1>
@@ -67,14 +115,14 @@ const ExamDetailPage = () => {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                             </svg>
                             <span className="text-gray-600 whitespace-nowrap">Questions:</span>
-                            <span className="font-medium text-green-600 ml-auto">{exam?.listQuestions?.length || 0}</span>
+                            <span className="font-medium text-green-600 ml-auto">{exam?.questionCount || 0}</span>
                         </div>
                         <div className="flex items-center gap-3 bg-yellow-50/80 backdrop-blur px-4 py-3 rounded-lg hover:bg-yellow-100 transition-colors duration-300 shadow-sm">
                             <svg className="w-5 h-5 text-yellow-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <span className="text-gray-600 whitespace-nowrap">Fee:</span>
-                            <span className="font-medium text-yellow-600">{exam?.examFee}</span>
+                            <span className="font-medium text-yellow-600 ml-auto">{exam?.examDiscountFee}</span>
                             <img src={coin} alt="Coin" className="w-6 h-6 animate-bounce" />
                         </div>
                     </div>
