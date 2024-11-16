@@ -14,7 +14,7 @@ const SimulationExamPage = () => {
   const { state, getExamDetails } = useExamDetail();
   const [duration, setDuration] = useState(0);
   const location = useLocation();
-  
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     const fetchExamDetails = async () => {
@@ -24,10 +24,41 @@ const SimulationExamPage = () => {
   }, [id]);
   
   useEffect(() => {
-    if (state && state.currentExam && state.currentExam.listQuestions) {
-      console.log(state.currentExam);
-      setDuration(state.currentExam.duration);
-      const formattedQuestions = state.currentExam.listQuestions.map((q: any) => ({
+    // Skip if already initialized or no exam data
+    if (isInitialized || !state?.currentExam?.listQuestions) {
+      return;
+    }
+
+    setDuration(state.currentExam.duration);
+    const questionCount = state.currentExam.questionCount;
+
+    // If we have formatted answers from location state, use those questions
+    if (location.state?.formattedAnswers?.length > 0) {
+      const formattedAnswers = location.state.formattedAnswers;
+      const allQuestions = state.currentExam.listQuestions;
+      
+      // Map questions in the same order as formatted answers
+      const orderedQuestions = formattedAnswers.map((answer: any) => {
+        const question = allQuestions.find((q: any) => q.questionId === answer.questionId);
+        return {
+          id: question?.questionId,
+          questionText: question?.questionName,
+          options: question?.answers.map((answer: any) => ({
+            answerId: answer.answerId,
+            answerText: answer.answerText,
+          })),
+          correctAnswerId: -1,
+        };
+      });
+      
+      setQuestions(orderedQuestions);
+    } else {
+      // For new exam, shuffle questions
+      const allQuestions = state.currentExam.listQuestions;
+      const shuffledQuestions = [...allQuestions].sort(() => Math.random() - 0.5);
+      const selectedQuestions = shuffledQuestions.slice(0, questionCount);
+
+      const formattedQuestions = selectedQuestions.map((q: any) => ({
         id: q.questionId,
         questionText: q.questionName,
         options: q.answers.map((answer: any) => ({
@@ -38,7 +69,9 @@ const SimulationExamPage = () => {
       }));
       setQuestions(formattedQuestions);
     }
-  }, [state]);
+
+    setIsInitialized(true);
+  }, [state, location.state, isInitialized]);
 
   const [flaggedQuestions, setFlaggedQuestions] = useState<boolean[]>(Array(questions.length).fill(false));
 
@@ -49,17 +82,24 @@ const SimulationExamPage = () => {
   };
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState<(number | null)[]>(Array(questions.length).fill(null));
+  const [selectedAnswers, setSelectedAnswers] = useState<number[][]>(Array(questions.length).fill([]));
 
   const handleSelectAnswer = (questionIndex: number, answerId: number) => {
     const newAnswers = [...selectedAnswers];
-    newAnswers[questionIndex] = answerId;
+    const currentAnswers = newAnswers[questionIndex] || [];
+    const answerIndex = currentAnswers.indexOf(answerId);
+    
+    if (answerIndex === -1) {
+      // Add answer if not already selected
+      newAnswers[questionIndex] = [...currentAnswers, answerId];
+    } else {
+      // Remove answer if already selected
+      newAnswers[questionIndex] = currentAnswers.filter(id => id !== answerId);
+    }
     setSelectedAnswers(newAnswers);
   };
 
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
-
-
 
   useEffect(() => {
     if (timeLeft === 0) {
@@ -86,13 +126,12 @@ const SimulationExamPage = () => {
 
   // Update selectedAnswers when formattedAnswers or questions change
   useEffect(() => {
-    console.log(formattedAnswers);
     if (formattedAnswers.length > 0 && questions.length > 0) {
       const newSelectedAnswers = questions.map((question) => {
         const matchingAnswer = formattedAnswers.find(
           (answer) => answer.questionId === question.id
         );
-        return matchingAnswer ? matchingAnswer.userAnswerId[0] : null;
+        return matchingAnswer ? matchingAnswer.userAnswerId : [];
       });
       setSelectedAnswers(newSelectedAnswers);
     }
@@ -115,7 +154,7 @@ const SimulationExamPage = () => {
 
     const formattedAnswers = questions.map((question, index) => ({
       questionId: question.id,
-      userAnswerId: [selectedAnswers[index] || 0]
+      userAnswerId: selectedAnswers[index] || []
     }));
 
     // Navigate with new state
