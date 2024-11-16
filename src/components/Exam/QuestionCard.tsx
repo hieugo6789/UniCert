@@ -7,7 +7,7 @@ type QuestionProps = {
     correctAnswerIndex: number;
   };
   currentQuestionIndex: number;
-  selectedAnswer: number | null;
+  selectedAnswer: number[] | null;
   flagged: boolean;
   onFlag: () => void;
   onSelectAnswer: (answerId: number) => void;
@@ -55,7 +55,7 @@ const QuestionCard: React.FC<QuestionProps> = ({
             key={option.answerId}
             onClick={() => onSelectAnswer(option.answerId)}
             className={`w-full p-4 text-left rounded-lg border-2 transition-all duration-200
-              ${selectedAnswer === option.answerId
+              ${selectedAnswer?.includes(option.answerId)
                 ? "border-blue-500 bg-blue-50 text-blue-700 font-medium"
                 : "border-gray-200 hover:border-blue-200 hover:bg-blue-50"
               }
