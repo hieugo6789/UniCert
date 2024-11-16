@@ -10,6 +10,7 @@ import UploadExamTemplate from "../../components/Exam/UploadExamTemplate";
 import UpdateQuestion from "../../components/Exam/Question/UpdateQuestion";
 import Breadcrumbs from "../../components/UI/Breadcrumb";
 import Notification from "../../components/UI/Notification";
+import correct from "../../assets/icons/check.png";
 
 const ManageQuestion = () => {
   const { id } = useParams();
@@ -113,9 +114,17 @@ const ManageQuestion = () => {
                 {question.answers?.map((answer, answerIndex) => (
                   <div
                     key={answerIndex}
-                    className="border p-4 rounded-md shadow-sm hover:bg-gray-100 transition"
+                    className={`border p-4 rounded-md shadow-sm hover:bg-gray-100 transition flex justify-between items-center`}
                   >
                     {answer.answerText}
+                    {answer.isCorrect && (
+                      <span>
+                        <img
+                          src={correct}
+                          className="size-6"
+                        />
+                      </span>
+                    )}
                   </div>
                 ))}
               </div>

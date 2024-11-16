@@ -70,6 +70,17 @@ const Students = () => {
       ),
     },
     {
+      title: "Violation",
+      dataIndex: "userOffenseCount",
+      key: "userOffenseCount",
+      width: 10,
+      render: (offenseCount: string) => (
+        <span className="text-red-500 font-bold px-2 py-1 rounded-md bg-red-100">
+          {offenseCount}
+        </span>
+      ),
+    },
+    {
       title: "Status",
       dataIndex: "status",
       key: "status",

@@ -11,6 +11,7 @@ export interface UserDetail {
   status: boolean;
   userCreatedAt: Date;
   userImage: string;
+  userOffenseCount: number;
 }
 
 export interface UpdateRole {
@@ -40,7 +41,6 @@ export interface Profile {
   userCreatedAt: Date;
   userImage: string;
 }
-
 
 export interface ChangePasswordInput {
   oldPassword: string;

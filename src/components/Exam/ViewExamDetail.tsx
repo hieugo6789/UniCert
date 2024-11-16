@@ -132,13 +132,10 @@ const ViewExamDetail: React.FC<ViewExamDetailProps> = ({ examId }) => {
                         <div
                           key={answer.answerId}
                           className={`pl-4 py-1 rounded-md ${
-                            answer.isCorrect ? "bg-green-100" : "bg-gray-100"
+                            answer.isCorrect ? "bg-green-200" : "bg-gray-100"
                           }`}
                         >
                           <strong>{answerLetter}:</strong> {answer.answerText}
-                          {answer.isCorrect && (
-                            <span className="text-green-500 ml-2">✅ </span>
-                          )}
                           {answer.isCorrect}
                         </div>
                       );
