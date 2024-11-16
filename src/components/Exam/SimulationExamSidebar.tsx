@@ -1,11 +1,10 @@
-
 import CustomButton from "../UI/CustomButton";
 
 type SidebarProps = {
   questions: { id: number }[];
   currentQuestionIndex: number;
   setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
-  selectedAnswers: (number | null)[];
+  selectedAnswers: number[][];
   flaggedQuestions: boolean[];
   timeLeft: number;
   handleSubmitExam: () => void;
@@ -69,7 +68,7 @@ const SimulationExamSidebar: React.FC<SidebarProps> = ({
                     ? 'bg-green-600 text-white ring-2 ring-green-600 ring-offset-2'
                     : flaggedQuestions[index]
                       ? 'bg-yellow-500 text-white hover:bg-yellow-600'
-                      : selectedAnswers[index] != null
+                      : selectedAnswers[index]?.length > 0
                         ? 'bg-blue-500 text-white hover:bg-blue-600'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }
