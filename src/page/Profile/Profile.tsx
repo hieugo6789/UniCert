@@ -28,6 +28,7 @@ const Profile = () => {
     status: true,
     userCreatedAt: new Date(),
     userImage: "string",
+    userOffenseCount: 0,
   });
   
   const navigate = useNavigate();
