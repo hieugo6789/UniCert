@@ -137,7 +137,7 @@ const CourseDetail = () => {
                 <h2 className="fade-in text-white text-3xl md:text-4xl lg:text-5xl font-bold mt-5">
                     Course Details
                 </h2>
-                <div className="fade-in prose text-white text-xl md:text-2xl lg:text-3xl mt-5 max-w-full" 
+                <div className="fade-in text-white " 
                     dangerouslySetInnerHTML={{ __html: courseDetail?.courseDescription || "" }} 
                 />
 
