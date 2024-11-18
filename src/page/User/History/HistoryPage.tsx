@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-// import { allExamPaginationData } from "../../../models/simulationExam";
-// import { allCoursePaginationData } from "../../../models/course";
 import useCourseEnrollment from "../../../hooks/Enrollment/useCourse";
 import useExamEnrollment from "../../../hooks/Enrollment/useExam";
 import Loading from "../../../components/UI/Loading";
@@ -11,9 +9,9 @@ import Cookies from "js-cookie";
 import useDeleteCourseEnroll from "../../../hooks/Enrollment/useDeleteCourseEnroll";
 import useDeleteExamEnroll from "../../../hooks/Enrollment/useDeleteExamEnroll";
 import { showToast } from "../../../utils/toastUtils";
+import { useNavigate } from "react-router-dom";
 
-const HistoryPage = () => {
-  // const { id } = useParams<{ id: string }>(); // Extract userID from the URL
+const HistoryPage = () => {  
   const id = Cookies.get("userId");
   const [activeTab, setActiveTab] = useState("exams"); // Current active tab
   const [purchasedExams, setPurchasedExams] = useState<examEnrollment[]>([]);
@@ -22,6 +20,7 @@ const HistoryPage = () => {
   const { examEnrollment, loading: examLoad, refetchExamEnrollments } = useExamEnrollment({ userId: id?.toString() || "" });
   const { handleDeleteExamEnroll } = useDeleteExamEnroll();
   const { handleDeleteCourseEnroll } = useDeleteCourseEnroll();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Giả lập dữ liệu các kỳ thi đã mua
@@ -100,6 +99,15 @@ const HistoryPage = () => {
     refetchCourseEnrollments(id?.toString() || "");
   };
 
+  const scrollToSection = (status: string) => {
+    const element = document.getElementById(`section-${status.toLowerCase()}`);
+    if (element) {
+      const yOffset = -100; // Offset để không bị header che
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
   const renderOngoingContent = (type: 'exams' | 'courses') => {
     const items = type === 'exams' 
       ? purchasedExams.filter(exam => exam.examEnrollmentStatus === 'OnGoing')
@@ -108,7 +116,7 @@ const HistoryPage = () => {
     if (items.length === 0) return null;
 
     return (
-      <div className="mb-8">
+      <div id="section-ongoing" className="mb-8">
         <h3 className="text-xl font-bold text-yellow-600 mb-4 flex items-center gap-2">
           <span className="w-2 h-2 bg-yellow-600 rounded-full"></span>
           Pending Payments
@@ -154,7 +162,7 @@ const HistoryPage = () => {
     if (items.length === 0) return null;
 
     return (
-      <div className="mb-8">
+      <div id="section-completed" className="mb-8">
         <h3 className="text-xl font-bold text-green-600 mb-4 flex items-center gap-2">
           <span className="w-2 h-2 bg-green-600 rounded-full"></span>
           Completed Enrollments
@@ -182,14 +190,14 @@ const HistoryPage = () => {
     if (items.length === 0) return null;
 
     return (
-      <div className="mb-8">
+      <div id="section-expired" className="mb-8">
         <h3 className="text-xl font-bold text-red-600 mb-4 flex items-center gap-2">
           <span className="w-2 h-2 bg-red-600 rounded-full"></span>
           Expired Enrollments
         </h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {items.map((item) => (
-            <div key={item.examEnrollmentId} className="relative">
+            <div key={item.examEnrollmentId} className="relative"Z>
               <HistoryExamCard 
                 enrollment={item}                
                 onStatusChange={handleStatusChange}
@@ -211,80 +219,155 @@ const HistoryPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight mb-8">
-            Purchase History
-          </h1>
-          
-          {/* Tabs */}
-          <div className="bg-white rounded-lg shadow mb-8">
-            <nav className="flex justify-center space-x-8" aria-label="Tabs">
-              <button
-                onClick={() => setActiveTab("exams")}
-                className={`px-6 py-4 text-lg font-medium border-b-2 transition-colors duration-200 ${
-                  activeTab === "exams"
-                    ? "border-blue-500 text-blue-600"
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                }`}
-              >
-                Exam Enrollments
-              </button>
-              <button
-                onClick={() => setActiveTab("courses")}
-                className={`px-6 py-4 text-lg font-medium border-b-2 transition-colors duration-200 ${
-                  activeTab === "courses"
-                    ? "border-blue-500 text-blue-600"
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                }`}
-              >
-                Course Enrollments
-              </button>
-            </nav>
-          </div>
-
-          {/* Content */}
-          <div className="space-y-8">
-            {activeTab === "exams" ? (
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Exam Enrollments</h2>
-                {purchasedExams.length > 0 ? (
-                  <>
-                    {renderCompletedContent('exams')}
-                    {renderOngoingContent('exams')}
-                    {renderExpiredContent('exams')}
-                  </>
-                ) : (
-                  <div className="text-center py-12">
-                    <p className="text-gray-500 text-lg">You haven't enrolled in any exams yet.</p>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Course Enrollments</h2>
-                {purchasedCourses.length > 0 ? (
-                  <>
-                    {renderCompletedContent('courses')}
-                    {renderOngoingContent('courses')}
-                  </>
-                ) : (
-                  <div className="text-center py-12">
-                    <p className="text-gray-500 text-lg">You haven't enrolled in any courses yet.</p>
-                  </div>
-                )}
-              </div>
-            )}
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center text-white">
+            <h1 className="text-4xl font-extrabold tracking-tight mb-3">
+              My Purchases
+            </h1>
+            <p className="text-lg text-blue-100 max-w-2xl mx-auto">
+              Manage your enrollments and take your exams
+            </p>
           </div>
         </div>
-
-        {examLoad && courseLoad && (
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
-            <Loading />
-          </div>
-        )}
       </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
+        {/* Tabs */}
+        <div className="bg-white rounded-xl shadow-lg p-2">
+          <nav className="flex justify-center space-x-4" aria-label="Tabs">
+            {['exams', 'courses'].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`flex items-center gap-2 px-8 py-4 text-lg font-medium rounded-lg 
+                  transition-all duration-300 transform hover:scale-105
+                  ${activeTab === tab
+                    ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-md"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                  }`}
+              >
+                <span className="text-xl">
+                  {tab === 'exams' ? '📝' : '📚'}
+                </span>
+                {tab.charAt(0).toUpperCase() + tab.slice(1)} Enrollments
+              </button>
+            ))}
+          </nav>
+        </div>
+
+        {/* Status Summary */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          {[
+            { status: 'Completed', icon: '✅', color: 'green' },
+            { status: 'OnGoing', icon: '⏳', color: 'yellow' },
+            { status: 'Expired', icon: '⚠️', color: 'red' }
+          ].map(({ status, icon, color }) => (
+            <div 
+              key={status} 
+              onClick={() => scrollToSection(status)}
+              className={`p-6 rounded-xl border transition-all duration-300 hover:shadow-lg cursor-pointer
+                ${color === 'green' ? 'border-green-200 bg-green-50 hover:bg-green-100' : 
+                  color === 'yellow' ? 'border-yellow-200 bg-yellow-50 hover:bg-yellow-100' :
+                  'border-red-200 bg-red-50 hover:bg-red-100'}`}
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-sm font-medium text-gray-600">
+                    {status === 'OnGoing' ? 'Pending Payment' : status}
+                  </div>
+                  <div className="mt-2 text-3xl font-bold text-gray-900">
+                    {activeTab === 'exams' 
+                      ? purchasedExams.filter(e => e.examEnrollmentStatus === status).length
+                      : purchasedCourses.filter(c => c.courseEnrollmentStatus === status).length}
+                  </div>
+                </div>
+                <span className="text-2xl">{icon}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Content Sections */}
+        <div className="mt-8 space-y-8">
+          {activeTab === "exams" ? (
+            purchasedExams.length > 0 ? (
+              <div className="bg-white rounded-xl shadow-lg p-8">
+                <div className="space-y-12">
+                  {renderCompletedContent('exams')}
+                  {renderOngoingContent('exams')}
+                  {renderExpiredContent('exams')}
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white rounded-xl shadow-lg p-12 text-center">
+                <div className="space-y-6">
+                  <div className="text-6xl animate-bounce">📚</div>
+                  <h3 className="text-2xl font-bold text-gray-900">
+                    No Enrollments Yet
+                  </h3>
+                  <p className="text-gray-500 text-lg max-w-md mx-auto">
+                    Start your learning journey by exploring our available exams
+                  </p>
+                  <button 
+                    onClick={() => navigate('/certificate')}
+                    className="inline-flex items-center px-8 py-3 bg-gradient-to-r 
+                      from-blue-600 to-purple-600 text-white rounded-lg 
+                      hover:from-blue-700 hover:to-purple-700 
+                      transition-all duration-300 transform hover:scale-105 shadow-md"
+                  >
+                    Browse Exams
+                    <span className="ml-2">→</span>
+                  </button>
+                </div>
+              </div>
+            )
+          ) : (
+            // Course content
+            purchasedCourses.length > 0 ? (
+              <div className="bg-white rounded-xl shadow-lg p-8">
+                <div className="space-y-12">
+                  {renderCompletedContent('courses')}
+                  {renderOngoingContent('courses')}                  
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white rounded-xl shadow-lg p-12 text-center">
+                <div className="space-y-6">
+                  <div className="text-6xl animate-bounce">📚</div>
+                  <h3 className="text-2xl font-bold text-gray-900">
+                    No Course Enrollments Yet
+                  </h3>
+                  <p className="text-gray-500 text-lg max-w-md mx-auto">
+                    Start your learning journey by exploring our available courses
+                  </p>
+                  <button 
+                    onClick={() => navigate('/courses')}
+                    className="inline-flex items-center px-8 py-3 bg-gradient-to-r 
+                      from-blue-600 to-purple-600 text-white rounded-lg 
+                      hover:from-blue-700 hover:to-purple-700 
+                      transition-all duration-300 transform hover:scale-105 shadow-md"
+                  >
+                    Browse Courses
+                    <span className="ml-2">→</span>
+                  </button>
+                </div>
+              </div>
+            )
+          )}
+        </div>
+      </div>
+
+      {/* Loading Overlay */}
+      {(examLoad || courseLoad) && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm 
+          flex items-center justify-center z-50">
+          <Loading />
+        </div>
+      )}
     </div>
   );
 };

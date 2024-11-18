@@ -68,7 +68,7 @@ const AvatarImage = ({ isMobile = false, onMobileItemClick }: AvatarImageProps) 
               onClick={() => handleItemClick(`/history/${state.profile.userId}`)}
               className="flex items-center gap-3 px-6 py-4 text-gray-300 hover:bg-gray-900"
             >
-              <LuHistory size={20} /> History
+              <LuHistory size={20} /> My Purchases
             </button>
             <button
               onClick={handleLogout}
@@ -106,7 +106,7 @@ const AvatarImage = ({ isMobile = false, onMobileItemClick }: AvatarImageProps) 
         <Link to="/wallet">Coins</Link>
       </Menu.Item>
       <Menu.Item key="3" icon={<LuHistory />}>
-        <Link to={`/history/${state.profile.userId}`}>History</Link>
+        <Link to={`/history/${state.profile.userId}`}>My Purchases</Link>
       </Menu.Item>
       <Menu.Item key="4" onClick={handleLogout} icon={<LuLogOut />}>
         Logout
