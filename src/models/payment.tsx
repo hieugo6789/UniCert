@@ -35,3 +35,9 @@ export interface createPayment {
   examEnrollmentId: number;
   courseEnrollmentId: number;
 }
+
+export interface payNow {
+  userId: number;
+  simulation_Exams: number[];
+  courses: number[];
+}

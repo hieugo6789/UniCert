@@ -57,6 +57,7 @@ import deleteCourseEnrollmentReducer from "./slice/Enrollment/deleteCourseEnroll
 import examPaymentReducer from "./slice/Payment/examPaymentSlice";
 import coursePaymentReducer from "./slice/Payment/coursePaymentSlice";
 import createPaymentReducer from "./slice/Payment/createPaymentSlice";
+import payNowReducer from "./slice/Payment/payNowSlice";
 import createScoreReducer from "./slice/Score/createScore";
 import scheduleDetailReducer from "./slice/Schedule/scheduleDetailSlice";
 import createScheduleReducer from "./slice/Schedule/createSchedule";
@@ -126,6 +127,7 @@ export const store = configureStore({
     examPayment: examPaymentReducer,
     coursePayment: coursePaymentReducer,
     createPayment: createPaymentReducer,
+    payNow: payNowReducer,
     createScore: createScoreReducer,
     scheduleDetail: scheduleDetailReducer,
     createSchedule: createScheduleReducer,

@@ -6,14 +6,18 @@ import {
   createOrganizationModel,
   updateOrganize,
 } from "../models/organization";
-import { ChangePasswordInput, resetPasswordInput, UpdateRole } from "../models/user";
+import {
+  ChangePasswordInput,
+  resetPasswordInput,
+  UpdateRole,
+} from "../models/user";
 import { scheduleInput, updateSchedule } from "../models/schedule";
 import { createCertificate, updateCert } from "../models/certificate";
 import { createJobInput, updateJobInput } from "../models/jobPosition";
 import { inputTransaction } from "../models/transaction";
 import { createCourse, updateCourse } from "../models/course";
 import { createVoucher, updateVoucher } from "../models/voucher";
-import { createPayment } from "../models/payment";
+import { createPayment, payNow } from "../models/payment";
 import { updateCart } from "../models/cart";
 import {
   createCourseEnrollment,
@@ -288,6 +292,7 @@ const Payment = {
     requests.get(`api/v1/payment/get-ExamEnrollment-by-userId/${userId}`),
   coursePayment: (userId: string) =>
     requests.get(`api/v1/payment/get-CourseEnrollment-by-userId/${userId}`),
+  payNow: (input: payNow) => requests.post("api/v1/payment/pay-now", input),
 };
 
 const Score = {
@@ -309,12 +314,15 @@ const Notification = {
     requests.put1(`api/v1/notification/IsRead?role=${role}`),
 };
 const ChangePassword = {
-  changePassword: (input: ChangePasswordInput, userId: string) => requests.post(`api/v1/forget-password/change-password/${userId}`, input),
+  changePassword: (input: ChangePasswordInput, userId: string) =>
+    requests.post(`api/v1/forget-password/change-password/${userId}`, input),
 };
-const resetPassword ={
-  forgotPassword: (input: {email: string}) => requests.post(`api/v1/forget-password/forget-password`, input),
-  resetPassword: (input: resetPasswordInput) => requests.post(`api/v1/forget-password/reset-password`, input),
-}
+const resetPassword = {
+  forgotPassword: (input: { email: string }) =>
+    requests.post(`api/v1/forget-password/forget-password`, input),
+  resetPassword: (input: resetPasswordInput) =>
+    requests.post(`api/v1/forget-password/reset-password`, input),
+};
 const agent = {
   Major,
   Account,
