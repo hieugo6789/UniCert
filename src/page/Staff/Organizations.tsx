@@ -9,7 +9,7 @@ import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import UpdateOrganize from "../../components/Organization/UpdateOrganize";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import ViewOrganize from "../../components/Organization/ViewOrganize";
-import Notification from "../../components/UI/Notification";
+import Notification from "../../components/Notification/Notification";
 
 const { confirm } = Modal;
 

@@ -12,7 +12,7 @@ import CreateSchedule from "../../components/Calendar/CreateSchedule";
 import useScheduleDetail from "../../hooks/Schedule/useScheduleDetail"; // Hook for fetching schedule details
 import useCertDetail from "../../hooks/Certification/useCertDetail";
 import UpdateSchedule from "../../components/Calendar/UpdateSchedule";
-import Notification from "../../components/UI/Notification";
+import Notification from "../../components/Notification/Notification";
 
 const Schedule: React.FC = () => {
   const { schedule, loading, refetchSchedule } = useSchedule();

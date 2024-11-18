@@ -11,7 +11,7 @@ import useDeleteMajor from "../../hooks/Major/useDeleteMajor";
 import UpdateMajor from "../../components/Majors/UpdateMajor";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import ViewMajorDetail from "../../components/Majors/ViewMajorDetail";
-import Notification from "../../components/UI/Notification";
+import Notification from "../../components/Notification/Notification";
 
 const { confirm } = Modal;
 

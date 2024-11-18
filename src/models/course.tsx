@@ -93,3 +93,14 @@ export interface updateCourse {
 export interface deleteCourse {
   courseId: string;
 }
+
+export interface Students {
+  userId: number;
+  username: string;
+  userImage: string;
+  email: string;
+  fullname: string;
+  dob: string;
+  address: string;
+  phoneNumber: number;
+}

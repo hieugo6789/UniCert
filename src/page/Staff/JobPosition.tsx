@@ -11,7 +11,7 @@ import CreateJob from "../../components/JobPosition/CreateJob";
 import UpdateJobPosition from "../../components/JobPosition/UpdateJobPosition";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import ViewJobPosition from "../../components/JobPosition/ViewJobPosition";
-import Notification from "../../components/UI/Notification";
+import Notification from "../../components/Notification/Notification";
 
 const { confirm } = Modal;
 

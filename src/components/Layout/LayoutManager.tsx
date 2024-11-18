@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import MenuManager from "../Menu/MenuManager";
 import AvatarAdmin from "../Header/AvatarAdmin";
-import Notification from "../UI/Notification";
+import Notification from "../Notification/Notification";
 
 const LayoutManager = () => {
   return (

@@ -2,14 +2,18 @@ import { message, Modal, Table, Tag } from "antd";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import useCourse from "../../hooks/Course/useCourse";
 import { allCoursePaginationData } from "../../models/course";
-import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  SolutionOutlined,
+} from "@ant-design/icons";
 import useDeleteCourse from "../../hooks/Course/useDeleteCourse";
 import UpdateCourse from "../../components/Course/UpdateCourse";
 import CreateCourse from "../../components/Course/CreateCourse";
 import ViewDetailCourse from "../../components/Course/ViewDetailCourse";
 import Coin from "../../assets/images/Coin.png";
-import Notification from "../../components/UI/Notification";
-
+import Notification from "../../components/Notification/Notification";
+import { Link } from "react-router-dom";
 const { confirm } = Modal;
 
 const InternalCourses = () => {
@@ -129,6 +133,12 @@ const InternalCourses = () => {
             onClick={() => showDeleteConfirm(record.courseId)}
             style={{ color: "red", marginLeft: 12 }}
           />
+          <Link
+            to={`/staff/internalCourses/${record.courseId}`}
+            className="text-blue-500 hover:text-blue-700 transition-colors"
+          >
+            <SolutionOutlined className="mt-2" />
+          </Link>
         </div>
       ),
     },

@@ -52,6 +52,7 @@ import Feedback from "./page/Admin/Feedback";
 import FeedbackForStaff from "./components/Feedback/FeedbackForStaff";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import ResetPassword from "./page/Login&Register/ResetPassword";
+import ManageStudents from "./page/Staff/ManageStudents";
 
 const Layout = () => {
   return (
@@ -149,6 +150,7 @@ function App() {
       children: [
         { path: "schedule", element: <Schedule /> },
         { path: "internalCourses", element: <InternalCourses /> },
+        { path: "internalCourses/:id", element: <ManageStudents /> },
         { path: "simulationExam", element: <SimulationExam /> },
         { path: "simulationExam/:id", element: <ManageQuestion /> },
         { path: "jobPosition", element: <JobPosition /> },

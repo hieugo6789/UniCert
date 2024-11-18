@@ -16,6 +16,7 @@ import useUserDetail from "../../hooks/Account/useUserDetail";
 import useWalletDetail from "../../hooks/Wallet/useWalletDetail";
 import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
+import AdminNotification from "../../components/Notification/AdminNotification";
 
 const Students = () => {
   const {
@@ -152,7 +153,10 @@ const Students = () => {
         <div>
           <h2 className="text-2xl font-semibold ml-6">Students Management</h2>
         </div>
-        <div className="mr-10">
+        <div className="mr-10 flex items-center">
+          <div className="mr-6">
+            <AdminNotification />
+          </div>
           <AvatarAdmin />
         </div>
       </div>

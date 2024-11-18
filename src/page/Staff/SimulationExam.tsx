@@ -9,7 +9,7 @@ import UpdateExam from "../../components/Exam/UpdateExam";
 import CreateExam from "../../components/Exam/CreateExam";
 import Coin from "../../assets/images/Coin.png";
 import { Link } from "react-router-dom";
-import Notification from "../../components/UI/Notification";
+import Notification from "../../components/Notification/Notification";
 
 const { confirm } = Modal;
 

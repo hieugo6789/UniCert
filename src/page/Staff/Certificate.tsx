@@ -11,7 +11,7 @@ import CreateCert from "../../components/Certifications/CreateCert";
 import UpdateCert from "../../components/Certifications/UpdateCert";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import ViewCertification from "../../components/Certifications/ViewCertification";
-import Notification from "../../components/UI/Notification";
+import Notification from "../../components/Notification/Notification";
 
 const { confirm } = Modal;
 

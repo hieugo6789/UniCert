@@ -9,7 +9,7 @@ import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import UploadExamTemplate from "../../components/Exam/UploadExamTemplate";
 import UpdateQuestion from "../../components/Exam/Question/UpdateQuestion";
 import Breadcrumbs from "../../components/UI/Breadcrumb";
-import Notification from "../../components/UI/Notification";
+import Notification from "../../components/Notification/Notification";
 import correct from "../../assets/icons/check.png";
 
 const ManageQuestion = () => {

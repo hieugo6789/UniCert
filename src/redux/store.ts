@@ -18,6 +18,7 @@ import courseReducer from "./slice/Course/courseSlice";
 import courseDetailReducer from "./slice/Course/courseDetailSlice";
 import createCourseReducer from "../redux/slice/Course/createCourseSlice";
 import deleteCourseReducer from "./slice/Course/deleteCourseSlice";
+import studentListReducer from "./slice/Course/studentListSlice";
 import examReducer from "../redux/slice/SimulationExam/examSlice";
 import examDetailReducer from "./slice/SimulationExam/examDetailSlice";
 import createExamReducer from "./slice/SimulationExam/createExamSlice";
@@ -88,6 +89,7 @@ export const store = configureStore({
     createCourse: createCourseReducer,
     courseDetail: courseDetailReducer,
     deleteCourse: deleteCourseReducer,
+    studentList: studentListReducer,
     exam: examReducer,
     examDetail: examDetailReducer,
     createExam: createExamReducer,

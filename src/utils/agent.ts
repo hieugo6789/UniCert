@@ -191,6 +191,8 @@ const InternalCourse = {
     requests.put1(
       `api/v1/course/Permission?courseId=${courseId}&coursePermission=${permission}`
     ),
+  studentList: (courseId: number) =>
+    requests.get(`api/v1/course-enrollment/list_student_enroll/${courseId}`),
 };
 
 const SimulationExam = {
@@ -312,6 +314,8 @@ const Notification = {
     requests.get(`api/v1/notification/${role}`),
   updateIsRead: (role: string) =>
     requests.put1(`api/v1/notification/IsRead?role=${role}`),
+  updateIsReadViolation: (notificationId: number) =>
+    requests.put1(`api/v1/notification/RecordViolations/${notificationId}`),
 };
 const ChangePassword = {
   changePassword: (input: ChangePasswordInput, userId: string) =>
