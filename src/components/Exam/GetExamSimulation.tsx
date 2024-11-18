@@ -11,8 +11,7 @@ import useExamEnrollment from "../../hooks/Enrollment/useExam";
 import { examEnrollment } from "../../models/enrollment";
 import Cookies from "js-cookie";
 import { showToast } from "../../utils/toastUtils";
-import { useCreateExamEnrollment } from "../../hooks/Enrollment/useCreateExam";
-import { useCreatePayment } from "../../hooks/Payment/useCreatePayment";
+import { usePayNow } from "../../hooks/Payment/usePayNow";
 import Coin from "../../assets/images/Coin.png";
 import useWalletDetail from "../../hooks/Wallet/useWalletDetail";
 import { Modal as AntModal } from "antd";
@@ -27,8 +26,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
   const [approvedExams, setApprovedExams] = useState<any[]>([]);
   const { examEnrollment, loading: examLoad, refetchExamEnrollments } = useExamEnrollment({ userId: userId || "" });
   const { updateCart } = useUpdateCart();
-  const { state: createdExamEnroll, handleCreateExamEnrollment } = useCreateExamEnrollment();
-  const { handleCreatePayment } = useCreatePayment();
+  const { handlePayNow } = usePayNow();
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedExam, setSelectedExam] = useState<any>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -120,29 +118,17 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
   const handleConfirmPayment = async () => {
     if (!userId || !selectedExam) return;
   
-    try {
-      setIsProcessing(true);
-        
-      await handleCreateExamEnrollment({
-        userId: userId,
+    try {                   
+      await handlePayNow({
+        userId: Number(userId),
         simulation_Exams: [selectedExam.examId],
+        courses: [],
       });
-  
-      const examEnrollmentId = (createdExamEnroll?.createdExamEnrollment as any)?.data?.examEnrollment?.examEnrollmentId;      
-      if (examEnrollmentId) {
-        await handleCreatePayment({
-          userId: userId,
-          examEnrollmentId: examEnrollmentId,
-          courseEnrollmentId: 0,
-        });
-  
-        showToast("Payment successful", "success");
-        refetchExamEnrollments(userId);
-        setShowPaymentModal(false);
-        handleCancel();
-      } else {
-        showToast("Failed to create Exam Enrollment", "error");
-      }
+
+      showToast("Payment successful", "success");
+      refetchExamEnrollments(userId);
+      setShowPaymentModal(false);
+      handleCancel();
     } catch (error) {
       showToast(`Payment failed: ${error}`, "error");
     } finally {

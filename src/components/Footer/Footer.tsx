@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import useTopCert from "../../hooks/Certification/useTopCert";
 
 const Footer = () => {
+  const { certificate } = useTopCert({ topN: 4 });
   return (
     <footer className="font-sans tracking-wide bg-black py-10 px-10">
       <div className="container mx-auto max-w-6xl">
@@ -38,26 +40,13 @@ const Footer = () => {
           <div className="lg:text-center">
             <h4 className="text-violet-600 font-semibold text-lg mb-4">Popular Certificates</h4>
             <ul className="space-y-3">
-              <li>
-                <Link to="/certificates/aws" className="hover:text-violet-600 text-gray-300 text-sm">
-                  AWS Certification
+              {certificate.map((cert) => (
+                <li>
+                <Link to={`/certificate/${cert.certId}`} className="hover:text-violet-600 text-gray-300 text-sm">
+                  {cert.certName}
                 </Link>
-              </li>
-              <li>
-                <Link to="/certificates/azure" className="hover:text-violet-600 text-gray-300 text-sm">
-                  Microsoft Azure
-                </Link>
-              </li>
-              <li>
-                <Link to="/certificates/cisco" className="hover:text-violet-600 text-gray-300 text-sm">
-                  Cisco CCNA
-                </Link>
-              </li>
-              <li>
-                <Link to="/certificates/comptia" className="hover:text-violet-600 text-gray-300 text-sm">
-                  CompTIA A+
-                </Link>
-              </li>
+                </li>              
+              ))}
             </ul>
           </div>
 

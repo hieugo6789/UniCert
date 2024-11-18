@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { allExamPaginationData } from "../../models/SimulationExam/simulationExam";
 import Coin from "../../assets/images/Coin.png";
 
@@ -26,6 +26,8 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
   isInPayment,
   onBuyNow
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   const handleClick = () => {
     if (isPurchased && onClick) {
       onClick();
@@ -35,6 +37,8 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
   return (
     <div 
       onClick={handleClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className={`flex flex-col bg-white shadow-md rounded-lg p-4 w-80 
         ${isPurchased ? 'cursor-pointer hover:shadow-xl hover:scale-[1.05] transition-all duration-200' : ''}`}
     >
@@ -93,10 +97,14 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
         </div>
         {isPurchased ? (
           <button
-            className="bg-gray-400 cursor-not-allowed text-white px-4 py-2 rounded-lg"
-            disabled
+            className={`${
+              isHovered 
+                ? "bg-green-500 hover:bg-green-600" 
+                : "bg-gray-400"
+            } text-white px-4 py-2 rounded-lg transition-colors duration-200`}
+            disabled={!isHovered}
           >
-            Purchased
+            {isHovered ? "Take Exam" : "Purchased"}
           </button>
         ) : isInPayment ? (
           <button
