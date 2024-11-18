@@ -108,8 +108,9 @@ const HistoryPage = () => {
     if (items.length === 0) return null;
 
     return (
-      <div>
-        <h3 className="text-xl font-bold text-orange-600 mb-4">
+      <div className="mb-8">
+        <h3 className="text-xl font-bold text-yellow-600 mb-4 flex items-center gap-2">
+          <span className="w-2 h-2 bg-yellow-600 rounded-full"></span>
           Pending Payments
         </h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -154,7 +155,8 @@ const HistoryPage = () => {
 
     return (
       <div className="mb-8">
-        <h3 className="text-xl font-bold text-green-600 mb-4">
+        <h3 className="text-xl font-bold text-green-600 mb-4 flex items-center gap-2">
+          <span className="w-2 h-2 bg-green-600 rounded-full"></span>
           Completed Enrollments
         </h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -165,6 +167,42 @@ const HistoryPage = () => {
               ) : (
                 <HistoryCourseCard enrollment={item} />
               )}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderExpiredContent = (type: 'exams' | 'courses') => {    
+    if (type === 'courses') return null;
+
+    const items = purchasedExams.filter(exam => exam.examEnrollmentStatus === 'Expired');
+
+    if (items.length === 0) return null;
+
+    return (
+      <div className="mb-8">
+        <h3 className="text-xl font-bold text-red-600 mb-4 flex items-center gap-2">
+          <span className="w-2 h-2 bg-red-600 rounded-full"></span>
+          Expired Enrollments
+        </h3>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {items.map((item) => (
+            <div key={item.examEnrollmentId} className="relative">
+              <HistoryExamCard 
+                enrollment={item}                
+                onStatusChange={handleStatusChange}
+              />
+              <button
+                onClick={() => handleDeleteEnrollment('exam', item.examEnrollmentId)}
+                className="absolute top-0 right-0 p-2 text-red-500 hover:text-red-700
+                  bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
             </div>
           ))}
         </div>
@@ -215,6 +253,7 @@ const HistoryPage = () => {
                   <>
                     {renderCompletedContent('exams')}
                     {renderOngoingContent('exams')}
+                    {renderExpiredContent('exams')}
                   </>
                 ) : (
                   <div className="text-center py-12">
