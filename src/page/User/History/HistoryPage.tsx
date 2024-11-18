@@ -197,7 +197,7 @@ const HistoryPage = () => {
         </h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {items.map((item) => (
-            <div key={item.examEnrollmentId} className="relative"Z>
+            <div key={item.examEnrollmentId} className="relative">
               <HistoryExamCard 
                 enrollment={item}                
                 onStatusChange={handleStatusChange}
