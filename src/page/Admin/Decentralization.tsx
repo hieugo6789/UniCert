@@ -20,6 +20,7 @@ import {
 } from "@ant-design/icons";
 import useDeleteAccount from "../../hooks/Account/useDeleteAccount";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
+import AdminNotification from "../../components/Notification/AdminNotification";
 
 const { confirm } = Modal;
 
@@ -157,7 +158,10 @@ const Decentralization = () => {
         <div>
           <h2 className="text-2xl font-semibold ml-6">Account</h2>
         </div>
-        <div className="mr-10">
+        <div className="mr-10 flex items-center">
+          <div className="mr-6">
+            <AdminNotification />
+          </div>
           <AvatarAdmin />
         </div>
       </div>

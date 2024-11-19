@@ -4,6 +4,7 @@ import useExam from "../../hooks/SimulationExam/useExam";
 import { Pagination, Table, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 import { FiMessageCircle } from "react-icons/fi";
+import AdminNotification from "../../components/Notification/AdminNotification";
 
 const Feedback = () => {
   const navigate = useNavigate();
@@ -62,6 +63,9 @@ const Feedback = () => {
           <h2 className="text-2xl font-semibold ml-6">Feedback Management</h2>
         </div>
         <div className="mr-10 flex items-center">
+          <div className="mr-6">
+            <AdminNotification />
+          </div>
           <AvatarAdmin />
         </div>
       </div>
