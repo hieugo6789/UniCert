@@ -36,7 +36,7 @@ const ManageStudents = () => {
                 <thead className="bg-blue-500 text-white">
                   <tr>
                     <th className="px-3 py-3 text-left text-sm font-medium">
-                      STT
+                      No
                     </th>
 
                     <th className="px-2 py-3 text-left text-sm font-medium">
