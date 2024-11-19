@@ -65,6 +65,7 @@ import createScheduleReducer from "./slice/Schedule/createSchedule";
 import scoreReducer from "./slice/Score/scoreByUserAndExam";
 import dashboardReducer from "./slice/Dashboard/DashboardSlice";
 import notificationReducer from "./slice/Notification/notificationSlice";
+import deleteNotificationReducer from "./slice/Notification/deleteNotificationSlice";
 import changePasswordReducer from "./slice/Password/ChangePasswordSlice";
 import resetPasswordReducer from "./slice/Password/ResetPasswordSlice";
 import forgotPasswordReducer from "./slice/Password/ForgotPasswordSlice";
@@ -136,6 +137,7 @@ export const store = configureStore({
     score: scoreReducer,
     dashboard: dashboardReducer,
     notification: notificationReducer,
+    deleteNotification: deleteNotificationReducer,
     changePassword: changePasswordReducer,
     resetPassword: resetPasswordReducer,
     forgotPassword: forgotPasswordReducer,

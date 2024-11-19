@@ -16,3 +16,7 @@ export interface currentNotification {
   role: string;
   isRead: boolean;
 }
+
+export interface deleteNotification {
+  notificationId: number;
+}

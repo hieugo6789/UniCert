@@ -7,10 +7,13 @@ import Cookies from "js-cookie";
 import agent from "../../utils/agent";
 import * as signalR from "@microsoft/signalr";
 import defaultNotification from "../../assets/images/defaultNoti.png";
+import { GoDotFill } from "react-icons/go";
+import useDeleteNotification from "../../hooks/Notification/useDeleteNotification";
 
 const Notification = () => {
   const role = Cookies.get("role") || "";
   const { notification, loading, refetch } = useNotification({ role });
+  useDeleteNotification();
   const [unreadCount, setUnreadCount] = useState(0);
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
@@ -29,23 +32,15 @@ const Notification = () => {
       .configureLogging(signalR.LogLevel.Information) // Logs errors for debugging.
       .build();
 
-    connection.on("ReceiveNotification", (message: string) => {
-      console.log("Received notification:", message);
+    connection.on("ReceiveNotification", () => {
       refetch(role);
     });
 
     // Start the connection
-    connection
-      .start()
-      .then(() => console.log("Connected to SignalR server"))
-      .catch((err) => {
-        console.error("SignalR connection error:", err);
-      });
+    connection.start().catch(() => {});
 
     return () => {
-      connection
-        .stop()
-        .catch((err) => console.error("SignalR disconnection error:", err));
+      connection.stop().catch(() => {});
     };
   }, [refetch, role]);
 
@@ -81,7 +76,7 @@ const Notification = () => {
               className="text-blue-500 cursor-pointer"
               onClick={handleMarkAllAsRead}
             >
-              Mark all as read
+              View all
             </Button>
           </div>
           <List
@@ -123,6 +118,11 @@ const Notification = () => {
                       </p>
                     </div>
                   </div>
+                  {!notif.isRead && (
+                    <div className="text-blue-600">
+                      <GoDotFill />
+                    </div>
+                  )}
                 </List.Item>
               );
             }}

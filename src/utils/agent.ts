@@ -316,6 +316,12 @@ const Notification = {
     requests.put1(`api/v1/notification/IsRead?role=${role}`),
   updateIsReadViolation: (notificationId: number) =>
     requests.put1(`api/v1/notification/RecordViolations/${notificationId}`),
+  readNotification: (notificationId: number) =>
+    requests.put1(
+      `api/v1/notification/IsReadByNotificationId/${notificationId}`
+    ),
+  deleteNotification: (notificationId: number) =>
+    requests.del(`api/v1/notification/${notificationId}`),
 };
 const ChangePassword = {
   changePassword: (input: ChangePasswordInput, userId: string) =>

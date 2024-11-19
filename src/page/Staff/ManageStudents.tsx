@@ -75,7 +75,7 @@ const ManageStudents = () => {
                             alt={student.fullname}
                             className="w-12 h-12 rounded-full"
                           />
-                          <span>{student.fullname}</span>
+                          <span className="ml-1">{student.fullname}</span>
                         </div>
                       </td>
                       <td className="border-t px-3 py-2 text-left">
