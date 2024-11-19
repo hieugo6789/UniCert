@@ -26,7 +26,7 @@ const ExamResultTable = () => {
     }, [state]);
 
     const averageScore = examResults.length > 0 
-        ? (examResults.reduce((acc, cur) => acc + cur.scoreValue, 0) / examResults.length).toFixed(2)
+        ? (examResults.reduce((acc, cur) => acc + cur.scoreValue, 0) / examResults.length).toFixed(0)
         : null;
 
     const formatVietnameseDateTime = (utcDate: string) => {
@@ -49,8 +49,8 @@ const ExamResultTable = () => {
 
             {averageScore && (
                 <div className="text-center mb-6">
-                    <p className={`font-semibold text-base sm:text-lg ${Number(averageScore) >= 5 ? "text-green-600" : "text-red-600"}`}>
-                        Average Score: {averageScore}/10
+                    <p className={`font-semibold text-base sm:text-lg ${Number(averageScore) >= 50 ? "text-green-600" : "text-red-600"}`}>
+                        Average Score: {averageScore}/100
                     </p>
                     {examResults.length > 1 && (
                         <p className="text-xs sm:text-sm text-gray-600 mt-1">
@@ -62,12 +62,12 @@ const ExamResultTable = () => {
 
             {examResults.length > 0 && (
                 <div className={`text-center mb-6 p-3 rounded-lg ${
-                    examResults[0].scoreValue >= 5 
+                    examResults[0].scoreValue >= 50 
                         ? "bg-green-50 text-green-700 border border-green-200" 
                         : "bg-red-50 text-red-700 border border-red-200"
                 }`}>
                     <p className="font-semibold text-sm sm:text-base">
-                        {examResults[0].scoreValue >= 5 
+                        {examResults[0].scoreValue >= 50 
                             ? "Congratulations! You have passed the exam" 
                             : "You have not passed the exam yet. Keep practicing!"}
                     </p>
@@ -94,9 +94,9 @@ const ExamResultTable = () => {
                                         {examResults.length - index}
                                     </td>
                                     <td className={`py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm font-medium ${
-                                        result.scoreValue >= 5 ? "text-green-600" : "text-red-600"
+                                        result.scoreValue >= 50 ? "text-green-600" : "text-red-600"
                                     }`}>
-                                        {result.scoreValue.toFixed(1)}/10
+                                        {result.scoreValue.toFixed(0)}/100
                                     </td>
                                     <td className="py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm text-gray-600">
                                         {formatVietnameseDateTime(result.createdAt)}

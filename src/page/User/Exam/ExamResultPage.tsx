@@ -129,14 +129,14 @@ const ExamResultPage = () => {
                             )}
                         </div>
                         <h1 className="text-5xl font-bold text-white mb-4">
-                            {scoreValue.toFixed(1)}<span className="text-3xl">/10</span>
+                            {scoreValue.toFixed(0)}<span className="text-3xl">/100</span>
                         </h1>
                         <div className="flex justify-center space-x-1 mb-4">
                             {Array.from({ length: 5 }, (_, index) => {
-                                const starValue = index * 2 + 1;
+                                const starValue = (index * 2 + 1) * 10;
                                 return (
                                     <span key={index} className="text-2xl">
-                                        {scoreValue >= starValue ? "⭐" : scoreValue >= starValue - 1 ? "🌟" : "☆"}
+                                        {scoreValue >= starValue ? "⭐" : scoreValue >= starValue - 10 ? "🌟" : "☆"}
                                     </span>
                                 );
                             })}
@@ -149,7 +149,7 @@ const ExamResultPage = () => {
                     {/* Actions Section */}
                     <div className="px-8 py-6 bg-white space-y-6">
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            {scoreValue >= 5 ? (
+                            {scoreValue >= 50 ? (
                                 <CustomButton
                                     onClick={() => navigate("/")}
                                     label="View Certificate"

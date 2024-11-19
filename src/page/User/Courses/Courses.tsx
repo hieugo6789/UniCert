@@ -6,6 +6,7 @@ import Loading from "../../../components/UI/Loading";
 import useUpdateCart from "../../../hooks/Cart/useUpdateCart";
 import useCartByUserId from "../../../hooks/Cart/useCartByUserId";
 import useCourseEnrollment from "../../../hooks/Enrollment/useCourse";
+import { usePayNow } from "../../../hooks/Payment/usePayNow";
 import { courseEnrollment } from "../../../models/enrollment";
 import Cookies from "js-cookie";
 import { showToast } from "../../../utils/toastUtils";
@@ -15,6 +16,9 @@ import comptia from "../../../assets/images/Organization/comptia.png";
 import cisco from "../../../assets/images/Organization/cisco.png";
 import oracle from "../../../assets/images/Organization/oracle.png";
 import google from "../../../assets/images/Organization/google.png";
+import { Modal } from "antd";
+import Coin from "../../../assets/images/Coin.png";
+import useWalletDetail from "../../../hooks/Wallet/useWalletDetail";
 
 const Courses = () => {
   const userId = Cookies.get("userId");
@@ -24,6 +28,10 @@ const Courses = () => {
   const { updateCart } = useUpdateCart();
   const [purchasedCourses, setPurchasedCourses] = useState<courseEnrollment[]>([]);
   const { courseEnrollment, loading: courseLoad, refetchCourseEnrollments } = useCourseEnrollment({ userId: userId || "" });
+  const { handlePayNow } = usePayNow();
+  const [selectedCourse, setSelectedCourse] = useState<any>(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const { wallets, getWalletDetails } = useWalletDetail();
 
   useEffect(() => {
     if (userId) {
@@ -77,6 +85,39 @@ const Courses = () => {
   }, [course]);
 
   useEffect(() => {
+    if (userId) {
+      getWalletDetails(userId, null);
+    }
+  }, [userId]);
+
+  const handleBuyNow = (courseItem: any) => {
+    if (!userId) {
+      showToast("Please log in to purchase course", "error");
+      return;
+    }
+    setSelectedCourse(courseItem);
+    setShowPaymentModal(true);
+  };
+  
+  const handleConfirmPayment = async () => {
+    if (!userId || !selectedCourse) return;
+  
+    try {                   
+      await handlePayNow({
+        userId: Number(userId),
+        simulation_Exams: [],
+        courses: [selectedCourse.courseId],
+      });
+
+      showToast("Payment successful", "success");
+      refetchCourseEnrollments(userId);
+      setShowPaymentModal(false);      
+    } catch (error) {
+      showToast(`Payment failed: ${error}`, "error");
+    }
+  };
+
+  useEffect(() => {
     const scrollToTop = () => {
       window.scrollTo({
         top: 0,
@@ -84,7 +125,7 @@ const Courses = () => {
       });
     };
     scrollToTop();
-  });
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -95,8 +136,7 @@ const Courses = () => {
             Explore Our Training Courses
           </h1>
           <p className="text-center text-lg text-purple-100 max-w-3xl mx-auto">
-            Comprehensive preparation courses designed to help you pass your certification exams. 
-            Our courses include practice tests, exam tips, and detailed explanations of key concepts.
+            Comprehensive preparation courses designed to help you pass your certification exams.             
           </p>
         </div>
       </div>
@@ -104,18 +144,19 @@ const Courses = () => {
       {/* Courses Grid */}
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {courses.map((course, idx) => {
+          {courses.map((course) => {
             const isInCart = !!(userId && state.currentCart.courseDetails.some((c: any) => c.courseId === course.courseId));
             const isPurchased = !!(userId && (purchasedCourses || []).some((e) => 
               (e.courseDetails || []).some((c) => c.courseId.toString() === course.courseId.toString())
             ));                
             return (
               <CourseCard
-                key={idx}
+                key={course.courseId}
                 course={course}
                 onClick={isInCart || isPurchased ? undefined : addToCart(course.courseId)}
                 isInCart={isInCart}
                 isPurchased={isPurchased}
+                onBuyNow={() => handleBuyNow(course)}
               />
             );
           })}
@@ -211,6 +252,41 @@ const Courses = () => {
       </div>
 
       {loading && courseLoad && <Loading />}
+      <Modal
+        title="Confirm Payment"
+        visible={showPaymentModal}
+        onCancel={() => setShowPaymentModal(false)}
+        footer={null}
+        destroyOnClose
+      >
+        <div className="p-4">
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">Course Price:</span>
+              <span className="flex items-center gap-2 font-medium">
+                {selectedCourse?.courseDiscountFee}
+                <img src={Coin} alt="coin" className="h-5" />
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">Your Balance:</span>
+              <span className="flex items-center gap-2 font-medium">
+                {userId ? wallets[userId]?.point || 0 : 0}
+                <img src={Coin} alt="coin" className="h-5" />
+              </span>
+            </div>
+            <div className="border-t pt-4">
+              <button
+                onClick={handleConfirmPayment}                
+                className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg font-medium 
+                  hover:bg-purple-700 transition-colors disabled:bg-purple-300"
+              >
+                Confirm Payment
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

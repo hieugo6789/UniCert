@@ -1,6 +1,7 @@
 import { feedbackPagination } from "../../models/feedback";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
+import DefaultImage from "../../assets/images/Avatar/DefaultAvatar.jpg";
 
 const Feedback = ({ feedback }: { feedback: feedbackPagination[] }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -23,7 +24,7 @@ const Feedback = ({ feedback }: { feedback: feedbackPagination[] }) => {
                 {/* User Info */}
                 <div className="flex items-center space-x-4 mb-6 mt-4">                  
                   <img 
-                    src={item.userDetails.userImage || "https://randomuser.me/api/portraits"} 
+                    src={item.userDetails.userImage || DefaultImage} 
                     alt={`${item.userDetails.username}'s avatar`}
                     className="w-16 h-16 rounded-full object-cover border-2 border-violet-600 shadow-md"
                   />                                      

@@ -14,7 +14,6 @@ import { showToast } from "../../utils/toastUtils";
 import { usePayNow } from "../../hooks/Payment/usePayNow";
 import Coin from "../../assets/images/Coin.png";
 import useWalletDetail from "../../hooks/Wallet/useWalletDetail";
-import { Modal as AntModal } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const GetExamSimulation = ({ certId }: { certId: number }) => {
@@ -205,7 +204,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
         )}
       </Modal>
       {examLoad && <Loading />}
-      <AntModal
+      <Modal
         title="Confirm Payment"
         visible={showPaymentModal}
         onCancel={() => setShowPaymentModal(false)}
@@ -240,7 +239,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
             </div>
           </div>
         </div>
-      </AntModal>
+      </Modal>
     </>
   );
 };
