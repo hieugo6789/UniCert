@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Checkbox, Form, Input, Modal } from "antd";
+import { Button, Checkbox, Form, Input, message, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useCreateQuestion } from "../../../hooks/SimulationExam/Question/useCreateQuestion";
@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import MyEditor from "../../Editor/MyEditor";
 
 interface CreateQuestionProps {
-  onQuestionCreated: () => void; // Callback prop to trigger refetch
+  onQuestionCreated: () => void;
 }
 const CreateQuestion: React.FC<CreateQuestionProps> = ({
   onQuestionCreated,
@@ -16,6 +16,7 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
   const { handleCreateQuestion } = useCreateQuestion();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [resetEditor, setResetEditor] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [form] = Form.useForm();
   const [formData, setFormData] = useState({
@@ -41,19 +42,28 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
       });
       setResetEditor(true);
       onQuestionCreated();
+      setErrorMessage(null);
+      message.success("Question created successfully!");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Error creating exam question:", error.response?.data);
+        setErrorMessage(
+          error.response?.data?.message || "Failed to create question."
+        );
       } else if (error instanceof Error) {
         console.error("An unexpected error occurred:", error);
+        setErrorMessage(error.message || "An unexpected error occurred.");
       } else {
         console.error("Validation failed.");
+        setErrorMessage("Validation failed. Please check your input.");
       }
     }
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
+    setErrorMessage(null);
+
     form.resetFields();
   };
 
@@ -103,6 +113,11 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
           layout="vertical"
           initialValues={formData}
         >
+          {errorMessage && (
+            <div style={{ color: "red", marginBottom: "10px" }}>
+              {errorMessage}
+            </div>
+          )}
           <Form.Item
             label="Question Name"
             name="questionName"

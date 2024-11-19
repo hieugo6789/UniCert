@@ -19,6 +19,7 @@ export function useCreateQuestion() {
     } catch (error) {
       console.error("Error creating question:", error);
       dispatch(createQuestionFailure());
+      throw error;
     }
   };
 

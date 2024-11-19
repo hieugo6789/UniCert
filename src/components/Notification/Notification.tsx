@@ -122,7 +122,7 @@ const Notification = () => {
                     !notif.isRead ? "bg-blue-100 font-semibold" : ""
                   }`}
                 >
-                  <div className="flex p-2 relative items-center">
+                  <div className="flex p-2 relative items-center justify-between w-full">
                     <div className="flex">
                       <img
                         src={
