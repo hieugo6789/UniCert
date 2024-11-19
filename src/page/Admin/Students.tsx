@@ -55,7 +55,16 @@ const Students = () => {
       title: "Username",
       dataIndex: "username",
       key: "username",
-      render: (username: string) => <div>{username}</div>,
+      render: (username: string, record: any) => (
+        <div className="flex items-center">
+          <img
+            src={record.userImage || defaultAvatar}
+            alt={record.fullname}
+            className=" rounded-full size-12 mr-2"
+          />
+          {username}
+        </div>
+      ),
     },
     {
       title: "Email",
@@ -172,7 +181,7 @@ const Students = () => {
                 rowKey="userId"
                 pagination={false}
                 loading={loading}
-                rowClassName={() => "h-[8.7vh]"}
+                rowClassName={() => "h-[8.7vh] custom-row-style"}
                 className="header-bg-pink"
               />
             )}

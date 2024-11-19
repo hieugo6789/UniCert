@@ -73,3 +73,7 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #a0aec0;
 }
+.custom-row-style td.ant-table-cell:first-child {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
