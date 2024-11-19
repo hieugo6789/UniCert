@@ -7,6 +7,7 @@ import useDeleteFeedback from "../../hooks/Feedback/useDeleteFeedback";
 import useUpdateFeedback from "../../hooks/Feedback/useUpdateFeedback";
 import Cookies from "js-cookie";
 import { showToast } from "../../utils/toastUtils";
+import DefaultImage from "../../assets/images/Avatar/DefaultAvatar.jpg";
 import axios from "axios";
 
 const ExamFeedback = () => {
@@ -233,7 +234,7 @@ const ExamFeedback = () => {
                 {feedbacks.map((feedback) => (
                     <div key={feedback.feedbackId} className="bg-white rounded-lg shadow p-4 flex items-start space-x-4">
                     <img
-                        src={feedback.userDetails.userImage}
+                        src={feedback.userDetails.userImage || DefaultImage}
                         alt={feedback.userDetails.username}
                         className="w-12 h-12 rounded-full object-cover"
                     />
