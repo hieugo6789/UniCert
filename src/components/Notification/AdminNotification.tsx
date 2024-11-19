@@ -91,6 +91,15 @@ const AdminNotification = () => {
     }
   };
 
+  const recordViolation = async (notificationId: number) => {
+    try {
+      await agent.Notification.updateIsReadViolation(notificationId);
+      refetch(role);
+    } catch (err) {
+      console.log("Error updating notifications as read:", err);
+    }
+  };
+
   const notificationList = (
     <div className="max-w-md bg-white shadow-lg rounded-lg overflow-y-auto max-h-[82vh] border border-gray-200 custom-scrollbar">
       {loading ? (
@@ -162,6 +171,16 @@ const AdminNotification = () => {
                                 >
                                   Mark as read
                                 </Menu.Item>
+                                {!notif.isRead && (
+                                  <Menu.Item
+                                    key="read"
+                                    onClick={() =>
+                                      recordViolation(notif.notificationId)
+                                    }
+                                  >
+                                    Record violation for this user
+                                  </Menu.Item>
+                                )}
                                 <Menu.Item
                                   key="delete"
                                   danger

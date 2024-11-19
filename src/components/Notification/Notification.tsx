@@ -92,7 +92,7 @@ const Notification = () => {
   };
 
   const notificationList = (
-    <div className="max-w-sm bg-white shadow-lg rounded-lg overflow-y-auto max-h-[82vh] border border-gray-200 custom-scrollbar">
+    <div className="max-w-md bg-white shadow-lg rounded-lg overflow-y-auto max-h-[82vh] border border-gray-200 custom-scrollbar">
       {loading ? (
         <p className="text-center text-gray-500">Loading...</p>
       ) : (
@@ -131,7 +131,7 @@ const Notification = () => {
                             : defaultNotification
                         }
                         alt={notif.notificationName}
-                        className="size-12 mr-2"
+                        className="size-16 mr-2"
                       />
                       <div>
                         <p className="text-gray-700">
