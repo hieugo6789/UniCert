@@ -38,7 +38,7 @@ const Register = () => {
       .max(20, "Password cannot exceed 20 characters"),
     username: Yup.string()
       .required("Username is required")
-      .min(3, "Username must be at least 6 characters")
+      .min(3, "Username must be at least 3 characters")
       .max(20, "Username cannot exceed 20 characters"),
     fullname: Yup.string()
       .required("Fullname is required")
@@ -65,7 +65,9 @@ const Register = () => {
       </div>
       <div className="w-full md:flex-1 max-w-md">
         <div className="w-full p-4 md:p-8">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">Register</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">
+            Register
+          </h2>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

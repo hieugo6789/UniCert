@@ -20,7 +20,7 @@ export interface CreateEmployeeAccount {
   address: string;
   phoneNumber: string;
   role: string;
-  status: true;
+  status: boolean;
   userImage: string;
 }
 

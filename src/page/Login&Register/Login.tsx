@@ -28,7 +28,7 @@ const Login = () => {
 
     password: Yup.string()
       .required("Password is required")
-      .min(6, "Password must be at least 6 characters")
+      .min(8, "Password must be at least 8 characters")
       .max(20, "Password cannot exceed 20 characters"),
   });
   const { handleLogin, isLoading } = useAuth();
@@ -43,7 +43,9 @@ const Login = () => {
       </div>
       <div className="w-full md:flex-1 max-w-md">
         <div className="w-full p-4 md:p-8">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">Login</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">
+            Login
+          </h2>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

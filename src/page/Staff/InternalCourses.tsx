@@ -137,7 +137,7 @@ const InternalCourses = () => {
             to={`/staff/internalCourses/${record.courseId}`}
             className="text-blue-500 hover:text-blue-700 transition-colors"
           >
-            <SolutionOutlined className="mt-2" />
+            <SolutionOutlined className="mt-1.5" />
           </Link>
         </div>
       ),

@@ -19,6 +19,7 @@ export function useCreateAccount() {
     } catch (error) {
       console.error("Error creating Account:", error);
       dispatch(createAccountFailure());
+      throw error;
     }
   };
 

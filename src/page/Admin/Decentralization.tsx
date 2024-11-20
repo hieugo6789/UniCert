@@ -23,6 +23,7 @@ import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import AdminNotification from "../../components/Notification/AdminNotification";
 import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
 import { ROLE } from "../../constants/role";
+import CreateAccount from "../../components/Account/CreateAccount";
 
 const { confirm } = Modal;
 
@@ -171,8 +172,11 @@ const Decentralization = () => {
   return (
     <>
       <div className="h-[9vh] flex justify-between items-center">
-        <div>
+        <div className="flex items-center">
           <h2 className="text-2xl font-semibold ml-6">Account</h2>
+          <div className="ml-2">
+            <CreateAccount refetch={refetch} />
+          </div>
         </div>
         <div className="mr-10 flex items-center">
           <div className="mr-6">
@@ -211,7 +215,7 @@ const Decentralization = () => {
 
       {/* Update User Modal */}
       <Modal
-        title="Update User"
+        title="Update Employee"
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
@@ -225,45 +229,8 @@ const Decentralization = () => {
             layout="vertical"
           >
             <Form.Item
-              label="Username"
-              name="username"
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Email"
-              name="email"
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Fullname"
-              name="fullname"
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="PhoneNumber"
-              name="phoneNumber"
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
               label="Role"
               name="role"
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Address"
-              name="address"
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Image URL"
-              name="userImage"
             >
               <Input />
             </Form.Item>
