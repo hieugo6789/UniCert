@@ -165,13 +165,21 @@ const InternalCourses = () => {
   return (
     <>
       <div className="h-[10vh] flex justify-between items-center bg-gradient-to-r  p-4">
-        <div className="text-2xl font-semibold">
+        <div className="flex items-center ">
           <div>
             <CreateCourse refetchCourses={refetchCourses} />
           </div>
         </div>
 
         <div className="mr-10 flex items-center">
+          <div className="mr-10">
+            <Link
+              to="checkEnrollCode"
+              className="px-4 py-2 bg-white/70 text-blue-600 hover:text-white hover:bg-blue-500 font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+            >
+              Check EnrollCode
+            </Link>
+          </div>
           <div className="mr-6">
             <Notification />
           </div>

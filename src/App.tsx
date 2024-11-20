@@ -53,6 +53,7 @@ import FeedbackForStaff from "./components/Feedback/FeedbackForStaff";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import ResetPassword from "./page/Login&Register/ResetPassword";
 import ManageStudents from "./page/Staff/ManageStudents";
+import CheckStudentEnrollCode from "./components/Course/CheckStudentEnrollCode";
 
 const Layout = () => {
   return (
@@ -157,6 +158,10 @@ function App() {
         { path: "major", element: <Major /> },
         { path: "organizations", element: <Organizations /> },
         { path: "certificate", element: <Certificate /> },
+        {
+          path: "internalCourses/checkEnrollCode",
+          element: <CheckStudentEnrollCode />,
+        },
       ],
     },
   ]);

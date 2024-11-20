@@ -194,6 +194,8 @@ const InternalCourse = {
     ),
   studentList: (courseId: number) =>
     requests.get(`api/v1/course-enrollment/list_student_enroll/${courseId}`),
+  checkStudent: (enrollCode: number) =>
+    requests.get(`api/v1/course-enrollment/check_student_enroll/${enrollCode}`),
 };
 
 const SimulationExam = {
