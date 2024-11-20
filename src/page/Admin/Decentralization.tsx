@@ -21,11 +21,17 @@ import {
 import useDeleteAccount from "../../hooks/Account/useDeleteAccount";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import AdminNotification from "../../components/Notification/AdminNotification";
+import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
+import { ROLE } from "../../constants/role";
 
 const { confirm } = Modal;
 
 const Decentralization = () => {
-  const { accounts: managerAccounts, loading, refetch } = useAccounts();
+  const {
+    accounts: managerAccounts,
+    loading,
+    refetch,
+  } = useAccounts(ROLE.role2, ROLE.role3);
   const { updateUserDetails, state } = useUpdateUserDetail();
   const { handleDeleteAccount } = useDeleteAccount();
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,6 +46,16 @@ const Decentralization = () => {
       title: "Username",
       dataIndex: "username",
       key: "username",
+      render: (username: string, record: any) => (
+        <div className="flex items-center">
+          <img
+            src={record.userImage || defaultAvatar}
+            alt={record.fullname}
+            className=" rounded-full size-12 mr-2"
+          />
+          {username}
+        </div>
+      ),
     },
     {
       title: "Email",
@@ -177,7 +193,7 @@ const Decentralization = () => {
                 rowKey="userId"
                 pagination={false}
                 loading={loading}
-                rowClassName={() => "h-[8.7vh]"}
+                rowClassName={() => "h-[8.7vh] custom-row-style"}
                 className="header-bg-pink"
               />
             )}

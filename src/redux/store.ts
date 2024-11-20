@@ -69,6 +69,7 @@ import deleteNotificationReducer from "./slice/Notification/deleteNotificationSl
 import changePasswordReducer from "./slice/Password/ChangePasswordSlice";
 import resetPasswordReducer from "./slice/Password/ResetPasswordSlice";
 import forgotPasswordReducer from "./slice/Password/ForgotPasswordSlice";
+import createAccountReducer from "./slice/Account/createAccountSlice";
 
 export const store = configureStore({
   reducer: {
@@ -141,6 +142,7 @@ export const store = configureStore({
     changePassword: changePasswordReducer,
     resetPassword: resetPasswordReducer,
     forgotPassword: forgotPasswordReducer,
+    createAccount: createAccountReducer,
   },
 });
 

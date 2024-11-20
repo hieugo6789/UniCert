@@ -100,7 +100,7 @@ const MenuAdmin = () => {
                 : "block p-2 text-gray-800 hover:bg-gray-100 rounded-lg pl-6"
             }
           >
-            Decentralization
+            Employees
           </NavLink>
         </div>
       </div>

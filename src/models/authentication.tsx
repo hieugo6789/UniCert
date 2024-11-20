@@ -11,3 +11,31 @@ export interface RegisterInput {
   address: string;
   phoneNumber: string;
 }
+export interface CreateEmployeeAccount {
+  username: string;
+  password: string;
+  email: string;
+  fullname: string;
+  dob: Date;
+  address: string;
+  phoneNumber: string;
+  role: string;
+  status: true;
+  userImage: string;
+}
+
+export interface AccountCreated {
+  userId: number;
+  username: string;
+  password: string;
+  email: string;
+  fullname: string;
+  dob: Date;
+  address: string;
+  phoneNumber: number;
+  role: string;
+  status: boolean;
+  userCreatedAt: Date;
+  userImage: string;
+  userOffenseCount: number;
+}

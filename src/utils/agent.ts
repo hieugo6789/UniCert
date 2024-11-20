@@ -33,6 +33,7 @@ import {
   updateQuestion,
 } from "../models/SimulationExam/question";
 import { createScore } from "../models/score";
+import { CreateEmployeeAccount } from "../models/authentication";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -333,6 +334,10 @@ const resetPassword = {
   resetPassword: (input: resetPasswordInput) =>
     requests.post(`api/v1/forget-password/reset-password`, input),
 };
+const Employees = {
+  createEmployeeAccount: (input: CreateEmployeeAccount) =>
+    requests.post("api/v1/users", input),
+};
 const agent = {
   Major,
   Account,
@@ -357,5 +362,6 @@ const agent = {
   Notification,
   ChangePassword,
   resetPassword,
+  Employees,
 };
 export default agent;
