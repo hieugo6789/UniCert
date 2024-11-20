@@ -42,6 +42,7 @@ export interface currentCourseEnrollment {
   courseEnrollmentStatus: string;
   totalPrice: number;
   userId: string;
+  enrollCode: string;
   courseDetails: [
     {
       courseId: number;
@@ -59,6 +60,7 @@ export interface courseEnrollment {
   courseEnrollmentStatus: string;
   totalPrice: number;
   userId: string;
+  enrollCode: string;
   courseDetails: [
     {
       courseId: number;
