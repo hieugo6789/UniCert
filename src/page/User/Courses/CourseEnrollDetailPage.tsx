@@ -119,7 +119,7 @@ const CourseEnrollDetailPage = () => {
                       <p className="text-sm text-gray-500">{course.courseCode}</p>
                     </div>
                     <div className="text-right">
-                    {course.courseDiscountFee == course.courseFee && (
+                    {course.courseDiscountFee !== course.courseFee && (
                       <span className="text-sm text-gray-500 line-through flex items-center">
                         ${course.courseFee}
                         <img src={Coin} alt="coin" className="h-5 w-5"/>
