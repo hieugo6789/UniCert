@@ -194,6 +194,8 @@ const InternalCourse = {
     ),
   studentList: (courseId: number) =>
     requests.get(`api/v1/course-enrollment/list_student_enroll/${courseId}`),
+  checkStudent: (enrollCode: number) =>
+    requests.get(`api/v1/course-enrollment/check_student_enroll/${enrollCode}`),
 };
 
 const SimulationExam = {
@@ -276,6 +278,8 @@ const Cart = {
 const Enrollment = {
   getCourseByUserId: (userId: string) =>
     requests.get(`api/v1/course-enrollment/user/${userId}`),
+  getCourseEnrollDetail: (courseEnrollmentId: number) =>
+    requests.get(`api/v1/course-enrollment/${courseEnrollmentId}`),
   createCourseEnroll: (input: createCourseEnrollment) =>
     requests.post("api/v1/course-enrollment", input),
   deleteCourseEnrollment: (cEnrollmentId: number) =>

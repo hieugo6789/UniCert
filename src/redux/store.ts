@@ -53,6 +53,7 @@ import examEnrollmentReducer from "./slice/Enrollment/ExamSlice";
 import createExamEnrollmentReducer from "./slice/Enrollment/createExamEnrollSlice";
 import deleteExamEnrollmentReducer from "./slice/Enrollment/deleteExamEnrollSlice";
 import courseEnrollmentReducer from "./slice/Enrollment/CourseSlice";
+import courseEnrollmentDetailReducer from "./slice/Enrollment/courseEnrollmentDetailSlice";
 import createCourseEnrollmentReducer from "./slice/Enrollment/createCourseEnrollSlice";
 import deleteCourseEnrollmentReducer from "./slice/Enrollment/deleteCourseEnrollSlice";
 import examPaymentReducer from "./slice/Payment/examPaymentSlice";
@@ -126,6 +127,7 @@ export const store = configureStore({
     createExamEnrollment: createExamEnrollmentReducer,
     deleteExamEnrollment: deleteExamEnrollmentReducer,
     courseEnrollment: courseEnrollmentReducer,
+    courseEnrollmentDetail: courseEnrollmentDetailReducer,
     createCourseEnrollment: createCourseEnrollmentReducer,
     deleteCourseEnrollment: deleteCourseEnrollmentReducer,
     examPayment: examPaymentReducer,
