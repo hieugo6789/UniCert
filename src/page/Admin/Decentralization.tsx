@@ -2,13 +2,13 @@ import { useState } from "react";
 import {
   Modal,
   Form,
-  Input,
   Button,
   Pagination,
   Table,
   Spin,
   message,
   Tag,
+  Select,
 } from "antd";
 import { useAccounts } from "../../hooks/Account/useAccount";
 import useUpdateUserDetail from "../../hooks/Account/useUpdateUserDetail";
@@ -24,6 +24,7 @@ import AdminNotification from "../../components/Notification/AdminNotification";
 import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
 import { ROLE } from "../../constants/role";
 import CreateAccount from "../../components/Account/CreateAccount";
+import ViewDetailAccount from "../../components/Account/ViewDetailAccount";
 
 const { confirm } = Modal;
 
@@ -102,7 +103,11 @@ const Decentralization = () => {
       key: "actions",
       render: (record: UserDetail) => (
         <>
-          <EditOutlined onClick={() => handleEdit(record)} />
+          <ViewDetailAccount accountId={record.userId} />
+          <EditOutlined
+            onClick={() => handleEdit(record)}
+            style={{ marginLeft: 12 }}
+          />
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.userId)}
             style={{ color: "red", marginLeft: 12 }}
@@ -174,7 +179,7 @@ const Decentralization = () => {
       <div className="h-[9vh] flex justify-between items-center">
         <div className="flex items-center">
           <h2 className="text-2xl font-semibold ml-6">Account</h2>
-          <div className="ml-2">
+          <div className="ml-4">
             <CreateAccount refetch={refetch} />
           </div>
         </div>
@@ -213,9 +218,8 @@ const Decentralization = () => {
         </div>
       </div>
 
-      {/* Update User Modal */}
       <Modal
-        title="Update Employee"
+        title="Update Role Employee"
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
@@ -229,10 +233,18 @@ const Decentralization = () => {
             layout="vertical"
           >
             <Form.Item
-              label="Role"
               name="role"
+              rules={[
+                {
+                  required: true,
+                  message: "Please select a role!",
+                },
+              ]}
             >
-              <Input />
+              <Select placeholder="Select role">
+                <Select.Option value="Staff">Staff</Select.Option>
+                <Select.Option value="Manager">Manager</Select.Option>
+              </Select>
             </Form.Item>
             <Form.Item>
               <Button
