@@ -168,11 +168,11 @@ const SimulationExamPage = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-5 min-h-screen bg-gray-100">
+    <div className="grid grid-cols-1 xl:grid-cols-5 min-h-screen bg-gray-100 dark:bg-gray-900">
       <div className="flex flex-col p-4 w-full xl:col-span-4 pb-32 xl:pb-4">
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-700">Time Remaining</h2>
-          <div className="text-4xl font-bold text-blue-600 mt-2">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200">Time Remaining</h2>
+          <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mt-2">
             {timeLeft !== null ? formatTime(timeLeft) : "Loading..."}
           </div>
         </div>
@@ -193,8 +193,8 @@ const SimulationExamPage = () => {
           <CustomButton
             className={`px-6 py-3 rounded-lg transition-all duration-200 ${
               currentQuestionIndex > 0
-                ? "bg-blue-600 hover:bg-blue-700 text-white"
-                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                ? "bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 text-white"
+                : "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
             }`}
             onClick={() => {
               if (currentQuestionIndex > 0) {
@@ -207,8 +207,8 @@ const SimulationExamPage = () => {
           <CustomButton
             className={`px-6 py-3 rounded-lg transition-all duration-200 ${
               currentQuestionIndex < questions.length - 1
-                ? "bg-blue-600 hover:bg-blue-700 text-white" 
-                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                ? "bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 text-white" 
+                : "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
             }`}
             onClick={() => {
               if (currentQuestionIndex < questions.length - 1) {
