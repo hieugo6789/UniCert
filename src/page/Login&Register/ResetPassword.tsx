@@ -76,9 +76,9 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white p-4">
-      <div className="w-full max-w-md p-8 bg-white rounded shadow-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-gray-900 p-4">
+      <div className="w-full max-w-md p-8 bg-white dark:bg-gray-800 rounded shadow-md">
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
           {step === 1 ? "Reset Password" : "Enter Code"}
         </h2>
 
@@ -98,7 +98,7 @@ const ResetPassword = () => {
                 <button
                   type="submit"
                   disabled={!isValid || isLoading}
-                  className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
+                  className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 disabled:bg-gray-400 dark:disabled:bg-gray-600"
                 >
                   {isLoading ? <Spin /> : "Send Reset Code"}
                 </button>
@@ -118,13 +118,13 @@ const ResetPassword = () => {
                     name="code"
                     type="text"
                     placeholder="Enter 6-digit code"
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   />
                   <button
                     type="button"
                     onClick={handleResendCode}
                     disabled={resendLoading}
-                    className="mt-2 text-blue-600 hover:text-blue-800 text-sm"
+                    className="mt-2 text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 text-sm"
                   >
                     {resendLoading ? <Spin /> : "Resend code"}
                   </button>
@@ -142,7 +142,7 @@ const ResetPassword = () => {
                 <button
                   type="submit"
                   disabled={!(values.code && values.newPassword && values.confirmPassword) || isLoading}
-                  className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
+                  className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 disabled:bg-gray-400 dark:disabled:bg-gray-600"
                 >
                   {isLoading ? <Spin /> : "Reset Password"}
                 </button>
