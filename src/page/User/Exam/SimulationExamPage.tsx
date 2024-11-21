@@ -161,6 +161,11 @@ const SimulationExamPage = () => {
     navigate("/exam/" + id + "/simulation/submit", { state: { formattedAnswers, timeLeft } });
   };
 
+  const handleClearAnswer = (questionIndex: number) => {
+    const newAnswers = [...selectedAnswers];
+    newAnswers[questionIndex] = [];
+    setSelectedAnswers(newAnswers);
+  };
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-5 min-h-screen bg-gray-100">
@@ -179,14 +184,17 @@ const SimulationExamPage = () => {
             flagged={flaggedQuestions[currentQuestionIndex]}
             onFlag={() => handleFlagQuestion(currentQuestionIndex)}
             onSelectAnswer={(answerId) => handleSelectAnswer(currentQuestionIndex, answerId)}
+            onClearAnswer={() => handleClearAnswer(currentQuestionIndex)}
           />
         )}
+
+        {/* Navigation buttons */}
         <div className="flex items-center justify-between mt-6">
           <CustomButton
             className={`px-6 py-3 rounded-lg transition-all duration-200 ${
               currentQuestionIndex > 0
-                  ? "bg-blue-600 hover:bg-blue-700 text-white"
-                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                ? "bg-blue-600 hover:bg-blue-700 text-white"
+                : "bg-gray-200 text-gray-400 cursor-not-allowed"
             }`}
             onClick={() => {
               if (currentQuestionIndex > 0) {

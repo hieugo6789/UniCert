@@ -1,20 +1,53 @@
 import { useParams, useNavigate } from "react-router-dom";
 import CustomButton from "../../../components/UI/CustomButton";
 import useCourseEnrollmentDetail from "../../../hooks/Enrollment/useCourseEnrollmentDetail";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { useCreatePayment } from "../../../hooks/Payment/useCreatePayment";
+import { showToast } from "../../../utils/toastUtils";
+import Coin from "../../../assets/images/coin.png";
 
 const CourseEnrollDetailPage = () => {
   const userId = Cookies.get("userId");
   const id = useParams().id;
   const navigate = useNavigate();  
   const { state, getCourseEnrollmentDetails } = useCourseEnrollmentDetail();
+  const { handleCreatePayment } = useCreatePayment();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     if (id) {
       getCourseEnrollmentDetails(Number(id));
     }
   }, [id]);
+
+  const handlePayment = async () => {
+    if (!state.currentCourseEnrollment?.courseEnrollmentId || !userId) {
+      showToast("Invalid enrollment information", "error");
+      return;
+    }
+
+    setIsProcessing(true);
+    try {
+      await handleCreatePayment({
+        userId: userId,
+        examEnrollmentId: 0,
+        courseEnrollmentId: state.currentCourseEnrollment.courseEnrollmentId,
+      });
+
+      await getCourseEnrollmentDetails(Number(id));
+      
+      showToast("Payment completed successfully", "success");
+      
+    } catch (error: any) {
+      showToast(
+        error.message || "Payment failed. Please try again later", 
+        "error"
+      );
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   useEffect(() => {
     const scrollToTop = () => {
@@ -86,12 +119,16 @@ const CourseEnrollDetailPage = () => {
                       <p className="text-sm text-gray-500">{course.courseCode}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm text-gray-500 line-through">
-                        ${course.courseFee.toLocaleString()}
-                      </p>
-                      <p className="font-semibold text-blue-600">
-                        ${course.courseDiscountFee.toLocaleString()}
-                      </p>
+                    {course.courseDiscountFee == course.courseFee && (
+                      <span className="text-sm text-gray-500 line-through flex items-center">
+                        ${course.courseFee}
+                        <img src={Coin} alt="coin" className="h-5 w-5"/>
+                      </span>
+                    )}
+                      <span className="font-semibold text-blue-600 flex items-center">
+                        ${course.courseDiscountFee}                        
+                        <img src={Coin} alt="coin" className="h-5 w-5"/>
+                      </span>                      
                     </div>
                   </div>
                 ))}
@@ -102,8 +139,9 @@ const CourseEnrollDetailPage = () => {
             <div className="border-t pt-6">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-gray-600">Total Amount</span>
-                <span className="text-2xl font-bold text-blue-600">
-                  ${state.currentCourseEnrollment.totalPrice}
+                <span className="text-2xl font-bold text-blue-600 flex items-center gap-2">
+                  {state.currentCourseEnrollment.totalPrice}
+                  <img src={Coin} alt="coin" className="h-5 w-5"/>
                 </span>
               </div>
             </div>
@@ -112,14 +150,20 @@ const CourseEnrollDetailPage = () => {
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-end">
               {state.currentCourseEnrollment.courseEnrollmentStatus === 'OnGoing' && (
                 <CustomButton
-                  label="Complete Payment"
-                  onClick={() => {/* Handle payment */}}
-                  className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+                  label={isProcessing ? "Processing..." : "Complete Payment"}
+                  onClick={handlePayment}
+                  disabled={isProcessing}
+                  className={`px-6 py-2 text-white rounded-lg ${
+                    isProcessing 
+                      ? 'bg-blue-400 cursor-not-allowed'
+                      : 'bg-blue-600 hover:bg-blue-700'
+                  }`}
                 />
               )}
               <CustomButton
                 label="Back to History"
                 onClick={() => navigate(`/history/${userId}`)}
+                disabled={isProcessing}
                 className="px-6 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg"
               />
             </div>

@@ -74,16 +74,22 @@ const SubmitExamPage = () => {
         }
     }, [state, navigate]);
 
+    // Thêm hàm kiểm tra câu hỏi chưa trả lời
+    const isUnanswered = (answer: Answer) => {
+        return !answer.userAnswerId || 
+               answer.userAnswerId.length === 0 || 
+               (answer.userAnswerId.length === 1 && answer.userAnswerId[0] === 0);
+    };
+
+    // Sửa lại hàm handleBackToExam để không lọc câu trả lời
     const handleBackToExam = () => {
-        const filteredAnswers = formattedAnswers.filter(answer => answer.userAnswerId[0] !== 0);
         navigate("/exam/" + id + "/simulation", { 
             state: { 
-                formattedAnswers: filteredAnswers, 
+                formattedAnswers: formattedAnswers, 
                 timeLeft: currentTimeLeft 
             } 
         });
-    }
-
+    };    
 
     if (!location.state?.formattedAnswers) {
         return null;
@@ -103,7 +109,7 @@ const SubmitExamPage = () => {
                     <h2 className="text-3xl font-bold text-gray-800 mb-6">Submit Your Exam</h2>
                     <div className="w-16 h-1 bg-blue-500 mx-auto mb-8"></div>
                     
-                    {formattedAnswers.some(answer => answer.userAnswerId[0] === 0) && (
+                    {formattedAnswers.some(isUnanswered) && (
                         <div className="bg-orange-50 border-l-4 border-orange-400 rounded-lg p-6 mb-6 text-left shadow-sm">
                             <div className="flex items-center mb-3">
                                 <svg className="w-6 h-6 text-orange-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -113,10 +119,11 @@ const SubmitExamPage = () => {
                             </div>
                             <div className="grid grid-cols-4 gap-2 ml-8">
                                 {formattedAnswers.map((answer, index) => (
-                                    answer.userAnswerId[0] === 0 && (
+                                    isUnanswered(answer) && (
                                         <span 
                                             key={index} 
-                                            className="inline-flex items-center justify-center px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium hover:bg-orange-200 transition-colors duration-200"
+                                            className="inline-flex items-center justify-center px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium hover:bg-orange-200 transition-colors duration-200 cursor-pointer"
+                                            onClick={() => handleBackToExam()}
                                         >
                                             Q.{index + 1}
                                         </span>
