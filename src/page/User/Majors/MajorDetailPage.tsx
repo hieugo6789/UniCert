@@ -112,14 +112,14 @@ const MajorDetailPage: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Major Info Section - Improved styling */}
-      <div className="bg-gradient-to-r from-purple-600 to-purple-400 text-white p-8 rounded-2xl shadow-xl mb-8">
+      <div className="bg-gradient-to-r from-purple-600 to-purple-400 dark:from-purple-800 dark:to-purple-600 text-white p-8 rounded-2xl shadow-xl mb-8">
         <h1 className="text-3xl md:text-4xl font-bold mb-6 flex items-center">
           <span className="mr-3">🎓</span>
           {major.majorName}
         </h1>
         <div className="space-y-4">
           <div className="flex items-center">
-            <span className="font-semibold bg-purple-700 px-3 py-1 rounded-full text-sm">
+            <span className="font-semibold bg-purple-700 dark:bg-purple-900 px-3 py-1 rounded-full text-sm">
               Major Code: {major.majorCode}
             </span>
           </div>
@@ -135,8 +135,8 @@ const MajorDetailPage: React.FC = () => {
       </div>
 
       {/* Filter Section - Enhanced UI */}
-      <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800 flex items-center" ref={certificationsHeaderRef}>
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-8">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100 flex items-center" ref={certificationsHeaderRef}>
           <span className="mr-3">📜</span>
           Available Certifications
         </h2>
@@ -149,21 +149,21 @@ const MajorDetailPage: React.FC = () => {
               placeholder="Search certifications..."
               value={searchInput}
               onChange={handleSearchInputChange}
-              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg
-                focus:ring-2 focus:ring-purple-500 focus:border-transparent
+              className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg
+                focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 dark:text-gray-100
                 transition-all duration-300"
             />
-            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500">
               🔍
             </span>
           </div>
 
           {/* Job Position Filter */}
           <div className="flex items-center space-x-3 w-full md:w-auto">
-            <span className="text-gray-600 whitespace-nowrap">Filter by:</span>
+            <span className="text-gray-600 dark:text-gray-300 whitespace-nowrap">Filter by:</span>
             <select
-              className="flex-1 md:w-64 px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg
-                focus:ring-2 focus:ring-purple-500 focus:border-transparent
+              className="flex-1 md:w-64 px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg
+                focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 dark:text-gray-100
                 cursor-pointer transition-all duration-300"
               onChange={handleJobPositionChange}
             >
@@ -180,7 +180,7 @@ const MajorDetailPage: React.FC = () => {
         </div>
 
         {/* Results Count */}
-        <div className="text-sm text-gray-600 mb-4">
+        <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
           Showing {currentCerts.length} of {filteredCerts.length} certifications
         </div>
       </div>
@@ -193,15 +193,15 @@ const MajorDetailPage: React.FC = () => {
           ))}
         </div>
       ) : (
-        <div className="text-center bg-white rounded-2xl shadow-lg p-8">
+        <div className="text-center bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
           <img
             className="w-full max-w-md mx-auto rounded-xl shadow-md mb-6"
             src="https://dmf76jm51vpov.cloudfront.net/www2/images/main/2020/webpage/Course-not-Found.jpg"
             alt="course not found"
           />
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-400">
             No certifications found. Please try different search criteria or{" "}
-            <Link className="text-purple-500 hover:text-purple-600 font-medium" to="/">
+            <Link className="text-purple-500 hover:text-purple-600 dark:text-purple-400 dark:hover:text-purple-300 font-medium" to="/">
               return to homepage
             </Link>
           </p>
@@ -210,12 +210,12 @@ const MajorDetailPage: React.FC = () => {
 
       {/* Pagination - Improved styling */}
       {totalPages > 1 && (
-        <div className="flex justify-center items-center mt-8 bg-white rounded-xl shadow p-4">
+        <div className="flex justify-center items-center mt-8 bg-white dark:bg-gray-800 rounded-xl shadow p-4">
           <button
             className={`w-10 h-10 flex items-center justify-center rounded-full
               ${currentPage === 1 
-                ? 'text-gray-400 cursor-not-allowed' 
-                : 'text-purple-500 hover:bg-purple-50'
+                ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed' 
+                : 'text-purple-500 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/50'
               }`}
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
@@ -229,8 +229,8 @@ const MajorDetailPage: React.FC = () => {
                 key={page}
                 className={`w-10 h-10 rounded-full transition-all duration-300
                   ${currentPage === page
-                    ? 'bg-purple-500 text-white'
-                    : 'text-gray-600 hover:bg-purple-50'
+                    ? 'bg-purple-500 dark:bg-purple-600 text-white'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-purple-50 dark:hover:bg-purple-900/50'
                   }`}
                 onClick={() => handlePageChange(page)}
               >
@@ -242,8 +242,8 @@ const MajorDetailPage: React.FC = () => {
           <button
             className={`w-10 h-10 flex items-center justify-center rounded-full
               ${currentPage === totalPages 
-                ? 'text-gray-400 cursor-not-allowed' 
-                : 'text-purple-500 hover:bg-purple-50'
+                ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed' 
+                : 'text-purple-500 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/50'
               }`}
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
