@@ -74,7 +74,7 @@ const CertificateDetailPage = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Banner Section */}
       <div className="bg-gradient-to-r from-purple-600 to-purple-400">
         <div className="container mx-auto px-4 py-12">
@@ -82,7 +82,7 @@ const CertificateDetailPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
               {/* Certificate Image */}
               <div className="lg:col-span-1">
-                <div className="bg-white p-6 rounded-2xl shadow-lg">
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
                   <img
                     src={cert?.certImage || certificationDefault}
                     alt={cert?.certName}
@@ -115,11 +115,11 @@ const CertificateDetailPage = () => {
 
               {/* Quick Info Card */}
               <div className="lg:col-span-1">
-                <div className="bg-white rounded-2xl shadow-lg p-6">
-                  <h2 className="text-xl font-bold text-gray-800 mb-4">Quick Information</h2>
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
+                  <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">Quick Information</h2>
                   <div className="space-y-4">
                     <div>
-                      <h3 className="text-sm font-medium text-gray-500 mb-2">Prerequisites</h3>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Prerequisites</h3>
                       {cert?.certPrerequisite && cert?.certPrerequisiteId && 
                        cert.certPrerequisite.length > 0 && cert.certPrerequisiteId.length > 0 ? (
                         <div className="flex flex-wrap gap-2">
@@ -132,15 +132,15 @@ const CertificateDetailPage = () => {
                                 key={id}
                                 onClick={() => navigate(`/certificate/${id}`)}
                                 className="inline-flex items-center px-3 py-1.5 
-                                  bg-purple-50 hover:bg-purple-100 
-                                  text-purple-700 rounded-full text-sm font-medium 
+                                  bg-purple-50 dark:bg-purple-900 hover:bg-purple-100 dark:hover:bg-purple-800
+                                  text-purple-700 dark:text-purple-200 rounded-full text-sm font-medium 
                                   transition-colors duration-200
-                                  border border-purple-200 hover:border-purple-300
+                                  border border-purple-200 dark:border-purple-700 hover:border-purple-300 dark:hover:border-purple-600
                                   group"
                               >
                                 <svg 
                                   xmlns="http://www.w3.org/2000/svg" 
-                                  className="h-4 w-4 mr-1.5 text-purple-500 group-hover:text-purple-600" 
+                                  className="h-4 w-4 mr-1.5 text-purple-500 dark:text-purple-300 group-hover:text-purple-600 dark:group-hover:text-purple-200" 
                                   fill="none" 
                                   viewBox="0 0 24 24" 
                                   stroke="currentColor"
@@ -158,10 +158,10 @@ const CertificateDetailPage = () => {
                           })}
                         </div>
                       ) : (
-                        <p className="text-gray-600 italic flex items-center">
+                        <p className="text-gray-600 dark:text-gray-300 italic flex items-center">
                           <svg 
                             xmlns="http://www.w3.org/2000/svg" 
-                            className="h-4 w-4 mr-1.5 text-gray-400" 
+                            className="h-4 w-4 mr-1.5 text-gray-400 dark:text-gray-500" 
                             fill="none" 
                             viewBox="0 0 24 24" 
                             stroke="currentColor"
@@ -178,8 +178,8 @@ const CertificateDetailPage = () => {
                       )}
                     </div>
                     <div>
-                      <h3 className="text-sm font-medium text-gray-500">Validity Period</h3>
-                      <p className="text-gray-800">{cert?.certValidity || "Permanent certificate"}</p>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Validity Period</h3>
+                      <p className="text-gray-800 dark:text-gray-200">{cert?.certValidity || "Permanent certificate"}</p>
                     </div>
                   </div>
                 </div>
@@ -191,8 +191,8 @@ const CertificateDetailPage = () => {
 
       {/* Tabs Navigation */}
       <div className="container mx-auto px-4">
-        <div className="bg-white rounded-xl shadow-lg mt-8 overflow-hidden">
-          <div className="flex flex-wrap sm:flex-nowrap border-b overflow-x-auto">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg mt-8 overflow-hidden">
+          <div className="flex flex-wrap sm:flex-nowrap border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
             {["Description", cert?.certCost && cert.certCost > 0 ? "Exam Details" : null, "Feedback"]
               .filter(Boolean)
               .map((tab) => (
@@ -201,8 +201,8 @@ const CertificateDetailPage = () => {
                   onClick={() => setActiveTab(tab!)}
                   className={`flex-shrink-0 w-full sm:w-auto px-4 sm:px-8 py-3 sm:py-4 font-medium transition-colors duration-200
                     ${activeTab === tab
-                      ? "border-b-2 border-purple-500 text-purple-600 bg-purple-50"
-                      : "text-gray-600 hover:text-purple-500 hover:bg-purple-50"
+                      ? "border-b-2 border-purple-500 text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/50"
+                      : "text-gray-600 dark:text-gray-300 hover:text-purple-500 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/30"
                     }`}
                 >
                   {tab}
