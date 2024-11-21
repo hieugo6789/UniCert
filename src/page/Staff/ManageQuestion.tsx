@@ -73,6 +73,9 @@ const ManageQuestion = () => {
           />
         </div>
         <div className="mr-10 flex items-center">
+          <div className="text-lg font-semibold p-2 rounded-md bg-gradient-to-r from-blue-400 to-blue-500 text-white shadow-md mr-6">
+            Total Questions: {state.currentExam.listQuestions?.length || 0}
+          </div>
           <div className="mr-6">
             <Notification />
           </div>
@@ -103,7 +106,6 @@ const ManageQuestion = () => {
                   className="absolute top-2 right-2"
                 />
               </Dropdown>
-
               <div
                 className="prose list-disc whitespace-pre-wrap text-large mb-1"
                 dangerouslySetInnerHTML={{

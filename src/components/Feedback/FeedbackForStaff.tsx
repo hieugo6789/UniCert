@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { feedbackPagination } from "../../models/feedback";
 import Breadcrumbs from "../UI/Breadcrumb";
+import AdminNotification from "../Notification/AdminNotification";
 
 const { confirm } = Modal;
 
@@ -52,7 +53,10 @@ const FeedbackForStaff = () => {
             Feedback Management
           </h2>
         </div>
-        <div className="mr-10">
+        <div className="mr-10 flex items-center">
+          <div className="mr-6">
+            <AdminNotification />
+          </div>
           <AvatarAdmin />
         </div>
       </div>
@@ -115,12 +119,9 @@ const FeedbackForStaff = () => {
                     <img
                       alt="Feedback"
                       src={item.feedbackImage}
-                      className="h-full w-full object-cover mt-4 rounded-md"
+                      className=" object-cover mt-4 rounded-md"
                     />
                   ) : (
-                    // <div className="h-40 bg-gray-200 flex items-center justify-center text-gray-400 mt-4 rounded-md">
-                    //   <PictureOutlined style={{ fontSize: 40 }} />
-                    // </div>
                     ""
                   )}
                 </Card>

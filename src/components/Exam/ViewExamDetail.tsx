@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useExamDetail from "../../hooks/SimulationExam/useExamDetail";
 import { EyeOutlined } from "@ant-design/icons";
+import Coin from "../../assets/images/Coin.png";
 import { Card, Descriptions, Modal, Spin, Tag } from "antd";
 
 interface ViewExamDetailProps {
@@ -69,10 +70,24 @@ const ViewExamDetail: React.FC<ViewExamDetailProps> = ({ examId }) => {
                 />
               </Descriptions.Item>
               <Descriptions.Item label="Fee">
-                {state.currentExam.examFee} $
+                <div className="flex items-center">
+                  {state.currentExam.examFee}
+                  <img
+                    src={Coin}
+                    alt="Coin"
+                    className="size-5 ml-2"
+                  />
+                </div>
               </Descriptions.Item>
               <Descriptions.Item label="Discount Fee">
-                {state.currentExam.examDiscountFee} $
+                <div className="flex items-center">
+                  {state.currentExam.examDiscountFee}
+                  <img
+                    src={Coin}
+                    alt="Coin"
+                    className="size-5 ml-2"
+                  />
+                </div>
               </Descriptions.Item>
               <Descriptions.Item label="Vouchers">
                 {state.currentExam.voucherDetails?.length ? (

@@ -2,6 +2,7 @@ import { Modal, Spin, Descriptions, Tag } from "antd";
 import useCourseDetail from "../../hooks/Course/useCourseDetail";
 import { useState } from "react";
 import { EyeOutlined } from "@ant-design/icons";
+import Coin from "../../assets/images/Coin.png";
 
 interface ViewCourseDetailProps {
   courseId: string;
@@ -75,10 +76,24 @@ const ViewDetailCourse: React.FC<ViewCourseDetailProps> = ({ courseId }) => {
               {state.currentCourse.courseTime}
             </Descriptions.Item>
             <Descriptions.Item label="Fee">
-              {state.currentCourse.courseFee} $
+              <div className="flex items-center">
+                {state.currentCourse.courseFee}
+                <img
+                  src={Coin}
+                  alt="Coin"
+                  className="size-5 ml-3"
+                />
+              </div>
             </Descriptions.Item>
             <Descriptions.Item label="Discount Fee">
-              {state.currentCourse.courseDiscountFee} $
+              <div className="flex items-center">
+                {state.currentCourse.courseDiscountFee}
+                <img
+                  src={Coin}
+                  alt="Coin"
+                  className="size-5 ml-3"
+                />
+              </div>
             </Descriptions.Item>
             <Descriptions.Item label="Vouchers">
               {state.currentCourse.voucherDetails?.length ? (
