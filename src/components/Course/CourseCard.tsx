@@ -22,12 +22,12 @@ const CourseCard = ({ course, onClick, isInCart, isPurchased, isPendingPayment, 
     ? "In Cart" 
     : "Add To Cart";
   const buttonStyles = isPurchased || isInCart || isPendingPayment
-    ? "bg-gray-400 cursor-not-allowed" 
-    : "bg-blue-600 hover:bg-blue-700 transform hover:scale-105 transition-all duration-200";
+    ? "bg-gray-400 dark:bg-gray-600 cursor-not-allowed" 
+    : "bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 transform hover:scale-105 transition-all duration-200";
 
   return (
     <div
-      className="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl cursor-pointer group relative min-h-[400px]"
+      className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl cursor-pointer group relative min-h-[400px]"
       onClick={() => navigate("/course/" + course.courseId)}
     >
       <div className="aspect-video relative overflow-hidden">
@@ -42,14 +42,14 @@ const CourseCard = ({ course, onClick, isInCart, isPurchased, isPendingPayment, 
       <div className="p-6">
         <div className="space-y-4 mb-16">
           <div>
-            <h2 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-purple-600 transition-colors duration-200">
+            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
               {course.courseName}
             </h2>
-            <p className="text-sm text-gray-500">{course.courseCode}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{course.courseCode}</p>
           </div>
 
-          <div className="flex items-center text-gray-600">
-            <svg className="w-5 h-5 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="flex items-center text-gray-600 dark:text-gray-300">
+            <svg className="w-5 h-5 mr-2 text-purple-500 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span>{course.courseTime}</span>
@@ -59,11 +59,11 @@ const CourseCard = ({ course, onClick, isInCart, isPurchased, isPendingPayment, 
             <img src={Coin} alt="Coin" className="w-5 h-5" />
             <div className="flex flex-col">
               {course.courseDiscountFee !== course.courseFee && (
-                <span className="text-sm text-gray-400 line-through">
+                <span className="text-sm text-gray-400 dark:text-gray-500 line-through">
                   {course.courseFee.toLocaleString('en-US')}
                 </span>
               )}
-              <span className="font-bold text-purple-600">
+              <span className="font-bold text-purple-600 dark:text-purple-400">
                 {course.courseDiscountFee.toLocaleString('en-US')}
               </span>              
             </div>
