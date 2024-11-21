@@ -61,15 +61,15 @@ const CourseEnrollDetailPage = () => {
   if (!state.currentCourseEnrollment) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-gray-600">Loading...</div>
+        <div className="text-gray-600 dark:text-gray-300">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 py-12">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
           {/* Header */}
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-6">
             <div className="flex justify-between items-center">
@@ -87,8 +87,8 @@ const CourseEnrollDetailPage = () => {
             {/* Status and Date */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
               <div>
-                <p className="text-gray-600">Enrollment Date</p>
-                <p className="font-semibold">
+                <p className="text-gray-600 dark:text-gray-300">Enrollment Date</p>
+                <p className="font-semibold text-gray-800 dark:text-gray-100">
                   {new Date(
                     state.currentCourseEnrollment.courseEnrollmentDate
                   ).toLocaleDateString()}
@@ -99,11 +99,11 @@ const CourseEnrollDetailPage = () => {
                 ${
                   state.currentCourseEnrollment.courseEnrollmentStatus ===
                   "Completed"
-                    ? "bg-green-100 text-green-800"
+                    ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100"
                     : state.currentCourseEnrollment.courseEnrollmentStatus ===
                       "OnGoing"
-                    ? "bg-yellow-100 text-yellow-800"
-                    : "bg-red-100 text-red-800"
+                    ? "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100"
+                    : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100"
                 }`}
               >
                 {state.currentCourseEnrollment.courseEnrollmentStatus}
@@ -112,7 +112,7 @@ const CourseEnrollDetailPage = () => {
 
             {/* Course List */}
             <div className="mb-8">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">
+              <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
                 Enrolled Courses
               </h2>
               <div className="space-y-4">
@@ -120,7 +120,7 @@ const CourseEnrollDetailPage = () => {
                   (course: any) => (
                     <div
                       key={course.courseId}
-                      className="flex items-center gap-4 p-4 rounded-lg border border-gray-200 hover:border-blue-500 transition-colors duration-200"
+                      className="flex items-center gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400 transition-colors duration-200"
                     >
                       <img
                         src={course.courseImage}
@@ -128,16 +128,16 @@ const CourseEnrollDetailPage = () => {
                         className="w-20 h-20 object-cover rounded-lg"
                       />
                       <div className="flex-1">
-                        <h3 className="font-medium text-gray-800">
+                        <h3 className="font-medium text-gray-800 dark:text-gray-100">
                           {course.courseName}
                         </h3>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
                           {course.courseCode}
                         </p>
                       </div>
                       <div className="text-right">
                         {course.courseDiscountFee !== course.courseFee && (
-                          <span className="text-sm text-gray-500 line-through flex items-center">
+                          <span className="text-sm text-gray-500 dark:text-gray-400 line-through flex items-center">
                             ${course.courseFee}
                             <img
                               src={Coin}
@@ -146,7 +146,7 @@ const CourseEnrollDetailPage = () => {
                             />
                           </span>
                         )}
-                        <span className="font-semibold text-blue-600 flex items-center">
+                        <span className="font-semibold text-blue-600 dark:text-blue-400 flex items-center">
                           ${course.courseDiscountFee}
                           <img
                             src={Coin}
@@ -162,10 +162,10 @@ const CourseEnrollDetailPage = () => {
             </div>
 
             {/* Price Summary */}
-            <div className="border-t pt-6">
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-gray-600">Total Amount</span>
-                <span className="text-2xl font-bold text-blue-600 flex items-center gap-2">
+                <span className="text-gray-600 dark:text-gray-300">Total Amount</span>
+                <span className="text-2xl font-bold text-blue-600 dark:text-blue-400 flex items-center gap-2">
                   {state.currentCourseEnrollment.totalPrice}
                   <img
                     src={Coin}
@@ -186,8 +186,8 @@ const CourseEnrollDetailPage = () => {
                   disabled={isProcessing}
                   className={`px-6 py-2 text-white rounded-lg ${
                     isProcessing
-                      ? "bg-blue-400 cursor-not-allowed"
-                      : "bg-blue-600 hover:bg-blue-700"
+                      ? "bg-blue-400 dark:bg-blue-500 cursor-not-allowed"
+                      : "bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800"
                   }`}
                 />
               )}
@@ -195,7 +195,7 @@ const CourseEnrollDetailPage = () => {
                 label="Back to History"
                 onClick={() => navigate(`/history/${userId}`)}
                 disabled={isProcessing}
-                className="px-6 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg"
+                className="px-6 py-2 bg-gray-600 dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-800 text-white rounded-lg"
               />
             </div>
           </div>
