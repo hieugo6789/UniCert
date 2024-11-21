@@ -226,17 +226,17 @@ const Cart = () => {
     }
   };
   return (
-    <div className="container mx-auto p-2 sm:p-4 md:p-6 min-h-screen bg-gray-50">
+    <div className="container mx-auto p-2 sm:p-4 md:p-6 min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Popup Xác nhận */}  
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 p-4">
-          <div className="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-md">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Confirm Payment</h2>
-            <p className="text-gray-600">Are you sure you want to proceed with this payment?</p>
+          <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-md">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">Confirm Payment</h2>
+            <p className="text-gray-600 dark:text-gray-300">Are you sure you want to proceed with this payment?</p>
             <div className="mt-8 flex justify-end gap-4">
               <button 
                 onClick={() => handlePopupAction(false)} 
-                className="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                className="px-6 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium"
               >
                 Cancel
               </button>
@@ -254,19 +254,19 @@ const Cart = () => {
       <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
         {/* Main Content */}
         <div className="flex-1">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
             {/* Exams Section */}
-            <div className="p-4 sm:p-6 border-b border-gray-100">
+            <div className="p-4 sm:p-6 border-b border-gray-100 dark:border-gray-700">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Your Exams</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">Your Exams</h2>
                 <div className="flex items-center gap-3">
                   <input
                     type="checkbox"
                     checked={selectedExams.length === displayedExams.length && displayedExams.length > 0}
                     onChange={handleSelectAllExams}
-                    className="w-5 h-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    className="w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-purple-600 focus:ring-purple-500"
                   />
-                  <label className="text-gray-600 font-medium">Select All</label>
+                  <label className="text-gray-600 dark:text-gray-300 font-medium">Select All</label>
                 </div>
               </div>
 
@@ -274,12 +274,12 @@ const Cart = () => {
                 {displayedExams.length > 0 ? (
                   displayedExams.map((exam) => (
                     <div key={exam.examId} 
-                      className="flex flex-col sm:flex-row items-start sm:items-center p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors gap-4">
+                      className="flex flex-col sm:flex-row items-start sm:items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors gap-4">
                       <input
                         type="checkbox"
                         checked={selectedExams.includes(exam)}
                         onChange={() => toggleExamSelection(exam)}
-                        className="w-5 h-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                        className="w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-purple-600 focus:ring-purple-500"
                       />
                       <img 
                         src={exam.examImage} 
@@ -289,13 +289,13 @@ const Cart = () => {
                       <div className="flex-1">
                         <Link 
                           to={"/exam/" + exam.examId} 
-                          className="text-base sm:text-lg font-semibold text-gray-800 hover:text-purple-600 transition-colors"
+                          className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                         >
                           {exam.examName}
                         </Link>
-                        <p className="text-gray-500 mt-1">Code: {exam.examCode}</p>
+                        <p className="text-gray-500 dark:text-gray-400 mt-1">Code: {exam.examCode}</p>
                         <div className="flex items-center gap-2 mt-2">
-                          <span className="text-lg font-bold text-purple-600">{exam.examDiscountFee}</span>
+                          <span className="text-lg font-bold text-purple-600 dark:text-purple-400">{exam.examDiscountFee}</span>
                           <img src={coin} alt="coin" className="h-5" />
                         </div>
                         <div className="flex flex-wrap gap-3 mt-4">
@@ -303,15 +303,15 @@ const Cart = () => {
                             onClick={() => toggleExamSelection(exam)}
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors
                               ${selectedExams.includes(exam) 
-                                ? 'bg-red-50 text-red-600 hover:bg-red-100' 
-                                : 'bg-purple-50 text-purple-600 hover:bg-purple-100'
+                                ? 'bg-red-50 dark:bg-red-900/50 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/70' 
+                                : 'bg-purple-50 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/70'
                               }`}
                           >
                             {selectedExams.includes(exam) ? 'Remove' : 'Add to Payment'}
                           </button>
                           <button
                             onClick={() => handleDeleteExam(exam.examId)}
-                            className="px-4 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors"
+                            className="px-4 py-2 bg-red-50 dark:bg-red-900/50 text-red-600 dark:text-red-400 rounded-lg text-sm font-medium hover:bg-red-100 dark:hover:bg-red-900/70 transition-colors"
                           >
                             Delete
                           </button>
@@ -320,7 +320,7 @@ const Cart = () => {
                     </div>
                   ))
                 ) : (
-                  <div className="text-center py-12 text-gray-500">
+                  <div className="text-center py-12 text-gray-500 dark:text-gray-400">
                     No exams in your cart
                   </div>
                 )}
@@ -329,7 +329,7 @@ const Cart = () => {
               {displayedExams.length < (carts?.examDetails?.length || 0) && (
                 <button 
                   onClick={loadMoreExams} 
-                  className="mt-6 w-full py-3 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                  className="mt-6 w-full py-3 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium"
                 >
                   Load More Exams
                 </button>
@@ -339,15 +339,15 @@ const Cart = () => {
             {/* Courses Section */}
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Your Courses</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">Your Courses</h2>
                 <div className="flex items-center gap-3">
                   <input
                     type="checkbox"
                     checked={selectedCourses.length === displayedCourses.length && displayedCourses.length > 0}
                     onChange={handleSelectAllCourses}
-                    className="w-5 h-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    className="w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-purple-600 focus:ring-purple-500"
                   />
-                  <label className="text-gray-600 font-medium">Select All</label>
+                  <label className="text-gray-600 dark:text-gray-300 font-medium">Select All</label>
                 </div>
               </div>
 
@@ -355,12 +355,12 @@ const Cart = () => {
                 {displayedCourses.length > 0 ? (
                   displayedCourses.map((course) => (
                     <div key={course.courseId} 
-                      className="flex items-center p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                      className="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
                       <input
                         type="checkbox"
                         checked={selectedCourses.includes(course)}
                         onChange={() => toggleCourseSelection(course)}
-                        className="w-5 h-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                        className="w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-purple-600 focus:ring-purple-500"
                       />
                       <img 
                         src={course.courseImage} 
@@ -370,13 +370,13 @@ const Cart = () => {
                       <div className="flex-1 ml-6">
                         <Link 
                           to={"/course/" + course.courseId} 
-                          className="text-lg font-semibold text-gray-800 hover:text-purple-600 transition-colors"
+                          className="text-lg font-semibold text-gray-800 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                         >
                           {course.courseName}
                         </Link>
-                        <p className="text-gray-500 mt-1">Code: {course.courseCode}</p>
+                        <p className="text-gray-500 dark:text-gray-400 mt-1">Code: {course.courseCode}</p>
                         <div className="flex items-center gap-2 mt-2">
-                          <span className="text-lg font-bold text-purple-600">{course.courseDiscountFee}</span>
+                          <span className="text-lg font-bold text-purple-600 dark:text-purple-400">{course.courseDiscountFee}</span>
                           <img src={coin} alt="coin" className="h-5" />
                         </div>
                         <div className="flex gap-3 mt-4">
@@ -384,15 +384,15 @@ const Cart = () => {
                             onClick={() => toggleCourseSelection(course)}
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors
                               ${selectedCourses.includes(course) 
-                                ? 'bg-red-50 text-red-600 hover:bg-red-100' 
-                                : 'bg-purple-50 text-purple-600 hover:bg-purple-100'
+                                ? 'bg-red-50 dark:bg-red-900/50 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/70' 
+                                : 'bg-purple-50 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/70'
                               }`}
                           >
                             {selectedCourses.includes(course) ? 'Remove' : 'Add to Payment'}
                           </button>
                           <button
                             onClick={() => handleDeleteCourse(course.courseId)}
-                            className="px-4 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors"
+                            className="px-4 py-2 bg-red-50 dark:bg-red-900/50 text-red-600 dark:text-red-400 rounded-lg text-sm font-medium hover:bg-red-100 dark:hover:bg-red-900/70 transition-colors"
                           >
                             Delete
                           </button>
@@ -401,7 +401,7 @@ const Cart = () => {
                     </div>
                   ))
                 ) : (
-                  <div className="text-center py-12 text-gray-500">
+                  <div className="text-center py-12 text-gray-500 dark:text-gray-400">
                     No courses in your cart
                   </div>
                 )}
@@ -410,7 +410,7 @@ const Cart = () => {
               {displayedCourses.length < (carts?.courseDetails?.length || 0) && (
                 <button 
                   onClick={loadMoreCourses} 
-                  className="mt-6 w-full py-3 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                  className="mt-6 w-full py-3 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium"
                 >
                   Load More Courses
                 </button>
@@ -421,7 +421,7 @@ const Cart = () => {
 
         {/* Right Sidebar */}
         <div className="w-full lg:w-96 lg:shrink-0">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6 lg:sticky lg:top-6">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 sm:p-6 lg:sticky lg:top-6">
             <button
               onClick={handlePayment}
               className="w-full py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors mb-6"
@@ -429,35 +429,35 @@ const Cart = () => {
               Proceed to Payment
             </button>
 
-            <h2 className="text-xl font-bold text-gray-800 mb-6">Order Summary</h2>
+            <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-6">Order Summary</h2>
             
             <div className="space-y-4 mb-6">
               <div className="flex justify-between items-center py-2">
-                <span className="text-gray-600">Exams Selected</span>
-                <span className="flex items-center gap-2 font-medium text-gray-800">
+                <span className="text-gray-600 dark:text-gray-300">Exams Selected</span>
+                <span className="flex items-center gap-2 font-medium text-gray-800 dark:text-gray-200">
                   {selectedExams.length}
-                  <PiExam className="text-purple-600 text-lg" />
+                  <PiExam className="text-purple-600 dark:text-purple-400 text-lg" />
                 </span>
               </div>
               <div className="flex justify-between items-center py-2">
-                <span className="text-gray-600">Courses Selected</span>
-                <span className="flex items-center gap-2 font-medium text-gray-800">
+                <span className="text-gray-600 dark:text-gray-300">Courses Selected</span>
+                <span className="flex items-center gap-2 font-medium text-gray-800 dark:text-gray-200">
                   {selectedCourses.length}
-                  <BiBook className="text-purple-600 text-lg" />
+                  <BiBook className="text-purple-600 dark:text-purple-400 text-lg" />
                 </span>
               </div>
               
-              <div className="border-t border-gray-100 pt-4">
+              <div className="border-t border-gray-100 dark:border-gray-700 pt-4">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-600">Total Amount</span>
-                  <span className="flex items-center gap-2 text-lg font-bold text-purple-600">
+                  <span className="text-gray-600 dark:text-gray-300">Total Amount</span>
+                  <span className="flex items-center gap-2 text-lg font-bold text-purple-600 dark:text-purple-400">
                     {total}
                     <img src={coin} alt="coin" className="h-5" />
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-500">Wallet Balance</span>
-                  <span className="flex items-center gap-2 text-gray-600">
+                  <span className="text-gray-500 dark:text-gray-400">Wallet Balance</span>
+                  <span className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
                     {userId ? wallets[userId]?.point : 0}
                     <img src={coin} alt="coin" className="h-4" />
                   </span>
@@ -469,11 +469,11 @@ const Cart = () => {
             <div className="space-y-4 max-h-[40vh] lg:max-h-[30vh] overflow-y-auto">
               {selectedExams.length > 0 && (
                 <div>
-                  <h3 className="font-semibold text-gray-800 mb-2">Selected Exams</h3>
+                  <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Selected Exams</h3>
                   <div className="space-y-2">
                     {selectedExams.map((exam) => (
-                      <div key={exam.examId} className="flex items-center gap-2 text-gray-600">
-                        <PiExam className="text-purple-600" />
+                      <div key={exam.examId} className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                        <PiExam className="text-purple-600 dark:text-purple-400" />
                         <p className="truncate">{exam.examName}</p>
                       </div>
                     ))}
@@ -483,11 +483,11 @@ const Cart = () => {
 
               {selectedCourses.length > 0 && (
                 <div>
-                  <h3 className="font-semibold text-gray-800 mb-2">Selected Courses</h3>
+                  <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Selected Courses</h3>
                   <div className="space-y-2">
                     {selectedCourses.map((course) => (
-                      <div key={course.courseId} className="flex items-center gap-2 text-gray-600">
-                        <BiBook className="text-purple-600" />
+                      <div key={course.courseId} className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                        <BiBook className="text-purple-600 dark:text-purple-400" />
                         <p className="truncate">{course.courseName}</p>
                       </div>
                     ))}
