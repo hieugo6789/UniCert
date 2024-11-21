@@ -180,23 +180,23 @@ const ExamFeedback = () => {
     };
 
     return (
-        <div className="p-6 bg-gray-100">
-            <h1 className="text-3xl font-semibold text-center mb-6">Feedback</h1>
+        <div className="p-6 bg-gray-100 dark:bg-gray-800">
+            <h1 className="text-3xl font-semibold text-center mb-6 text-gray-900 dark:text-white">Feedback</h1>
 
             {/* Add New Feedback */}
             <div className="mb-6 max-w-3xl mx-auto">
                 {!previewImage ? (
                     <label
                         htmlFor="uploadFile1"
-                        className="bg-white text-gray-500 font-semibold text-base rounded mb-4 h-32 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif] hover:bg-gray-50 transition-all duration-300"
+                        className="bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 font-semibold text-base rounded mb-4 h-32 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 dark:border-gray-600 border-dashed mx-auto font-[sans-serif] hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-300"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-8 mb-2 fill-gray-500" viewBox="0 0 32 32">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-8 mb-2 fill-gray-500 dark:fill-gray-300" viewBox="0 0 32 32">
                             <path d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z" />
                             <path d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z" />
                         </svg>
                         <span className="text-sm">Upload file</span>
                         <input type="file" id="uploadFile1" className="hidden" onChange={handleImageChange} accept="image/*" />
-                        <p className="text-xs text-gray-400 mt-1">PNG, JPG SVG, WEBP, and GIF are Allowed.</p>
+                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">PNG, JPG SVG, WEBP, and GIF are Allowed.</p>
                     </label>
                 ) : (
                     <div className="relative group mb-4">
@@ -207,7 +207,7 @@ const ExamFeedback = () => {
                             onClick={() => handleOpenModal(previewImage)}
                         />
                         <div 
-                            className="absolute top-2 right-2 bg-red-500 p-1 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="absolute top-2 right-2 bg-red-500 dark:bg-red-600 p-1 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
                             onClick={() => {
                                 setSelectedImage(null);
                                 setPreviewImage(null);
@@ -222,13 +222,13 @@ const ExamFeedback = () => {
 
                 <textarea
                     id="feedbackDescriptionInput"
-                    className="w-full p-4 border-2 border-gray-300 rounded-lg resize-none focus:border-blue-500 focus:outline-none transition-colors"
+                    className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg resize-none focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     placeholder="Write your feedback here..."
                     rows={4}
                 />
 
                 <button
-                    className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg transition-all duration-300 w-full sm:w-auto"
+                    className="mt-4 bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 text-white py-2 px-6 rounded-lg transition-all duration-300 w-full sm:w-auto"
                     onClick={handleSubmitFeedback}
                 >
                     Submit Feedback
@@ -238,10 +238,10 @@ const ExamFeedback = () => {
             {/* Display Feedback */}
             <div className="space-y-4 max-w-3xl mx-auto">
                 {feedbacks.length === 0 && (
-                    <p className="text-center text-gray-500">No feedback yet.</p>
+                    <p className="text-center text-gray-500 dark:text-gray-400">No feedback yet.</p>
                 )}
                 {feedbacks.map((feedback) => (
-                    <div key={feedback.feedbackId} className="bg-white rounded-lg shadow p-4 flex items-start space-x-4">
+                    <div key={feedback.feedbackId} className="bg-white dark:bg-gray-700 rounded-lg shadow p-4 flex items-start space-x-4">
                     <img
                         src={feedback.userDetails.userImage || DefaultImage}
                         alt={feedback.userDetails.username}
@@ -250,8 +250,8 @@ const ExamFeedback = () => {
                     <div className="flex-1">
                         <div className="flex justify-between items-center">
                             <div>
-                                <h2 className="font-semibold text-lg">{feedback.userDetails.username}</h2>
-                                <p className="text-sm text-gray-500">
+                                <h2 className="font-semibold text-lg text-gray-900 dark:text-white">{feedback.userDetails.username}</h2>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">
                                     {new Date(feedback.feedbackCreatedAt).toLocaleString("vi", {
                                         timeZone: "Asia/Ho_Chi_Minh",
                                     })}
@@ -261,13 +261,13 @@ const ExamFeedback = () => {
                             {feedback.userId === Number(Cookies.get("userId")) && (
                                 <div className="flex space-x-2">
                                     <button
-                                        className="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded-lg flex items-center transition-all"
+                                        className="bg-yellow-500 dark:bg-yellow-600 hover:bg-yellow-600 dark:hover:bg-yellow-700 text-white py-1 px-3 rounded-lg flex items-center transition-all"
                                         onClick={() => handleEditFeedback(feedback.feedbackId, feedback.feedbackDescription, feedback.feedbackImage || "")}
                                     >
                                         Edit
                                     </button>
                                     <button
-                                        className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-lg flex items-center transition-all"
+                                        className="bg-red-500 dark:bg-red-600 hover:bg-red-600 dark:hover:bg-red-700 text-white py-1 px-3 rounded-lg flex items-center transition-all"
                                         onClick={() => handleDelete(feedback.feedbackId)}
                                     >
                                         Delete
@@ -286,15 +286,15 @@ const ExamFeedback = () => {
                                             [feedback.feedbackId]: e.target.value,
                                         })
                                     }
-                                    className="w-full p-4 border-2 border-gray-300 rounded-lg mt-2 resize-none focus:border-blue-500 focus:outline-none"
+                                    className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg mt-2 resize-none focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                                     rows={4}
                                 />
                                 <div className="mt-4">
                                     <label
                                         htmlFor={`uploadFile-${feedback.feedbackId}`}
-                                        className="bg-white text-gray-500 font-semibold text-base rounded mb-4 h-32 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto hover:bg-gray-50 transition-all"
+                                        className="bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 font-semibold text-base rounded mb-4 h-32 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 dark:border-gray-600 border-dashed mx-auto hover:bg-gray-50 dark:hover:bg-gray-600 transition-all"
                                     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-8 mb-2 fill-gray-500" viewBox="0 0 32 32">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-8 mb-2 fill-gray-500 dark:fill-gray-300" viewBox="0 0 32 32">
                                             <path d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z" />
                                             <path d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z" />
                                         </svg>
@@ -316,7 +316,7 @@ const ExamFeedback = () => {
                                                 onClick={() => handleOpenModal(previewImage)}
                                             />
                                             <div 
-                                                className="absolute top-2 right-2 bg-red-500 p-1 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
+                                                className="absolute top-2 right-2 bg-red-500 dark:bg-red-600 p-1 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
                                                 onClick={() => {
                                                     setSelectedImage(null);
                                                     setPreviewImage(null);
@@ -331,13 +331,13 @@ const ExamFeedback = () => {
                                 </div>
                                 <div className="mt-4 flex space-x-2">
                                     <button
-                                        className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg transition-all"
+                                        className="bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 text-white py-2 px-6 rounded-lg transition-all"
                                         onClick={() => handleUpdateFeedback(feedback.feedbackId)}
                                     >
                                         Save Changes
                                     </button>
                                     <button
-                                        className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-6 rounded-lg transition-all"
+                                        className="bg-gray-500 dark:bg-gray-600 hover:bg-gray-600 dark:hover:bg-gray-700 text-white py-2 px-6 rounded-lg transition-all"
                                         onClick={() => handleCancelEdit(feedback.feedbackId)}
                                     >
                                         Cancel
@@ -345,7 +345,7 @@ const ExamFeedback = () => {
                                 </div>
                             </div>
                         ) : (
-                            <p className="mt-2">{feedback.feedbackDescription}</p>
+                            <p className="mt-2 text-gray-900 dark:text-white">{feedback.feedbackDescription}</p>
                         )}
 
                         {feedback.feedbackImage && !editingFeedback[feedback.feedbackId] && (
@@ -367,10 +367,10 @@ const ExamFeedback = () => {
                     className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50 p-4 modal-background"
                     onClick={handleModalClick} 
                 >
-                    <div className="relative bg-white p-2 rounded-lg max-w-4xl max-h-[90vh] overflow-auto">
+                    <div className="relative bg-white dark:bg-gray-800 p-2 rounded-lg max-w-4xl max-h-[90vh] overflow-auto">
                         <img src={modalImage || ""} alt="Preview" className="max-w-full h-auto" />
                         <button
-                            className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors"
+                            className="absolute top-2 right-2 bg-red-500 dark:bg-red-600 text-white p-2 rounded-full hover:bg-red-600 dark:hover:bg-red-700 transition-colors"
                             onClick={handleCloseModal}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
