@@ -43,7 +43,6 @@ const Job = () => {
   // Handle pagination changes
   const handlePaginationChange = (page: number) => {
     setCurrentPage(page);
-
   };
 
   // Calculate paginated data
@@ -67,9 +66,9 @@ const Job = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-purple-500 to-purple-700 text-white py-16">
+      <div className="bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-700 dark:to-purple-900 text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Explore Your Career Path
@@ -87,14 +86,17 @@ const Job = () => {
             type="text"
             placeholder="Search for job positions..."
             className="w-full px-6 py-4 rounded-full shadow-lg border-2 border-transparent
-            focus:outline-none focus:ring-4 focus:ring-purple-200 focus:border-purple-500
+            focus:outline-none focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-800 
+            focus:border-purple-500 dark:focus:border-purple-700
             transition-all duration-300 ease-in-out transform
-            hover:shadow-xl focus:scale-[1.02]"
+            hover:shadow-xl focus:scale-[1.02]
+            bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             onChange={changeKeyword}
           />
           <button
             className="absolute right-4 top-1/2 -translate-y-1/2 
-            text-gray-400 hover:text-purple-500 transition-colors duration-300"            
+            text-gray-400 dark:text-gray-500 hover:text-purple-500 dark:hover:text-purple-400 
+            transition-colors duration-300"            
           >
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
@@ -119,7 +121,7 @@ const Job = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Main Content */}
           <div className="lg:w-3/4">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Available Positions</h2>
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">Available Positions</h2>
             <div className="space-y-6">
               {paginatedJobs.map((job) => (
                 <JobPositionCard job={job} key={job.jobPositionId} />
@@ -139,7 +141,7 @@ const Job = () => {
 
           {/* Sidebar */}
           <div className="lg:w-1/4">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Top Certificates</h2>
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">Top Certificates</h2>
             <div className="space-y-4">
               {certificate.map((cert) => (
                 <CertificateCard {...cert} key={cert.certId} />
