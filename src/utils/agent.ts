@@ -278,6 +278,8 @@ const Cart = {
 const Enrollment = {
   getCourseByUserId: (userId: string) =>
     requests.get(`api/v1/course-enrollment/user/${userId}`),
+  getCourseEnrollDetail: (courseEnrollmentId: number) =>
+    requests.get(`api/v1/course-enrollment/${courseEnrollmentId}`),
   createCourseEnroll: (input: createCourseEnrollment) =>
     requests.post("api/v1/course-enrollment", input),
   deleteCourseEnrollment: (cEnrollmentId: number) =>
