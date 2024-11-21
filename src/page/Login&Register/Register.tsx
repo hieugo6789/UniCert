@@ -1,4 +1,4 @@
-import image from "../../assets/images/login.png";
+import image from "../../assets/images/LoginBanner.png";
 import { Link } from "react-router-dom";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -55,7 +55,7 @@ const Register = () => {
       .matches(/^[0-9]{10}$/, "Phone number must be exactly 10 digits"),
   });
   return (
-    <div className="flex flex-col md:flex-row justify-center items-center min-h-screen bg-white p-4">
+    <div className="flex flex-col md:flex-row justify-center items-center min-h-screen bg-white dark:bg-gray-900 p-4">
       <div className="hidden md:flex md:flex-1 justify-center items-center">
         <img
           src={image}
@@ -65,7 +65,7 @@ const Register = () => {
       </div>
       <div className="w-full md:flex-1 max-w-md">
         <div className="w-full p-4 md:p-8">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white">
             Register
           </h2>
           <Formik
@@ -114,11 +114,11 @@ const Register = () => {
               </button>
             </Form>
           </Formik>
-          <p className="text-center text-sm text-gray-500 mt-4 bg-gray-100 w-full p-2.5 rounded-xl">
+          <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4 bg-gray-100 dark:bg-gray-800 w-full p-2.5 rounded-xl">
             Already have account?{" "}
             <Link
               to="/login"
-              className="text-purple-600 font-bold hover:underline"
+              className="text-purple-600 dark:text-purple-400 font-bold hover:underline"
             >
               Log in
             </Link>
