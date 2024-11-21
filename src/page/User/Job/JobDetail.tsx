@@ -59,31 +59,32 @@ const JobDetail = () => {
   }, []);    
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       {/* Breadcrumb */}
       <nav className="px-4 py-3 text-sm md:text-base">
-        <div className="max-w-7xl mx-auto flex items-center space-x-2 text-gray-300">
-          <Link to="/" className="hover:text-blue-400 transition-colors">Home</Link>
+        <div className="max-w-7xl mx-auto flex items-center space-x-2 text-gray-600 dark:text-gray-300">
+          <Link to="/" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</Link>
           <span>/</span>
-          <Link to="/job" className="hover:text-blue-400 transition-colors">Job Position</Link>
+          <Link to="/job" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Job Position</Link>
           <span>/</span>
-          <span className="text-blue-400">{jobDetail?.jobPositionName}</span>
+          <span className="text-blue-600 dark:text-blue-400">{jobDetail?.jobPositionName}</span>
         </div>
       </nav>
       
       {/* Header Section */}
       <header className="max-w-7xl mx-auto px-4 py-12 md:py-8 text-center">
         <h1 className="fade-in text-4xl md:text-6xl lg:text-8xl font-extrabold bg-clip-text text-transparent 
-          bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] 
+          bg-[linear-gradient(to_right,theme(colors.indigo.600),theme(colors.indigo.300),theme(colors.sky.600),theme(colors.fuchsia.600),theme(colors.sky.600),theme(colors.indigo.300),theme(colors.indigo.600))] 
+          dark:bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))]
           bg-[length:200%_auto] animate-gradient uppercase tracking-tight">
           {jobDetail?.jobPositionName || "Position Not Found"}
         </h1>
         
-        <h2 className="fade-in mt-6 text-3xl md:text-5xl font-bold text-white">
-          What's <span className="text-blue-400">{jobDetail?.jobPositionName || "____"}</span>
+        <h2 className="fade-in mt-6 text-3xl md:text-5xl font-bold text-gray-900 dark:text-white">
+          What's <span className="text-blue-600 dark:text-blue-400">{jobDetail?.jobPositionName || "____"}</span>
         </h2>
           
-        <div className="fade-in mt-8 max-w-4xl mx-auto prose prose-lg prose-invert text-white text-2xl">
+        <div className="fade-in mt-8 max-w-4xl mx-auto prose prose-lg text-gray-800 dark:prose-invert dark:text-white text-2xl">
           <div dangerouslySetInnerHTML={{
             __html: jobDetail?.jobPositionDescription || ""
           }} />
@@ -102,20 +103,21 @@ const JobDetail = () => {
             { type: "Specialty", title: "5. Specialty", desc: "Certification focused on specialized skills in a specific area of expertise." }
           ].map((section) => (
             <div key={section.type} className="fade-in">
-              <div className="h-full p-6 md:p-8 bg-gray-800 bg-opacity-50 rounded-2xl backdrop-blur-sm 
-                border border-gray-700 shadow-xl">
+              <div className="h-full p-6 md:p-8 bg-white dark:bg-gray-800 bg-opacity-50 dark:bg-opacity-50 rounded-2xl backdrop-blur-sm 
+                border border-gray-200 dark:border-gray-700 shadow-xl">
                 <h3 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent 
-                  bg-gradient-to-r from-indigo-400 via-sky-400 to-fuchsia-400">
+                  bg-gradient-to-r from-indigo-600 via-sky-600 to-fuchsia-600
+                  dark:from-indigo-400 dark:via-sky-400 dark:to-fuchsia-400">
                   {section.title}
                 </h3>
                 
-                <p className="mt-3 text-lg text-gray-300 font-medium">
+                <p className="mt-3 text-lg text-gray-700 dark:text-gray-300 font-medium">
                   {section.desc}
                 </p>
 
                 <div className="mt-6">
                   {certList.filter((cert) => cert.typeName === section.type).length === 0 ? (
-                    <p className="text-gray-400 italic">No certificates available</p>
+                    <p className="text-gray-500 dark:text-gray-400 italic">No certificates available</p>
                   ) : (
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                       {certList
@@ -146,9 +148,9 @@ const JobDetail = () => {
             shining
             label="Explore More Certificates"
             onClick={() => navigate("/certificate")}
-            className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 
-              hover:to-purple-600 text-white px-8 py-3 rounded-xl font-semibold 
-              transform hover:scale-105 transition-all duration-300"
+            className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 
+              hover:from-blue-700 hover:to-purple-700 dark:hover:from-blue-600 dark:hover:to-purple-600 
+              text-white px-8 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300"
           />
         </div>
       </main>
