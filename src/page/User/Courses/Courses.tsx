@@ -19,15 +19,17 @@ import google from "../../../assets/images/Organization/google.png";
 import { Modal } from "antd";
 import Coin from "../../../assets/images/Coin.png";
 import useWalletDetail from "../../../hooks/Wallet/useWalletDetail";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Courses = () => {
   const userId = Cookies.get("userId");
+  const navigate = useNavigate();
   const [courses, setCourses] = useState<allCoursePaginationData[]>([]);
   const { course, loading, refetchCourses } = useCourse();
   const { state, getCart } = useCartByUserId();
   const { updateCart } = useUpdateCart();
   const [purchasedCourses, setPurchasedCourses] = useState<courseEnrollment[]>([]);
+  const [pendingPaymentCourses, setPendingPaymentCourses] = useState<courseEnrollment[]>([]);
   const { courseEnrollment, loading: courseLoad, refetchCourseEnrollments } = useCourseEnrollment({ userId: userId || "" });
   const { handlePayNow } = usePayNow();
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
@@ -44,7 +46,9 @@ const Courses = () => {
   useEffect(() => {
     if (userId) {
       const successfulCourses = courseEnrollment.filter((course) => course.courseEnrollmentStatus === "Completed");
+      const pendingPaymentCourses = courseEnrollment.filter((course) => course.courseEnrollmentStatus === "OnGoing");
       setPurchasedCourses(successfulCourses);
+      setPendingPaymentCourses(pendingPaymentCourses);
     }
   }, [courseEnrollment, userId]);
 
@@ -104,15 +108,25 @@ const Courses = () => {
     if (!userId || !selectedCourse) return;
   
     try {                   
-      await handlePayNow({
+      const response = await handlePayNow({
         userId: Number(userId),
         simulation_Exams: [],
         courses: [selectedCourse.courseId],
       });
 
+      console.log("Payment Response:", response);
+
       showToast("Payment successful", "success");
-      refetchCourseEnrollments(userId);
-      setShowPaymentModal(false);      
+      setShowPaymentModal(false);
+      
+      if (userId) {
+        refetchCourseEnrollments(userId);
+      }
+
+      if (response.data.courseEnrollmentId) {
+        navigate(`/enrollment/${response.data.courseEnrollmentId}`);
+      }
+
     } catch (error) {
       showToast(`Payment failed: ${error}`, "error");
     }
@@ -151,14 +165,18 @@ const Courses = () => {
             const isInCart = !!(userId && state.currentCart.courseDetails.some((c: any) => c.courseId === course.courseId));
             const isPurchased = !!(userId && (purchasedCourses || []).some((e) => 
               (e.courseDetails || []).some((c) => c.courseId.toString() === course.courseId.toString())
-            ));                
+            ));
+            const isPendingPayment = !!(userId && (pendingPaymentCourses || []).some((e) =>
+              (e.courseDetails || []).some((c) => c.courseId.toString() === course.courseId.toString())
+            ));
             return (
               <CourseCard
                 key={course.courseId}
                 course={course}
-                onClick={isInCart || isPurchased ? undefined : addToCart(course.courseId)}
+                onClick={isInCart || isPurchased || isPendingPayment ? undefined : addToCart(course.courseId)}
                 isInCart={isInCart}
                 isPurchased={isPurchased}
+                isPendingPayment={isPendingPayment}
                 onBuyNow={() => handleBuyNow(course)}
               />
             );

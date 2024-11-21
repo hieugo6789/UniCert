@@ -23,7 +23,7 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
   onClick,
   isInCart,
   isPurchased,
-  isInPayment,
+  isInPayment,  
   onBuyNow
 }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -111,7 +111,7 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
             className="bg-gray-400 cursor-not-allowed text-white px-4 py-2 rounded-lg"
             disabled
           >
-            In Payment
+            Pending Payment
           </button>
         ) : isInCart ? (
           <button

@@ -7,14 +7,21 @@ interface CourseCardProps {
   onClick?: () => void;
   isInCart: boolean;
   isPurchased: boolean;
-  hideButton?: boolean; // Thêm prop hideButton
+  isPendingPayment?: boolean;
+  hideButton?: boolean;
   onBuyNow?: () => void;
 }
 
-const CourseCard = ({ course, onClick, isInCart, isPurchased, hideButton, onBuyNow }: CourseCardProps) => {
+const CourseCard = ({ course, onClick, isInCart, isPurchased, isPendingPayment, hideButton, onBuyNow }: CourseCardProps) => {
   const navigate = useNavigate();
-  const buttonText = isPurchased ? "Purchased" : isInCart ? "In Cart" : "Add To Cart";
-  const buttonStyles = isPurchased || isInCart 
+  const buttonText = isPurchased 
+    ? "Purchased" 
+    : isPendingPayment 
+    ? "Pending Payment" 
+    : isInCart 
+    ? "In Cart" 
+    : "Add To Cart";
+  const buttonStyles = isPurchased || isInCart || isPendingPayment
     ? "bg-gray-400 cursor-not-allowed" 
     : "bg-blue-600 hover:bg-blue-700 transform hover:scale-105 transition-all duration-200";
 
@@ -71,7 +78,7 @@ const CourseCard = ({ course, onClick, isInCart, isPurchased, hideButton, onBuyN
                 onBuyNow?.();
               }}
               className={`${buttonStyles} text-white px-4 py-2 rounded-lg`}              
-              hidden={isInCart || isPurchased}
+              hidden={isInCart || isPurchased || isPendingPayment}
             >
               Buy Now
             </button>
@@ -81,7 +88,7 @@ const CourseCard = ({ course, onClick, isInCart, isPurchased, hideButton, onBuyN
                 if (onClick) onClick();
               }}
               className={`${buttonStyles} text-white px-4 py-2 rounded-lg`}
-              disabled={isInCart || isPurchased}
+              disabled={isInCart || isPurchased || isPendingPayment}
             >
               {buttonText}
             </button>

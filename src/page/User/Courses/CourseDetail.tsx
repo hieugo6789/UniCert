@@ -30,12 +30,13 @@ const CourseDetail = () => {
         
     const userId = Cookies.get("userId");
     const [purchasedCourses, setPurchasedCourses] = useState<courseEnrollment[]>([]);
+    const [pendingPaymentCourses, setPendingPaymentCourses] = useState<courseEnrollment[]>([]);
     const { state: cartState, getCart } = useCartByUserId();
     const { updateCart } = useUpdateCart();
     const { courseEnrollment, refetchCourseEnrollments } = useCourseEnrollment({ userId: userId || "" });
     const [isInCart, setIsInCart] = useState(false);
     const [isPurchased, setIsPurchased] = useState(false);
-
+    const [isPendingPayment, setIsPendingPayment] = useState(false);
     useEffect(() => {
         setCert([]);
         getCourseDetails(id || "-1");
@@ -72,12 +73,15 @@ const CourseDetail = () => {
             setPurchasedCourses([]);
             setIsInCart(false);
             setIsPurchased(false);
+            setIsPendingPayment(false);
         }
     }, [userId]);
 
     useEffect(() => {
         const successfulCourses = courseEnrollment.filter((course) => course.courseEnrollmentStatus === "Completed");
+        const pendingPaymentCourses = courseEnrollment.filter((course) => course.courseEnrollmentStatus === "OnGoing");
         setPurchasedCourses(successfulCourses);
+        setPendingPaymentCourses(pendingPaymentCourses);
     }, [courseEnrollment]);
 
     useEffect(() => {
@@ -87,9 +91,13 @@ const CourseDetail = () => {
         const cart = cartState.currentCart?.courseDetails?.some(
             (course: any) => course.courseId.toString() === id
         );
+        const pendingPayment = pendingPaymentCourses.some((e) =>
+            (e.courseDetails || []).some((c) => c.courseId.toString() === id)
+        );
         setIsInCart(!!cart);
         setIsPurchased(!!purchased);
-    }, [purchasedCourses, cartState.currentCart, id]);
+        setIsPendingPayment(!!pendingPayment);
+    }, [purchasedCourses, pendingPaymentCourses, cartState.currentCart, id]);
 
     const addToCart = (courseId: string) => async () => {
         if (!userId) {
@@ -175,6 +183,8 @@ const CourseDetail = () => {
                         <CustomButton label="Purchased" disabled className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4" />
                     ) : isInCart ? (
                         <CustomButton label="In Cart" disabled className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4" />
+                    ) : isPendingPayment ? (
+                        <CustomButton label="Pending Payment" disabled className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4" />
                     ) : (
                         <CustomButton 
                             label="Add to Cart" 
