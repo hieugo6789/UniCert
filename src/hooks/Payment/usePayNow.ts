@@ -16,9 +16,11 @@ export function usePayNow() {
     try {
       const response = await agent.Payment.payNow(input);
       dispatch(payNowSuccess(response));
+      return response;
     } catch (error) {
       console.error("Error creating payment:", error);
       dispatch(payNowFailure());
+      throw error;
     }
   };
 
