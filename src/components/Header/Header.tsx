@@ -6,6 +6,7 @@ import { ShoppingCartOutlined, MenuOutlined, SearchOutlined, ArrowLeftOutlined }
 import useCartByUserId from "../../hooks/Cart/useCartByUserId";
 import Cookies from "js-cookie";
 import SearchDropdown from "./SearchDropdown";
+import ThemeSwitch from "../UI/ThemeSwitch";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -58,16 +59,15 @@ const Header = () => {
             <Link
               key={tab}
               to={`./${tab === 'job' ? 'job' : tab}`}
-              className={`relative transition-colors text-base font-medium ${
-                activeTab === tab 
-                  ? 'dark:text-purple-400 text-purple-800 after:absolute after:bottom-[-12px] after:left-0 after:w-full after:h-0.5 after:bg-purple-800 dark:after:bg-purple-400' 
+              className={`relative transition-colors text-base font-medium ${activeTab === tab
+                  ? 'dark:text-purple-400 text-purple-800 after:absolute after:bottom-[-12px] after:left-0 after:w-full after:h-0.5 after:bg-purple-800 dark:after:bg-purple-400'
                   : 'text-black dark:text-white hover:text-purple-800 dark:hover:text-purple-400 hover:after:absolute hover:after:bottom-[-12px] hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-purple-800/50 dark:hover:after:bg-purple-400/50'
-              }`}
+                }`}
             >
               {tab === 'certificate' ? 'Certifications' :
-               tab === 'courses' ? 'Courses' :
-               tab === 'majors' ? 'Majors' :
-               tab === 'job' ? 'Job Position' : 'About Us'}
+                tab === 'courses' ? 'Courses' :
+                  tab === 'majors' ? 'Majors' :
+                    tab === 'job' ? 'Job Position' : 'About Us'}
             </Link>
           ))}
         </nav>
@@ -102,8 +102,8 @@ const Header = () => {
       {/* Mobile Header */}
       <div className="lg:hidden dark:text-white text-black flex items-center justify-between px-4 py-2">
         <div className="flex items-center gap-4">
-          <button 
-            onClick={() => setIsMenuOpen(true)} 
+          <button
+            onClick={() => setIsMenuOpen(true)}
             className="text-black/80 dark:text-white/80 p-2"
           >
             <MenuOutlined style={{ fontSize: "24px" }} />
@@ -123,7 +123,7 @@ const Header = () => {
               )}
             </Link>
           )}
-          <button 
+          <button
             onClick={() => setIsSearchOpen(true)}
             className="text-black dark:text-white/80 p-2"
           >
@@ -137,15 +137,15 @@ const Header = () => {
         <div className="lg:hidden fixed inset-0 bg-white dark:bg-gray-950 z-50">
           <div className="flex flex-col h-full">
             <div className="flex items-center gap-3 p-4 border-b dark:border-gray-800 border-gray-200">
-              <button 
+              <button
                 onClick={() => setIsSearchOpen(false)}
                 className="dark:text-white/80 text-black/80 p-2 hover:text-black dark:hover:text-white"
               >
                 <ArrowLeftOutlined style={{ fontSize: "20px" }} />
               </button>
               <div className="flex-1">
-                <SearchDropdown 
-                  onItemSelect={() => setIsSearchOpen(false)} 
+                <SearchDropdown
+                  onItemSelect={() => setIsSearchOpen(false)}
                   isMobile={true}
                 />
               </div>
@@ -158,15 +158,15 @@ const Header = () => {
       {isMenuOpen && (
         <div className="lg:hidden fixed inset-0 text-black dark:text-white bg-white dark:bg-gray-950 z-50">
           <div className="flex items-center justify-between p-4 border-b dark:border-gray-800 border-gray-200">
-            <button 
+            <button
               onClick={() => setIsMenuOpen(false)}
               className="text-black dark:text-white p-2"
             >
               <ArrowLeftOutlined />
-            </button>            
+            </button>
             <div className="w-40">
               <Logo />
-            </div>            
+            </div>
             <div className="w-10" />
           </div>
 
@@ -181,32 +181,31 @@ const Header = () => {
                 <Link
                   key={tab}
                   to={`./${tab === 'job' ? 'job' : tab}`}
-                  className={`px-6 py-4 text-base ${
-                    activeTab === tab 
-                      ? 'dark:bg-gray-800 bg-gray-100 dark:text-white text-black border-l-4 border-purple-400' 
+                  className={`px-6 py-4 text-base ${activeTab === tab
+                      ? 'dark:bg-gray-800 bg-gray-100 dark:text-white text-black border-l-4 border-purple-400'
                       : 'text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white hover:border-l-4 hover:border-purple-400'
-                  }`}
+                    }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {tab === 'certificate' ? 'Certifications' :
-                   tab === 'courses' ? 'Courses' :
-                   tab === 'majors' ? 'Majors' :
-                   tab === 'job' ? 'Job Position' : 'About Us'}
+                    tab === 'courses' ? 'Courses' :
+                      tab === 'majors' ? 'Majors' :
+                        tab === 'job' ? 'Job Position' : 'About Us'}
                 </Link>
               ))}
             </nav>
 
             {!isLoggedIn && (
               <div className="p-4 mt-auto border-t dark:border-gray-800 border-gray-200">
-                <Link 
-                  to="/login" 
+                <Link
+                  to="/login"
                   className="block w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-2 rounded-lg text-center font-medium mb-3"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Login
                 </Link>
-                <Link 
-                  to="/register" 
+                <Link
+                  to="/register"
                   className="block w-full bg-purple-500 text-white px-4 py-2 rounded-lg text-center font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -217,6 +216,9 @@ const Header = () => {
           </div>
         </div>
       )}
+      <div className="hidden">
+        <ThemeSwitch />
+      </div>
     </header>
   );
 };
