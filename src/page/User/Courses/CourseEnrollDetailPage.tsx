@@ -1,13 +1,38 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { courseEnrollment } from "../../../models/enrollment";
 import CustomButton from "../../../components/UI/CustomButton";
-import 
+import useCourseEnrollmentDetail from "../../../hooks/Enrollment/useCourseEnrollmentDetail";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 const CourseEnrollDetailPage = () => {
+  const userId = Cookies.get("userId");
   const id = useParams().id;
-  const navigate = useNavigate();
-  const enrollment = location.state as courseEnrollment;
-  console.log("Test", enrollment);
+  const navigate = useNavigate();  
+  const { state, getCourseEnrollmentDetails } = useCourseEnrollmentDetail();
+
+  useEffect(() => {
+    if (id) {
+      getCourseEnrollmentDetails(Number(id));
+    }
+  }, [id]);
+
+  useEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    };
+    scrollToTop();
+  }, []);
+
+  if (!state.currentCourseEnrollment) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-gray-600">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12">
@@ -17,7 +42,7 @@ const CourseEnrollDetailPage = () => {
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-6">
             <div className="flex justify-between items-center">
               <h1 className="text-2xl font-bold text-white">Enrollment Details</h1>
-              <span className="text-blue-100">#{enrollment.enrollCode}</span>
+              <span className="text-blue-100">Enroll Code: {state.currentCourseEnrollment?.enrollCode}</span>
             </div>
           </div>
 
@@ -28,17 +53,17 @@ const CourseEnrollDetailPage = () => {
               <div>
                 <p className="text-gray-600">Enrollment Date</p>
                 <p className="font-semibold">
-                  {new Date(enrollment.courseEnrollmentDate).toLocaleDateString()}
+                  {new Date(state.currentCourseEnrollment.courseEnrollmentDate).toLocaleDateString()}
                 </p>
               </div>
               <div className={`px-4 py-2 rounded-full font-medium
-                ${enrollment.courseEnrollmentStatus === 'Completed' 
+                ${state.currentCourseEnrollment.courseEnrollmentStatus === 'Completed' 
                   ? 'bg-green-100 text-green-800'
-                  : enrollment.courseEnrollmentStatus === 'OnGoing'
+                  : state.currentCourseEnrollment.courseEnrollmentStatus === 'OnGoing'
                   ? 'bg-yellow-100 text-yellow-800'
                   : 'bg-red-100 text-red-800'
                 }`}>
-                {enrollment.courseEnrollmentStatus}
+                {state.currentCourseEnrollment.courseEnrollmentStatus}
               </div>
             </div>
 
@@ -46,7 +71,7 @@ const CourseEnrollDetailPage = () => {
             <div className="mb-8">
               <h2 className="text-lg font-semibold text-gray-800 mb-4">Enrolled Courses</h2>
               <div className="space-y-4">
-                {enrollment.courseDetails.map((course) => (
+                {state.currentCourseEnrollment.courseDetails?.map((course: any) => (
                   <div 
                     key={course.courseId}
                     className="flex items-center gap-4 p-4 rounded-lg border border-gray-200 hover:border-blue-500 transition-colors duration-200"
@@ -78,14 +103,14 @@ const CourseEnrollDetailPage = () => {
               <div className="flex justify-between items-center mb-2">
                 <span className="text-gray-600">Total Amount</span>
                 <span className="text-2xl font-bold text-blue-600">
-                  ${enrollment.totalPrice.toLocaleString()}
+                  ${state.currentCourseEnrollment.totalPrice}
                 </span>
               </div>
             </div>
 
             {/* Actions */}
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-end">
-              {enrollment.courseEnrollmentStatus === 'OnGoing' && (
+              {state.currentCourseEnrollment.courseEnrollmentStatus === 'OnGoing' && (
                 <CustomButton
                   label="Complete Payment"
                   onClick={() => {/* Handle payment */}}
@@ -94,7 +119,7 @@ const CourseEnrollDetailPage = () => {
               )}
               <CustomButton
                 label="Back to History"
-                onClick={() => navigate('/history')}
+                onClick={() => navigate(`/history/${userId}`)}
                 className="px-6 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg"
               />
             </div>

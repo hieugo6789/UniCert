@@ -6,13 +6,13 @@ import Cookies from 'js-cookie';
 import Coin from "../../assets/images/Coin.png";
 import { showToast } from '../../utils/toastUtils';
 
-interface CourseEnrollmentCardProps {
+interface HistoryCourseCardProps {
   enrollment: courseEnrollment;
   onStatusChange?: () => void;
   onClick?: () => void;
 }
 
-const HistoryCourseCard: React.FC<CourseEnrollmentCardProps> = ({ enrollment, onStatusChange }) => {
+const HistoryCourseCard: React.FC<HistoryCourseCardProps> = ({ enrollment, onStatusChange, onClick }) => {
   const { handleCreatePayment } = useCreatePayment();
   const userId = Cookies.get("userId");
   const [enrollStatus, setEnrollStatus] = useState(enrollment.courseEnrollmentStatus);
@@ -35,7 +35,7 @@ const HistoryCourseCard: React.FC<CourseEnrollmentCardProps> = ({ enrollment, on
   };
 
   return (
-    <div className="shadow-lg rounded-lg bg-white p-4 sm:p-6 md:p-8">
+    <div onClick={onClick} className="shadow-lg rounded-lg bg-white p-4 sm:p-6 md:p-8">
       {/* Enrollment Information */}
       <div className="border-b pb-4 sm:pb-6">
         <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0">

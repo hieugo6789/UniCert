@@ -132,8 +132,7 @@ const HistoryPage = () => {
               ) : (
                 <HistoryCourseCard 
                   enrollment={item}
-                  onStatusChange={handleStatusChange}
-                  onClick={() => navigate(`/enrollment/${item.courseEnrollmentId}`)}
+                  onStatusChange={handleStatusChange}                  
                 />
               )}
               <button
@@ -174,7 +173,10 @@ const HistoryPage = () => {
               {type === 'exams' ? (
                 <HistoryExamCard enrollment={item} />
               ) : (
-                <HistoryCourseCard enrollment={item} />
+                <HistoryCourseCard 
+                  enrollment={item}
+                  onClick={() => navigate(`/enrollment/${item.courseEnrollmentId}`)}
+                />
               )}
             </div>
           ))}
