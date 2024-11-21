@@ -70,7 +70,7 @@ const CertificatePage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section - Cải thiện */}
       <div className="bg-gradient-to-r from-purple-600 to-purple-400 text-white py-16">
         <div className="container mx-auto px-4">
@@ -90,14 +90,14 @@ const CertificatePage = () => {
             type="text"
             placeholder="Search for certificates..."
             className="w-full px-6 py-4 rounded-full shadow-lg border-2 border-transparent
-            focus:outline-none focus:ring-4 focus:ring-purple-200 focus:border-purple-500
-            transition-all duration-300 ease-in-out transform
+            focus:outline-none focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-800 focus:border-purple-500
+            transition-all duration-300 ease-in-out transform bg-white dark:bg-gray-800 text-gray-900 dark:text-white
             hover:shadow-xl focus:scale-[1.02]"
             onChange={changeKeyword}
           />
           <button
             className="absolute right-4 top-1/2 -translate-y-1/2 
-            text-gray-400 hover:text-purple-500 transition-colors duration-300"            
+            text-gray-400 hover:text-purple-500 dark:hover:text-purple-400 transition-colors duration-300"            
           >
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
@@ -132,7 +132,7 @@ const CertificatePage = () => {
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="p-2 rounded-full bg-white shadow-md hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 rounded-full bg-white dark:bg-gray-800 shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
@@ -147,7 +147,7 @@ const CertificatePage = () => {
                     className={`px-4 py-2 rounded-full font-medium transition-colors duration-200
                       ${currentPage === page 
                         ? "bg-purple-500 text-white" 
-                        : "bg-white text-gray-700 hover:bg-purple-50"}`}
+                        : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-purple-50 dark:hover:bg-gray-700"}`}
                   >
                     {page}
                   </button>
@@ -157,7 +157,7 @@ const CertificatePage = () => {
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="p-2 rounded-full bg-white shadow-md hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 rounded-full bg-white dark:bg-gray-800 shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
@@ -172,9 +172,9 @@ const CertificatePage = () => {
               alt="No certificates found"
               className="w-full rounded-xl shadow-lg mb-6"
             />
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-300">
               We couldn't find any certificates. Please try a different search or{' '}
-              <Link to="/" className="text-purple-600 hover:text-purple-700 font-medium">
+              <Link to="/" className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium">
                 return to homepage
               </Link>
             </p>
@@ -183,14 +183,14 @@ const CertificatePage = () => {
       </div>
 
       {/* Benefits Section - Cải thiện */}
-      <div className="bg-white py-16">
+      <div className="bg-white dark:bg-gray-800 py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-gray-900">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                 How Certificates Can Help You
               </h2>
-              <p className="text-lg text-gray-600">
+              <p className="text-lg text-gray-600 dark:text-gray-300">
                 Earning certificates can enhance your skills, increase your job prospects, 
                 and boost your earning potential. Whether you're looking to change careers, 
                 gain new expertise, or advance in your current role, these credentials provide 
@@ -207,13 +207,13 @@ const CertificatePage = () => {
       </div>
 
       {/* Student Benefits Section - Cải thiện */}
-      <div className="bg-gradient-to-b from-purple-50 to-white py-16">
+      <div className="bg-gradient-to-b from-purple-50 dark:from-gray-900 to-white dark:to-gray-800 py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto">
-            <h3 className="text-3xl font-bold text-center text-gray-900 mb-12">
+            <h3 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">
               Why Students Should Pursue Certificates
             </h3>
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
               <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="relative h-full">
                   <img
@@ -223,7 +223,7 @@ const CertificatePage = () => {
                   />
                 </div>
                 <div className="p-8 lg:p-12">
-                  <p className="text-lg text-gray-600 leading-relaxed">
+                  <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                     Certification programs offer flexibility, allowing you to learn at your own pace 
                     and balance other responsibilities. Whether you're working, studying, or managing 
                     personal commitments, earning a certificate can help you stay competitive, boost 
