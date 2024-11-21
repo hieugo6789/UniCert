@@ -24,17 +24,17 @@ const QuestionCard: React.FC<QuestionProps> = ({
   onClearAnswer,
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-lg p-8 relative">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 relative">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
           Question {currentQuestionIndex + 1}
         </h2>
         <button
           onClick={onFlag}
           className={`p-2 rounded-full transition-colors duration-200 ${
             flagged 
-              ? "bg-yellow-100 text-yellow-500" 
-              : "bg-gray-100 text-gray-400 hover:bg-gray-200"
+              ? "bg-yellow-100 dark:bg-yellow-900 text-yellow-500" 
+              : "bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-600"
           }`}
           title={flagged ? "Remove flag" : "Flag question"}
         >
@@ -44,7 +44,7 @@ const QuestionCard: React.FC<QuestionProps> = ({
 
       <div className="mb-8">
         <div
-          className="prose prose-lg max-w-none text-gray-700 leading-relaxed"
+          className="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed"
           dangerouslySetInnerHTML={{
             __html: question.questionText || "",
           }}
@@ -58,8 +58,8 @@ const QuestionCard: React.FC<QuestionProps> = ({
             onClick={() => onSelectAnswer(option.answerId)}
             className={`w-full p-4 text-left rounded-lg border-2 transition-all duration-200
               ${selectedAnswer?.includes(option.answerId)
-                ? "border-blue-500 bg-blue-50 text-blue-700 font-medium"
-                : "border-gray-200 hover:border-blue-200 hover:bg-blue-50"
+                ? "border-blue-500 bg-blue-50 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 font-medium"
+                : "border-gray-200 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/30"
               }
             `}
           >
@@ -73,8 +73,8 @@ const QuestionCard: React.FC<QuestionProps> = ({
           onClick={onClearAnswer}
           className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 
             ${selectedAnswer?.length && selectedAnswer?.length > 0 
-              ? 'text-red-600 hover:bg-red-50' 
-              : 'text-gray-300 cursor-not-allowed'}`}
+              ? 'text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30' 
+              : 'text-gray-300 dark:text-gray-600 cursor-not-allowed'}`}
           disabled={!selectedAnswer?.length}
         >
           <svg 
