@@ -224,14 +224,14 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <div className="flex flex-col lg:flex-row max-w-7xl mx-auto py-4 lg:py-8 px-4 gap-4 lg:gap-8">
         {/* Sidebar */}
         <div className="w-full lg:w-1/4">
           {/* Back button */}
           <button
             className="mb-4 flex items-center gap-2 px-4 py-2 
-              bg-purple-600 hover:bg-purple-700 
+              bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-800
               text-white font-medium rounded-lg 
               transition-colors duration-200 
               shadow-sm hover:shadow-md"
@@ -255,40 +255,40 @@ const Profile = () => {
           </button>
 
           {/* Profile card */}
-          <div className="bg-white shadow-lg rounded-2xl p-4 lg:p-6">
+          <div className="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-4 lg:p-6">
             <div className="flex flex-col items-center mb-6 lg:mb-8">
               <div className="relative group">
                 <img
                   src={form.userImage ? form.userImage : DefaultAvatar}
                   alt="avatar"
                   className="w-24 lg:w-32 h-24 lg:h-32 rounded-full object-cover border-4 border-purple-200 
-                    shadow-lg cursor-pointer hover:border-purple-300 transition-all"
+                    shadow-lg cursor-pointer hover:border-purple-300 transition-all dark:border-purple-700"
                   onClick={() => setIsOpenAvatarModal(true)}
                 />
               </div>
-              <p className="font-bold text-lg lg:text-xl mt-4 text-gray-800">{form.fullname}</p>
-              <p className="text-gray-500 text-sm break-all text-center">{form.email}</p>
+              <p className="font-bold text-lg lg:text-xl mt-4 text-gray-800 dark:text-gray-200">{form.fullname}</p>
+              <p className="text-gray-500 dark:text-gray-400 text-sm break-all text-center">{form.email}</p>
             </div>
 
             <nav className="space-y-3">
-              <div className="bg-purple-50 rounded-xl p-3">
-                <p className="text-purple-600 font-semibold text-center">Profile</p>
+              <div className="bg-purple-50 dark:bg-purple-900 rounded-xl p-3">
+                <p className="text-purple-600 dark:text-purple-300 font-semibold text-center">Profile</p>
               </div>
               <div 
-                className="hover:bg-gray-50 rounded-xl p-3 cursor-pointer transition-colors"
+                className="hover:bg-gray-50 dark:hover:bg-gray-700 rounded-xl p-3 cursor-pointer transition-colors"
                 onClick={handleChangePassword}
               >
-                <p className="text-gray-600 text-center hover:text-purple-600">Change Password</p>
+                <p className="text-gray-600 dark:text-gray-300 text-center hover:text-purple-600 dark:hover:text-purple-400">Change Password</p>
               </div>
             </nav>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="w-full lg:w-3/4 bg-white rounded-2xl shadow-lg p-4 lg:p-8">
+        <div className="w-full lg:w-3/4 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 lg:p-8">
           <div className="mb-4">
-            <h2 className="text-xl lg:text-2xl font-bold text-gray-800">Public Profile</h2>
-            <p className="text-gray-500">Manage your profile information</p>
+            <h2 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-gray-200">Public Profile</h2>
+            <p className="text-gray-500 dark:text-gray-400">Manage your profile information</p>
           </div>
 
           <Formik
@@ -303,7 +303,7 @@ const Profile = () => {
                   <div className="flex justify-end mb-4">
                     <button
                       type="button"
-                      className="text-purple-600 hover:text-purple-700 font-medium flex items-center gap-2"
+                      className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium flex items-center gap-2"
                       onClick={() => setIsEditing(true)}
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -320,7 +320,7 @@ const Profile = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
                     {/* Username field */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Username
                       </label>
                       <Field
@@ -328,21 +328,21 @@ const Profile = () => {
                         type="text"
                         className={`w-full px-4 py-2 rounded-lg border ${
                           !isEditing 
-                            ? 'bg-gray-50 text-gray-500' 
-                            : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                            ? 'bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400' 
+                            : 'border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-gray-300'
                         }`}
                         disabled={true}
                       />
                       <ErrorMessage
                         name="username"
                         component="div"
-                        className="mt-1 text-sm text-red-500"
+                        className="mt-1 text-sm text-red-500 dark:text-red-400"
                       />
                     </div>
 
                     {/* Full Name field */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Full Name
                       </label>
                       <Field
@@ -350,21 +350,21 @@ const Profile = () => {
                         type="text"
                         className={`w-full px-4 py-2 rounded-lg border ${
                           !isEditing 
-                            ? 'bg-gray-50 text-gray-500' 
-                            : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                            ? 'bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400' 
+                            : 'border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-gray-300'
                         }`}
                         disabled={!isEditing}
                       />
                       <ErrorMessage
                         name="fullname"
                         component="div"
-                        className="mt-1 text-sm text-red-500"
+                        className="mt-1 text-sm text-red-500 dark:text-red-400"
                       />
                     </div>
 
                     {/* Date of Birth field */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Date of Birth
                       </label>
                       <Field name="dob">
@@ -397,8 +397,8 @@ const Profile = () => {
                               }}
                               className={`w-full px-4 py-2 rounded-lg border ${
                                 !isEditing 
-                                  ? 'bg-gray-50 text-gray-500' 
-                                  : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                                  ? 'bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400' 
+                                  : 'border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-gray-300'
                               }`}
                               disabled={!isEditing}
                             />
@@ -408,13 +408,13 @@ const Profile = () => {
                       <ErrorMessage
                         name="dob"
                         component="div"
-                        className="mt-1 text-sm text-red-500"
+                        className="mt-1 text-sm text-red-500 dark:text-red-400"
                       />
                     </div>
 
                     {/* Email field */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Email
                       </label>
                       <Field
@@ -422,21 +422,21 @@ const Profile = () => {
                         type="email"
                         className={`w-full px-4 py-2 rounded-lg border ${
                           !isEditing 
-                            ? 'bg-gray-50 text-gray-500' 
-                            : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                            ? 'bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400' 
+                            : 'border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-gray-300'
                         }`}
                         disabled={!isEditing}
                       />
                       <ErrorMessage
                         name="email"
                         component="div"
-                        className="mt-1 text-sm text-red-500"
+                        className="mt-1 text-sm text-red-500 dark:text-red-400"
                       />
                     </div>
 
                     {/* Phone Number field */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Phone Number
                       </label>
                       <Field
@@ -444,21 +444,21 @@ const Profile = () => {
                         type="text"
                         className={`w-full px-4 py-2 rounded-lg border ${
                           !isEditing 
-                            ? 'bg-gray-50 text-gray-500' 
-                            : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                            ? 'bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400' 
+                            : 'border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-gray-300'
                         }`}
                         disabled={!isEditing}
                       />
                       <ErrorMessage
                         name="phoneNumber"
                         component="div"
-                        className="mt-1 text-sm text-red-500"
+                        className="mt-1 text-sm text-red-500 dark:text-red-400"
                       />
                     </div>
 
                     {/* Address field - spans full width */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Address
                       </label>
                       <Field
@@ -466,15 +466,15 @@ const Profile = () => {
                         type="text"
                         className={`w-full px-4 py-2 rounded-lg border ${
                           !isEditing 
-                            ? 'bg-gray-50 text-gray-500' 
-                            : 'border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                            ? 'bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400' 
+                            : 'border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-gray-300'
                         }`}
                         disabled={!isEditing}
                       />
                       <ErrorMessage
                         name="address"
                         component="div"
-                        className="mt-1 text-sm text-red-500"
+                        className="mt-1 text-sm text-red-500 dark:text-red-400"
                       />
                     </div>
                   </div>
@@ -484,9 +484,9 @@ const Profile = () => {
                   <div className="flex justify-center mt-6 lg:mt-8">
                     <button
                       type="submit"
-                      className="w-full sm:w-auto px-8 py-3 bg-purple-600 text-white rounded-lg
-                        hover:bg-purple-700 transition-colors focus:outline-none 
-                        focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                      className="w-full sm:w-auto px-8 py-3 bg-purple-600 dark:bg-purple-700 text-white rounded-lg
+                        hover:bg-purple-700 dark:hover:bg-purple-800 transition-colors focus:outline-none 
+                        focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
                     >
                       Save Changes
                     </button>
@@ -513,7 +513,7 @@ const Profile = () => {
               value={passwordForm.oldPassword}
             />
             {passwordErrors.oldPassword && (
-              <p className="text-red-500 text-sm mt-1">{passwordErrors.oldPassword}</p>
+              <p className="text-red-500 dark:text-red-400 text-sm mt-1">{passwordErrors.oldPassword}</p>
             )}
           </div>
           <div>
@@ -525,7 +525,7 @@ const Profile = () => {
               value={passwordForm.newPassword}
             />
             {passwordErrors.newPassword && (
-              <p className="text-red-500 text-sm mt-1">{passwordErrors.newPassword}</p>
+              <p className="text-red-500 dark:text-red-400 text-sm mt-1">{passwordErrors.newPassword}</p>
             )}
           </div>
           <div>
@@ -537,7 +537,7 @@ const Profile = () => {
               value={passwordForm.confirmPassword}
             />
             {passwordErrors.confirmPassword && (
-              <p className="text-red-500 text-sm mt-1">{passwordErrors.confirmPassword}</p>
+              <p className="text-red-500 dark:text-red-400 text-sm mt-1">{passwordErrors.confirmPassword}</p>
             )}
           </div>
           <div className="flex justify-end">
@@ -559,7 +559,7 @@ const Profile = () => {
             <img
               src={previewAvatar || (form.userImage ? form.userImage : DefaultAvatar)}
               alt="Current Avatar"
-              className="w-32 h-32 bg-gray-300 rounded-full mb-4"
+              className="w-32 h-32 bg-gray-300 dark:bg-gray-700 rounded-full mb-4"
             />
             <CustomInput
               placeholder="image"
