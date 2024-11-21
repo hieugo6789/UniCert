@@ -1,10 +1,15 @@
 import { feedbackPagination } from "../../models/feedback";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import DefaultImage from "../../assets/images/Avatar/DefaultAvatar.jpg";
 
 const Feedback = ({ feedback }: { feedback: feedbackPagination[] }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [feedbacks, setFeedbacks] = useState<feedbackPagination[]>([]);
+  useEffect(() => {
+    const approvedFeedbacks = feedback.filter(f => f.feedbackPermission == true);
+    setFeedbacks(approvedFeedbacks);
+  }, [feedback]);
 
   return (
     <>
@@ -15,7 +20,7 @@ const Feedback = ({ feedback }: { feedback: feedbackPagination[] }) => {
           </h1>          
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {feedback.map((item) => (
+            {feedbacks.map((item) => (
               <div 
                 key={item.examId} 
                 className="bg-white rounded-2xl shadow-lg p-8 relative hover:shadow-xl transition-all duration-300 hover:-translate-y-1"

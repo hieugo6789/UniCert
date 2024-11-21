@@ -31,7 +31,10 @@ const ExamFeedback = () => {
     }, [id]);
 
     useEffect(() => {
-        setFeedbacks(feedback);
+        if(feedback.length > 0) {
+            const approvedFeedbacks = feedback.filter(f => f.feedbackPermission == true);
+            setFeedbacks(approvedFeedbacks);
+        }
     }, [feedback]); 
 
     const vietnamTime = new Date();
@@ -39,9 +42,10 @@ const ExamFeedback = () => {
     // Handle creating feedback
     const handleSubmitFeedback = async () => {
         const feedbackDescription = (document.getElementById("feedbackDescriptionInput") as HTMLInputElement).value;
+        let response;
         if (selectedImage) {
             const uploadedImageUrl = await uploadCloudinary();
-            handleCreateFeedback({
+            response = await handleCreateFeedback({
                 userId: Cookies.get("userId") || "",
                 examId: Number(id),
                 feedbackDescription,
@@ -49,15 +53,20 @@ const ExamFeedback = () => {
                 feedbackCreatedAt: vietnamTime,
             });
         } else {
-            handleCreateFeedback({
+            response = await handleCreateFeedback({
                 userId: Cookies.get("userId") || "",
                 examId: Number(id),
                 feedbackDescription,
                 feedbackImage: "",
                 feedbackCreatedAt: vietnamTime,
             });
+        }        
+        console.log("Test", response);
+        if (response?.data.feedbackPermission == false) {
+            showToast("Your feedback contains inappropriate content and is pending review.", "error");
+        } else {
+            showToast("Feedback created successfully", "success");
         }
-        showToast("Feedback created successfully", "success");
     };
 
     useEffect(() => {

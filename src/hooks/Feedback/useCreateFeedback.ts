@@ -16,9 +16,11 @@ export function useCreateFeedback() {
     try {
       const response = await agent.FeedBack.createFeedback(input);
       dispatch(createFeedbackSuccess(response));
+      return response;
     } catch (error) {
       console.error("Error creating feedback:", error);
       dispatch(createFeedbackFailure());
+      return null;
     }
   };
 
