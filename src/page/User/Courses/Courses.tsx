@@ -143,7 +143,7 @@ const Courses = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-purple-600 to-purple-400 text-white py-16">
         <div className="container mx-auto px-4">
@@ -190,9 +190,9 @@ const Courses = () => {
               alt="No certificates found"
               className="w-full rounded-xl shadow-lg mb-6"
             />
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-400">
               We couldn't find any courses. Please try again or{' '}
-              <Link to="/" className="text-purple-600 hover:text-purple-700 font-medium">
+              <Link to="/" className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium">
                 return to homepage
               </Link>
             </p>
@@ -201,20 +201,20 @@ const Courses = () => {
       </div>
 
       {/* Features Section */}
-      <div className="bg-white py-16">
+      <div className="bg-white dark:bg-gray-800 py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-gray-800">
+              <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
                 Prepare for Success with Our Exam Prep Courses
               </h2>
-              <p className="text-lg text-gray-600">
+              <p className="text-lg text-gray-600 dark:text-gray-300">
                 Our preparation courses are specifically designed to help you master the content 
                 and format of certification exams. Get ready to pass your certification exam with confidence.
               </p>
             </div>
             <div className="space-y-8">
-              <div className="flex items-center space-x-4 bg-purple-50 p-6 rounded-xl">
+              <div className="flex items-center space-x-4 bg-purple-50 dark:bg-purple-900 p-6 rounded-xl">
                 <div className="flex-shrink-0">
                   <div className="w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center">
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -223,11 +223,11 @@ const Courses = () => {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800">Practice Tests</h3>
-                  <p className="text-gray-600">Simulate the real exam environment with our practice tests</p>
+                  <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Practice Tests</h3>
+                  <p className="text-gray-600 dark:text-gray-300">Simulate the real exam environment with our practice tests</p>
                 </div>
               </div>
-              <div className="flex items-center space-x-4 bg-purple-50 p-6 rounded-xl">
+              <div className="flex items-center space-x-4 bg-purple-50 dark:bg-purple-900 p-6 rounded-xl">
                 <div className="flex-shrink-0">
                   <div className="w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center">
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -236,8 +236,8 @@ const Courses = () => {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800">Study Materials</h3>
-                  <p className="text-gray-600">Comprehensive study guides and exam tips</p>
+                  <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Study Materials</h3>
+                  <p className="text-gray-600 dark:text-gray-300">Comprehensive study guides and exam tips</p>
                 </div>
               </div>
             </div>
@@ -246,9 +246,9 @@ const Courses = () => {
       </div>
 
       {/* Partners Section */}
-      <div className="bg-gray-50 py-16">
+      <div className="bg-gray-50 dark:bg-gray-900 py-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold text-center text-gray-800 mb-12">
+          <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-12">
             Prepare for Certifications From Leading Organizations
           </h2>
           <div className="flex justify-center items-center flex-wrap gap-12">
@@ -299,24 +299,24 @@ const Courses = () => {
         <div className="p-4">
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">Course Price:</span>
+              <span className="text-gray-600 dark:text-gray-300">Course Price:</span>
               <span className="flex items-center gap-2 font-medium">
                 {selectedCourse?.courseDiscountFee}
                 <img src={Coin} alt="coin" className="h-5" />
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">Your Balance:</span>
+              <span className="text-gray-600 dark:text-gray-300">Your Balance:</span>
               <span className="flex items-center gap-2 font-medium">
                 {userId ? wallets[userId]?.point || 0 : 0}
                 <img src={Coin} alt="coin" className="h-5" />
               </span>
             </div>
-            <div className="border-t pt-4">
+            <div className="border-t dark:border-gray-600 pt-4">
               <button
                 onClick={handleConfirmPayment}                
-                className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg font-medium 
-                  hover:bg-purple-700 transition-colors disabled:bg-purple-300"
+                className="w-full px-4 py-2 bg-purple-600 dark:bg-purple-700 text-white rounded-lg font-medium 
+                  hover:bg-purple-700 dark:hover:bg-purple-800 transition-colors disabled:bg-purple-300 dark:disabled:bg-purple-500"
               >
                 Confirm Payment
               </button>
