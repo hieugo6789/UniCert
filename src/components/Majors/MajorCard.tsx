@@ -9,7 +9,7 @@ const MajorCard = (props: allMajorPaginationData) => {
   return (
     <div
       onClick={() => navigate("/major/" + props.majorId)}
-      className="group bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+      className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
     >
       <div className="aspect-[4/3] relative overflow-hidden">
         <img
@@ -21,12 +21,12 @@ const MajorCard = (props: allMajorPaginationData) => {
       </div>
       
       <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-800 mb-2 line-clamp-1 group-hover:text-purple-600 transition duration-300">
+        <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2 line-clamp-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition duration-300">
           {props.majorName}
         </h3>
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-600">Click to view certifications</span>
-          <svg className="w-5 h-5 text-purple-600 transform group-hover:translate-x-2 transition duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <span className="text-sm text-gray-600 dark:text-gray-400">Click to view certifications</span>
+          <svg className="w-5 h-5 text-purple-600 dark:text-purple-400 transform group-hover:translate-x-2 transition duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
           </svg>
         </div>
