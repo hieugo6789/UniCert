@@ -9,6 +9,7 @@ import { showToast } from '../../utils/toastUtils';
 interface CourseEnrollmentCardProps {
   enrollment: courseEnrollment;
   onStatusChange?: () => void;
+  onClick?: () => void;
 }
 
 const HistoryCourseCard: React.FC<CourseEnrollmentCardProps> = ({ enrollment, onStatusChange }) => {

@@ -133,6 +133,7 @@ const HistoryPage = () => {
                 <HistoryCourseCard 
                   enrollment={item}
                   onStatusChange={handleStatusChange}
+                  onClick={() => navigate(`/enrollment/${item.courseEnrollmentId}`)}
                 />
               )}
               <button
