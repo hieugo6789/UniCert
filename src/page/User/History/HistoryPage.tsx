@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import useCourseEnrollment from "../../../hooks/Enrollment/useCourse";
 import useExamEnrollment from "../../../hooks/Enrollment/useExam";
-import Loading from "../../../components/UI/Loading";
+import Loading from "../../../components/UI/Loading"; 
 import HistoryCourseCard from "../../../components/Course/HistoryCourseCard";
 import HistoryExamCard from "../../../components/Exam/HistoryExamCard";
 import { courseEnrollment, examEnrollment } from "../../../models/enrollment";
@@ -117,8 +117,8 @@ const HistoryPage = () => {
 
     return (
       <div id="section-ongoing" className="mb-8">
-        <h3 className="text-xl font-bold text-yellow-600 mb-4 flex items-center gap-2">
-          <span className="w-2 h-2 bg-yellow-600 rounded-full"></span>
+        <h3 className="text-xl font-bold text-yellow-600 dark:text-yellow-400 mb-4 flex items-center gap-2">
+          <span className="w-2 h-2 bg-yellow-600 dark:bg-yellow-400 rounded-full"></span>
           Pending Payments
         </h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -141,7 +141,7 @@ const HistoryPage = () => {
                   type === 'exams' ? item.examEnrollmentId : item.courseEnrollmentId
                 )}
                 className="absolute top-0 right-0 p-2 text-red-500 hover:text-red-700
-                  bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
+                  bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -163,8 +163,8 @@ const HistoryPage = () => {
 
     return (
       <div id="section-completed" className="mb-8">
-        <h3 className="text-xl font-bold text-green-600 mb-4 flex items-center gap-2">
-          <span className="w-2 h-2 bg-green-600 rounded-full"></span>
+        <h3 className="text-xl font-bold text-green-600 dark:text-green-400 mb-4 flex items-center gap-2">
+          <span className="w-2 h-2 bg-green-600 dark:bg-green-400 rounded-full"></span>
           Completed Enrollments
         </h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -194,8 +194,8 @@ const HistoryPage = () => {
 
     return (
       <div id="section-expired" className="mb-8">
-        <h3 className="text-xl font-bold text-red-600 mb-4 flex items-center gap-2">
-          <span className="w-2 h-2 bg-red-600 rounded-full"></span>
+        <h3 className="text-xl font-bold text-red-600 dark:text-red-400 mb-4 flex items-center gap-2">
+          <span className="w-2 h-2 bg-red-600 dark:bg-red-400 rounded-full"></span>
           Expired Enrollments
         </h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -208,7 +208,7 @@ const HistoryPage = () => {
               <button
                 onClick={() => handleDeleteEnrollment('exam', item.examEnrollmentId)}
                 className="absolute top-0 right-0 p-2 text-red-500 hover:text-red-700
-                  bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
+                  bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -222,9 +222,9 @@ const HistoryPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 py-12">
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-800 dark:to-purple-800 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center text-white">
             <h1 className="text-4xl font-extrabold tracking-tight mb-3">
@@ -240,7 +240,7 @@ const HistoryPage = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
         {/* Tabs */}
-        <div className="bg-white rounded-xl shadow-lg p-2">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-2">
           <nav className="flex justify-center space-x-4" aria-label="Tabs">
             {['exams', 'courses'].map((tab) => (
               <button
@@ -250,7 +250,7 @@ const HistoryPage = () => {
                   transition-all duration-300 transform hover:scale-105
                   ${activeTab === tab
                     ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-md"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                    : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700"
                   }`}
               >
                 <span className="text-xl">
@@ -273,16 +273,16 @@ const HistoryPage = () => {
               key={status} 
               onClick={() => scrollToSection(status)}
               className={`p-6 rounded-xl border transition-all duration-300 hover:shadow-lg cursor-pointer
-                ${color === 'green' ? 'border-green-200 bg-green-50 hover:bg-green-100' : 
-                  color === 'yellow' ? 'border-yellow-200 bg-yellow-50 hover:bg-yellow-100' :
-                  'border-red-200 bg-red-50 hover:bg-red-100'}`}
+                ${color === 'green' ? 'border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-900/50' : 
+                  color === 'yellow' ? 'border-yellow-200 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-900/30 hover:bg-yellow-100 dark:hover:bg-yellow-900/50' :
+                  'border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/30 hover:bg-red-100 dark:hover:bg-red-900/50'}`}
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-sm font-medium text-gray-600">
+                  <div className="text-sm font-medium text-gray-600 dark:text-gray-300">
                     {status === 'OnGoing' ? 'Pending Payment' : status}
                   </div>
-                  <div className="mt-2 text-3xl font-bold text-gray-900">
+                  <div className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
                     {activeTab === 'exams' 
                       ? purchasedExams.filter(e => e.examEnrollmentStatus === status).length
                       : purchasedCourses.filter(c => c.courseEnrollmentStatus === status).length}
@@ -298,7 +298,7 @@ const HistoryPage = () => {
         <div className="mt-8 space-y-8">
           {activeTab === "exams" ? (
             purchasedExams.length > 0 ? (
-              <div className="bg-white rounded-xl shadow-lg p-8">
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
                 <div className="space-y-12">
                   {renderCompletedContent('exams')}
                   {renderOngoingContent('exams')}
@@ -306,13 +306,13 @@ const HistoryPage = () => {
                 </div>
               </div>
             ) : (
-              <div className="bg-white rounded-xl shadow-lg p-12 text-center">
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-12 text-center">
                 <div className="space-y-6">
                   <div className="text-6xl animate-bounce">📚</div>
-                  <h3 className="text-2xl font-bold text-gray-900">
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
                     No Enrollments Yet
                   </h3>
-                  <p className="text-gray-500 text-lg max-w-md mx-auto">
+                  <p className="text-gray-500 dark:text-gray-400 text-lg max-w-md mx-auto">
                     Start your learning journey by exploring our available exams
                   </p>
                   <button 
@@ -331,20 +331,20 @@ const HistoryPage = () => {
           ) : (
             // Course content
             purchasedCourses.length > 0 ? (
-              <div className="bg-white rounded-xl shadow-lg p-8">
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
                 <div className="space-y-12">
                   {renderCompletedContent('courses')}
                   {renderOngoingContent('courses')}                  
                 </div>
               </div>
             ) : (
-              <div className="bg-white rounded-xl shadow-lg p-12 text-center">
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-12 text-center">
                 <div className="space-y-6">
                   <div className="text-6xl animate-bounce">📚</div>
-                  <h3 className="text-2xl font-bold text-gray-900">
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
                     No Course Enrollments Yet
                   </h3>
-                  <p className="text-gray-500 text-lg max-w-md mx-auto">
+                  <p className="text-gray-500 dark:text-gray-400 text-lg max-w-md mx-auto">
                     Start your learning journey by exploring our available courses
                   </p>
                   <button 
