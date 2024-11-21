@@ -13,9 +13,9 @@ const Feedback = ({ feedback }: { feedback: feedbackPagination[] }) => {
 
   return (
     <>
-      <div className="py-12 bg-gray-50">
+      <div className="py-12 bg-gray-50 dark:bg-gray-900">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold text-center mb-4">
+          <h1 className="text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">
             What Our Students Say
           </h1>          
           
@@ -23,7 +23,7 @@ const Feedback = ({ feedback }: { feedback: feedbackPagination[] }) => {
             {feedbacks.map((item) => (
               <div 
                 key={item.examId} 
-                className="bg-white rounded-2xl shadow-lg p-8 relative hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 relative hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >                
 
                 {/* User Info */}
@@ -33,12 +33,12 @@ const Feedback = ({ feedback }: { feedback: feedbackPagination[] }) => {
                     alt={`${item.userDetails.username}'s avatar`}
                     className="w-16 h-16 rounded-full object-cover border-2 border-violet-600 shadow-md"
                   />                                      
-                  <h2 className="text-xl font-semibold text-gray-800">{item.userDetails.username}</h2>                                      
+                  <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">{item.userDetails.username}</h2>                                      
                 </div>
 
                 {/* Feedback Content */}
                 <div className="space-y-4">
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                     {item.feedbackDescription}
                   </p>
                   
@@ -57,8 +57,8 @@ const Feedback = ({ feedback }: { feedback: feedbackPagination[] }) => {
                 </div>
 
                 {/* Date */}
-                <div className="mt-6 pt-4 border-t border-gray-100 italic">
-                  <p className="text-right text-sm text-gray-500">
+                <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700 italic">
+                  <p className="text-right text-sm text-gray-500 dark:text-gray-400">
                     Posted on {new Date(item.feedbackCreatedAt).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
@@ -78,7 +78,7 @@ const Feedback = ({ feedback }: { feedback: feedbackPagination[] }) => {
           className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50 p-4 modal-background"
           onClick={() => setSelectedImage(null)}
         >
-          <div className="relative bg-white p-2 rounded-lg max-w-4xl max-h-[90vh] overflow-auto">
+          <div className="relative bg-white dark:bg-gray-800 p-2 rounded-lg max-w-4xl max-h-[90vh] overflow-auto">
             <button 
               onClick={() => setSelectedImage(null)}
               className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors"
