@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import Description from "../../../components/Certifications/Description";
 import certificationDefault from "../../../assets/images/Certification/certificationDefault.png";
-// import Feedback from "../../../components/Certifications/Feedback";
 import ExamDetails from "../../../components/Certifications/ExamDetails";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { allCertificationData } from "../../../models/certificate";
 import useCertDetail from "../../../hooks/Certification/useCertDetail";
 import GetExamSimulation from "../../../components/Exam/GetExamSimulation";
@@ -24,6 +23,7 @@ const CertificateDetailPage = () => {
   const [filteredCourses, setFilteredCourses] = useState<allCoursePaginationData[]>([]);
   const { course, refetchCourses } = useCourse();
   const { feedback } = useFeedbackByCertId({ certId: id });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,12 +119,63 @@ const CertificateDetailPage = () => {
                   <h2 className="text-xl font-bold text-gray-800 mb-4">Quick Information</h2>
                   <div className="space-y-4">
                     <div>
-                      <h3 className="text-sm font-medium text-gray-500">Prerequisites</h3>
-                      <p className="text-gray-800">
-                        {cert?.certPrerequisite && cert.certPrerequisite.length > 0
-                          ? cert.certPrerequisite.join(", ")
-                          : "No prerequisites certificate"}
-                      </p>
+                      <h3 className="text-sm font-medium text-gray-500 mb-2">Prerequisites</h3>
+                      {cert?.certPrerequisite && cert?.certPrerequisiteId && 
+                       cert.certPrerequisite.length > 0 && cert.certPrerequisiteId.length > 0 ? (
+                        <div className="flex flex-wrap gap-2">
+                          {cert.certPrerequisite.map((name: string, index: number) => {
+                            const id = cert.certPrerequisiteId[index];
+                            if (!name || !id) return null;
+
+                            return (
+                              <button
+                                key={id}
+                                onClick={() => navigate(`/certificate/${id}`)}
+                                className="inline-flex items-center px-3 py-1.5 
+                                  bg-purple-50 hover:bg-purple-100 
+                                  text-purple-700 rounded-full text-sm font-medium 
+                                  transition-colors duration-200
+                                  border border-purple-200 hover:border-purple-300
+                                  group"
+                              >
+                                <svg 
+                                  xmlns="http://www.w3.org/2000/svg" 
+                                  className="h-4 w-4 mr-1.5 text-purple-500 group-hover:text-purple-600" 
+                                  fill="none" 
+                                  viewBox="0 0 24 24" 
+                                  stroke="currentColor"
+                                >
+                                  <path 
+                                    strokeLinecap="round" 
+                                    strokeLinejoin="round" 
+                                    strokeWidth={2} 
+                                    d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11" 
+                                  />
+                                </svg>
+                                {name}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <p className="text-gray-600 italic flex items-center">
+                          <svg 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            className="h-4 w-4 mr-1.5 text-gray-400" 
+                            fill="none" 
+                            viewBox="0 0 24 24" 
+                            stroke="currentColor"
+                          >
+                            <path 
+                              strokeLinecap="round" 
+                              strokeLinejoin="round" 
+                              strokeWidth={2} 
+                              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
+                            />
+                          </svg>
+                          No prerequisites certificate
+                        </p>
+                      )}
                     </div>
                     <div>
                       <h3 className="text-sm font-medium text-gray-500">Validity Period</h3>

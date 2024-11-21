@@ -19,6 +19,7 @@ import google from "../../../assets/images/Organization/google.png";
 import { Modal } from "antd";
 import Coin from "../../../assets/images/Coin.png";
 import useWalletDetail from "../../../hooks/Wallet/useWalletDetail";
+import { Link } from "react-router-dom";
 
 const Courses = () => {
   const userId = Cookies.get("userId");
@@ -143,8 +144,10 @@ const Courses = () => {
 
       {/* Courses Grid */}
       <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {courses.map((course) => {
+        {courses.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {courses.map((course) => {
             const isInCart = !!(userId && state.currentCart.courseDetails.some((c: any) => c.courseId === course.courseId));
             const isPurchased = !!(userId && (purchasedCourses || []).some((e) => 
               (e.courseDetails || []).some((c) => c.courseId.toString() === course.courseId.toString())
@@ -159,8 +162,24 @@ const Courses = () => {
                 onBuyNow={() => handleBuyNow(course)}
               />
             );
-          })}
-        </div>
+              })}
+            </div>
+          </>
+        ) : (
+          <div className="max-w-md mx-auto text-center py-12">
+            <img
+              src="https://dmf76jm51vpov.cloudfront.net/www2/images/main/2020/webpage/Course-not-Found.jpg"
+              alt="No certificates found"
+              className="w-full rounded-xl shadow-lg mb-6"
+            />
+            <p className="text-gray-600">
+              We couldn't find any courses. Please try again or{' '}
+              <Link to="/" className="text-purple-600 hover:text-purple-700 font-medium">
+                return to homepage
+              </Link>
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Features Section */}

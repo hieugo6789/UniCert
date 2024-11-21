@@ -21,7 +21,7 @@ const slides: Slide[] = [
   {
     content: <Banner
       title="Quick and Easy to Enroll"
-      linkto="/practice"
+      linkto="/courses"
       imageUrl="https://m.media-amazon.com/images/S/pv-target-images/d6e25ce8c6cdf788ec947effcec7854aee7090812cb73e536adf6b75b9eb7ca6._SX1080_FMjpg_.jpg"
       button1Text="Enroll now"
     />,
@@ -29,27 +29,11 @@ const slides: Slide[] = [
   {
     content: <Banner
       title="Get Ready for the Future"
-      linkto="/practice"
+      linkto="/job"
       imageUrl="https://www.michaelpage.co.uk/sites/michaelpage.co.uk/files/2023-10/shutterstock_1606546678_970x388.jpg"
-      button1Text="Enroll now"
+      button1Text="See Pathway"
     />,
-  },
-  {
-    content: <Banner
-      title="Get Ready for the Future"
-      linkto="/practice"
-      imageUrl="https://tinybeans.com/wp-content/uploads/2022/05/little-boy-smiling-people-born-in-June.jpg"
-      button1Text="Enroll now"
-    />,
-  },
-  {
-    content: <Banner
-      title="Get Ready for the Future"
-      linkto="/practice"
-      imageUrl="https://getdex.com/blog/content/images/size/w960/2022/09/how-to-be-a-people-person-1662995088.jpg"
-      button1Text="Enroll now"
-    />,
-  }
+  }  
 ];
 
 const CustomCarousel: React.FC = () => {
