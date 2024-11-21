@@ -43,7 +43,7 @@ const AboutPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-purple-600 to-purple-400 text-white py-16">
         <div className="container mx-auto px-4 text-center">
@@ -58,8 +58,8 @@ const AboutPage = () => {
       <div className="container mx-auto px-4 py-16">
         <div className="flex flex-col md:flex-row items-center justify-between gap-12">
           <div className="md:w-1/3">
-            <div className="bg-white p-6 rounded-2xl shadow-lg">
-              <p className="text-gray-600 leading-relaxed">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                 We are a dedicated platform offering detailed and accurate certification information, 
                 mock tests, and study resources for students. Our goal is to empower learners to 
                 excel in their professional certification exams.
@@ -76,8 +76,8 @@ const AboutPage = () => {
           </div>
           
           <div className="md:w-1/3">
-            <div className="bg-white p-6 rounded-2xl shadow-lg">
-              <p className="text-gray-600 leading-relaxed">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                 With a strong commitment to education, we've helped thousands of students achieve 
                 their certification dreams across multiple industries and technologies.
               </p>
@@ -87,9 +87,9 @@ const AboutPage = () => {
       </div>
 
       {/* Achievement Section */}
-      <div className="bg-white py-16">
+      <div className="bg-white dark:bg-gray-800 py-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-12">
             Our Achievements
           </h2>
           
@@ -97,7 +97,7 @@ const AboutPage = () => {
             {achievements.map((achieve, index) => (
               <div
                 key={index}
-                className="bg-purple-50 rounded-2xl p-6 text-center transform hover:scale-105 transition-all duration-300"
+                className="bg-purple-50 dark:bg-gray-700 rounded-2xl p-6 text-center transform hover:scale-105 transition-all duration-300"
               >
                 <div className="relative flex justify-center items-center mb-6">
                   <img
@@ -107,10 +107,10 @@ const AboutPage = () => {
                   />
                   <span className="absolute text-4xl">{achieve.icon}</span>
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3">
+                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3">
                   {achieve.title}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-300">
                   {achieve.description}
                 </p>
               </div>
@@ -121,7 +121,7 @@ const AboutPage = () => {
 
       {/* Leadership Section */}
       <div className="container mx-auto px-4 py-24">
-        <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-16">
+        <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-16">
           Meet Our Team
         </h2>
         
@@ -145,10 +145,10 @@ const AboutPage = () => {
               </div>
               
               <div className="text-center">
-                <h3 className="text-xl font-bold text-gray-800 mb-2">
+                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
                   {leader.name}
                 </h3>
-                <p className="text-purple-600">{leader.role}</p>
+                <p className="text-purple-600 dark:text-purple-400">{leader.role}</p>
               </div>
             </div>
           ))}
