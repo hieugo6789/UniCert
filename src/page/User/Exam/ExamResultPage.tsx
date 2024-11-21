@@ -111,11 +111,11 @@ const ExamResultPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gradient-to-b from-blue-50 dark:from-gray-900 to-white dark:to-gray-800 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">
-                <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
                     {/* Header Section */}
-                    <div className="bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-10 text-center">
+                    <div className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900 px-8 py-10 text-center">
                         <div className={`inline-flex items-center justify-center p-2 rounded-full mb-4 ${scoreValue >= 5 ? "bg-green-500" : "bg-yellow-500"
                             }`}>
                             {scoreValue >= 5 ? (
@@ -147,7 +147,7 @@ const ExamResultPage = () => {
                     </div>
 
                     {/* Actions Section */}
-                    <div className="px-8 py-6 bg-white space-y-6">
+                    <div className="px-8 py-6 bg-white dark:bg-gray-800 space-y-6">
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             {scoreValue >= 50 ? (
                                 <CustomButton
@@ -171,12 +171,12 @@ const ExamResultPage = () => {
 
                         {/* Feedback Section */}
                         {!isLeaveFeedback ? (
-                            <div className="mt-8 border-t pt-6">
-                                <h3 className="text-xl font-semibold text-gray-800 mb-4">Share Your Experience</h3>
+                            <div className="mt-8 border-t dark:border-gray-700 pt-6">
+                                <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Share Your Experience</h3>
                                 <div className="space-y-4">
                                     <textarea
                                         id="feedbackDescriptionInput"
-                                        className="w-full p-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                                        className="w-full p-4 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                                         rows={4}
                                         placeholder="Help us improve by sharing your thoughts about the exam..."
                                         value={feedback}
@@ -184,16 +184,16 @@ const ExamResultPage = () => {
                                     />
                                     <label
                                         htmlFor="uploadFile1"
-                                        className="bg-white text-gray-500 font-semibold text-base rounded max-w-full mb-4 h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif]"
+                                        className="bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 font-semibold text-base rounded max-w-full mb-4 h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 dark:border-gray-600 border-dashed mx-auto font-[sans-serif]"
                                     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-11 mb-2 fill-gray-500" viewBox="0 0 32 32">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-11 mb-2 fill-gray-500 dark:fill-gray-400" viewBox="0 0 32 32">
                                             <path d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z" />
                                             <path d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z" />
                                         </svg>
                                         Upload file
 
                                         <input type="file" id="uploadFile1" className="hidden" onChange={handleImageChange} />
-                                        <p className="text-xs font-medium text-gray-400 mt-2">PNG, JPG SVG, WEBP, and GIF are Allowed.</p>
+                                        <p className="text-xs font-medium text-gray-400 dark:text-gray-500 mt-2">PNG, JPG SVG, WEBP, and GIF are Allowed.</p>
                                     </label>
                                     {previewImage && (
                                         <div className="mt-4 mb-4">
@@ -210,7 +210,7 @@ const ExamResultPage = () => {
                             </div>
                         ) : (
                             <div className="text-center py-4">
-                                <p className="text-green-600 font-medium">Thank you for your valuable feedback!</p>
+                                <p className="text-green-600 dark:text-green-400 font-medium">Thank you for your valuable feedback!</p>
                             </div>
                         )}
                     </div>
@@ -223,7 +223,7 @@ const ExamResultPage = () => {
                     className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center modal-background"
                     onClick={handleModalClick}
                 >
-                    <div className="max-w-3xl max-h-[90vh] overflow-auto bg-white rounded-lg p-2">
+                    <div className="max-w-3xl max-h-[90vh] overflow-auto bg-white dark:bg-gray-800 rounded-lg p-2">
                         <img src={modalImage || ''} alt="Enlarged preview" className="w-full h-auto" />
                     </div>
                 </div>
