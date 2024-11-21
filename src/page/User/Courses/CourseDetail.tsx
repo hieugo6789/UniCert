@@ -127,9 +127,9 @@ const CourseDetail = () => {
       });
 
     return (
-        <div className="bg-gray-900 min-h-screen">
+        <div className="bg-white dark:bg-gray-900 min-h-screen">
             {/* Breadcrumb Navigation */}
-            <nav className="flex items-center space-x-2 p-4 text-gray-300 text-sm md:text-base overflow-x-auto">
+            <nav className="flex items-center space-x-2 p-4 text-gray-700 dark:text-gray-300 text-sm md:text-base overflow-x-auto">
                 <Link to="/" className="hover:text-blue-400 transition-colors duration-300 whitespace-nowrap">Home</Link>
                 <span>/</span>
                 <Link to="/courses" className="hover:text-blue-400 transition-colors duration-300 whitespace-nowrap">Courses</Link>
@@ -142,33 +142,33 @@ const CourseDetail = () => {
                 <h1 className="text-center fade-in uppercase text-4xl md:text-6xl lg:text-8xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
                     {courseDetail?.courseName || "Course not found"}
                 </h1>
-                <h2 className="fade-in text-white text-3xl md:text-4xl lg:text-5xl font-bold mt-5 text-center">
+                <h2 className="fade-in text-gray-900 dark:text-white text-3xl md:text-4xl lg:text-5xl font-bold mt-5 text-center">
                     Course Details
                 </h2>
-                <div className="fade-in text-white " 
+                <div className="fade-in text-gray-900 dark:text-white" 
                     dangerouslySetInnerHTML={{ __html: courseDetail?.courseDescription || "" }} 
                 />
 
                 {/* Course Fee */}
-                <div className="flex items-center justify-center flex-wrap fade-in text-white text-xl md:text-2xl mt-5 gap-2">
+                <div className="flex items-center justify-center flex-wrap fade-in text-gray-900 dark:text-white text-xl md:text-2xl mt-5 gap-2">
                     <p>Course Fee: </p>
                     {courseDetail?.courseDiscountFee === courseDetail?.courseFee ? (
                         <div className="flex items-center">
                             <img src={Coin} alt="Coin Icon" className="w-4 h-4 md:w-5 md:h-5" />
-                            <span className="ml-1 text-yellow-600 font-bold">
+                            <span className="ml-1 text-yellow-600 dark:text-yellow-500 font-bold">
                                 {courseDetail?.courseDiscountFee?.toLocaleString('en-US')}
                             </span>
                         </div>
                     ) : (
                         <div className="flex items-center flex-wrap gap-2">
                             <div className="flex items-center">
-                                <span className="text-yellow-600 font-bold">
+                                <span className="text-yellow-600 dark:text-yellow-500 font-bold">
                                     {courseDetail?.courseDiscountFee?.toLocaleString('en-US')}
                                 </span>
                                 <img src={Coin} alt="Coin Icon" className="w-4 h-4 md:w-5 md:h-5 ml-1" />
                             </div>
                             <div className="flex items-center">
-                                <span className="text-gray-500 line-through">
+                                <span className="text-gray-500 dark:text-gray-400 line-through">
                                     {courseDetail?.courseFee?.toLocaleString('en-US')}
                                 </span>
                                 <img src={Coin} alt="Coin Icon" className="w-4 h-4 md:w-5 md:h-5 ml-1" />
@@ -199,11 +199,11 @@ const CourseDetail = () => {
             {/* Certificate Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 px-4 md:px-10">
                 {cert.map((cert) => (
-                    <div key={cert.certId} className="p-4 md:p-5 bg-gray-700 rounded-lg shadow-lg flex flex-col items-center">
+                    <div key={cert.certId} className="p-4 md:p-5 bg-gray-200 dark:bg-gray-700 rounded-lg shadow-lg flex flex-col items-center">
                         <h1 className="uppercase text-xl md:text-2xl lg:text-3xl font-extrabold text-center bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
                             Prepare for the certificate
                         </h1>
-                        <p className="text-white text-lg md:text-xl lg:text-2xl font-semibold mt-4 mb-2 text-center">
+                        <p className="text-gray-900 dark:text-white text-lg md:text-xl lg:text-2xl font-semibold mt-4 mb-2 text-center">
                             {cert.certName}
                         </p>
                         <div className="w-24 h-24 md:w-36 md:h-36 m-auto">
@@ -223,17 +223,17 @@ const CourseDetail = () => {
 
             {/* Voucher Information */}
             <div className="text-center px-4 md:px-5 pb-10">
-                <h1 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold mt-10">
+                <h1 className="text-gray-900 dark:text-white text-3xl md:text-4xl lg:text-5xl font-bold mt-10">
                     Voucher Available
                 </h1>
-                <div className="text-white text-xl md:text-2xl lg:text-3xl flex flex-wrap justify-center gap-4 mt-6">
+                <div className="text-gray-900 dark:text-white text-xl md:text-2xl lg:text-3xl flex flex-wrap justify-center gap-4 mt-6">
                     {voucherList.length ? voucherList.map((voucher, index) => (
-                        <div key={index} className="p-4 bg-blue-700 rounded-md w-full sm:w-auto">
+                        <div key={index} className="p-4 bg-blue-600 dark:bg-blue-700 rounded-md w-full sm:w-auto">
                             <p className="font-semibold">{voucher.name}</p>
-                            <p className="text-sm md:text-base text-gray-200">{voucher.description}</p>
+                            <p className="text-sm md:text-base text-gray-100 dark:text-gray-200">{voucher.description}</p>
                         </div>
                     )) : (
-                        <p className="text-gray-400">No vouchers available.</p>
+                        <p className="text-gray-500 dark:text-gray-400">No vouchers available.</p>
                     )}
                 </div>
             </div>
