@@ -115,7 +115,7 @@ const HomePage = () => {
             {/* Learning Pathway Card */}
             <div 
               onClick={() => scrollToSection('flexible-learning-section')}
-              className="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-xl shadow-lg fade-in transform hover:scale-105 transition duration-300 cursor-pointer hover:shadow-2xl"
+              className="bg-white dark:bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg fade-in transform hover:scale-105 transition duration-300 cursor-pointer hover:shadow-2xl"
             >
               <div className="w-12 h-12 md:w-16 md:h-16 bg-red-100 dark:bg-red-900 rounded-2xl flex items-center justify-center mb-4 md:mb-6 mx-auto">
                 <svg className="w-6 h-6 md:w-8 md:h-8 text-red-600 dark:text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
