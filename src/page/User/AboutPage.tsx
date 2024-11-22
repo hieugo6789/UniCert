@@ -1,4 +1,5 @@
-import Logo from "../../assets/images/UniCertLogo.png";
+import logoLight from "../../assets/images/UniCertLogo.png";
+import logoDark from "../../assets/images/LogoHeader.png";
 import Achie from "../../assets/images/AboutPage/Achievement.png";
 import { useEffect } from "react";
 const achievements = [
@@ -69,9 +70,14 @@ const AboutPage = () => {
           
           <div className="md:w-1/3 flex justify-center">
             <img
-              src={Logo}
-              alt="Unicert Logo"
-              className="w-48 md:w-64 transform hover:scale-105 transition-transform duration-300"
+              src={logoLight} 
+              alt="Logo"
+              className="block dark:hidden w-48 md:w-64 transform hover:scale-105 transition-transform duration-300"
+            />
+            <img
+              src={logoDark}
+              alt="Logo"
+              className="hidden dark:block w-48 md:w-64 transform hover:scale-105 transition-transform duration-300"
             />
           </div>
           

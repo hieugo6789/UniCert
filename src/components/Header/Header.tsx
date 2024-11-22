@@ -21,8 +21,10 @@ const Header = () => {
   useEffect(() => {
     if (token) {
       setIsLoggedIn(true);
+    }else{
+      setIsLoggedIn(false);
     }
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     if (userId) {
@@ -54,7 +56,7 @@ const Header = () => {
         <div className="w-[500px] mx-8">
           <SearchDropdown />
         </div>
-        <nav className="flex items-center space-x-8">
+        <nav className="flex items-center space-x-4">
           {['certificate', 'courses', 'majors', 'job', 'about'].map((tab) => (
             <Link
               key={tab}
@@ -69,10 +71,12 @@ const Header = () => {
                   tab === 'majors' ? 'Majors' :
                     tab === 'job' ? 'Job Position' : 'About Us'}
             </Link>
-          ))}
+          ))}          
         </nav>
+        
         {isLoggedIn ? (
           <div className="flex items-center gap-4">
+            <ThemeSwitch />
             <Link to="/cart" className="relative text-black dark:text-white hover:text-purple-400">
               <ShoppingCartOutlined style={{ fontSize: "24px" }} />
               {cartCount > 0 && (
@@ -81,10 +85,11 @@ const Header = () => {
                 </span>
               )}
             </Link>
-            <AvatarImage isMobile={false} />
+            <AvatarImage isMobile={false} />            
           </div>
         ) : (
           <div className="flex items-center gap-4">
+            <ThemeSwitch />
             <Link to="/login">
               <button className="bg-gray-100 dark:bg-gray-800 border-2 border-purple-500 text-purple-500 px-6 py-2 text-base rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25">
                 Login
@@ -94,9 +99,10 @@ const Header = () => {
               <button className="bg-purple-500 text-white px-6 py-2 text-base rounded-lg hover:bg-purple-600 transition-all duration-300 border-2 border-purple-500 hover:shadow-lg hover:shadow-purple-500/25">
                 Register
               </button>
-            </Link>
+            </Link>            
           </div>
         )}
+        
       </div>
 
       {/* Mobile Header */}
@@ -129,7 +135,7 @@ const Header = () => {
           >
             <SearchOutlined style={{ fontSize: "24px" }} />
           </button>
-        </div>
+        </div>        
       </div>
 
       {/* Mobile Search Overlay */}
@@ -193,13 +199,14 @@ const Header = () => {
                         tab === 'job' ? 'Job Position' : 'About Us'}
                 </Link>
               ))}
+              <ThemeSwitch className="ml-5 mb-2"/>
             </nav>
 
             {!isLoggedIn && (
               <div className="p-4 mt-auto border-t dark:border-gray-800 border-gray-200">
                 <Link
                   to="/login"
-                  className="block w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-2 rounded-lg text-center font-medium mb-3"
+                  className="block w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-2 rounded-lg text-center font-medium mb-3 border-2 border-purple-500"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Login
@@ -216,9 +223,6 @@ const Header = () => {
           </div>
         </div>
       )}
-      <div className="hidden">
-        <ThemeSwitch />
-      </div>
     </header>
   );
 };

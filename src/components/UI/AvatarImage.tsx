@@ -86,11 +86,6 @@ const AvatarImage = ({
               <LuHistory size={20} /> My Purchases
             </button>
 
-            <span className="flex items-center gap-3 px-6 py-4 ">
-              Theme
-              <ThemeSwitch />
-            </span>
-
             <button
               onClick={handleLogout}
               className="flex items-center gap-3 px-6 py-4 text-red-600 dark:text-red-400 hover:bg-gray-200 dark:hover:bg-gray-900"
@@ -174,10 +169,6 @@ const AvatarImage = ({
           </Menu.Item>
         </>
       )}
-      <span className="flex items-center gap-3 px-6 py-4 ">
-        Theme
-        <ThemeSwitch />
-      </span>
       <Menu.Item
         key="4"
         onClick={handleLogout}

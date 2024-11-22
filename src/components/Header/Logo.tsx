@@ -1,16 +1,23 @@
 import { Link } from "react-router-dom";
-import logo from "../../assets/images/LogoHeader.jpg";
-// import logo from "../../assets/images/UniCertLogo.png";
+import logoDark from "../../assets/images/LogoHeader.png";
+import logoLight from "../../assets/images/UniCertLogo.png";
 
 const Logo = () => {
+
   return (
     <Link to="./">
       <img
-        src={logo}
+        src={logoLight} 
         alt="Logo"
-        className="h-14"
+        className="h-14 block dark:hidden"
+      />
+      <img
+        src={logoDark}
+        alt="Logo"
+        className="h-14 hidden dark:block"
       />
     </Link>
   );
 };
+
 export default Logo;
