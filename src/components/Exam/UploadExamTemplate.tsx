@@ -1,14 +1,18 @@
+import { message } from "antd";
 import axios from "axios";
-import { useState } from "react";
+import { useRef, useState } from "react";
+
 interface CreateExamQuestionProps {
   examId: number;
   refetchExams: () => void;
 }
+
 const UploadExamTemplate: React.FC<CreateExamQuestionProps> = ({
   examId,
   refetchExams,
 }) => {
   const [file, setFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -18,7 +22,7 @@ const UploadExamTemplate: React.FC<CreateExamQuestionProps> = ({
 
   const handleUpload = async () => {
     if (!file) {
-      alert("Please select a file first.");
+      message.warning("Please select a file first.");
       return;
     }
 
@@ -35,12 +39,17 @@ const UploadExamTemplate: React.FC<CreateExamQuestionProps> = ({
           },
         }
       );
-      console.log("Upload success:", response.data);
+
       refetchExams();
-      alert("File uploaded successfully!");
+      message.success(response.data.message);
+
+      // Reset file input và state
+      setFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } catch (error) {
-      console.error("Upload failed:", error);
-      alert("File upload failed. Please try again.");
+      message.error("File upload failed. Please try again.");
     }
   };
 
@@ -51,6 +60,7 @@ const UploadExamTemplate: React.FC<CreateExamQuestionProps> = ({
           <div className="flex space-x-4">
             <input
               type="file"
+              ref={fileInputRef} // Gắn ref vào input
               onChange={handleFileChange}
               className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
             />

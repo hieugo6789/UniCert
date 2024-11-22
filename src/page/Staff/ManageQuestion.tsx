@@ -17,7 +17,6 @@ const ManageQuestion = () => {
   const { state, getExamDetails } = useExamDetail();
   const { handleDeleteQuestion } = useDeleteQuestion();
 
-  // State to manage modal visibility and selected question ID
   const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
   const [selectedQuestionId, setSelectedQuestionId] = useState<number | null>(
     null
