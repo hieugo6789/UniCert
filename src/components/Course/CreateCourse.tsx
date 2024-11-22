@@ -4,7 +4,6 @@ import { PlusOutlined } from "@ant-design/icons";
 
 import { useState } from "react";
 import axios from "axios";
-import useVoucher from "../../hooks/Voucher/useVoucher";
 import useCertificate from "../../hooks/Certification/useCertificate";
 import MyEditor from "../Editor/MyEditor";
 
@@ -12,7 +11,6 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { handleCreateCourse } = useCreateCourse();
   const { certificate } = useCertificate();
-  const { voucher } = useVoucher();
 
   const [form] = Form.useForm();
   const [formData, setFormData] = useState({
@@ -82,12 +80,7 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
       [e.target.name]: e.target.value,
     });
   };
-  const handleSelectVoucherChange = (value: number[]) => {
-    setFormData({
-      ...formData,
-      voucherIds: Array.isArray(value) ? value : [value],
-    });
-  };
+
   const handleSelectCertChange = (value: number) => {
     setFormData({
       ...formData,
@@ -246,26 +239,7 @@ const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
               style={{ width: "100%" }}
             />
           </Form.Item>
-          <Form.Item label="Voucher">
-            <Select
-              placeholder="Select Voucher"
-              onChange={handleSelectVoucherChange}
-              style={{ width: "100%" }}
-              mode="multiple"
-              value={formData.voucherIds}
-            >
-              {voucher
-                .filter((v) => v.voucherStatus === true)
-                .map((v) => (
-                  <Select.Option
-                    key={v.voucherId}
-                    value={v.voucherId}
-                  >
-                    {v.voucherName}
-                  </Select.Option>
-                ))}
-            </Select>
-          </Form.Item>
+
           <Form.Item
             label="Certification"
             name="certId"

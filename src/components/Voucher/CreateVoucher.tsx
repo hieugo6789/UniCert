@@ -1,9 +1,8 @@
-import { Button, Form, Input, Modal, Select } from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { useCreateVoucher } from "../../hooks/Voucher/useCreateVoucher";
-import useExam from "../../hooks/SimulationExam/useExam";
-import useCourse from "../../hooks/Course/useCourse";
+
 import axios from "axios";
 
 const CreateVoucher = ({
@@ -13,8 +12,7 @@ const CreateVoucher = ({
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { handleCreateVoucher } = useCreateVoucher();
-  const { exam } = useExam();
-  const { course } = useCourse();
+
   const [form] = Form.useForm();
 
   const currentDate = new Date();
@@ -62,20 +60,6 @@ const CreateVoucher = ({
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSelectExamChange = (value: number[]) => {
-    setFormData({
-      ...formData,
-      examId: value,
-    });
-  };
-
-  const handleSelectCourseChange = (value: number[]) => {
-    setFormData({
-      ...formData,
-      courseId: value,
     });
   };
 
@@ -215,41 +199,6 @@ const CreateVoucher = ({
                 })
               }
             />
-          </Form.Item>
-          <Form.Item label="Exams">
-            <Select
-              placeholder="Select exams"
-              onChange={handleSelectExamChange}
-              style={{ width: "100%" }}
-              mode="multiple"
-            >
-              {exam.map((e) => (
-                <Select.Option
-                  key={e.examId}
-                  value={e.examId}
-                >
-                  {e.examName}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-
-          <Form.Item label="Courses">
-            <Select
-              placeholder="Select courses"
-              onChange={handleSelectCourseChange}
-              style={{ width: "100%" }}
-              mode="multiple"
-            >
-              {course.map((c) => (
-                <Select.Option
-                  key={c.courseId}
-                  value={c.courseId}
-                >
-                  {c.courseName}
-                </Select.Option>
-              ))}
-            </Select>
           </Form.Item>
         </Form>
       </Modal>

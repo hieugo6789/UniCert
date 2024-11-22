@@ -3,7 +3,6 @@ import useUpdateCourse from "../../hooks/Course/useCourseUpdate";
 import useCourseDetail from "../../hooks/Course/useCourseDetail";
 import { Form, Input, message, Modal, Select } from "antd";
 import useCertificate from "../../hooks/Certification/useCertificate";
-import useVoucher from "../../hooks/Voucher/useVoucher";
 import { EditOutlined } from "@ant-design/icons";
 import axios from "axios";
 
@@ -19,7 +18,6 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
   const [form] = Form.useForm();
   const { updateCourseDetails } = useUpdateCourse();
   const { certificate } = useCertificate();
-  const { voucher } = useVoucher();
   const { state: courseDetailState, getCourseDetails } = useCourseDetail();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -50,7 +48,7 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
   }, [courseDetailState.currentCourse, courseId, form]);
 
   const handleUpdate = async () => {
-    try {      
+    try {
       await form.validateFields();
       const formData = form.getFieldsValue();
 
@@ -111,7 +109,6 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
       }
     }
   };
-
 
   return (
     <>
@@ -186,27 +183,7 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
           >
             <Input placeholder="Enter Course fee" />
           </Form.Item>
-          <Form.Item
-            label="Vouchers"
-            name="voucherIds"
-          >
-            <Select
-              placeholder="Select vouchers"
-              style={{ width: "100%" }}
-              mode="multiple"
-            >
-              {voucher
-                .filter((v) => v.voucherStatus === true)
-                .map((v) => (
-                  <Select.Option
-                    key={v.voucherId}
-                    value={v.voucherId}
-                  >
-                    {v.voucherName}
-                  </Select.Option>
-                ))}
-            </Select>
-          </Form.Item>          
+
           {/* <Form.Item
             label="Description"
             name="jobPositionDescription"
@@ -264,7 +241,7 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
           </Form.Item>
           <Form.Item
             label="Image"
-            name="courseImage"            
+            name="courseImage"
           >
             <img
               src={previewImage || courseDetailState.currentCourse.courseImage}
@@ -275,7 +252,7 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
               placeholder="Image"
               type="file"
               onChange={handleImageChange}
-              required              
+              required
             />
           </Form.Item>
         </Form>

@@ -1,8 +1,7 @@
-import { Form, Input, InputNumber, message, Modal, Select } from "antd";
+import { Form, Input, InputNumber, message, Modal } from "antd";
 import useUpdateVoucher from "../../hooks/Voucher/useUpdateVoucher";
 import useVoucherDetail from "../../hooks/Voucher/useVoucherDetail";
-import useExam from "../../hooks/SimulationExam/useExam";
-import useCourse from "../../hooks/Course/useCourse";
+
 import { EditOutlined } from "@ant-design/icons";
 
 import { useEffect, useState } from "react";
@@ -19,8 +18,6 @@ const UpdateVoucher: React.FC<UpdateVoucherProps> = ({
   const [form] = Form.useForm();
   const { updateVoucherDetails } = useUpdateVoucher();
   const { state: voucherDetailState, getVoucherDetails } = useVoucherDetail();
-  const { exam } = useExam();
-  const { course } = useCourse();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -150,44 +147,6 @@ const UpdateVoucher: React.FC<UpdateVoucherProps> = ({
               type="date"
               placeholder="Enter expiry date"
             />
-          </Form.Item>
-          <Form.Item
-            label="Simulation exams"
-            name="examId"
-          >
-            <Select
-              placeholder="Select simulation exams"
-              style={{ width: "100%" }}
-              mode="multiple"
-            >
-              {exam.map((e) => (
-                <Select.Option
-                  key={e.examId}
-                  value={e.examId}
-                >
-                  {e.examName}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            label="Courses"
-            name="courseId"
-          >
-            <Select
-              placeholder="Select courses"
-              style={{ width: "100%" }}
-              mode="multiple"
-            >
-              {course.map((c) => (
-                <Select.Option
-                  key={c.courseId}
-                  value={c.courseId}
-                >
-                  {c.courseName}
-                </Select.Option>
-              ))}
-            </Select>
           </Form.Item>
         </Form>
       </Modal>

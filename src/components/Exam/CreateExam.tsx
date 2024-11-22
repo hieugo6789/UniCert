@@ -1,6 +1,5 @@
 import { useState } from "react";
 import useCertificate from "../../hooks/Certification/useCertificate";
-import useVoucher from "../../hooks/Voucher/useVoucher";
 import { useCreateExam } from "../../hooks/SimulationExam/useCreateExam";
 import { Button, Form, Input, InputNumber, Modal, Select } from "antd";
 import axios from "axios";
@@ -10,7 +9,6 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { state, handleCreateExam } = useCreateExam();
   const { certificate } = useCertificate();
-  const { voucher } = useVoucher();
 
   const [form] = Form.useForm();
   const [formData, setFormData] = useState({
@@ -80,12 +78,6 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    });
-  };
-  const handleSelectVoucherChange = (value: number[]) => {
-    setFormData({
-      ...formData,
-      voucherIds: Array.isArray(value) ? value : [value],
     });
   };
   const handleSelectCertChange = (value: number) => {
@@ -325,26 +317,6 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
                   </div>
                 </Select.Option>
               ))}
-            </Select>
-          </Form.Item>
-          <Form.Item label="Voucher">
-            <Select
-              placeholder="Select Voucher"
-              onChange={handleSelectVoucherChange}
-              style={{ width: "100%" }}
-              mode="multiple"
-              value={formData.voucherIds}
-            >
-              {voucher
-                .filter((v) => v.voucherStatus === true)
-                .map((v) => (
-                  <Select.Option
-                    key={v.voucherId}
-                    value={v.voucherId}
-                  >
-                    {v.voucherName}
-                  </Select.Option>
-                ))}
             </Select>
           </Form.Item>
         </Form>

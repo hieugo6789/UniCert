@@ -1,7 +1,6 @@
 import { Form, Input, InputNumber, message, Modal, Select } from "antd";
 import useUpdateExam from "../../hooks/SimulationExam/useUpdateExam";
 import useCertificate from "../../hooks/Certification/useCertificate";
-import useVoucher from "../../hooks/Voucher/useVoucher";
 import useExamDetail from "../../hooks/SimulationExam/useExamDetail";
 import { useEffect, useState } from "react";
 import { EditOutlined } from "@ant-design/icons";
@@ -16,7 +15,6 @@ const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
   const [form] = Form.useForm();
   const { updateExamDetails } = useUpdateExam();
   const { certificate } = useCertificate();
-  const { voucher } = useVoucher();
   const { state: examDetailState, getExamDetails } = useExamDetail();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -81,7 +79,7 @@ const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  
+
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -89,7 +87,7 @@ const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
       setSelectedImage(file);
       setPreviewImage(URL.createObjectURL(file));
     }
-  };  
+  };
 
   const uploadCloudinary = async () => {
     if (selectedImage) {
@@ -206,7 +204,7 @@ const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
 
           <Form.Item
             label="Image"
-            name="examImage"            
+            name="examImage"
           >
             <img
               src={previewImage || examDetailState.currentExam.examImage}
@@ -215,9 +213,9 @@ const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
             />
             <Input
               name="examImage"
-              type="file"              
-              onChange={handleImageChange} 
-              required             
+              type="file"
+              onChange={handleImageChange}
+              required
             />
           </Form.Item>
           {/* <Form.Item
@@ -273,27 +271,6 @@ const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
                   </div>
                 </Select.Option>
               ))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            label="Vouchers"
-            name="voucherIds"
-          >
-            <Select
-              placeholder="Select vouchers"
-              style={{ width: "100%" }}
-              mode="multiple"
-            >
-              {voucher
-                .filter((v) => v.voucherStatus === true)
-                .map((v) => (
-                  <Select.Option
-                    key={v.voucherId}
-                    value={v.voucherId}
-                  >
-                    {v.voucherName}
-                  </Select.Option>
-                ))}
             </Select>
           </Form.Item>
         </Form>
