@@ -97,3 +97,10 @@ export interface cardCertificate {
   organizeName: string;
   typeName: string;
 }
+
+export interface metaData {
+  totalRecords: number;
+  pageNumber: number;
+  pageSize: number;
+  totalPages: number;
+}
