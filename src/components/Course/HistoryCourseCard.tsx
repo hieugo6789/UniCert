@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { courseEnrollment } from '../../models/enrollment';
 import CustomButton from '../UI/CustomButton';
 import { useCreatePayment } from '../../hooks/Payment/useCreatePayment';
 import Cookies from 'js-cookie';
 import Coin from "../../assets/images/Coin.png";
 import { showToast } from '../../utils/toastUtils';
+import { Modal } from 'antd';
+import useWalletDetail from '../../hooks/Wallet/useWalletDetail';
 
 interface HistoryCourseCardProps {
   enrollment: courseEnrollment; 
@@ -16,6 +18,18 @@ const HistoryCourseCard: React.FC<HistoryCourseCardProps> = ({ enrollment, onSta
   const { handleCreatePayment } = useCreatePayment();
   const userId = Cookies.get("userId");
   const [enrollStatus, setEnrollStatus] = useState(enrollment.courseEnrollmentStatus);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const { wallets, getWalletDetails } = useWalletDetail();
+
+  useEffect(() => {
+    if (userId) {
+      getWalletDetails(userId, null);
+    }
+  }, [userId]);
+
+  const handlePaymentModal = () => {
+    setShowPaymentModal(!showPaymentModal);
+  };
 
   const handlePayment = async () => {
     try {
@@ -65,7 +79,7 @@ const HistoryCourseCard: React.FC<HistoryCourseCardProps> = ({ enrollment, onSta
         {enrollStatus === 'OnGoing' && (
           <CustomButton
             label="Complete Payment"
-            onClick={handlePayment}
+            onClick={handlePaymentModal}
             className="mt-4 bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600 text-white py-2.5 px-4 rounded-md w-full transition duration-150"
           />
         )}
@@ -94,6 +108,41 @@ const HistoryCourseCard: React.FC<HistoryCourseCardProps> = ({ enrollment, onSta
           ))}
         </div>
       </div>
+      <Modal
+        title="Confirm Payment"
+        visible={showPaymentModal}
+        onCancel={() => setShowPaymentModal(false)}
+        footer={null}
+        destroyOnClose
+      >
+        <div className="p-4">
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600 dark:text-gray-300">Enrollment Price:</span>
+              <span className="flex items-center gap-2 font-medium">
+                {enrollment?.totalPrice}
+                <img src={Coin} alt="coin" className="h-5" />
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600 dark:text-gray-300">Your Balance:</span>
+              <span className="flex items-center gap-2 font-medium">
+                {userId ? wallets[userId]?.point || 0 : 0}
+                <img src={Coin} alt="coin" className="h-5" />
+              </span>
+            </div>
+            <div className="border-t dark:border-gray-600 pt-4">
+              <button
+                onClick={handlePayment}                
+                className="w-full px-4 py-2 bg-purple-600 dark:bg-purple-700 text-white rounded-lg font-medium 
+                  hover:bg-purple-700 dark:hover:bg-purple-800 transition-colors disabled:bg-purple-300 dark:disabled:bg-purple-500"
+              >
+                Confirm Payment
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
