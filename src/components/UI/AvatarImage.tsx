@@ -4,7 +4,15 @@ import Cookies from "js-cookie";
 import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
 import useProfile from "../../hooks/useProfile";
 import { useEffect, useState } from "react";
-import { LuLogOut, LuUser, LuWallet, LuHistory, LuArrowLeft } from "react-icons/lu";
+import {
+  LuLogOut,
+  LuUser,
+  LuWallet,
+  LuHistory,
+  LuArrowLeft,
+} from "react-icons/lu";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
+
 import ThemeSwitch from "./ThemeSwitch";
 
 interface AvatarImageProps {
@@ -12,10 +20,14 @@ interface AvatarImageProps {
   onMobileItemClick?: () => void;
 }
 
-const AvatarImage = ({ isMobile = false, onMobileItemClick }: AvatarImageProps) => {
+const AvatarImage = ({
+  isMobile = false,
+  onMobileItemClick,
+}: AvatarImageProps) => {
   const navigate = useNavigate();
   const { state, getProfileDetails } = useProfile();
   const userId = Cookies.get("userId");
+  const role = Cookies.get("role");
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   useEffect(() => {
@@ -54,25 +66,27 @@ const AvatarImage = ({ isMobile = false, onMobileItemClick }: AvatarImageProps) 
           </div>
           <div className="flex flex-col">
             <button
-              onClick={() => handleItemClick('/profile')}
+              onClick={() => handleItemClick("/profile")}
               className="flex items-center gap-3 px-6 py-4 hover:bg-gray-200 dark:hover:bg-gray-900"
             >
               <LuUser size={20} /> Profile
             </button>
             <button
-              onClick={() => handleItemClick('/wallet')}
+              onClick={() => handleItemClick("/wallet")}
               className="flex items-center gap-3 px-6 py-4 hover:bg-gray-200 dark:hover:bg-gray-900"
             >
               <LuWallet size={20} /> Coins
             </button>
             <button
-              onClick={() => handleItemClick(`/history/${state.profile.userId}`)}
+              onClick={() =>
+                handleItemClick(`/history/${state.profile.userId}`)
+              }
               className="flex items-center gap-3 px-6 py-4  hover:bg-gray-200 dark:hover:bg-gray-900"
             >
               <LuHistory size={20} /> My Purchases
             </button>
 
-            <span className="flex items-center gap-3 px-6 py-4 " >
+            <span className="flex items-center gap-3 px-6 py-4 ">
               Theme
               <ThemeSwitch />
             </span>
@@ -98,7 +112,9 @@ const AvatarImage = ({ isMobile = false, onMobileItemClick }: AvatarImageProps) 
           alt="Avatar"
           className="w-8 h-8 rounded-full object-cover"
         />
-        <span className="text-black dark:text-white">{state.profile.username}</span>
+        <span className="text-black dark:text-white">
+          {state.profile.username}
+        </span>
       </button>
     );
   }
@@ -106,27 +122,78 @@ const AvatarImage = ({ isMobile = false, onMobileItemClick }: AvatarImageProps) 
   // Desktop version
   const menu = (
     <Menu>
-      <Menu.Item key="1" icon={<LuUser />}>
+      <Menu.Item
+        key="1"
+        icon={<LuUser />}
+      >
         <Link to="/profile">{state.profile.username}</Link>
       </Menu.Item>
-      <Menu.Item key="2" icon={<LuWallet />}>
-        <Link to="/wallet">Coins</Link>
-      </Menu.Item>
-      <Menu.Item key="3" icon={<LuHistory />}>
-        <Link to={`/history/${state.profile.userId}`}>My Purchases</Link>
-      </Menu.Item>
-      <span className="flex items-center gap-3 px-6 py-4 " >
+      {role === "Admin" ? (
+        <Menu.Item key="2">
+          <MdOutlineAdminPanelSettings />
+          <Link
+            to="/admin/dashboard"
+            className="ml-2.5"
+          >
+            Admin
+          </Link>
+        </Menu.Item>
+      ) : role === "Manager" ? (
+        <Menu.Item key="2">
+          <MdOutlineAdminPanelSettings />
+          <Link
+            to="/manager/certificate"
+            className="ml-2.5"
+          >
+            Manager
+          </Link>
+        </Menu.Item>
+      ) : role === "Staff" ? (
+        <Menu.Item key="2">
+          <MdOutlineAdminPanelSettings />
+          <Link
+            to="staff/certificate"
+            className="ml-2.5"
+          >
+            Staff
+          </Link>
+        </Menu.Item>
+      ) : (
+        <>
+          <Menu.Item
+            key="2"
+            icon={<LuWallet />}
+          >
+            <Link to="/wallet">Coins</Link>
+          </Menu.Item>
+          <Menu.Item
+            key="3"
+            icon={<LuHistory />}
+          >
+            <Link to={`/history/${state.profile.userId}`}>My Purchases</Link>
+          </Menu.Item>
+        </>
+      )}
+      <span className="flex items-center gap-3 px-6 py-4 ">
         Theme
         <ThemeSwitch />
       </span>
-      <Menu.Item key="4" onClick={handleLogout} icon={<LuLogOut />}>
+      <Menu.Item
+        key="4"
+        onClick={handleLogout}
+        icon={<LuLogOut />}
+      >
         Logout
       </Menu.Item>
     </Menu>
   );
 
   return (
-    <Dropdown overlay={menu} trigger={["click"]} placement="bottomRight">
+    <Dropdown
+      overlay={menu}
+      trigger={["click"]}
+      placement="bottomRight"
+    >
       <Avatar
         src={state.profile.userImage || defaultAvatar}
         size="large"
