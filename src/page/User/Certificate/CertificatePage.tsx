@@ -11,61 +11,51 @@ const CertificatePage = () => {
   const {certificate: topCert} = useTopCert({ topN: 2 });
 
   const [keyword, setKeyword] = useState("");
-  const { certificate, loading, refetchCertificates } = useCertificate();
+  const { certificate, loading, metaData, refetchCertificates } = useCertificate();
   const [certificates, setCertificates] = useState<allCertificationData[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
   useEffect(() => {
-    refetchCertificates();
-  }, []);
+    refetchCertificates('', currentPage, itemsPerPage);
+  }, [currentPage]);
 
   useEffect(() => {
     if (certificate.length > 0) {
       const approvedCertificates = certificate.filter(cert => cert.permission === 'Approve');
       setCertificates(approvedCertificates);
+      
     }
   }, [certificate]);
 
   useEffect(() => {
-    const filteredCertificates = certificate.filter(cert => 
-      cert.certName.toLowerCase().includes(keyword.toLowerCase()) && 
-      cert.permission === "Approve"
-    );
-    setCertificates(filteredCertificates);
-  }, [keyword, certificate]);
+    if (keyword) {
+      refetchCertificates(keyword, 1, itemsPerPage);
+      setCurrentPage(1);
+    } else {
+      refetchCertificates('', currentPage, itemsPerPage);
+    }
+  }, [keyword]);
 
   const changeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
   };
 
-  //pagination
-  const indexOfLastCert = currentPage * itemsPerPage;
-  const indexOfFirstCert = indexOfLastCert - itemsPerPage;
-  const currentCertificates = certificates.slice(
-    indexOfFirstCert,
-    indexOfLastCert
-  );
-  const totalPages = Math.ceil(certificates.length / itemsPerPage);
-
   const handlePageChange = (page: number) => {
-    if (page > 0 && page <= totalPages) {
+    if (page > 0 && page <= metaData.totalPages) {
       setCurrentPage(page);
-    }
-    const scrollToTop = () => {
       window.scrollTo({
         top: 120,
-        behavior: "smooth", // Cuộn mượt mà
+        behavior: "smooth"
       });
-    };
-    scrollToTop();
+    }
   };
 
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth", // Cuộn mượt mà
+      behavior: "smooth"
     });
   }, []);
 
@@ -119,10 +109,10 @@ const CertificatePage = () => {
 
       {/* Certificates Grid - Cải thiện */}
       <div className="container mx-auto px-4 py-16">
-        {currentCertificates.length > 0 ? (
+        {certificates.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {currentCertificates.map((cert, index) => (
+              {certificates.map((cert, index) => (
                 <CertificateCard key={index} {...cert} />
               ))}
             </div>
@@ -140,7 +130,7 @@ const CertificatePage = () => {
               </button>
 
               <div className="flex gap-2">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                {Array.from({ length: metaData.totalPages || 0 }, (_, i) => i + 1).map((page) => (
                   <button
                     key={page}
                     onClick={() => handlePageChange(page)}
@@ -156,7 +146,7 @@ const CertificatePage = () => {
 
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
+                disabled={currentPage === metaData.totalPages}
                 className="p-2 rounded-full bg-white dark:bg-gray-800 shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
