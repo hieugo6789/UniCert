@@ -1,17 +1,28 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../redux/hook";
-import { allCertificationData } from "../../models/certificate";
+import { allCertificationData, metaData } from "../../models/certificate";
 import { fetchAllCertificatePagination } from "../../redux/slice/Certification/certificateSlice";
+
 const useCertificate = () => {
   const dispatch = useAppDispatch();
   const [certificate, setCertificate] = useState<allCertificationData[]>([]);
+  const [metaData, setMetaData] = useState<metaData>({
+    pageNumber: 0,
+    pageSize: 0,
+    totalPages: 0,
+    totalRecords: 0,
+  });
   const [loading, setLoading] = useState<boolean>(true);
 
-  const fetchCertificates = async (name?: string) => {
+  const fetchCertificates = async (name?: string, pageNumber?: number, pageSize?: number) => {
     setLoading(true);
     try {
-      const response = await dispatch(fetchAllCertificatePagination(name));
+      const response = await dispatch(
+        fetchAllCertificatePagination({name, pageNumber, pageSize})
+      );
       setCertificate(response.payload.data.data || []);
+      console.log(response.payload);
+      setMetaData(response.payload.metadata);
     } catch (err) {
       console.log("Error fetching certificates.", err);
     } finally {
@@ -25,6 +36,7 @@ const useCertificate = () => {
   return {
     certificate,
     loading,
+    metaData,
     refetchCertificates: fetchCertificates,
   };
 };
