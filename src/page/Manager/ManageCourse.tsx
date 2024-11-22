@@ -4,6 +4,7 @@ import useCourse from "../../hooks/Course/useCourse";
 import UpdatePermission from "../../components/Permission/UpdatePermission";
 import useCoursePermission from "../../hooks/Course/useCoursePermission";
 import Coin from "../../assets/images/Coin.png";
+import UpdateVoucherCourse from "../../components/Voucher/UpdateVoucherCourse";
 
 const ManageCourse = () => {
   const { course, loading, refetchCourses } = useCourse();
@@ -118,6 +119,10 @@ const ManageCourse = () => {
             Id={record.courseId}
             refetch={refetchCourses}
             updateFunction={updatePermissionCourseDetails}
+          />
+          <UpdateVoucherCourse
+            courseId={record.courseId}
+            refetchCourses={refetchCourses}
           />
         </div>
       ),
