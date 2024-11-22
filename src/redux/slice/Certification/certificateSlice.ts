@@ -16,9 +16,21 @@ const initialState: CertificateState = {
 
 export const fetchAllCertificatePagination = createAsyncThunk(
   "admin/fetchAllCertificatePagination",
-  async (name?: string) => {
+  async ({
+    name,
+    pageNumber,
+    pageSize,
+  }: {
+    name?: string;
+    pageNumber?: number;
+    pageSize?: number;
+  }) => {
     try {
-      const response = await agent.Certificate.getAllCertificates(name);
+      const response = await agent.Certificate.getAllCertificates(
+        name,
+        pageNumber,
+        pageSize
+      );
       return response;
     } catch (error) {
       if (error instanceof AxiosError) {
