@@ -26,7 +26,7 @@ const CourseDetail = () => {
     const [courseDetail, setCourseDetail] = useState<allCoursePaginationData | null>(null);
     const { state, getCourseDetails } = useCourseDetail();
     const [cert, setCert] = useState<certTab[]>([]);
-    const [voucherList, setVoucherList] = useState<any[]>([]);
+    //const [voucherList, setVoucherList] = useState<any[]>([]);
         
     const userId = Cookies.get("userId");
     const [purchasedCourses, setPurchasedCourses] = useState<courseEnrollment[]>([]);
@@ -46,7 +46,7 @@ const CourseDetail = () => {
         if (state) {
             setCourseDetail(state?.currentCourse);
             setCert(state?.currentCourse?.certificationDetails || []);
-            setVoucherList(state?.currentCourse.voucherDetails || []);
+            //setVoucherList(state?.currentCourse.voucherDetails || []);
         }
     }, [state]);
 

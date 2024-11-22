@@ -13,8 +13,6 @@ import {
 } from "react-icons/lu";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 
-import ThemeSwitch from "./ThemeSwitch";
-
 interface AvatarImageProps {
   isMobile?: boolean;
   onMobileItemClick?: () => void;
