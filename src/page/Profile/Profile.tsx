@@ -331,7 +331,7 @@ const Profile = () => {
                             ? 'bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400' 
                             : 'border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-gray-300'
                         }`}
-                        disabled={true}
+                        disabled={!isEditing}
                       />
                       <ErrorMessage
                         name="username"
