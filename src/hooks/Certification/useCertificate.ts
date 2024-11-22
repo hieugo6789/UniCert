@@ -11,7 +11,7 @@ const useCertificate = () => {
     setLoading(true);
     try {
       const response = await dispatch(fetchAllCertificatePagination(name));
-      setCertificate(response.payload.data || []);
+      setCertificate(response.payload.data.data || []);
     } catch (err) {
       console.log("Error fetching certificates.", err);
     } finally {

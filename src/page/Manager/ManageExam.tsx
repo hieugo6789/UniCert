@@ -5,6 +5,7 @@ import UpdatePermission from "../../components/Permission/UpdatePermission";
 import usePermissionExam from "../../hooks/SimulationExam/usePermissionExam";
 import Coin from "../../assets/images/Coin.png";
 import ViewExamDetail from "../../components/Exam/ViewExamDetail";
+import UpdateVoucherExam from "../../components/Voucher/UpdateVoucherExam";
 
 const ManageExam = () => {
   const { exam, loading, refetchExams } = useExam();
@@ -113,12 +114,18 @@ const ManageExam = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <ViewExamDetail examId={record.examId} />
-          <UpdatePermission
-            Id={record.examId}
-            refetch={refetchExams}
-            updateFunction={updatePermissionExamDetails}
-          />
+          <div className="flex">
+            <ViewExamDetail examId={record.examId} />
+            <UpdatePermission
+              Id={record.examId}
+              refetch={refetchExams}
+              updateFunction={updatePermissionExamDetails}
+            />
+            <UpdateVoucherExam
+              examId={record.examId}
+              refetchExams={refetchExams}
+            />
+          </div>
         </>
       ),
     },
