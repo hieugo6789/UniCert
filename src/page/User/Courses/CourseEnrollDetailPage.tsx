@@ -134,27 +134,7 @@ const CourseEnrollDetailPage = () => {
                         <p className="text-sm text-gray-500 dark:text-gray-400">
                           {course.courseCode}
                         </p>
-                      </div>
-                      <div className="text-right">
-                        {course.courseDiscountFee !== course.courseFee && (
-                          <span className="text-sm text-gray-500 dark:text-gray-400 line-through flex items-center">
-                            ${course.courseFee}
-                            <img
-                              src={Coin}
-                              alt="coin"
-                              className="h-5 w-5"
-                            />
-                          </span>
-                        )}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400 flex items-center">
-                          ${course.courseDiscountFee}
-                          <img
-                            src={Coin}
-                            alt="coin"
-                            className="h-5 w-5"
-                          />
-                        </span>
-                      </div>
+                      </div>                      
                     </div>
                   )
                 )}

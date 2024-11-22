@@ -127,25 +127,29 @@ const CourseDetail = () => {
       });
 
     return (
-        <div className="bg-white dark:bg-gray-900 min-h-screen">
+        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
             {/* Breadcrumb Navigation */}
-            <nav className="flex items-center space-x-2 p-4 text-gray-700 dark:text-gray-300 text-sm md:text-base overflow-x-auto">
-                <Link to="/" className="hover:text-blue-400 transition-colors duration-300 whitespace-nowrap">Home</Link>
+            <nav className="px-4 py-3 text-sm md:text-base">
+                <div className="max-w-7xl mx-auto flex items-center space-x-2 text-gray-600 dark:text-gray-300">
+                <Link to="/" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</Link>
                 <span>/</span>
-                <Link to="/courses" className="hover:text-blue-400 transition-colors duration-300 whitespace-nowrap">Courses</Link>
+                <Link to="/courses" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Courses</Link>
                 <span>/</span>
-                <span className="text-blue-400 truncate">{courseDetail?.courseName}</span>
+                <span className="text-blue-600 dark:text-blue-400">{courseDetail?.courseName}</span>
+                </div>
             </nav>
 
             {/* Course Header */}
-            <div className="w-full px-4 py-6 md:p-10 ">
+            <div className="max-w-7xl mx-auto px-4 py-12 md:py-8">
                 <h1 className="text-center fade-in uppercase text-4xl md:text-6xl lg:text-8xl font-extrabold bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
                     {courseDetail?.courseName || "Course not found"}
                 </h1>
-                <h2 className="fade-in text-gray-900 dark:text-white text-3xl md:text-4xl lg:text-5xl font-bold mt-5 text-center">
+                <h2 className="fade-in text-gray-800 dark:text-white text-3xl md:text-4xl lg:text-5xl font-bold mt-5 text-center">
                     Course Details
                 </h2>
-                <div className="fade-in text-gray-900 dark:text-white" 
+                <div className="fade-in text-gray-900 dark:text-white prose list-disc max-w-5xl mx-auto
+                                h-full p-6 md:p-8 bg-white dark:bg-gray-800 bg-opacity-50 dark:bg-opacity-50 rounded-2xl backdrop-blur-sm 
+                                border border-gray-200 dark:border-gray-700 shadow-xl mt-5" 
                     dangerouslySetInnerHTML={{ __html: courseDetail?.courseDescription || "" }} 
                 />
 
@@ -178,7 +182,7 @@ const CourseDetail = () => {
                 </div>
 
                 {/* Action Button */}
-                <div className="mt-5 px-4">
+                <div className="mt-5 px-4 text-center">
                     {isPurchased ? (
                         <CustomButton label="Purchased" disabled className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4" />
                     ) : isInCart ? (
@@ -197,7 +201,7 @@ const CourseDetail = () => {
             </div>
 
             {/* Certificate Information */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 px-4 md:px-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 px-4 md:px-10 pb-10">
                 {cert.map((cert) => (
                     <div key={cert.certId} className="p-4 md:p-5 bg-gray-200 dark:bg-gray-700 rounded-lg shadow-lg flex flex-col items-center">
                         <h1 className="uppercase text-xl md:text-2xl lg:text-3xl font-extrabold text-center bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))] bg-[length:200%_auto] animate-gradient">
@@ -222,7 +226,7 @@ const CourseDetail = () => {
             </div>
 
             {/* Voucher Information */}
-            <div className="text-center px-4 md:px-5 pb-10">
+            {/* <div className="text-center px-4 md:px-5 pb-10">
                 <h1 className="text-gray-900 dark:text-white text-3xl md:text-4xl lg:text-5xl font-bold mt-10">
                     Voucher Available
                 </h1>
@@ -236,7 +240,7 @@ const CourseDetail = () => {
                         <p className="text-gray-500 dark:text-gray-400">No vouchers available.</p>
                     )}
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };
