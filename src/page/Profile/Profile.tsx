@@ -219,41 +219,12 @@ const Profile = () => {
     }
   };
 
-  const handleBack = () => {
-    navigate("/");
-  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="flex flex-col lg:flex-row max-w-7xl mx-auto py-4 lg:py-8 px-4 gap-4 lg:gap-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex">
+      <div className="flex flex-col lg:flex-row max-w-7xl w-full mx-auto my-auto py-4 lg:py-8 px-4 gap-4 lg:gap-8">
         {/* Sidebar */}
-        <div className="w-full lg:w-1/4">
-          {/* Back button */}
-          <button
-            className="mb-4 flex items-center gap-2 px-4 py-2 
-              bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-800
-              text-white font-medium rounded-lg 
-              transition-colors duration-200 
-              shadow-sm hover:shadow-md"
-            onClick={handleBack}
-          >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              className="h-5 w-5" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M10 19l-7-7m0 0l7-7m-7 7h18" 
-              />
-            </svg>
-            Back
-          </button>
-
+        <div className="w-full lg:w-1/4">          
           {/* Profile card */}
           <div className="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-4 lg:p-6">
             <div className="flex flex-col items-center mb-6 lg:mb-8">

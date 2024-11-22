@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { MyInputEmail, MyInputPassword } from "../../components/UI/LoginInput";
 import agent from "../../utils/agent";
 import { Spin } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const ResetPassword = () => {
   const [step, setStep] = useState(1);
@@ -150,7 +150,17 @@ const ResetPassword = () => {
             )}
           </Formik>
         )}
+        <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
+          Back to{" "}
+          <Link
+            to="/login"
+            className="text-purple-600 dark:text-purple-400 font-bold hover:underline"
+          >
+            Login
+          </Link>
+        </p>
       </div>
+      
     </div>
   );
 };

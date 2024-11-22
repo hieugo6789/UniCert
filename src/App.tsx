@@ -96,12 +96,12 @@ function App() {
         { path: "/exam/:id/simulation/submit", element: <SubmitExamPage /> },
         { path: "/exam/:id/simulation/result", element: <ExamResultPage /> },
         { path: "/enrollment/:id", element: <CourseEnrollDetailPage /> },
+        { path: "/login", element: <Login /> },
+        { path: "/register", element: <Register /> },
+        { path: "/profile", element: <Profile /> },
+        { path: "/reset-password", element: <ResetPassword /> },
       ],
-    },
-    { path: "/login", element: <Login /> },
-    { path: "/register", element: <Register /> },
-    { path: "/profile", element: <Profile /> },
-    { path: "/reset-password", element: <ResetPassword /> },
+    },    
     {
       path: "/admin",
       element: (
