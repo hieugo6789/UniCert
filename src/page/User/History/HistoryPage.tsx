@@ -22,14 +22,12 @@ const HistoryPage = () => {
   const { handleDeleteCourseEnroll } = useDeleteCourseEnroll();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Giả lập dữ liệu các kỳ thi đã mua
-    const fetchPurchasedExams = () => {
-      
+  useEffect(() => {    
+    if (!id) navigate('/login');
+    const fetchPurchasedExams = () => {      
       refetchExamEnrollments(id?.toString() || "");
     };
-
-    // Giả lập dữ liệu các khóa học đã mua
+    
     const fetchPurchasedCourses = () => {
       refetchCourseEnrollments(id?.toString() || "");
     };
@@ -263,19 +261,26 @@ const HistoryPage = () => {
         </div>
 
         {/* Status Summary */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <div className={`grid grid-cols-1 ${
+            activeTab === 'exams' 
+              ? 'md:grid-cols-3' 
+              : 'md:grid-cols-2'
+          } gap-6 mt-8`}
+        >
           {[
             { status: 'Completed', icon: '✅', color: 'green' },
             { status: 'OnGoing', icon: '⏳', color: 'yellow' },
-            { status: 'Expired', icon: '⚠️', color: 'red' }
+            ...(activeTab === 'exams' ? [{ status: 'Expired', icon: '⚠️', color: 'red' }] : [])
           ].map(({ status, icon, color }) => (
             <div 
               key={status} 
               onClick={() => scrollToSection(status)}
               className={`p-6 rounded-xl border transition-all duration-300 hover:shadow-lg cursor-pointer
-                ${color === 'green' ? 'border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-900/50' : 
-                  color === 'yellow' ? 'border-yellow-200 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-900/30 hover:bg-yellow-100 dark:hover:bg-yellow-900/50' :
-                  'border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/30 hover:bg-red-100 dark:hover:bg-red-900/50'}`}
+                ${color === 'green' 
+                  ? 'border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-900/50' 
+                  : color === 'yellow' 
+                  ? 'border-yellow-200 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-900/30 hover:bg-yellow-100 dark:hover:bg-yellow-900/50'
+                  : 'border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/30 hover:bg-red-100 dark:hover:bg-red-900/50'}`}
             >
               <div className="flex items-center justify-between">
                 <div>
