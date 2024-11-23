@@ -20,16 +20,19 @@ export const fetchAllCertificatePagination = createAsyncThunk(
     name,
     pageNumber,
     pageSize,
+    permission,
   }: {
     name?: string;
     pageNumber?: number;
     pageSize?: number;
+    permission?: number;
   }) => {
     try {
       const response = await agent.Certificate.getAllCertificates(
         name,
         pageNumber,
-        pageSize
+        pageSize,
+        permission
       );
       return response;
     } catch (error) {

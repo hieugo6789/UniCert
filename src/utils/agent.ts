@@ -115,11 +115,18 @@ const JobPosition = {
 const Certificate = {
   // getAllCertificates: (name?: string) =>
   //   requests.get(`api/v1/certification/${name ? name : ""}`),
-  getAllCertificates: (name?: string, pageNumber?: number, pageSize?: number) =>
+  getAllCertificates: (
+    name?: string,
+    pageNumber?: number,
+    pageSize?: number,
+    permission?: number
+  ) =>
     requests.get(
       `api/v1/certification/search${name ? `?certName=${name}` : ""}${
         pageNumber ? `${name ? "&" : "?"}pageNumber=${pageNumber}` : ""
-      }${pageSize ? `&pageSize=${pageSize}` : ""}`
+      }${pageSize ? `&pageSize=${pageSize}` : ""}${
+        permission ? `&permission=${permission}` : ""
+      }`
     ),
   getCertificateDetail: (certId: number | undefined) =>
     requests.get(`api/v1/certification/${certId}`),

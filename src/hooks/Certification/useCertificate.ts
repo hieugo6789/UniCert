@@ -14,11 +14,21 @@ const useCertificate = () => {
   });
   const [loading, setLoading] = useState<boolean>(true);
 
-  const fetchCertificates = async (name?: string, pageNumber?: number, pageSize?: number) => {
+  const fetchCertificates = async (
+    name?: string,
+    pageNumber?: number,
+    pageSize?: number,
+    permission?: number
+  ) => {
     setLoading(true);
     try {
       const response = await dispatch(
-        fetchAllCertificatePagination({name, pageNumber, pageSize})
+        fetchAllCertificatePagination({
+          name,
+          pageNumber,
+          pageSize,
+          permission,
+        })
       );
       setCertificate(response.payload.data.data || []);
       console.log(response.payload);
