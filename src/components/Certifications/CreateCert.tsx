@@ -4,12 +4,12 @@ import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useCreateCert } from "../../hooks/Certification/useCreateCert";
 import useOrganization from "../../hooks/Organization/useOrganization";
-import useCertificate from "../../hooks/Certification/useCertificate";
 import MyEditor from "../Editor/MyEditor";
 import axios from "axios";
 import useCertType from "../../hooks/Certification/useCertType";
 import useMajor from "../../hooks/Major/useMajor";
 import useJob from "../../hooks/JobPosition/useJobPosition";
+import useAllCertification from "../../hooks/Certification/useAllCertification";
 
 const CreateCert = ({
   refetchCertificates,
@@ -34,7 +34,7 @@ const CreateCert = ({
     jobIds: [] as number[],
   });
   const { organization } = useOrganization();
-  const { certificate } = useCertificate();
+  const { certificate } = useAllCertification();
   const { certType } = useCertType();
   const { major } = useMajor();
   const { job } = useJob();
