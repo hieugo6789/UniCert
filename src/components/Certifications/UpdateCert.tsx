@@ -3,7 +3,6 @@ import CustomInput from "../../components/UI/CustomInput";
 import { useState, useEffect } from "react";
 import useUpdateCert from "../../hooks/Certification/useUpdateCert";
 import useOrganization from "../../hooks/Organization/useOrganization";
-import useCertificate from "../../hooks/Certification/useCertificate";
 import MyEditor from "../Editor/MyEditor";
 import useCertType from "../../hooks/Certification/useCertType";
 import useCertDetail from "../../hooks/Certification/useCertDetail";
@@ -11,6 +10,7 @@ import { EditOutlined } from "@ant-design/icons";
 import axios from "axios";
 import useMajor from "../../hooks/Major/useMajor";
 import useJob from "../../hooks/JobPosition/useJobPosition";
+import useAllCertification from "../../hooks/Certification/useAllCertification";
 
 interface UpdateCertProps {
   certId: number;
@@ -24,7 +24,7 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
   const [form] = Form.useForm();
   const { updateCertDetails, state } = useUpdateCert();
   const { organization } = useOrganization();
-  const { certificate } = useCertificate();
+  const { certificate } = useAllCertification();
   const { major } = useMajor();
   const { job } = useJob();
   const { certType } = useCertType();
