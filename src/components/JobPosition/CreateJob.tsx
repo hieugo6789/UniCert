@@ -2,10 +2,10 @@ import { Button, Form, Input, Modal, Select } from "antd";
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { useCreateJob } from "../../hooks/JobPosition/useCreateJob";
-import useCertificate from "../../hooks/Certification/useCertificate";
 import useMajor from "../../hooks/Major/useMajor";
 import axios from "axios";
 import MyEditor from "../Editor/MyEditor";
+import useAllCertification from "../../hooks/Certification/useAllCertification";
 
 const CreateJob = ({
   refetchJobPositions,
@@ -14,7 +14,7 @@ const CreateJob = ({
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { handleCreateJob } = useCreateJob();
-  const { certificate } = useCertificate();
+  const { certificate } = useAllCertification();
   const { major } = useMajor();
 
   const [form] = Form.useForm();

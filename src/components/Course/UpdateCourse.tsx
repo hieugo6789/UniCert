@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import useUpdateCourse from "../../hooks/Course/useCourseUpdate";
 import useCourseDetail from "../../hooks/Course/useCourseDetail";
 import { Form, Input, message, Modal, Select } from "antd";
-import useCertificate from "../../hooks/Certification/useCertificate";
 import { EditOutlined } from "@ant-design/icons";
 import axios from "axios";
+import useAllCertification from "../../hooks/Certification/useAllCertification";
 
 interface UpdateCourseProps {
   courseId: string;
@@ -17,7 +17,7 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
 }) => {
   const [form] = Form.useForm();
   const { updateCourseDetails } = useUpdateCourse();
-  const { certificate } = useCertificate();
+  const { certificate } = useAllCertification();
   const { state: courseDetailState, getCourseDetails } = useCourseDetail();
 
   const [isModalVisible, setIsModalVisible] = useState(false);

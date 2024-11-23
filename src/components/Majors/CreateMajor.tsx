@@ -5,13 +5,13 @@ import { useCreateMajor } from "../../hooks/Major/useCreateMajor";
 import useJob from "../../hooks/JobPosition/useJobPosition";
 import axios from "axios";
 import MyEditor from "../Editor/MyEditor";
-import useCertificate from "../../hooks/Certification/useCertificate";
+import useAllCertification from "../../hooks/Certification/useAllCertification";
 
 const CreateMajor = ({ refetchMajors }: { refetchMajors: () => void }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { handleCreateMajor } = useCreateMajor();
   const { job } = useJob();
-  const { certificate } = useCertificate();
+  const { certificate } = useAllCertification();
   const [form] = Form.useForm();
   const [formData, setFormData] = useState({
     majorName: "",

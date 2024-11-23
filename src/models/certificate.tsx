@@ -52,7 +52,10 @@ export interface currentCertificate {
   majorNames: [];
   majorDescriptions: [];
 }
-
+export interface allCertification {
+  certId: number;
+  certName: string;
+}
 export interface createCertificate {
   certName: string;
   certCode: string;

@@ -4,13 +4,13 @@ import { PlusOutlined } from "@ant-design/icons";
 
 import { useState } from "react";
 import axios from "axios";
-import useCertificate from "../../hooks/Certification/useCertificate";
 import MyEditor from "../Editor/MyEditor";
+import useAllCertification from "../../hooks/Certification/useAllCertification";
 
 const CreateCourse = ({ refetchCourses }: { refetchCourses: () => void }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { handleCreateCourse } = useCreateCourse();
-  const { certificate } = useCertificate();
+  const { certificate } = useAllCertification();
 
   const [form] = Form.useForm();
   const [formData, setFormData] = useState({

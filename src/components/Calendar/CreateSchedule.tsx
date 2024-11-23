@@ -3,7 +3,7 @@ import { useCreateSchedule } from "../../hooks/Schedule/useCreateSchedule";
 import { Button, Form, Input, Modal, Select } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
-import useCertificate from "../../hooks/Certification/useCertificate";
+import useAllCertification from "../../hooks/Certification/useAllCertification";
 
 const CreateSchedule = ({
   refetchSchedules,
@@ -12,7 +12,7 @@ const CreateSchedule = ({
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { handleCreateSchedule } = useCreateSchedule();
-  const { certificate } = useCertificate();
+  const { certificate } = useAllCertification();
 
   const [form] = Form.useForm();
   const currentDate = new Date();

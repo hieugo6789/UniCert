@@ -62,6 +62,23 @@ export const fetchTopCertificate = createAsyncThunk(
   }
 );
 
+export const fetchAllCertification = createAsyncThunk(
+  "staff/fetchAllCertification",
+  async () => {
+    try {
+      const response = await agent.Certificate.getAllCertifications();
+      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return {
+          message: error.response?.data.error.message,
+          status: error.response?.status,
+        };
+      }
+    }
+  }
+);
+
 const certificateSlice = createSlice({
   name: "Certificate",
   initialState,

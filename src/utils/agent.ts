@@ -113,8 +113,7 @@ const JobPosition = {
 };
 
 const Certificate = {
-  // getAllCertificates: (name?: string) =>
-  //   requests.get(`api/v1/certification/${name ? name : ""}`),
+  getAllCertifications: () => requests.get("api/v1/certification"),
   getAllCertificates: (
     name?: string,
     pageNumber?: number,

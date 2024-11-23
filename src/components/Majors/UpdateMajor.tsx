@@ -5,8 +5,8 @@ import useJob from "../../hooks/JobPosition/useJobPosition";
 import useMajorDetail from "../../hooks/Major/useMajorDetail";
 import { EditOutlined } from "@ant-design/icons";
 import MyEditor from "../Editor/MyEditor";
-import useCertificate from "../../hooks/Certification/useCertificate";
 import axios from "axios";
+import useAllCertification from "../../hooks/Certification/useAllCertification";
 
 interface UpdateMajorProps {
   majorId: string;
@@ -20,7 +20,7 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
   const [form] = Form.useForm();
   const { updateMajorDetails } = useUpdateMajor();
   const { job } = useJob();
-  const { certificate } = useCertificate();
+  const { certificate } = useAllCertification();
   const { state: majorDetailState, getMajorDetails } = useMajorDetail();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -70,7 +70,7 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
         ...formData,
         majorImage: uploadedImageUrl,
       };
-      
+
       await updateMajorDetails(majorId, updatedFormData);
       message.success("Major updated successfully!");
       refetchMajors();
@@ -175,7 +175,7 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
           </Form.Item>
           <Form.Item
             label="Major Image"
-            name="majorImage"            
+            name="majorImage"
           >
             <img
               src={previewImage || majorDetailState.currentMajor.majorImage}
@@ -183,7 +183,7 @@ const UpdateMajor: React.FC<UpdateMajorProps> = ({
               className="w-32 h-32 bg-gray-300 mb-4"
             />
             <Input
-              name="majorImage"              
+              name="majorImage"
               onChange={handleImageChange}
               placeholder="Enter major image"
               type="file"

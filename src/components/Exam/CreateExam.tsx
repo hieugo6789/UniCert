@@ -1,14 +1,14 @@
 import { useState } from "react";
-import useCertificate from "../../hooks/Certification/useCertificate";
 import { useCreateExam } from "../../hooks/SimulationExam/useCreateExam";
 import { Button, Form, Input, InputNumber, Modal, Select } from "antd";
 import axios from "axios";
 import { PlusOutlined } from "@ant-design/icons";
+import useAllCertification from "../../hooks/Certification/useAllCertification";
 
 const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { state, handleCreateExam } = useCreateExam();
-  const { certificate } = useCertificate();
+  const { certificate } = useAllCertification();
 
   const [form] = Form.useForm();
   const [formData, setFormData] = useState({

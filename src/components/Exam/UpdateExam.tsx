@@ -1,10 +1,10 @@
 import { Form, Input, InputNumber, message, Modal, Select } from "antd";
 import useUpdateExam from "../../hooks/SimulationExam/useUpdateExam";
-import useCertificate from "../../hooks/Certification/useCertificate";
 import useExamDetail from "../../hooks/SimulationExam/useExamDetail";
 import { useEffect, useState } from "react";
 import { EditOutlined } from "@ant-design/icons";
 import axios from "axios";
+import useAllCertification from "../../hooks/Certification/useAllCertification";
 
 interface UpdateExamProps {
   examId: number;
@@ -14,7 +14,7 @@ interface UpdateExamProps {
 const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
   const [form] = Form.useForm();
   const { updateExamDetails } = useUpdateExam();
-  const { certificate } = useCertificate();
+  const { certificate } = useAllCertification();
   const { state: examDetailState, getExamDetails } = useExamDetail();
 
   const [isModalVisible, setIsModalVisible] = useState(false);

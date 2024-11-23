@@ -1,11 +1,11 @@
 import { Form, Input, message, Modal, Select } from "antd";
 import useUpdateJob from "../../hooks/JobPosition/useUpdateJob";
 import useMajor from "../../hooks/Major/useMajor";
-import useCertificate from "../../hooks/Certification/useCertificate";
 import useJobDetail from "../../hooks/JobPosition/useJobDetail";
 import { useEffect, useState } from "react";
 import { EditOutlined } from "@ant-design/icons";
 import MyEditor from "../Editor/MyEditor";
+import useAllCertification from "../../hooks/Certification/useAllCertification";
 
 interface UpdateJobProps {
   jobPositionId: string;
@@ -19,7 +19,7 @@ const UpdateJobPosition: React.FC<UpdateJobProps> = ({
   const [form] = Form.useForm();
   const { updateJobDetails } = useUpdateJob();
   const { major } = useMajor();
-  const { certificate } = useCertificate();
+  const { certificate } = useAllCertification();
   const { state: jobDetailState, getJobDetails } = useJobDetail();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
