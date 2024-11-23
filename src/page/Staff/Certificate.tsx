@@ -1,11 +1,11 @@
 import { Button, Input, Pagination, Table, Modal, message, Tag } from "antd";
-import useCertificate from "../../hooks/Certification/useCertificate";
 import { useState } from "react";
 import {
   DeleteOutlined,
   ExclamationCircleOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
+import useCertificate from "../../hooks/Certification/useCertificate";
 import useDeleteCertificate from "../../hooks/Certification/useDeleteCertificate";
 import CreateCert from "../../components/Certifications/CreateCert";
 import UpdateCert from "../../components/Certifications/UpdateCert";
@@ -16,20 +16,26 @@ import Notification from "../../components/Notification/Notification";
 const { confirm } = Modal;
 
 const Certificate = () => {
-  const { certificate, loading, refetchCertificates } = useCertificate();
+  const { certificate, loading, refetchCertificates, metaData } =
+    useCertificate();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
   const { handleDeleteCertificate } = useDeleteCertificate();
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Xử lý tìm kiếm
   const handleSearch = () => {
     setCurrentPage(1);
-    refetchCertificates(searchTerm);
-  };
-  const handlePaginationChange = (page: number) => {
-    setCurrentPage(page);
+    refetchCertificates(searchTerm, 1, pageSize);
   };
 
+  // Xử lý chuyển trang
+  const handlePaginationChange = (page: number) => {
+    setCurrentPage(page);
+    refetchCertificates(searchTerm, page, pageSize);
+  };
+
+  // Hiển thị bảng
   const columns = [
     { title: "Name", dataIndex: "certName", key: "certName" },
     { title: "Period", dataIndex: "certValidity", key: "certValidity" },
@@ -53,19 +59,11 @@ const Certificate = () => {
             </>
           );
         }
-        return <span>No prerequisites</span>; // Fallback for empty or non-array
+        return <span>No prerequisites</span>;
       },
     },
-    {
-      title: "Organization",
-      dataIndex: "organizeName",
-      key: "organizeName",
-    },
-    {
-      title: "Level",
-      dataIndex: "typeName",
-      key: "typeName",
-    },
+    { title: "Organization", dataIndex: "organizeName", key: "organizeName" },
+    { title: "Level", dataIndex: "typeName", key: "typeName" },
     {
       title: "Status",
       dataIndex: "permission",
@@ -84,7 +82,6 @@ const Certificate = () => {
             break;
           default:
             color = "default";
-            break;
         }
         return (
           <Tag
@@ -115,6 +112,7 @@ const Certificate = () => {
     },
   ];
 
+  // Xác nhận xóa
   const showDeleteConfirm = (certId: number) => {
     confirm({
       title: "Are you sure delete this certification?",
@@ -126,7 +124,7 @@ const Certificate = () => {
       onOk: async () => {
         await handleDeleteCertificate(certId);
         message.success("Certification deleted successfully!");
-        refetchCertificates();
+        refetchCertificates(searchTerm, currentPage, pageSize);
       },
       onCancel() {
         console.log("Cancel deletion");
@@ -134,10 +132,6 @@ const Certificate = () => {
     });
   };
 
-  const paginatedData = certificate.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
   return (
     <>
       <div className="h-[10vh] flex justify-between items-center">
@@ -166,15 +160,15 @@ const Certificate = () => {
           <AvatarAdmin />
         </div>
       </div>
-      <div className=" gap-4 p-2 h-[90vh]">
-        <div className=" bg-white p-4 rounded-lg shadow-lg">
+      <div className="gap-4 p-2 h-[90vh]">
+        <div className="bg-white p-4 rounded-lg shadow-lg">
           <div className="h-[76vh]">
             {loading ? (
               <div>Loading...</div>
             ) : certificate.length > 0 ? (
               <Table
                 columns={columns}
-                dataSource={paginatedData}
+                dataSource={certificate}
                 rowKey="certId"
                 pagination={false}
                 loading={loading}
@@ -190,7 +184,7 @@ const Certificate = () => {
             <Pagination
               current={currentPage}
               pageSize={pageSize}
-              total={certificate.length}
+              total={metaData.totalRecords}
               onChange={handlePaginationChange}
             />
           </div>
@@ -199,4 +193,5 @@ const Certificate = () => {
     </>
   );
 };
+
 export default Certificate;
