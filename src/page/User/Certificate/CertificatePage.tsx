@@ -18,7 +18,7 @@ const CertificatePage = () => {
   const itemsPerPage = 8;
 
   useEffect(() => {
-    refetchCertificates('', currentPage, itemsPerPage);
+    refetchCertificates('', currentPage, itemsPerPage,1);
   }, [currentPage]);
 
   useEffect(() => {
@@ -130,18 +130,66 @@ const CertificatePage = () => {
               </button>
 
               <div className="flex gap-2">
-                {Array.from({ length: metaData.totalPages || 0 }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => handlePageChange(page)}
-                    className={`px-4 py-2 rounded-full font-medium transition-colors duration-200
-                      ${currentPage === page 
-                        ? "bg-purple-500 text-white" 
-                        : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-purple-50 dark:hover:bg-gray-700"}`}
-                  >
-                    {page}
-                  </button>
-                ))}
+                {(() => {
+                  const totalPages = metaData.totalPages || 0;
+                  if (totalPages <= 5) {
+                    return Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => handlePageChange(page)}
+                        className={`px-4 py-2 rounded-full font-medium transition-colors duration-200
+                          ${currentPage === page 
+                            ? "bg-purple-500 text-white" 
+                            : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-purple-50 dark:hover:bg-gray-700"}`}
+                      >
+                        {page}
+                      </button>
+                    ));
+                  } else {
+                    const pages = [];
+                    if (currentPage <= 3) {
+                      // Show first 3 pages + ... + last page
+                      for (let i = 1; i <= 3; i++) {
+                        pages.push(i);
+                      }
+                      pages.push('...');
+                      pages.push(totalPages);
+                    } else if (currentPage >= totalPages - 2) {
+                      // Show first page + ... + last 3 pages
+                      pages.push(1);
+                      pages.push('...');
+                      for (let i = totalPages - 2; i <= totalPages; i++) {
+                        pages.push(i);
+                      }
+                    } else {
+                      // Show first page + ... + current-1, current, current+1 + ... + last page
+                      pages.push(1);
+                      pages.push('...');
+                      pages.push(currentPage - 1);
+                      pages.push(currentPage);
+                      pages.push(currentPage + 1);
+                      pages.push('...');
+                      pages.push(totalPages);
+                    }
+
+                    return pages.map((page, index) => (
+                      page === '...' ? (
+                        <span key={`ellipsis-${index}`} className="px-4 py-2">...</span>
+                      ) : (
+                        <button
+                          key={page}
+                          onClick={() => handlePageChange(Number(page))}
+                          className={`px-4 py-2 rounded-full font-medium transition-colors duration-200
+                            ${currentPage === page 
+                              ? "bg-purple-500 text-white" 
+                              : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-purple-50 dark:hover:bg-gray-700"}`}
+                        >
+                          {page}
+                        </button>
+                      )
+                    ));
+                  }
+                })()}
               </div>
 
               <button
