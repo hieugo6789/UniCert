@@ -151,6 +151,7 @@ const ManageCertification = () => {
                 pageSize={pageSize}
                 total={metaData.totalRecords}
                 onChange={handlePaginationChange}
+                showSizeChanger={false}
               />
             </div>
           </div>

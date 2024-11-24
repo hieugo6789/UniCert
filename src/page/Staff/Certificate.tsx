@@ -186,6 +186,7 @@ const Certificate = () => {
               pageSize={pageSize}
               total={metaData.totalRecords}
               onChange={handlePaginationChange}
+              showSizeChanger={false}
             />
           </div>
         </div>

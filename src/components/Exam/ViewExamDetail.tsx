@@ -45,11 +45,15 @@ const ViewExamDetail: React.FC<ViewExamDetailProps> = ({ examId }) => {
               title={<h3 className="text-2xl text-blue-600">Exam Details</h3>}
             >
               <Descriptions.Item label="Image">
-                <img
-                  src={state.currentExam.examImage}
-                  alt="Course"
-                  className=" object-cover rounded-lg shadow-md mb-4"
-                />
+                {state?.currentExam?.examImage ? (
+                  <img
+                    src={state.currentExam.examImage}
+                    alt="Course"
+                    className=" object-cover rounded-lg shadow-md mb-4"
+                  />
+                ) : (
+                  <p>Loading image...</p>
+                )}
               </Descriptions.Item>
               <Descriptions.Item label="Name">
                 <span className="text-blue-700">
