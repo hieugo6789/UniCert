@@ -4,7 +4,6 @@ import useJobPosition from "../../../hooks/JobPosition/useJobPosition";
 import Loading from "../../../components/UI/Loading";
 import JobPositionCard from "../../../components/JobPosition/JobPositionCard";
 import CertificateCard from "../../../components/Certifications/CertificateCard";
-import { Pagination } from "antd";
 import useTopCert from "../../../hooks/Certification/useTopCert";
 
 const Job = () => {
