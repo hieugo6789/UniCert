@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import useWalletDetail from "../../../hooks/Wallet/useWalletDetail";
 import Coin from "../../../assets/images/Coin.png";
 import Cookies from "js-cookie";
-import { Button, Modal } from "antd";
+import { Button } from "antd";
 import TopUpWallet from "../../../components/Wallet/TopUpWallet";
 import { useLocation } from "react-router-dom";
 import useHistoryTransaction from "../../../hooks/Transactions/useHistoryTransaction";
+import CustomModal from "../../../components/UI/CustomModal";
 
 const Wallet = () => {
   const { wallets, getWalletDetails } = useWalletDetail();
@@ -120,15 +121,16 @@ const Wallet = () => {
         </div>
       </div>
 
-      <Modal
+      <CustomModal
         title="Top Up Wallet"
-        open={isModalVisible}
-        onCancel={handleCancel}
-        footer={null}
-        width={600}
+        isOpen={isModalVisible}
+        onClose={handleCancel}
+        // footer={null}
+        // width={600}
       >
         <TopUpWallet />
-      </Modal>
+      </CustomModal>
+      
     </>
   );
 };
