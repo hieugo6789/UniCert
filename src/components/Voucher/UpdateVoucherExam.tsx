@@ -71,7 +71,10 @@ const UpdateVoucherExam: React.FC<UpdateExamProps> = ({
   };
 
   useEffect(() => {
-    if (examDetailState && examDetailState.currentExam.voucherDetails) {
+    if (
+      examDetailState?.currentExam?.voucherDetails &&
+      Array.isArray(examDetailState.currentExam.voucherDetails)
+    ) {
       form.setFieldsValue({
         voucherIds: examDetailState.currentExam.voucherDetails.map(
           (voucher: any) => voucher.voucherId
