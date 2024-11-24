@@ -11,10 +11,10 @@ interface DescriptionProps {
 const Description = ({ props, schedule, course}: DescriptionProps) => (  
   <div className="space-y-8">
     {/* Description Section */}
-    <div>
+    <div className=" p-6 rounded-lg">
       <h2 className="text-2xl font-bold dark:text-gray-100 text-gray-800 mb-4">Description</h2>
       <div
-        className="prose max-w-none text-white leading-relaxed"
+        className="prose max-w-none leading-relaxed p-2 rounded-lg dark:bg-purple-400 text-black dark:text-white dark:shadow-lg"
         dangerouslySetInnerHTML={{ __html: props?.certDescription || "" }}
       />
     </div>
