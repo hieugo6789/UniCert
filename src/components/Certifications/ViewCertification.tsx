@@ -64,11 +64,15 @@ const ViewCertification: React.FC<ViewCertDetailProps> = ({ certId }) => {
               {state.currentCert.certPointSystem}
             </Descriptions.Item>
             <Descriptions.Item label="Image">
-              <img
-                src={state.currentCert.certImage}
-                alt="Certification"
-                className="w-32 h-32 bg-gray-300 mb-4"
-              />
+              {state?.currentCert?.certImage ? (
+                <img
+                  src={state.currentCert.certImage}
+                  alt="Certification"
+                  className="w-32 h-32 bg-gray-300 mb-4"
+                />
+              ) : (
+                <p>Loading image...</p>
+              )}
             </Descriptions.Item>
             <Descriptions.Item label="Cost for Official Exam">
               {state.currentCert.certCost} $
