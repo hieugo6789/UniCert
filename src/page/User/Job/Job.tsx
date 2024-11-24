@@ -129,13 +129,68 @@ const Job = () => {
             </div>
             
             {/* Pagination */}
-            <div className="mt-8 flex justify-center">
-              <Pagination
-                current={currentPage}
-                pageSize={pageSize}
-                total={jobs.length}
-                onChange={handlePaginationChange}
-              />
+            <div className="mt-12 flex flex-col items-center space-y-4">
+              {/* Pagination Info */}
+              <div className="text-gray-600 dark:text-gray-300">
+                Showing {(currentPage - 1) * pageSize + 1} to {Math.min(currentPage * pageSize, jobs.length)} of {jobs.length} job positions
+              </div>
+
+              {/* Pagination Controls */}
+              <div className="flex items-center space-x-2">
+                {/* Previous Page Button */}
+                <button
+                  onClick={() => handlePaginationChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 rounded-lg 
+                    bg-gradient-to-r from-purple-600/30 to-indigo-600/30
+                    backdrop-blur-sm
+                    border-2 border-purple-500/30 dark:border-purple-400/30
+                    hover:border-purple-500 dark:hover:border-purple-400
+                    disabled:opacity-50 disabled:cursor-not-allowed
+                    hover:scale-105 transition-all duration-300
+                    shadow-lg dark:shadow-purple-900/30"
+                >
+                  Previous
+                </button>
+
+                {/* Page Numbers */}
+                <div className="flex space-x-2">
+                  {[...Array(Math.ceil(jobs.length / pageSize))].map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handlePaginationChange(index + 1)}
+                      className={`w-10 h-10 rounded-lg flex items-center justify-center
+                        transition-all duration-300
+                        ${currentPage === index + 1 
+                          ? 'bg-purple-600 text-white' 
+                          : 'bg-gradient-to-r from-purple-600/30 to-indigo-600/30'}
+                        backdrop-blur-sm
+                        border-2 border-purple-500/30 dark:border-purple-400/30
+                        hover:border-purple-500 dark:hover:border-purple-400
+                        hover:scale-105
+                        shadow-lg dark:shadow-purple-900/30`}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Next Page Button */}
+                <button
+                  onClick={() => handlePaginationChange(currentPage + 1)}
+                  disabled={currentPage === Math.ceil(jobs.length / pageSize)}
+                  className="px-4 py-2 rounded-lg
+                    bg-gradient-to-r from-purple-600/30 to-indigo-600/30
+                    backdrop-blur-sm
+                    border-2 border-purple-500/30 dark:border-purple-400/30
+                    hover:border-purple-500 dark:hover:border-purple-400
+                    disabled:opacity-50 disabled:cursor-not-allowed
+                    hover:scale-105 transition-all duration-300
+                    shadow-lg dark:shadow-purple-900/30"
+                >
+                  Next
+                </button>
+              </div>
             </div>
           </div>
 
