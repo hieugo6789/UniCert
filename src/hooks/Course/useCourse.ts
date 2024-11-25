@@ -21,7 +21,7 @@ const useCourse = () => {
   };
   useEffect(() => {
     fetchCourses();
-  }, [dispatch]);
+  }, []);
 
   return { course, loading, refetchCourses: fetchCourses };
 };

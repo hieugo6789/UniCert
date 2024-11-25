@@ -22,7 +22,7 @@ const useVoucher = () => {
 
   useEffect(() => {
     fetchVouchers();
-  }, [dispatch]);
+  }, []);
   return { voucher, loading, refetchVouchers: fetchVouchers };
 };
 export default useVoucher;

@@ -21,7 +21,7 @@ const useFeedbackForStaff = () => {
   };
   useEffect(() => {
     fetchFeedbacks();
-  }, [dispatch]);
+  }, []);
 
   return { feedback, loading, refetchFeedbacks: fetchFeedbacks };
 };

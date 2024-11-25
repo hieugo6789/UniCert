@@ -23,7 +23,7 @@ const useFeedback = ({ examId }: UseFeedbackProps) => {
   };
   useEffect(() => {
     fetchFeedbacks(examId);
-  }, [dispatch]);
+  }, []);
 
   return { feedback, loading, refetchFeedbacks: fetchFeedbacks };
 };

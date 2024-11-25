@@ -23,7 +23,7 @@ const useFeedbackByCertId = ({ certId }: UseFeedbackByCertIdProps) => {
   };
   useEffect(() => {
     fetchFeedbacks(certId);
-  }, [dispatch]);
+  }, []);
 
   return { feedback, loading, refetchFeedbacks: fetchFeedbacks };
 };

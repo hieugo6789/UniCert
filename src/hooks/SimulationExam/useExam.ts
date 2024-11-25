@@ -21,7 +21,7 @@ const useExam = () => {
   };
   useEffect(() => {
     fetchExams();
-  }, [dispatch]);
+  }, []);
 
   return { exam, loading, refetchExams: fetchExams };
 };
