@@ -8,9 +8,10 @@ import Loading from "../../../components/UI/Loading";
 import useTopCert from "../../../hooks/Certification/useTopCert";
 
 const CertificatePage = () => {
-  const {certificate: topCert} = useTopCert({ topN: 2 });
+  const { certificate: topCert } = useTopCert({ topN: 2 });
 
   const [keyword, setKeyword] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState(""); // Từ khóa sẽ được dùng để tìm kiếm
   const { certificate, loading, metaData, refetchCertificates } = useCertificate();
   const [certificates, setCertificates] = useState<allCertificationData[]>([]);
 
@@ -18,46 +19,38 @@ const CertificatePage = () => {
   const itemsPerPage = 16;
 
   useEffect(() => {
-    refetchCertificates('', currentPage, itemsPerPage,1);
-  }, [currentPage]);
+    refetchCertificates(searchKeyword, currentPage, itemsPerPage, 1);
+  }, [searchKeyword, currentPage]);
 
+  // Cập nhật danh sách chứng chỉ khi có dữ liệu mới
   useEffect(() => {
     if (certificate.length > 0) {
-      console.log(certificate)
       setCertificates(certificate);
-      
     }
   }, [certificate]);
 
-  useEffect(() => {
-    if (keyword) {
-      refetchCertificates(keyword, 1, itemsPerPage,1);
-      setCurrentPage(1);
-    } else {
-      refetchCertificates('', currentPage, itemsPerPage,1);
-    }
-  }, [keyword]);
-
-  const changeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
+  // Hàm xử lý khi nhấn nút tìm kiếm
+  const handleSearch = () => {
+    setCurrentPage(1); // Reset về trang đầu
+    setSearchKeyword(keyword); // Cập nhật từ khóa tìm kiếm
   };
 
+
+  // Hàm thay đổi từ khóa
+  const changeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value); // Chỉ cập nhật keyword nhưng không gọi API
+  };
+
+  // Xử lý chuyển trang
   const handlePageChange = (page: number) => {
     if (page > 0 && page <= metaData.totalPages) {
       setCurrentPage(page);
       window.scrollTo({
         top: 120,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   };
-
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -87,20 +80,21 @@ const CertificatePage = () => {
           />
           <button
             className="absolute right-4 top-1/2 -translate-y-1/2 
-            text-gray-400 hover:text-purple-500 dark:hover:text-purple-400 transition-colors duration-300"            
+            text-gray-400 hover:text-purple-500 dark:hover:text-purple-400 transition-colors duration-300"
+            onClick={handleSearch}
           >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              className="h-6 w-6 transform hover:scale-110 transition-transform duration-300" 
-              fill="none" 
-              viewBox="0 0 24 24" 
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 transform hover:scale-110 transition-transform duration-300"
+              fill="none"
+              viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
             </svg>
           </button>
@@ -132,63 +126,57 @@ const CertificatePage = () => {
               <div className="flex gap-2">
                 {(() => {
                   const totalPages = metaData.totalPages || 0;
+                  const pages: (number | string)[] = [];
+
                   if (totalPages <= 5) {
-                    return Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    // Hiển thị tất cả các trang nếu tổng số trang <= 5
+                    for (let i = 1; i <= totalPages; i++) {
+                      pages.push(i);
+                    }
+                  } else if (currentPage <= 3) {
+                    // Hiển thị 4 trang đầu + ... + trang cuối
+                    for (let i = 1; i <= 4; i++) {
+                      pages.push(i);
+                    }
+                    pages.push('...');
+                    pages.push(totalPages);
+                  } else if (currentPage >= totalPages - 3) {
+                    // Hiển thị trang đầu + ... + 4 trang cuối
+                    pages.push(1);
+                    pages.push('...');
+                    for (let i = totalPages - 3; i <= totalPages; i++) {
+                      pages.push(i);
+                    }
+                  } else {
+                    // Hiển thị trang đầu + ... + current-1, current, current+1 + ... + trang cuối
+                    pages.push(1);
+                    pages.push('...');
+                    pages.push(currentPage - 1);
+                    pages.push(currentPage);
+                    pages.push(currentPage + 1);
+                    pages.push('...');
+                    pages.push(totalPages);
+                  }
+
+                  return pages.map((page, index) =>
+                    page === '...' ? (
+                      <span key={`ellipsis-${index}`} className="px-4 py-2">
+                        ...
+                      </span>
+                    ) : (
                       <button
                         key={page}
-                        onClick={() => handlePageChange(page)}
+                        onClick={() => handlePageChange(Number(page))}
                         className={`px-4 py-2 rounded-full font-medium transition-colors duration-200
-                          ${currentPage === page 
-                            ? "bg-purple-500 text-white" 
-                            : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-purple-50 dark:hover:bg-gray-700"}`}
+              ${currentPage === page
+                            ? 'bg-purple-500 text-white'
+                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-purple-50 dark:hover:bg-gray-700'
+                          }`}
                       >
                         {page}
                       </button>
-                    ));
-                  } else {
-                    const pages = [];
-                    if (currentPage <= 3) {
-                      // Show first 3 pages + ... + last page
-                      for (let i = 1; i <= 3; i++) {
-                        pages.push(i);
-                      }
-                      pages.push('...');
-                      pages.push(totalPages);
-                    } else if (currentPage >= totalPages - 2) {
-                      // Show first page + ... + last 3 pages
-                      pages.push(1);
-                      pages.push('...');
-                      for (let i = totalPages - 2; i <= totalPages; i++) {
-                        pages.push(i);
-                      }
-                    } else {
-                      // Show first page + ... + current-1, current, current+1 + ... + last page
-                      pages.push(1);
-                      pages.push('...');
-                      pages.push(currentPage - 1);
-                      pages.push(currentPage);
-                      pages.push(currentPage + 1);
-                      pages.push('...');
-                      pages.push(totalPages);
-                    }
-
-                    return pages.map((page, index) => (
-                      page === '...' ? (
-                        <span key={`ellipsis-${index}`} className="px-4 py-2">...</span>
-                      ) : (
-                        <button
-                          key={page}
-                          onClick={() => handlePageChange(Number(page))}
-                          className={`px-4 py-2 rounded-full font-medium transition-colors duration-200
-                            ${currentPage === page 
-                              ? "bg-purple-500 text-white" 
-                              : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-purple-50 dark:hover:bg-gray-700"}`}
-                        >
-                          {page}
-                        </button>
-                      )
-                    ));
-                  }
+                    )
+                  );
                 })()}
               </div>
 
@@ -202,6 +190,7 @@ const CertificatePage = () => {
                 </svg>
               </button>
             </div>
+
           </>
         ) : (
           <div className="max-w-md mx-auto text-center py-12">
@@ -229,9 +218,9 @@ const CertificatePage = () => {
                 How Certificates Can Help You
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-300">
-                Earning certificates can enhance your skills, increase your job prospects, 
-                and boost your earning potential. Whether you're looking to change careers, 
-                gain new expertise, or advance in your current role, these credentials provide 
+                Earning certificates can enhance your skills, increase your job prospects,
+                and boost your earning potential. Whether you're looking to change careers,
+                gain new expertise, or advance in your current role, these credentials provide
                 valuable knowledge and can set you apart in a competitive job market.
               </p>
             </div>
@@ -262,9 +251,9 @@ const CertificatePage = () => {
                 </div>
                 <div className="p-8 lg:p-12">
                   <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                    Certification programs offer flexibility, allowing you to learn at your own pace 
-                    and balance other responsibilities. Whether you're working, studying, or managing 
-                    personal commitments, earning a certificate can help you stay competitive, boost 
+                    Certification programs offer flexibility, allowing you to learn at your own pace
+                    and balance other responsibilities. Whether you're working, studying, or managing
+                    personal commitments, earning a certificate can help you stay competitive, boost
                     your skills, and advance in your career without disrupting your life.
                   </p>
                 </div>
