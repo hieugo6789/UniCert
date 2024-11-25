@@ -41,7 +41,7 @@ const useCertificate = () => {
   };
   useEffect(() => {
     fetchCertificates();
-  }, []);
+  }, [dispatch]);
 
   return {
     certificate,
