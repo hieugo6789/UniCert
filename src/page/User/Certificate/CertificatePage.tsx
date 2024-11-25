@@ -15,7 +15,7 @@ const CertificatePage = () => {
   const [certificates, setCertificates] = useState<allCertificationData[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = 16;
 
   useEffect(() => {
     refetchCertificates('', currentPage, itemsPerPage,1);
@@ -23,18 +23,18 @@ const CertificatePage = () => {
 
   useEffect(() => {
     if (certificate.length > 0) {
-      const approvedCertificates = certificate.filter(cert => cert.permission === 'Approve');
-      setCertificates(approvedCertificates);
+      console.log(certificate)
+      setCertificates(certificate);
       
     }
   }, [certificate]);
 
   useEffect(() => {
     if (keyword) {
-      refetchCertificates(keyword, 1, itemsPerPage);
+      refetchCertificates(keyword, 1, itemsPerPage,1);
       setCurrentPage(1);
     } else {
-      refetchCertificates('', currentPage, itemsPerPage);
+      refetchCertificates('', currentPage, itemsPerPage,1);
     }
   }, [keyword]);
 
