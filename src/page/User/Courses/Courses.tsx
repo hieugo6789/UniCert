@@ -35,6 +35,28 @@ const Courses = () => {
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const { wallets, getWalletDetails } = useWalletDetail();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 9; // Số lượng khóa học trên mỗi trang
+  const [searchKeyword, setSearchKeyword] = useState("");
+
+  const changeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(e.target.value);
+  };
+
+  const handleSearch = () => {
+    const filteredCourses = course.filter((c) =>
+      c.courseName.toLowerCase().includes(searchKeyword.toLowerCase())
+    );
+    setCourses(filteredCourses);
+    setTotalPages(Math.ceil(filteredCourses.length / itemsPerPage));
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   useEffect(() => {
     if (userId) {
@@ -82,12 +104,31 @@ const Courses = () => {
     fetchCourses();
   }, []);
 
+  // useEffect(() => {
+  //   if (course.length > 0) {
+  //     const approvedCourses = course.filter(c => c.coursePermission === 'Approve');
+  //     setCourses(approvedCourses);
+  //   }
+  // }, [course]);
   useEffect(() => {
     if (course.length > 0) {
       const approvedCourses = course.filter(c => c.coursePermission === 'Approve');
       setCourses(approvedCourses);
+      setTotalPages(Math.ceil(approvedCourses.length / itemsPerPage));
+      console.log(approvedCourses)
     }
   }, [course]);
+  const paginatedCourses = courses.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Cuộn lên đầu trang
+  };
+
+
+
 
   useEffect(() => {
     if (userId) {
@@ -103,11 +144,11 @@ const Courses = () => {
     setSelectedCourse(courseItem);
     setShowPaymentModal(true);
   };
-  
+
   const handleConfirmPayment = async () => {
     if (!userId || !selectedCourse) return;
-  
-    try {                   
+
+    try {
       const response = await handlePayNow({
         userId: Number(userId),
         simulation_Exams: [],
@@ -118,7 +159,7 @@ const Courses = () => {
 
       showToast("Payment successful", "success");
       setShowPaymentModal(false);
-      
+
       if (userId) {
         refetchCourseEnrollments(userId);
       }
@@ -151,38 +192,71 @@ const Courses = () => {
             Explore Our Training Courses
           </h1>
           <p className="text-center text-lg text-purple-100 max-w-3xl mx-auto">
-            Comprehensive preparation courses designed to help you pass your certification exams.             
+            Comprehensive preparation courses designed to help you pass your certification exams.
           </p>
+        </div>
+      </div>
+      <div className="container mx-auto px-4 -mt-8">
+        <div className="relative w-full max-w-2xl mx-auto mb-8">
+          <input
+            type="text"
+            placeholder="Search for courses..."
+            className="w-full px-6 py-4 rounded-full shadow-lg border-2 border-transparent
+      focus:outline-none focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-800 focus:border-purple-500
+      transition-all duration-300 ease-in-out transform bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+      hover:shadow-xl focus:scale-[1.02]"
+            onChange={changeKeyword}
+            onKeyDown={handleKeyPress}
+          />
+          <button
+            className="absolute right-4 top-1/2 -translate-y-1/2 
+      text-gray-400 hover:text-purple-500 dark:hover:text-purple-400 transition-colors duration-300"
+            onClick={handleSearch}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 transform hover:scale-110 transition-transform duration-300"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
 
       {/* Courses Grid */}
       <div className="container mx-auto px-4 py-16">
-        {courses.length > 0 ? (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {courses.map((course) => {
-            const isInCart = !!(userId && state.currentCart.courseDetails.some((c: any) => c.courseId === course.courseId));
-            const isPurchased = !!(userId && (purchasedCourses || []).some((e) => 
-              (e.courseDetails || []).some((c) => c.courseId.toString() === course.courseId.toString())
-            ));
-            const isPendingPayment = !!(userId && (pendingPaymentCourses || []).some((e) =>
-              (e.courseDetails || []).some((c) => c.courseId.toString() === course.courseId.toString())
-            ));
-            return (
-              <CourseCard
-                key={course.courseId}
-                course={course}
-                onClick={isInCart || isPurchased || isPendingPayment ? undefined : addToCart(course.courseId)}
-                isInCart={isInCart}
-                isPurchased={isPurchased}
-                isPendingPayment={isPendingPayment}
-                onBuyNow={() => handleBuyNow(course)}
-              />
-            );
-              })}
-            </div>
-          </>
+
+        {paginatedCourses.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {paginatedCourses.map((course) => {
+              const isInCart = !!(userId && state.currentCart.courseDetails.some((c: any) => c.courseId === course.courseId));
+              const isPurchased = !!(userId && (purchasedCourses || []).some((e) =>
+                (e.courseDetails || []).some((c) => c.courseId.toString() === course.courseId.toString())
+              ));
+              const isPendingPayment = !!(userId && (pendingPaymentCourses || []).some((e) =>
+                (e.courseDetails || []).some((c) => c.courseId.toString() === course.courseId.toString())
+              ));
+              return (
+                <CourseCard
+                  key={course.courseId}
+                  course={course}
+                  onClick={isInCart || isPurchased || isPendingPayment ? undefined : addToCart(course.courseId)}
+                  isInCart={isInCart}
+                  isPurchased={isPurchased}
+                  isPendingPayment={isPendingPayment}
+                  onBuyNow={() => handleBuyNow(course)}
+                />
+              );
+            })}
+          </div>
         ) : (
           <div className="max-w-md mx-auto text-center py-12">
             <img
@@ -198,6 +272,19 @@ const Courses = () => {
             </p>
           </div>
         )}
+
+      </div>
+      <div className="flex justify-center gap-2 py-8">
+        {Array.from({ length: totalPages }, (_, index) => index + 1).map(page => (
+          <button
+            key={page}
+            onClick={() => handlePageChange(page)}
+            className={`px-4 py-2 rounded ${currentPage === page ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'
+              } hover:bg-purple-500 transition`}
+          >
+            {page}
+          </button>
+        ))}
       </div>
 
       {/* Features Section */}
@@ -209,7 +296,7 @@ const Courses = () => {
                 Prepare for Success with Our Exam Prep Courses
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-300">
-                Our preparation courses are specifically designed to help you master the content 
+                Our preparation courses are specifically designed to help you master the content
                 and format of certification exams. Get ready to pass your certification exam with confidence.
               </p>
             </div>
@@ -253,34 +340,34 @@ const Courses = () => {
           </h2>
           <div className="flex justify-center items-center flex-wrap gap-12">
             <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
-              <img 
-                src={aws} 
-                alt="AWS" 
+              <img
+                src={aws}
+                alt="AWS"
                 className="h-12 md:h-16 object-contain hover:scale-110 transition-transform duration-300 cursor-pointer"
               />
-              <img 
-                src={microsoft} 
-                alt="Microsoft" 
+              <img
+                src={microsoft}
+                alt="Microsoft"
                 className="h-12 md:h-16 object-contain hover:scale-110 transition-transform duration-300 cursor-pointer"
               />
-              <img 
-                src={comptia} 
-                alt="CompTIA" 
+              <img
+                src={comptia}
+                alt="CompTIA"
                 className="h-12 md:h-16 object-contain hover:scale-110 transition-transform duration-300 cursor-pointer"
               />
-              <img 
-                src={cisco} 
-                alt="Cisco" 
+              <img
+                src={cisco}
+                alt="Cisco"
                 className="h-12 md:h-16 object-contain hover:scale-110 transition-transform duration-300 cursor-pointer"
               />
-              <img 
-                src={oracle} 
-                alt="Oracle" 
+              <img
+                src={oracle}
+                alt="Oracle"
                 className="h-12 md:h-16 object-contain hover:scale-110 transition-transform duration-300 cursor-pointer"
               />
-              <img 
-                src={google} 
-                alt="Google" 
+              <img
+                src={google}
+                alt="Google"
                 className="h-12 md:h-16 object-contain hover:scale-110 transition-transform duration-300 cursor-pointer"
               />
             </div>
@@ -314,7 +401,7 @@ const Courses = () => {
             </div>
             <div className="border-t dark:border-gray-600 pt-4">
               <button
-                onClick={handleConfirmPayment}                
+                onClick={handleConfirmPayment}
                 className="w-full px-4 py-2 bg-purple-600 dark:bg-purple-700 text-white rounded-lg font-medium 
                   hover:bg-purple-700 dark:hover:bg-purple-800 transition-colors disabled:bg-purple-300 dark:disabled:bg-purple-500"
               >
