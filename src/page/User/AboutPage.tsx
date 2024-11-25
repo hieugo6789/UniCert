@@ -1,6 +1,10 @@
 import logoLight from "../../assets/images/UniCertLogo.png";
 import logoDark from "../../assets/images/LogoHeader.png";
 import Achie from "../../assets/images/AboutPage/Achievement.png";
+import BinhMinh from "../../assets/images/Avatar/BinhMinh.jpg";
+import ThanhDat from "../../assets/images/Avatar/Dat.jpg";
+import TrungTin from "../../assets/images/Avatar/Tin.jpg";
+import TuanMinh from "../../assets/images/Avatar/TuanMinh.jpg";
 import { useEffect } from "react";
 const achievements = [
   { title: "4 Years in FPT University", description: "Final-year students at FPT University", icon: "📅" },
@@ -18,22 +22,22 @@ const achievements = [
 const leaders = [
   {
     name: "Tuấn Minh",
-    image: "https://www.cdpp.gov.au/system/files/2023-12/Raelene%20Sharp.png",
+    image: TuanMinh,
     role: "Frontend Developer",
   },
   {
     name: "Bình Minh",
-    image: "https://www.cdpp.gov.au/system/files/2023-12/Raelene%20Sharp.png",
+    image: BinhMinh,
     role: "Frontend Developer",
   },
   {
     name: "Thành Đạt",
-    image: "https://www.cdpp.gov.au/system/files/2023-12/Raelene%20Sharp.png",
+    image: ThanhDat,
     role: "Backend Developer",
   },
   {
     name: "Trung Tín",
-    image: "https://www.cdpp.gov.au/system/files/2023-12/Raelene%20Sharp.png",
+    image: TrungTin,
     role: "Frontend Developer",
   },
 ];
