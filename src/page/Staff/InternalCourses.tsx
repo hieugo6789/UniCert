@@ -1,4 +1,4 @@
-import { message, Modal, Table, Tag } from "antd";
+import { message, Modal, Pagination, Table, Tag } from "antd";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import useCourse from "../../hooks/Course/useCourse";
 import { allCoursePaginationData } from "../../models/course";
@@ -14,11 +14,24 @@ import ViewDetailCourse from "../../components/Course/ViewDetailCourse";
 import Coin from "../../assets/images/Coin.png";
 import Notification from "../../components/Notification/Notification";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 const { confirm } = Modal;
 
 const InternalCourses = () => {
   const { course, loading, refetchCourses } = useCourse();
   const { handleDeleteCourse } = useDeleteCourse();
+
+  const [pageSize] = useState(8);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePaginationChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const paginatedData = course.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   const columns = [
     {
@@ -34,7 +47,7 @@ const InternalCourses = () => {
       render: (text: string) => <span className="text-teal-500">{text}</span>,
     },
     {
-      title: "Course Fee",
+      title: "Fee",
       dataIndex: "courseFee",
       key: "courseFee",
       render: (fee: number) => (
@@ -48,7 +61,7 @@ const InternalCourses = () => {
       ),
     },
     {
-      title: "Discount Fee",
+      title: "Discount",
       dataIndex: "courseDiscountFee",
       key: "courseDiscountFee",
       render: (fee: number) => (
@@ -164,7 +177,7 @@ const InternalCourses = () => {
 
   return (
     <>
-      <div className="h-[10vh] flex justify-between items-center bg-gradient-to-r  p-4">
+      <div className="h-[10vh] flex justify-between items-center bg-gradient-to-r p-4">
         <div className="flex items-center ">
           <div>
             <CreateCourse refetchCourses={refetchCourses} />
@@ -187,17 +200,18 @@ const InternalCourses = () => {
         </div>
       </div>
       <div className="gap-4 p-2 h-[90vh]">
-        <div className="col-span-10 bg-white p-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
+        <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
           {loading ? (
             <div className="text-center text-lg text-yellow-500">
               Loading...
             </div>
           ) : course.length > 0 ? (
             <Table
-              dataSource={course}
+              dataSource={paginatedData}
               columns={columns}
               rowKey="courseId"
-              pagination={{ pageSize: 10 }}
+              pagination={false}
+              rowClassName={() => "h-[8.7vh]"}
               className="header-bg-pink"
             />
           ) : (
@@ -205,6 +219,14 @@ const InternalCourses = () => {
               No courses available.
             </div>
           )}
+          <div className="mt-6 flex justify-end">
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              total={course.length}
+              onChange={handlePaginationChange}
+            />
+          </div>
         </div>
       </div>
     </>

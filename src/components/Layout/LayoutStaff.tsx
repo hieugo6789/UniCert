@@ -4,7 +4,7 @@ import MenuStaff from "../Menu/MenuStaff";
 const LayoutStaff = () => {
   return (
     <div className="grid grid-cols-12">
-      <div className="col-span-2">
+      <div className="col-span-2 h-full">
         <MenuStaff />
       </div>
       <div

@@ -1,27 +1,24 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const GoogleLogin = () => {
   const navigate = useNavigate();
 
   const handleGoogleLogin = () => {
-    fetch(
-      "https://certificateinformationportal.azurewebsites.net/google/login-google",
-      {
-        method: "GET",
-        credentials: "include",
-      }
-    )
-      .then((response) => {
-        if (response.ok) {
-          navigate("/");
-        } else {
-          console.error("Đăng nhập thất bại:", response.statusText);
-        }
-      })
-      .catch((error) => {
-        console.error("Có lỗi xảy ra:", error);
-      });
+    // Chuyển hướng người dùng đến API login Google của backend
+    window.location.href =
+      "https://certificateinformationportal.azurewebsites.net/google/login-google";
   };
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const token = queryParams.get("token");
+
+    if (token) {
+      localStorage.setItem("authToken", token);
+      navigate("/");
+    }
+  }, [navigate]);
 
   return (
     <div>
