@@ -60,7 +60,8 @@ const SearchDropdown = ({
   useEffect(() => {
     if (major.length > 0) {
       const filtered = major.filter((maj) =>
-        maj.majorName.toLowerCase().includes(searchTerm.toLowerCase())
+        maj.majorName.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        maj.majorPermission === "Approve"
       );
       setFilteredMajors(filtered);
     }
@@ -69,7 +70,8 @@ const SearchDropdown = ({
   useEffect(() => {
     if (job.length > 0) {
       const filtered = job.filter((j) =>
-        j.jobPositionName.toLowerCase().includes(searchTerm.toLowerCase())
+        j.jobPositionName.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        j.jobPositionPermission === "Approve"
       );
       setFilteredJobs(filtered);
     }
@@ -78,7 +80,8 @@ const SearchDropdown = ({
   useEffect(() => {
     if (course.length > 0) {
       const filtered = course.filter((c) =>
-        c.courseName.toLowerCase().includes(searchTerm.toLowerCase())
+        c.courseName.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        c.coursePermission === "Approve"
       );
       setFilteredCourses(filtered);
     }
