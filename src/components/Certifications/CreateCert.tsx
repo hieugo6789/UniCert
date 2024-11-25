@@ -1,4 +1,4 @@
-import { Button, Input, Modal, Form, InputNumber, Select } from "antd";
+import { Button, Input, Modal, Form, InputNumber, Select, message } from "antd";
 import CustomInput from "../../components/UI/CustomInput";
 import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
@@ -77,6 +77,7 @@ const CreateCert = ({
       setSelectedImage(null);
       setPreviewImage(null);
       setIsModalVisible(false);
+      message.success("Certificate created successfully!");
       refetchCertificates();
     } catch (error) {
       if (axios.isAxiosError(error)) {

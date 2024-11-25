@@ -22,7 +22,7 @@ const useAllCertification = () => {
 
   useEffect(() => {
     fetchAllCertifications();
-  }, [dispatch]);
+  }, []);
   return { certificate, loading };
 };
 export default useAllCertification;

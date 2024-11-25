@@ -21,7 +21,7 @@ const useJob = () => {
   };
   useEffect(() => {
     fetchJobs();
-  }, [dispatch]);
+  }, []);
 
   return { job, loading, refetchJobs: fetchJobs };
 };

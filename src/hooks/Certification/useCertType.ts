@@ -22,7 +22,7 @@ const useCertType = () => {
 
   useEffect(() => {
     fetchCertTypes();
-  }, [dispatch]);
+  }, []);
   return { certType, loading, refetchCertTypes: fetchCertTypes };
 };
 export default useCertType;

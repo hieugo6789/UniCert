@@ -21,7 +21,7 @@ const useSchedule = () => {
   };
   useEffect(() => {
     fetchSchedules();
-  }, [dispatch]);
+  }, []);
 
   return { schedule, loading, refetchSchedule: fetchSchedules };
 };

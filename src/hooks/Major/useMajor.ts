@@ -21,7 +21,7 @@ const useMajor = () => {
   };
   useEffect(() => {
     fetchMajors();
-  }, [dispatch]);
+  }, []);
   return {
     major,
     loading,

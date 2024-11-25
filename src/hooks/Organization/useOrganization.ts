@@ -24,7 +24,7 @@ const useOrganization = () => {
 
   useEffect(() => {
     fetchOrganizations();
-  }, [dispatch]);
+  }, []);
   return { organization, loading, refetchOrganizations: fetchOrganizations };
 };
 export default useOrganization;
