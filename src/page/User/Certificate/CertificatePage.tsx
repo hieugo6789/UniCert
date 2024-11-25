@@ -51,7 +51,11 @@ const CertificatePage = () => {
       });
     }
   };
-
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch(); // Gọi tìm kiếm khi nhấn Enter
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section - Cải thiện */}
@@ -77,6 +81,7 @@ const CertificatePage = () => {
             transition-all duration-300 ease-in-out transform bg-white dark:bg-gray-800 text-gray-900 dark:text-white
             hover:shadow-xl focus:scale-[1.02]"
             onChange={changeKeyword}
+            onKeyDown={handleKeyPress} // Xử lý Enter
           />
           <button
             className="absolute right-4 top-1/2 -translate-y-1/2 
