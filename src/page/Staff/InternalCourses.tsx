@@ -1,4 +1,4 @@
-import { message, Modal, Pagination, Table, Tag } from "antd";
+import { message, Modal, Table, Tag } from "antd";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import useCourse from "../../hooks/Course/useCourse";
 import { allCoursePaginationData } from "../../models/course";
@@ -14,24 +14,11 @@ import ViewDetailCourse from "../../components/Course/ViewDetailCourse";
 import Coin from "../../assets/images/Coin.png";
 import Notification from "../../components/Notification/Notification";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 const { confirm } = Modal;
 
 const InternalCourses = () => {
   const { course, loading, refetchCourses } = useCourse();
   const { handleDeleteCourse } = useDeleteCourse();
-
-  const [pageSize] = useState(8);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const handlePaginationChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  const paginatedData = course.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
 
   const columns = [
     {
@@ -200,18 +187,17 @@ const InternalCourses = () => {
         </div>
       </div>
       <div className="gap-4 p-2 h-[90vh]">
-        <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
+        <div className="col-span-10 bg-white p-2 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
           {loading ? (
             <div className="text-center text-lg text-yellow-500">
               Loading...
             </div>
           ) : course.length > 0 ? (
             <Table
-              dataSource={paginatedData}
+              dataSource={course}
               columns={columns}
               rowKey="courseId"
-              pagination={false}
-              rowClassName={() => "h-[8.7vh]"}
+              pagination={{ pageSize: 7 }}
               className="header-bg-pink"
             />
           ) : (
@@ -219,14 +205,6 @@ const InternalCourses = () => {
               No courses available.
             </div>
           )}
-          <div className="mt-6 flex justify-end">
-            <Pagination
-              current={currentPage}
-              pageSize={pageSize}
-              total={course.length}
-              onChange={handlePaginationChange}
-            />
-          </div>
         </div>
       </div>
     </>

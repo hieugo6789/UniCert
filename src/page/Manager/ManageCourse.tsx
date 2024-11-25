@@ -24,7 +24,7 @@ const ManageCourse = () => {
       render: (text: string) => <span className="text-teal-500">{text}</span>,
     },
     {
-      title: "Course Fee",
+      title: "Fee",
       dataIndex: "courseFee",
       key: "courseFee",
       render: (fee: number) => (
@@ -38,7 +38,7 @@ const ManageCourse = () => {
       ),
     },
     {
-      title: "Discount Fee",
+      title: "Discount",
       dataIndex: "courseDiscountFee",
       key: "courseDiscountFee",
       render: (fee: number) => (
@@ -131,7 +131,7 @@ const ManageCourse = () => {
   return (
     <>
       <div className="gap-4 p-2 h-full">
-        <div className="col-span-10 bg-white p-4 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
+        <div className="col-span-10 bg-white p-2 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
           {loading ? (
             <div className="text-center text-lg text-yellow-500">
               Loading...
@@ -141,7 +141,7 @@ const ManageCourse = () => {
               dataSource={course}
               columns={columns}
               rowKey="courseId"
-              pagination={{ pageSize: 10 }}
+              pagination={{ pageSize: 8 }}
               className="header-bg-pink"
             />
           ) : (
