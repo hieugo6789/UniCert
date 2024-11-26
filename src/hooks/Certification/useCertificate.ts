@@ -3,7 +3,17 @@ import { useAppDispatch } from "../../redux/hook";
 import { allCertificationData, metaData } from "../../models/certificate";
 import { fetchAllCertificatePagination } from "../../redux/slice/Certification/certificateSlice";
 
-const useCertificate = () => {
+interface UseCertificateProps {
+  searchKeyWord?: string;
+  pageNumber?: number;
+  pageSize?: number;
+  permission?: number;
+}
+const useCertificate = ({
+  searchKeyWord,
+  pageNumber,
+  pageSize,
+}: UseCertificateProps) => {
   const dispatch = useAppDispatch();
   const [certificate, setCertificate] = useState<allCertificationData[]>([]);
   const [metaData, setMetaData] = useState<metaData>({
@@ -40,8 +50,8 @@ const useCertificate = () => {
     }
   };
   useEffect(() => {
-    fetchCertificates();
-  }, [dispatch]);
+    fetchCertificates(searchKeyWord, pageNumber, pageSize);
+  }, []);
 
   return {
     certificate,

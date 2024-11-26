@@ -1,5 +1,5 @@
 import CertificateCard from "../../../components/Certifications/CertificateCard";
-import banner from "../../../assets/images/Certification/banner1.jpg"
+import banner from "../../../assets/images/Certification/banner1.jpg";
 import { useEffect, useState } from "react";
 import { allCertificationData } from "../../../models/certificate";
 import useCertificate from "../../../hooks/Certification/useCertificate";
@@ -9,14 +9,17 @@ import useTopCert from "../../../hooks/Certification/useTopCert";
 
 const CertificatePage = () => {
   const { certificate: topCert } = useTopCert({ topN: 2 });
-
-  const [keyword, setKeyword] = useState("");
-  const [searchKeyword, setSearchKeyword] = useState(""); // Từ khóa sẽ được dùng để tìm kiếm
-  const { certificate, loading, metaData, refetchCertificates } = useCertificate();
-  const [certificates, setCertificates] = useState<allCertificationData[]>([]);
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 16;
+  const [keyword, setKeyword] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const { certificate, loading, metaData, refetchCertificates } =
+    useCertificate({
+      searchKeyWord: searchKeyword,
+      pageNumber: currentPage,
+      pageSize: itemsPerPage,
+    });
+  const [certificates, setCertificates] = useState<allCertificationData[]>([]);
 
   useEffect(() => {
     refetchCertificates(searchKeyword, currentPage, itemsPerPage, 1);
@@ -34,7 +37,6 @@ const CertificatePage = () => {
     setCurrentPage(1); // Reset về trang đầu
     setSearchKeyword(keyword); // Cập nhật từ khóa tìm kiếm
   };
-
 
   // Hàm thay đổi từ khóa
   const changeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +67,8 @@ const CertificatePage = () => {
             Take your career to the next level with certificates
           </h1>
           <p className="text-center text-lg text-purple-100">
-            Discover professional certifications to enhance your skills and advance your career
+            Discover professional certifications to enhance your skills and
+            advance your career
           </p>
         </div>
       </div>
@@ -112,7 +115,10 @@ const CertificatePage = () => {
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {certificates.map((cert, index) => (
-                <CertificateCard key={index} {...cert} />
+                <CertificateCard
+                  key={index}
+                  {...cert}
+                />
               ))}
             </div>
 
@@ -123,8 +129,18 @@ const CertificatePage = () => {
                 disabled={currentPage === 1}
                 className="p-2 rounded-full bg-white dark:bg-gray-800 shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </button>
 
@@ -143,29 +159,32 @@ const CertificatePage = () => {
                     for (let i = 1; i <= 4; i++) {
                       pages.push(i);
                     }
-                    pages.push('...');
+                    pages.push("...");
                     pages.push(totalPages);
                   } else if (currentPage >= totalPages - 3) {
                     // Hiển thị trang đầu + ... + 4 trang cuối
                     pages.push(1);
-                    pages.push('...');
+                    pages.push("...");
                     for (let i = totalPages - 3; i <= totalPages; i++) {
                       pages.push(i);
                     }
                   } else {
                     // Hiển thị trang đầu + ... + current-1, current, current+1 + ... + trang cuối
                     pages.push(1);
-                    pages.push('...');
+                    pages.push("...");
                     pages.push(currentPage - 1);
                     pages.push(currentPage);
                     pages.push(currentPage + 1);
-                    pages.push('...');
+                    pages.push("...");
                     pages.push(totalPages);
                   }
 
                   return pages.map((page, index) =>
-                    page === '...' ? (
-                      <span key={`ellipsis-${index}`} className="px-4 py-2">
+                    page === "..." ? (
+                      <span
+                        key={`ellipsis-${index}`}
+                        className="px-4 py-2"
+                      >
                         ...
                       </span>
                     ) : (
@@ -173,10 +192,11 @@ const CertificatePage = () => {
                         key={page}
                         onClick={() => handlePageChange(Number(page))}
                         className={`px-4 py-2 rounded-full font-medium transition-colors duration-200
-              ${currentPage === page
-                            ? 'bg-purple-500 text-white'
-                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-purple-50 dark:hover:bg-gray-700'
-                          }`}
+              ${
+                currentPage === page
+                  ? "bg-purple-500 text-white"
+                  : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-purple-50 dark:hover:bg-gray-700"
+              }`}
                       >
                         {page}
                       </button>
@@ -190,12 +210,21 @@ const CertificatePage = () => {
                 disabled={currentPage === metaData.totalPages}
                 className="p-2 rounded-full bg-white dark:bg-gray-800 shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
             </div>
-
           </>
         ) : (
           <div className="max-w-md mx-auto text-center py-12">
@@ -205,8 +234,12 @@ const CertificatePage = () => {
               className="w-full rounded-xl shadow-lg mb-6"
             />
             <p className="text-gray-600 dark:text-gray-300">
-              We couldn't find any certificates. Please try a different search or{' '}
-              <Link to="/" className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium">
+              We couldn't find any certificates. Please try a different search
+              or{" "}
+              <Link
+                to="/"
+                className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium"
+              >
                 return to homepage
               </Link>
             </p>
@@ -223,15 +256,19 @@ const CertificatePage = () => {
                 How Certificates Can Help You
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-300">
-                Earning certificates can enhance your skills, increase your job prospects,
-                and boost your earning potential. Whether you're looking to change careers,
-                gain new expertise, or advance in your current role, these credentials provide
-                valuable knowledge and can set you apart in a competitive job market.
+                Earning certificates can enhance your skills, increase your job
+                prospects, and boost your earning potential. Whether you're
+                looking to change careers, gain new expertise, or advance in
+                your current role, these credentials provide valuable knowledge
+                and can set you apart in a competitive job market.
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {topCert.map((cert) => (
-                <CertificateCard key={cert.certId} {...cert} />
+                <CertificateCard
+                  key={cert.certId}
+                  {...cert}
+                />
               ))}
             </div>
           </div>
@@ -256,10 +293,12 @@ const CertificatePage = () => {
                 </div>
                 <div className="p-8 lg:p-12">
                   <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                    Certification programs offer flexibility, allowing you to learn at your own pace
-                    and balance other responsibilities. Whether you're working, studying, or managing
-                    personal commitments, earning a certificate can help you stay competitive, boost
-                    your skills, and advance in your career without disrupting your life.
+                    Certification programs offer flexibility, allowing you to
+                    learn at your own pace and balance other responsibilities.
+                    Whether you're working, studying, or managing personal
+                    commitments, earning a certificate can help you stay
+                    competitive, boost your skills, and advance in your career
+                    without disrupting your life.
                   </p>
                 </div>
               </div>
