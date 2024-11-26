@@ -7,13 +7,16 @@ import useCertPermission from "../../hooks/Certification/useCertPermission";
 import { SearchOutlined } from "@ant-design/icons";
 
 const ManageCertification = () => {
-  const { certificate, loading, refetchCertificates, metaData } =
-    useCertificate();
   const { updatePermissionCertDetails } = useCertPermission();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const { certificate, loading, refetchCertificates, metaData } =
+    useCertificate({
+      searchKeyWord: searchTerm,
+      pageNumber: currentPage,
+      pageSize: pageSize,
+    });
   // Xử lý tìm kiếm
   const handleSearch = () => {
     setCurrentPage(1);
