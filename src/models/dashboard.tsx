@@ -8,3 +8,15 @@ export interface summaryDashboard {
   totalPoint: number;
   totalAmountOfTopUp: number;
 }
+export interface PieChartModel {
+  totalStudents: number;
+  percentageTotalStudents: number;
+  onlyEnrolledInCourse: number;
+  percentageOnlyEnrolledInCourse: number;
+  onlyPurchaseSimulationExams: number;
+  percentageOnlyPurchaseSimulationExams: number;
+  purchaseBoth: number;
+  percentagePurchaseBoth: number;
+  purchaseNothing: number;
+  percentagePurchaseNothing: number;
+}

@@ -42,13 +42,13 @@ const Summary = () => {
         <p className="text-gray-500">Total Exams</p>
       </div>
       <div className="border-l border-gray-200 h-8"></div>
-      <div className="text-center">
+      {/* <div className="text-center">
         <p className="text-2xl font-semibold">
           {summary.totalCourses.toLocaleString()}
         </p>
         <p className="text-gray-500">Total Courses</p>
       </div>
-      <div className="border-l border-gray-200 h-8"></div>
+      <div className="border-l border-gray-200 h-8"></div> */}
 
       <div className="text-center">
         <div className="flex items-center">

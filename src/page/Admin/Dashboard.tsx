@@ -4,6 +4,7 @@ import Summary from "../../components/Dashboard/Summary";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import useMonthlyRevenue from "../../hooks/Dashboard/useMonthlyRevenue";
 import AdminNotification from "../../components/Notification/AdminNotification";
+import PieChart from "../../components/Dashboard/PieChart";
 
 const Dashboard = () => {
   const [year, setYear] = useState<number>(2024);
@@ -27,8 +28,11 @@ const Dashboard = () => {
           <AvatarAdmin />
         </div>
       </div>
-      <div className="gap-4 p-2 h-[91vh]">
-        <Summary />
+      <div className="gap-4 p-2 min-h-[91vh]">
+        <div className="w-full">
+          <Summary />
+        </div>
+        <PieChart />
         <AdminChart
           data={revenue}
           year={year}

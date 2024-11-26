@@ -16,13 +16,16 @@ import Notification from "../../components/Notification/Notification";
 const { confirm } = Modal;
 
 const Certificate = () => {
-  const { certificate, loading, refetchCertificates, metaData } =
-    useCertificate();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
   const { handleDeleteCertificate } = useDeleteCertificate();
   const [searchTerm, setSearchTerm] = useState("");
-
+  const { certificate, loading, refetchCertificates, metaData } =
+    useCertificate({
+      searchKeyWord: searchTerm,
+      pageNumber: currentPage,
+      pageSize: pageSize,
+    });
   // Xử lý tìm kiếm
   const handleSearch = () => {
     setCurrentPage(1);
