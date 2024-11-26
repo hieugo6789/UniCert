@@ -218,13 +218,9 @@ const Cart = () => {
         
         showToast("Payment Success", "success");
       } catch (error: any) {
-        showToast(`${error.response?.data?.message || "Unknown error"}`, "error");
         setSelectedCourses([]);
         setSelectedExams([]);
-        await getCart(userId?.toString() || "");
-        
-        // Cập nhật wallet balance sau khi thanh toán thành công
-        await getWalletDetails(userId?.toString() || "", transactionId);
+        showToast(`${error.response?.data?.message || "Unknown error"}`, "error");                                
       }
     }else{
       setSelectedCourses([]);
