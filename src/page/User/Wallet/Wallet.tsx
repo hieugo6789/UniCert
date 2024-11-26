@@ -126,8 +126,6 @@ const Wallet = () => {
         title="Top Up Wallet"
         isOpen={isModalVisible}
         onClose={handleCancel}
-        // footer={null}
-        // width={600}
       >
         <TopUpWallet />
       </CustomModal>
