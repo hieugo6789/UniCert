@@ -35,7 +35,7 @@ const Wallet = () => {
       getWalletDetails(userId, transactionId);
       window.location.reload();
     }
-  }, [userId, transactionId]);
+  }, [transactionId]);
 
   const handlePlusCoin = () => {
     setIsModalVisible(true);
