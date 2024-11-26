@@ -17,6 +17,7 @@ const useUpdateFeedback = () => {
       const response = await agent.FeedBack.updateFeedback(Id, data);
       console.log("Response:", response);
       dispatch(UpdateDetailFeedbackSuccess(response.data));
+      return response;
     } catch (error: any) {
       console.error("Update error:", error);
       if (error.response) {
@@ -27,6 +28,7 @@ const useUpdateFeedback = () => {
           error.message || "Failed to update feedback detail"
         )
       );
+      return null;
     }
   };
 

@@ -109,7 +109,7 @@ const ExamFeedback = () => {
             }
     
             // Update feedback details including description and the new image (if any)
-            await updateFeedbackDetails(feedbackId, {
+            const response = await updateFeedbackDetails(feedbackId, {
                 feedbackDescription: editingFeedback[feedbackId],
                 feedbackImage: updatedFeedbackImage || "", // If no new image, keep it blank
             });
@@ -120,7 +120,11 @@ const ExamFeedback = () => {
                 delete updated[feedbackId]; // Remove the edited feedback from the state
                 return updated;
             });
-            showToast("Feedback update successfully", "success");
+            if (response?.data.feedbackPermission == false) {
+                showToast("Your feedback contains inappropriate content and is pending review.", "error");
+            } else {
+                showToast("Feedback updated successfully", "success");
+            }
             refetchFeedbacks(Number(id));
         }
     };
