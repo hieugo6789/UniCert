@@ -133,12 +133,6 @@ const CheckStudentEnrollCode = () => {
                         <p className="text-sm text-gray-600">
                           Time: {course.courseTime}
                         </p>
-                        <p className="text-sm text-gray-600">
-                          Fee:{" "}
-                          <span className="font-medium text-green-600">
-                            ${course.courseDiscountFee || course.courseFee}
-                          </span>
-                        </p>
                       </div>
                     </li>
                   )

@@ -27,13 +27,13 @@ const Wallet = () => {
     const transIdNumber = parseInt(transIdFromPath, 10);
     if (!isNaN(transIdNumber)) {
       setTransactionId(transIdNumber);
-      console.log("Transaction ID from URL:", transIdNumber);
     }
   }, [location.pathname]);
 
   useEffect(() => {
     if (userId) {
       getWalletDetails(userId, transactionId);
+      window.location.reload();
     }
   }, [userId, transactionId]);
 
@@ -66,7 +66,9 @@ const Wallet = () => {
 
       <div className="flex justify-center min-h-[30vh]">
         <div className="w-full max-w-3xl">
-          <h1 className="text-2xl font-bold dark:text-white">History payment</h1>
+          <h1 className="text-2xl font-bold dark:text-white">
+            History payment
+          </h1>
           <div>
             {parsedUserId && historyTransaction.length > 0 ? (
               historyTransaction
@@ -130,7 +132,6 @@ const Wallet = () => {
       >
         <TopUpWallet />
       </CustomModal>
-      
     </>
   );
 };
