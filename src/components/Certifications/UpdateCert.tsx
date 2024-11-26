@@ -201,7 +201,7 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
             name="certImage"
           >
             <img
-              src={previewImage || certDetailState.currentCert.certImage}
+              src={previewImage || certDetailState.currentCert?.certImage || ""}
               alt="Current Image"
               className="w-32 h-32 bg-gray-300 mb-4"
             />
