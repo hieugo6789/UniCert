@@ -33,9 +33,8 @@ const Wallet = () => {
   useEffect(() => {
     if (userId) {
       getWalletDetails(userId, transactionId);
-      window.location.reload();
     }
-  }, [transactionId]);
+  }, [userId, transactionId]);
 
   const handlePlusCoin = () => {
     setIsModalVisible(true);
