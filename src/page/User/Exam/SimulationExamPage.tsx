@@ -4,17 +4,23 @@ import QuestionCard from "../../../components/Exam/QuestionCard";
 import CustomButton from "../../../components/UI/CustomButton";
 import useExamDetail from "../../../hooks/SimulationExam/useExamDetail";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import Cookies from 'js-cookie';
+import { showToast } from '../../../utils/toastUtils';
+import useExamEnrollment from '../../../hooks/Enrollment/useExam';
 type Answer = {
   questionId: number;
   userAnswerId: number[];
 };
 const SimulationExamPage = () => {
   const id = Number(useParams().id || 0);
+  const userId = Cookies.get("userId");
   const [questions, setQuestions] = useState<any[]>([]);
   const { state, getExamDetails } = useExamDetail();
   const [duration, setDuration] = useState(0);
   const location = useLocation();
   const [isInitialized, setIsInitialized] = useState(false);
+  const { examEnrollment, refetchExamEnrollments } = useExamEnrollment({ userId: userId || "" });
+  const [isPurchased, setIsPurchased] = useState(false);
 
   useEffect(() => {
     const fetchExamDetails = async () => {
@@ -22,6 +28,30 @@ const SimulationExamPage = () => {
     };
     fetchExamDetails();
   }, [id]);
+
+  useEffect(() => {
+    if (!userId) {
+        showToast("Please login to access this page", "error");
+        navigate('/login');
+        return;
+    }    
+    refetchExamEnrollments(userId || "");
+  }, [userId]);
+
+  useEffect(() => {        
+    const checkExamPurchase = () => {
+        const purchased = examEnrollment.some(
+            (e) => e.examEnrollmentStatus === "Completed" && 
+            e.simulationExamDetail.some(
+                (simExam) => simExam.examId === Number(id)
+            )
+        );
+        console.log("Test", purchased);
+        setIsPurchased(purchased);
+    };
+
+    checkExamPurchase();
+  }, [userId, id, examEnrollment]);
   
   useEffect(() => {
     // Skip if already initialized or no exam data
@@ -166,6 +196,23 @@ const SimulationExamPage = () => {
     newAnswers[questionIndex] = [];
     setSelectedAnswers(newAnswers);
   };
+
+  if (!isPurchased) {
+    return (
+        <div className="max-w-7xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+            <div className="text-center py-12">
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">Please Purchase This Exam First</h2>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">You need to purchase this exam before you can access its details.</p>
+                <button
+                    onClick={() => navigate("/certificate")}
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200"
+                >
+                    Go Back
+                </button>
+            </div>
+        </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-5 min-h-screen bg-gray-100 dark:bg-gray-900">

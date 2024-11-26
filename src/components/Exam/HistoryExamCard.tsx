@@ -44,8 +44,8 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment, onStat
       if (onStatusChange) {
         onStatusChange();
       }
-    } catch (error) {
-      showToast("Payment failed", "error");
+    } catch (error: any) {
+      showToast(`${error.response?.data?.message || "Unknown error"}`, "error");  
     }
   };
 

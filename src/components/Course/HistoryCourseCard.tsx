@@ -43,8 +43,8 @@ const HistoryCourseCard: React.FC<HistoryCourseCardProps> = ({ enrollment, onSta
       if (onStatusChange) {
         onStatusChange();
       }
-    } catch (error) {
-      showToast("Payment failed", "error");
+    } catch (error: any) {
+      showToast(`${error.response?.data?.message || "Unknown error"}`, "error");  
     }
   };
 
