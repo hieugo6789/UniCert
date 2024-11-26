@@ -6,25 +6,45 @@ const { Option } = Select;
 
 interface UpdatePermissionProps {
   Id: number;
-  refetch: () => void;
+  refetch: (
+    searchTerm?: string,
+    pageNumber?: number,
+    pageSize?: number
+  ) => void;
   updateFunction: (Id: number, status: number) => Promise<void>;
+  searchTerm?: string; // Tìm kiếm
+  currentPage?: number; // Trang hiện tại (tuỳ chọn)
+  pageSize?: number; // Số mục trên mỗi trang (tuỳ chọn)
 }
 
 const UpdatePermission: React.FC<UpdatePermissionProps> = ({
   Id,
   refetch,
   updateFunction,
+  searchTerm,
+  currentPage,
+  pageSize,
 }) => {
-  const [selectedStatus, setSelectedStatus] = useState<number>(1);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState<number>(1); // Giá trị trạng thái
+  const [isModalVisible, setIsModalVisible] = useState(false); // Kiểm soát hiển thị modal
 
+  // Xử lý cập nhật trạng thái
   const handleUpdate = async () => {
     try {
       await updateFunction(Id, selectedStatus);
-      console.log(selectedStatus);
       message.success("Updated successfully!");
-      refetch();
-      setIsModalVisible(false); // Close the modal after update
+
+      if (searchTerm && currentPage && pageSize) {
+        refetch(searchTerm, currentPage, pageSize);
+      } else if (searchTerm) {
+        refetch(searchTerm);
+      } else if (currentPage && pageSize) {
+        refetch("", currentPage, pageSize);
+      } else {
+        refetch();
+      }
+
+      setIsModalVisible(false); // Đóng modal sau khi cập nhật
     } catch (error) {
       message.error("Failed to update.");
     }
@@ -33,7 +53,7 @@ const UpdatePermission: React.FC<UpdatePermissionProps> = ({
   return (
     <>
       <EditOutlined
-        onClick={() => setIsModalVisible(true)}
+        onClick={() => setIsModalVisible(true)} // Hiển thị modal khi click
         className="ml-3"
       />
       <Modal
@@ -43,6 +63,7 @@ const UpdatePermission: React.FC<UpdatePermissionProps> = ({
         footer={null}
       >
         <div className="flex flex-col space-y-4">
+          {/* Dropdown chọn trạng thái */}
           <Select
             value={selectedStatus}
             onChange={(value) => setSelectedStatus(value)}
@@ -53,6 +74,7 @@ const UpdatePermission: React.FC<UpdatePermissionProps> = ({
             <Option value={1}>Approve</Option>
             <Option value={2}>Reject</Option>
           </Select>
+          {/* Các nút hành động */}
           <div className="flex justify-end">
             <Button
               onClick={() => setIsModalVisible(false)}

@@ -98,6 +98,9 @@ const ManageCertification = () => {
           <UpdatePermission
             Id={record.certId}
             refetch={refetchCertificates}
+            searchTerm={searchTerm}
+            currentPage={currentPage}
+            pageSize={pageSize}
             updateFunction={updatePermissionCertDetails}
           />
         </>
