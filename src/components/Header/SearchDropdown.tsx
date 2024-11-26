@@ -132,7 +132,7 @@ const SearchDropdown = ({
           placeholder="Search certifications, courses..."
           className={`w-full px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 ${
             isMobile
-              ? "bg-gray-800 dark:bg-gray-800 text-black dark:text-white placeholder:text-gray-400 rounded-lg"
+              ? "bg-gray-200 dark:bg-gray-800 text-black dark:text-white placeholder:text-gray-400 rounded-lg"
               : "bg-gray-200 dark:bg-gray-800 text-black dark:text-white rounded-full"
           }`}
         />
