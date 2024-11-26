@@ -55,6 +55,8 @@ import ResetPassword from "./page/Login&Register/ResetPassword";
 import ManageStudents from "./page/Staff/ManageStudents";
 import CheckStudentEnrollCode from "./components/Course/CheckStudentEnrollCode";
 import CourseEnrollDetailPage from "./page/User/Courses/CourseEnrollDetailPage";
+import Organization from "./page/User/Organization/Organization";
+import OrganizationDetail from "./page/User/Organization/OrganizationDetail";
 
 const Layout = () => {
   return (
@@ -96,6 +98,8 @@ function App() {
         { path: "/exam/:id/simulation/submit", element: <SubmitExamPage /> },
         { path: "/exam/:id/simulation/result", element: <ExamResultPage /> },
         { path: "/enrollment/:id", element: <CourseEnrollDetailPage /> },
+        { path: "/organization",element: <Organization/>},
+        { path: "/organization/:id",element: <OrganizationDetail/>},
         { path: "/login", element: <Login /> },
         { path: "/register", element: <Register /> },
         { path: "/profile", element: <Profile /> },
