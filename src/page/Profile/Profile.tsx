@@ -343,7 +343,7 @@ const Profile = () => {
                       </label>
                       <Field name="dob">
                         {({ field, form }: any) => {
-                          const formatDate = (date: any) => {
+                          const formatDateToInput = (date: string | null) => {
                             if (!date) return '';
                             try {
                               const d = new Date(date);
@@ -354,24 +354,30 @@ const Profile = () => {
                             }
                           };
 
-                          const parseDate = (dateStr: string) => {
+                          const parseInputToDate = (dateStr: string) => {
                             if (!dateStr) return null;
                             const [day, month, year] = dateStr.split('/');
-                            return `${year}-${month}-${day}`;
+                            if (!day || !month || !year) return null;
+                            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
                           };
 
                           return (
                             <input
-                              type="date"
+                              type="text"
                               {...field}
-                              value={parseDate(formatDate(field.value))}
+                              value={field.value ? formatDateToInput(field.value) : ''}
                               onChange={(e) => {
-                                const date = e.target.value ? new Date(e.target.value) : null;
-                                form.setFieldValue('dob', date);
+                                const value = e.target.value;
+                                if (/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+                                  form.setFieldValue('dob', parseInputToDate(value));
+                                } else {
+                                  form.setFieldValue('dob', value); // Giữ lại giá trị người dùng nhập nếu không hợp lệ
+                                }
                               }}
+                              placeholder="dd/mm/yyyy"
                               className={`w-full px-4 py-2 rounded-lg border ${
-                                !isEditing 
-                                  ? 'bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400' 
+                                !isEditing
+                                  ? 'bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
                                   : 'border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-gray-300'
                               }`}
                               disabled={!isEditing}
