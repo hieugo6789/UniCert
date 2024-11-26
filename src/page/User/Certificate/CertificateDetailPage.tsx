@@ -23,6 +23,8 @@ const CertificateDetailPage = () => {
   const [filteredCourses, setFilteredCourses] = useState<allCoursePaginationData[]>([]);
   const { course, refetchCourses } = useCourse();
   const { feedback } = useFeedbackByCertId({ certId: id });
+  const [showAllMajors, setShowAllMajors] = useState(false);
+  const [showAllJobPositions, setShowAllJobPositions] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -176,7 +178,140 @@ const CertificateDetailPage = () => {
                           No prerequisites certificate
                         </p>
                       )}
+                    </div>                    
+
+                    {/* Majors Section */}
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Majors</h3>
+                      {cert?.majorNames && cert?.majorIds && cert.majorNames.length > 0 ? (
+                        <div>
+                          <div className="flex flex-wrap gap-2">
+                            {cert.majorNames.slice(0, showAllMajors ? cert.majorNames.length : 2).map((name: string, index: number) => {
+                              const id = cert.majorIds[index];
+                              if (!name || !id) return null;
+
+                              return (
+                                <button
+                                  key={id}
+                                  onClick={() => navigate(`/major/${id}`)}
+                                  className="inline-flex items-center px-3 py-1.5 
+                                    bg-purple-50 dark:bg-purple-900 hover:bg-purple-100 dark:hover:bg-purple-800
+                                    text-purple-700 dark:text-purple-200 rounded-full text-sm font-medium 
+                                    transition-transform transform hover:scale-105
+                                    border border-purple-200 dark:border-purple-700 hover:border-purple-300 dark:hover:border-purple-600
+                                    group"
+                                >
+                                  {name}
+                                </button>
+                              );
+                            })}
+                          </div>
+                          {cert.majorNames.length > 2 && (
+                            <button
+                              onClick={() => setShowAllMajors(!showAllMajors)}
+                              className="mt-3 flex items-center text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline transition-all duration-200"
+                            >
+                              {showAllMajors ? (
+                                <>
+                                  Show Less
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-4 w-4 ml-1 text-purple-600 dark:text-purple-400"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                  >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                  </svg>
+                                </>
+                              ) : (
+                                <>
+                                  Show More
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-4 w-4 ml-1 text-purple-600 dark:text-purple-400"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                  >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                                  </svg>
+                                </>
+                              )}
+                            </button>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-gray-600 dark:text-gray-300 italic flex items-center">No majors suitable for this certificate</p>
+                      )}
                     </div>
+
+                    {/* Job Positions Section */}
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Job Positions</h3>
+                      {cert?.jobPositionNames && cert?.jobPositionIds && cert.jobPositionNames.length > 0 ? (
+                        <div>
+                          <div className="flex flex-wrap gap-2">
+                            {cert.jobPositionNames.slice(0, showAllJobPositions ? cert.jobPositionNames.length : 2).map((name: string, index: number) => {
+                              const id = cert.jobPositionIds[index];
+                              if (!name || !id) return null;
+
+                              return (
+                                <button
+                                  key={id}
+                                  onClick={() => navigate(`/job/${id}`)}
+                                  className="inline-flex items-center px-3 py-1.5 
+                                    bg-purple-50 dark:bg-purple-900 hover:bg-purple-100 dark:hover:bg-purple-800
+                                    text-purple-700 dark:text-purple-200 rounded-full text-sm font-medium 
+                                    transition-transform transform hover:scale-105
+                                    border border-purple-200 dark:border-purple-700 hover:border-purple-300 dark:hover:border-purple-600
+                                    group"
+                                >
+                                  {name}
+                                </button>
+                              );
+                            })}
+                          </div>
+                          {cert.jobPositionNames.length > 2 && (
+                            <button
+                              onClick={() => setShowAllJobPositions(!showAllJobPositions)}
+                              className="mt-3 flex items-center text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline transition-all duration-200"
+                            >
+                              {showAllJobPositions ? (
+                                <>
+                                  Show Less
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-4 w-4 ml-1 text-purple-600 dark:text-purple-400"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                  >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                  </svg>
+                                </>
+                              ) : (
+                                <>
+                                  Show More
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-4 w-4 ml-1 text-purple-600 dark:text-purple-400"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                  >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                                  </svg>
+                                </>
+                              )}
+                            </button>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-gray-600 dark:text-gray-300 italic flex items-center">No job positions suitable for this certificate</p>
+                      )}
+                    </div>
+
                     <div>
                       <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Validity Period</h3>
                       <p className="text-gray-800 dark:text-gray-200">{cert?.certValidity || "Permanent certificate"}</p>
