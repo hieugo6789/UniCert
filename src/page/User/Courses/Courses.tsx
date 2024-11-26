@@ -168,9 +168,11 @@ const Courses = () => {
         navigate(`/enrollment/${response.data.courseEnrollmentId}`);
       }
 
-    } catch (error) {
-      if (error)
-      showToast(`Insufficient balance in wallet`, "error");
+    } catch (error: any) {
+      showToast(`${error.response?.data?.message || "Unknown error"}`, "error");
+      if (userId) {
+        refetchCourseEnrollments(userId);
+      }
     }
   };
 

@@ -19,6 +19,7 @@ export function useCreatePayment() {
     } catch (error) {
       console.error("Error creating payment:", error);
       dispatch(createPaymentFailure());
+      throw error
     }
   };
 

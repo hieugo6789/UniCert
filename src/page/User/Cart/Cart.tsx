@@ -217,8 +217,8 @@ const Cart = () => {
         await getWalletDetails(userId?.toString() || "", transactionId);
         
         showToast("Payment Success", "success");
-      } catch (error) {
-        showToast(`Payment Error: ${error}`, "error");
+      } catch (error: any) {
+        showToast(`${error.response?.data?.message || "Unknown error"}`, "error");
       }
     }else{
       setSelectedCourses([]);
