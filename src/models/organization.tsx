@@ -4,6 +4,19 @@ export interface allOrganizationPaginationData {
   organizeAddress: string;
   organizeContact: string;
   organizePermission: string;
+  certificationDetails: [
+    {
+      certId: number;
+      certName: string;
+      certCode: string;
+      certDescription: string;
+      certImage: string;
+      typeName: string;
+      organizeName: string;
+      certValidity: string;
+      permission: string;
+    }
+  ];
 }
 
 export interface currentOrganization {
@@ -12,6 +25,19 @@ export interface currentOrganization {
   organizeAddress: string;
   organizeContact: string;
   organizePermission: string;
+  certificationDetails: [
+    {
+      certId: number;
+      certName: string;
+      certCode: string;
+      certDescription: string;
+      certImage: string;
+      typeName: string;
+      organizeName: string;
+      certValidity: string;
+      permission: string;
+    }
+  ];
 }
 export interface createOrganizationModel {
   organizeName: string;
