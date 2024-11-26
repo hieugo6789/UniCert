@@ -26,6 +26,12 @@
 .prose li {
   @apply mb-2; /* Adds some margin below each list item */
 }
+.prose h2 {
+  @apply text-2xl font-bold;
+}
+.prose h2 {
+  @apply text-3xl font-bold;
+}
 .vertical-text {
   writing-mode: vertical-lr;
   transform: rotate(180deg);

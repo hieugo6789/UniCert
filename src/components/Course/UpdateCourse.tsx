@@ -5,6 +5,7 @@ import { Form, Input, message, Modal, Select } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import axios from "axios";
 import useAllCertification from "../../hooks/Certification/useAllCertification";
+import MyEditor from "../Editor/MyEditor";
 
 interface UpdateCourseProps {
   courseId: string;
@@ -169,7 +170,12 @@ const UpdateCourse: React.FC<UpdateCourseProps> = ({
               },
             ]}
           >
-            <Input placeholder="Enter Course description" />
+            <MyEditor
+              value={form.getFieldValue("courseDescription")}
+              onChange={(content) =>
+                form.setFieldsValue({ courseDescription: content })
+              }
+            />
           </Form.Item>
           <Form.Item
             label="Fee"
