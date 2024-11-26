@@ -169,7 +169,8 @@ const Courses = () => {
       }
 
     } catch (error) {
-      showToast(`Payment failed: ${error}`, "error");
+      if (error)
+      showToast(`Insufficient balance in wallet`, "error");
     }
   };
 

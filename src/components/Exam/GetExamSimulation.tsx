@@ -129,7 +129,8 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
       setShowPaymentModal(false);
       handleCancel();
     } catch (error) {
-      showToast(`Payment failed: ${error}`, "error");
+      if (error)
+        showToast(`Insufficient balance in wallet`, "error");
     } finally {
       setIsProcessing(false);
     }
