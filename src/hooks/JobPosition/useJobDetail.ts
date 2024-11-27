@@ -19,7 +19,7 @@ const useJobDetail = () => {
       dispatch(JobDetailFailure());
     }
   };
-  const jobDetailByOrganize = async (jobId: number, organizeId: number) => {
+  const jobDetailByOrganize = async (jobId: number, organizeId?: number) => {
     dispatch(JobDetailsStart());
     try {
       const response = await agent.JobPosition.getJobFilterByOrganization(
