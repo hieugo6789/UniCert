@@ -19,6 +19,19 @@ const useJobDetail = () => {
       dispatch(JobDetailFailure());
     }
   };
-  return { state, getJobDetails };
+  const jobDetailByOrganize = async (jobId: number, organizeId: number) => {
+    dispatch(JobDetailsStart());
+    try {
+      const response = await agent.JobPosition.getJobFilterByOrganization(
+        jobId,
+        organizeId
+      );
+      dispatch(JobDetailSuccess(response.data));
+    } catch (error) {
+      console.error("Error fetching Job details:", error);
+      dispatch(JobDetailFailure());
+    }
+  };
+  return { state, getJobDetails, jobDetailByOrganize };
 };
 export default useJobDetail;
