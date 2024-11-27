@@ -71,6 +71,7 @@ import changePasswordReducer from "./slice/Password/ChangePasswordSlice";
 import resetPasswordReducer from "./slice/Password/ResetPasswordSlice";
 import forgotPasswordReducer from "./slice/Password/ForgotPasswordSlice";
 import createAccountReducer from "./slice/Account/createAccountSlice";
+import certCostReducer from "./slice/Certification/getTotalCertSlice";
 
 export const store = configureStore({
   reducer: {
@@ -145,6 +146,7 @@ export const store = configureStore({
     resetPassword: resetPasswordReducer,
     forgotPassword: forgotPasswordReducer,
     createAccount: createAccountReducer,
+    certCost: certCostReducer,
   },
 });
 
