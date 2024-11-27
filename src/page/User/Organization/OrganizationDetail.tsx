@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import useOrganizeDetail from "../../../hooks/Organization/useOrganizeDetail";
 import { allOrganizationPaginationData } from "../../../models/organization";
 import CustomButton from "../../../components/UI/CustomButton";
+import useTotalCost from "../../../hooks/Certification/useTotalCertCost";
 
 interface CertificateTab {
     certCode: string;
@@ -19,7 +20,21 @@ const OrganizationDetail = () => {
     const [organization, setOrganization] = useState<allOrganizationPaginationData | null>(null);
     const { state, getOrganizeDetails } = useOrganizeDetail();
     const [certList, setCertList] = useState<CertificateTab[]>([]);
-
+    const [selectedCertIds, setSelectedCertIds] = useState<number[]>([]); // State quản lý chứng chỉ được chọn
+    const { cost, isLoading, fetchCost } = useTotalCost();
+    const handleCertToggle = (certId: number) => {
+        // không thực hiện hành động 
+        setSelectedCertIds((prevSelected) =>
+            prevSelected.includes(certId)
+                ? prevSelected.filter((id) => id !== certId)
+                : [...prevSelected, certId]
+        );
+    };
+    useEffect(() => {
+        if (selectedCertIds.length > 0) {
+            fetchCost(selectedCertIds);
+        }
+    }, [selectedCertIds]);
     // Scroll lên đầu khi mở trang
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -106,19 +121,21 @@ const OrganizationDetail = () => {
                             📞 Contact:
                         </h3>
                         <p className=" text-lg text-gray-800 dark:text-gray-300">
-                        <a
-                            href={`https://${organization?.organizeContact}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-200"
-                            onClick={(e) => e.stopPropagation()} // Ngăn sự kiện cha nếu nhấn vào link
-                        >
-                            {organization?.organizeContact}
-                        </a>
+                            <a
+                                href={`https://${organization?.organizeContact}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-200"
+                                onClick={(e) => e.stopPropagation()} // Ngăn sự kiện cha nếu nhấn vào link
+                            >
+                                {organization?.organizeContact}
+                            </a>
                         </p>
                     </div>
                 </div>
-
+                <div className="mt-6 text-2xl font-bold text-gray-900 dark:text-white">
+                    You will pay ${isLoading ? "Loading..." : cost} if you don't choose our!
+                </div>
             </header>
 
             {/* Certificates Grid */}
@@ -161,6 +178,13 @@ const OrganizationDetail = () => {
                                                             src={cert.certImage}
                                                             alt={cert.certName}
                                                             className="w-full h-full object-cover"
+                                                        />
+                                                        <input
+                                                            type="checkbox"
+                                                            className="absolute top-2 right-2 w-6 h-6 text-blue-600"
+                                                            checked={selectedCertIds.includes(cert.certId)}
+                                                            onChange={() => handleCertToggle(cert.certId)}
+                                                            onClick={(e) => e.stopPropagation()}
                                                         />
                                                     </div>
                                                 ))}
