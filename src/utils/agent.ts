@@ -106,8 +106,13 @@ const JobPosition = {
   deleteJob: (jobId: string) => requests.del(`api/v1/job-position/${jobId}`),
   updateJobDetail: (jobId: string, input: updateJobInput) =>
     requests.put(`api/v1/job-position/${jobId}`, input),
-  getJobFilterByOrganization: (jobId: number, organizeId?: number) =>
-    requests.get(`api/v1/job-position/${jobId}/organize?organizeId=${organizeId}`),
+  getJobFilterByOrganization: (jobId: number, organizeId?: number) => {
+    return organizeId === undefined
+      ? requests.get(`api/v1/job-position/${jobId}/organize`)
+      : requests.get(
+          `api/v1/job-position/${jobId}/organize?organizeId=${organizeId}`
+        );
+  },
   updateJobPermission: (jobId: number, permission: number) =>
     requests.put1(
       `api/v1/job-position/Permission?jobPositionId=${jobId}&jobPositionPermission=${permission}`
