@@ -47,7 +47,7 @@ const OrganizationDetail = () => {
     }, [id]);
 
     useEffect(() => {
-        if (state.currentOrganize.organizePermission !== "Approve"){
+        if (state.currentOrganize.organizePermission === "Pending" || state.currentOrganize.organizePermission === "Reject"){
           navigate('/organization');
         }
       }, [state, navigate]);

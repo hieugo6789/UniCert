@@ -49,7 +49,7 @@ const JobDetail = () => {
   }, [id]);
 
   useEffect(() => {
-    if (state.currentJob.jobPositionPermission !== "Approve"){
+    if (state.currentJob.jobPositionPermission === "Pending" || state.currentJob.jobPositionPermission === "Reject"){
       navigate('/job');
     }
   }, [state, navigate]);

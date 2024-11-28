@@ -47,7 +47,7 @@ const CertificateDetailPage = () => {
   }, [id]);
 
   useEffect(() => {
-    if (state.currentCert.permission !== "Approve"){
+    if (state.currentCert.permission === "Pending" || state.currentCert.permission === "Reject"){
       navigate('/certificate');
     }
   }, [state, navigate]);

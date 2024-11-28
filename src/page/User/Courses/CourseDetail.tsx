@@ -43,7 +43,7 @@ const CourseDetail = () => {
     }, [id]);
 
     useEffect(() => {
-        if (state.currentCourse.coursePermission !== "Approve"){
+        if (state.currentCourse.coursePermission === "Pending" || state.currentCourse.coursePermission === "Reject"){
           navigate('/courses');
         }
       }, [state, navigate]);

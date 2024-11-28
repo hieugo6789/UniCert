@@ -38,7 +38,7 @@ const MajorDetailPage: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
-    if (state.currentMajor.majorPermission !== "Approve"){
+    if (state.currentMajor.majorPermission === "Pending" || state.currentMajor.majorPermission === "Reject"){
       navigate('/majors');
     }
   }, [state, navigate]);
