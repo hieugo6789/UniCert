@@ -256,11 +256,11 @@ const CreateCert = ({
             label="Point System"
             name="certPointSystem"
           >
-            <Input
-              name="certPointSystem"
+            <MyEditor
               value={formData.certPointSystem}
-              onChange={handleInputChange}
-              placeholder="Enter point system"
+              onChange={(content) =>
+                setFormData({ ...formData, certPointSystem: content })
+              }
             />
           </Form.Item>
 

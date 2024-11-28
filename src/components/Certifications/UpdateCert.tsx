@@ -193,7 +193,12 @@ const UpdateCert: React.FC<UpdateCertProps> = ({
             label="Point System"
             name="certPointSystem"
           >
-            <Input placeholder="Enter point system" />
+            <MyEditor
+              value={form.getFieldValue("certPointSystem")}
+              onChange={(content) =>
+                form.setFieldsValue({ certPointSystem: content })
+              }
+            />
           </Form.Item>
 
           <Form.Item
