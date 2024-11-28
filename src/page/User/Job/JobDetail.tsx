@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import useJobDetail from "../../../hooks/JobPosition/useJobDetail";
 import CustomButton from "../../../components/UI/CustomButton";
 import useTotalCost from "../../../hooks/Certification/useTotalCertCost";
-import useOrganization from "../../../hooks/Organization/useOrganization";
+import { GrView } from "react-icons/gr";
 
 interface certTab {
   certCode: string;
@@ -13,40 +13,51 @@ interface certTab {
   certImage: string;
   certName: string;
   typeName: string;
+  organizeId: number;
 }
 
 const JobDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [jobDetail, setJobDetail] = useState<allJobPaginationData | null>(null);
-  const { state, getJobDetails, jobDetailByOrganize } = useJobDetail();
+  const { state, jobDetailByOrganize } = useJobDetail();
   const [certList, setCertList] = useState<certTab[]>([]);
   const [selectedCertIds, setSelectedCertIds] = useState<number[]>([]); // State quản lý chứng chỉ được chọn
   const { cost, isLoading, fetchCost } = useTotalCost(); // Lấy tổng chi phí từ hook
-  const { organization, loading: orgLoading } = useOrganization(); // Lấy danh sách Organization
+  const [thisCost, setThisCost] = useState<number>(0);
   const [selectedOrganization, setSelectedOrganization] = useState<number | undefined>(undefined);
 
   const handleCertToggle = (certId: number) => {
-    // không thực hiện hành động 
-    setSelectedCertIds((prevSelected) =>
-      prevSelected.includes(certId)
-        ? prevSelected.filter((id) => id !== certId)
-        : [...prevSelected, certId]
-    );
+    setSelectedCertIds((prevSelected) => {
+      // Nếu đã tồn tại trong danh sách, loại bỏ
+      if (prevSelected.includes(certId)) {
+        return prevSelected.filter((id) => id !== certId);
+      }
+      // Nếu chưa tồn tại, thêm vào danh sách
+      return [...prevSelected, certId];
+    });
   };
+  useEffect(() => {
+    console.log(selectedCertIds);
+  }
+    , [selectedCertIds]);
+  selectedCertIds
   useEffect(() => {
     if (selectedCertIds.length > 0) {
       fetchCost(selectedCertIds);
+    } else {
+      setThisCost(0); // Reset cost về 0 khi không chọn chứng chỉ nào
     }
   }, [selectedCertIds]);
+  
+  useEffect(() => {
+    setThisCost(cost); // Luôn cập nhật giá trị thisCost khi cost thay đổi
+  }, [cost]);
+  
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  useEffect(() => {
-    setCertList([]);
-    getJobDetails(id);
-  }, [id]);
 
   useEffect(() => {
     if (state.currentJob.jobPositionPermission === "Pending" || state.currentJob.jobPositionPermission === "Reject"){
@@ -56,19 +67,16 @@ const JobDetail = () => {
 
   useEffect(() => {
     if (state?.currentJob) {
-      setJobDetail(state.currentJob);
+      // setJobDetail(state.currentJob);
+      const jobDetailItem = state?.currentJob as any;
+      console.log(state?.currentJob);
+      setJobDetail(jobDetailItem?.[0] ?? null);
+      setCertList(jobDetailItem?.[0]?.certificationTwoId ?? []);
+
     }
   }, [state]);
 
-  useEffect(() => {
-    setCertList(jobDetail?.certificationDetails ?? []);
-    if (certList.length <= 0) {
-      const jobDetailItem = jobDetail as any; // ép kiểu tạm thời nếu chắc chắn về cấu trúc dữ liệu
-      console.log("Updated Certification Details:", jobDetailItem?.[0]?.certificationDetails);
-      setCertList(jobDetailItem?.[0]?.certificationDetails ?? []);
-    }
-  }
-    , [jobDetail]);
+
 
 
   const handleIntersection = (entries: any) => {
@@ -88,13 +96,15 @@ const JobDetail = () => {
     };
   }, []);
   useEffect(() => {
-    // setCertList([]); // <== Không cần set về mảng rỗng mỗi khi component load
-    if (selectedOrganization) {
-      jobDetailByOrganize(Number(id), selectedOrganization); // Gọi hàm lấy JobDetail theo tổ chức
+    if (!selectedOrganization) {
+      jobDetailByOrganize(Number(id));
     } else {
-      getJobDetails(id);
+      jobDetailByOrganize(Number(id), selectedOrganization);
     }
+    setSelectedCertIds([]);
+    console.log("selectedOrganization", selectedOrganization);
   }, [id, selectedOrganization]);
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
@@ -128,28 +138,9 @@ const JobDetail = () => {
           }} />
         </div>
         <div className="mt-6 text-2xl font-bold text-gray-900 dark:text-white">
-          You will pay ${isLoading ? "Loading..." : cost} if you don't choose our!
+          You will pay ${isLoading ? "Loading..." : thisCost} if you don't choose our!
         </div>
         <p className="mt-4 text-gray-500 text-xl">Please select checkbox in the top of certtification!</p>
-        <div className="mt-6">
-          <label htmlFor="organization-select" className="text-xl font-medium text-gray-700 dark:text-gray-300">
-            Select Organization:
-          </label>
-          <select
-            id="organization-select"
-            className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md text-gray-900 dark:bg-gray-700 dark:text-white"
-            value={selectedOrganization}
-            onChange={(e) => setSelectedOrganization(Number(e.target.value))}
-            disabled={orgLoading}
-          >
-            <option value="">-- Select Organization --</option>
-            {organization.map((org) => (
-              <option key={org.organizeId} value={org.organizeId}>
-                {org.organizeName}
-              </option>
-            ))}
-          </select>
-        </div>
       </header>
 
       {/* Certificates Grid */}
@@ -185,7 +176,17 @@ const JobDetail = () => {
                         .filter((cert) => cert.typeName === section.type)
                         .map((cert) => (
                           <div key={cert.certId}
-                            onClick={() => navigate("/certificate/" + cert.certId)}
+                            // onClick={() => navigate("/certificate/" + cert.certId)}
+                            onClick={() => {
+                              if (selectedOrganization === cert.organizeId) {
+                                setSelectedOrganization(undefined);
+                              }
+                              else {
+                                setSelectedOrganization(cert.organizeId)
+                              }
+
+                            }
+                            }
                             className="aspect-square rounded-lg overflow-hidden cursor-pointer 
                               transform hover:scale-105 transition-all duration-300">
                             <img
@@ -200,6 +201,14 @@ const JobDetail = () => {
                               onChange={() => handleCertToggle(cert.certId)}
                               onClick={(e) => e.stopPropagation()}
                             />
+                            <div className="absolute bg-white/80 backdrop-blur-sm p-2 items-center rounded-full top-2 left-2 w-10 h-10 text-center"
+                              onClick={(e) => { 
+                                e.stopPropagation() 
+                                navigate("/certificate/" + cert.certId)
+                              }}
+                            >
+                              <GrView className="inline-block" />
+                            </div>
                           </div>
                         ))}
                     </div>
