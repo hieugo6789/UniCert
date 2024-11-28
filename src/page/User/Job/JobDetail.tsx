@@ -196,12 +196,12 @@ const JobDetail = () => {
                             />
                             <input
                               type="checkbox"
-                              className="absolute top-2 right-2 w-6 h-6 text-blue-600"
+                              className="absolute top-2 left-2 w-6 h-6 text-blue-600"
                               checked={selectedCertIds.includes(cert.certId)}
                               onChange={() => handleCertToggle(cert.certId)}
                               onClick={(e) => e.stopPropagation()}
                             />
-                            <div className="absolute bg-white/80 backdrop-blur-sm p-2 items-center rounded-full top-2 left-2 w-10 h-10 text-center"
+                            <div className="absolute bg-white/80 backdrop-blur-sm p-2 items-center rounded-full top-2 right-2 w-10 h-10 text-center"
                               onClick={(e) => { 
                                 e.stopPropagation() 
                                 navigate("/certificate/" + cert.certId)
