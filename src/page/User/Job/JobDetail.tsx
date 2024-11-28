@@ -45,14 +45,18 @@ const JobDetail = () => {
   useEffect(() => {
     if (selectedCertIds.length > 0) {
       fetchCost(selectedCertIds);
-    } else {
-      setThisCost(0); // Reset cost về 0 khi không chọn chứng chỉ nào
-    }
+    } 
   }, [selectedCertIds]);
   
   useEffect(() => {
-    setThisCost(cost); // Luôn cập nhật giá trị thisCost khi cost thay đổi
-  }, [cost]);
+    console.log(selectedCertIds);
+    if(selectedCertIds.length === 0){
+      setThisCost(0);
+    }
+    else{
+      setThisCost(cost);
+    }
+  }, [cost,selectedCertIds]);
   
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
