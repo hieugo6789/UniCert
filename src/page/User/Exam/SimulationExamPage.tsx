@@ -53,27 +53,76 @@ const SimulationExamPage = () => {
     checkExamPurchase();
   }, [userId, id, examEnrollment]);
   
+  // useEffect(() => {
+  //   // Skip if already initialized or no exam data
+  //   if (isInitialized || !state?.currentExam?.listQuestions) {
+  //     return;
+  //   }
+
+  //   setDuration(state.currentExam.duration);
+  //   const questionCount = state.currentExam.questionCount;
+
+  //   // If we have formatted answers from location state, use those questions
+  //   if (location.state?.formattedAnswers?.length > 0) {
+  //     const formattedAnswers = location.state.formattedAnswers;
+  //     const allQuestions = state.currentExam.listQuestions;
+      
+  //     // Map questions in the same order as formatted answers
+  //     const orderedQuestions = formattedAnswers.map((answer: any) => {
+  //       const question = allQuestions.find((q: any) => q.questionId === answer.questionId);
+  //       return {
+  //         id: question?.questionId,
+  //         questionText: question?.questionName,
+  //         options: question?.answers.map((answer: any) => ({
+  //           answerId: answer.answerId,
+  //           answerText: answer.answerText,
+  //         })),
+  //         correctAnswerId: -1,
+  //       };
+  //     });
+      
+  //     setQuestions(orderedQuestions);
+  //   } else {
+  //     // For new exam, shuffle questions
+  //     const allQuestions = state.currentExam.listQuestions;
+  //     const shuffledQuestions = [...allQuestions].sort(() => Math.random() - 0.5);
+  //     const selectedQuestions = shuffledQuestions.slice(0, questionCount);
+
+  //     const formattedQuestions = selectedQuestions.map((q: any) => ({
+  //       id: q.questionId,
+  //       questionText: q.questionName,
+  //       options: q.answers.map((answer: any) => ({
+  //         answerId: answer.answerId,
+  //         answerText: answer.answerText,
+  //       })),
+  //       correctAnswerId: -1,
+  //     }));
+  //     setQuestions(formattedQuestions);
+  //   }
+
+  //   setIsInitialized(true);
+  // }, [state, location.state, isInitialized]);
   useEffect(() => {
-    // Skip if already initialized or no exam data
     if (isInitialized || !state?.currentExam?.listQuestions) {
       return;
     }
-
+  
     setDuration(state.currentExam.duration);
     const questionCount = state.currentExam.questionCount;
-
-    // If we have formatted answers from location state, use those questions
+  
     if (location.state?.formattedAnswers?.length > 0) {
       const formattedAnswers = location.state.formattedAnswers;
       const allQuestions = state.currentExam.listQuestions;
-      
-      // Map questions in the same order as formatted answers
+  
       const orderedQuestions = formattedAnswers.map((answer: any) => {
         const question = allQuestions.find((q: any) => q.questionId === answer.questionId);
+      
+        const shuffledAnswers = [...(question?.answers ?? [])].sort(() => Math.random() - 0.5);
+      
         return {
-          id: question?.questionId,
-          questionText: question?.questionName,
-          options: question?.answers.map((answer: any) => ({
+          id: question?.questionId ?? -1,
+          questionText: question?.questionName ?? "Unknown Question",
+          options: shuffledAnswers.map((answer: any) => ({
             answerId: answer.answerId,
             answerText: answer.answerText,
           })),
@@ -81,27 +130,33 @@ const SimulationExamPage = () => {
         };
       });
       
-      setQuestions(orderedQuestions);
+      // Bỏ các câu hỏi không hợp lệ nếu cần
+      setQuestions(orderedQuestions.filter((q) => q.id !== -1));
+      
     } else {
-      // For new exam, shuffle questions
       const allQuestions = state.currentExam.listQuestions;
       const shuffledQuestions = [...allQuestions].sort(() => Math.random() - 0.5);
       const selectedQuestions = shuffledQuestions.slice(0, questionCount);
-
-      const formattedQuestions = selectedQuestions.map((q: any) => ({
-        id: q.questionId,
-        questionText: q.questionName,
-        options: q.answers.map((answer: any) => ({
-          answerId: answer.answerId,
-          answerText: answer.answerText,
-        })),
-        correctAnswerId: -1,
-      }));
+  
+      const formattedQuestions = selectedQuestions.map((q: any) => {
+        const shuffledAnswers = [...q.answers].sort(() => Math.random() - 0.5); // Tráo câu trả lời
+        return {
+          id: q.questionId,
+          questionText: q.questionName,
+          options: shuffledAnswers.map((answer: any) => ({
+            answerId: answer.answerId,
+            answerText: answer.answerText,
+          })),
+          correctAnswerId: -1,
+        };
+      });
+  
       setQuestions(formattedQuestions);
     }
-
+  
     setIsInitialized(true);
   }, [state, location.state, isInitialized]);
+  
 
   const [flaggedQuestions, setFlaggedQuestions] = useState<boolean[]>(Array(questions.length).fill(false));
 
