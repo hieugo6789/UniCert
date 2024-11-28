@@ -16,6 +16,8 @@ export interface allCertificationData {
   certPrerequisite: [];
   certCodePrerequisite: [];
   certDescriptionPrerequisite: [];
+  certSubsequentIds: [];
+  certSubsequentNames: [];
   jobPositionIds: [];
   jobPositionCodes: [];
   jobPositionNames: [];
@@ -43,6 +45,8 @@ export interface currentCertificate {
   certPrerequisite: [];
   certCodePrerequisite: [];
   certDescriptionPrerequisite: [];
+  certSubsequentIds: [];
+  certSubsequentNames: [];
   jobPositionIds: [];
   jobPositionCodes: [];
   jobPositionNames: [];
