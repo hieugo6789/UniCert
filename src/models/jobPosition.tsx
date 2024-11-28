@@ -24,6 +24,7 @@ export interface allJobPaginationData {
       organizeName: string;
       certValidity: string;
       permission: string;
+      organizeId: number;
     }
   ];
 }
