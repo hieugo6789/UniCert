@@ -38,33 +38,28 @@ const JobDetail = () => {
     });
   };
   useEffect(() => {
-    console.log(selectedCertIds);
-  }
-    , [selectedCertIds]);
-  selectedCertIds
-  useEffect(() => {
     if (selectedCertIds.length > 0) {
       fetchCost(selectedCertIds);
-    } 
+    }
   }, [selectedCertIds]);
-  
+
   useEffect(() => {
     console.log(selectedCertIds);
-    if(selectedCertIds.length === 0){
+    if (selectedCertIds.length === 0) {
       setThisCost(0);
     }
-    else{
+    else {
       setThisCost(cost);
     }
-  }, [cost,selectedCertIds]);
-  
+  }, [cost, selectedCertIds]);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
 
   useEffect(() => {
-    if (state.currentJob.jobPositionPermission === "Pending" || state.currentJob.jobPositionPermission === "Reject"){
+    if (state.currentJob.jobPositionPermission === "Pending" || state.currentJob.jobPositionPermission === "Reject") {
       navigate('/job');
     }
   }, [state, navigate]);
@@ -180,17 +175,8 @@ const JobDetail = () => {
                         .filter((cert) => cert.typeName === section.type)
                         .map((cert) => (
                           <div key={cert.certId}
-                            // onClick={() => navigate("/certificate/" + cert.certId)}
-                            onClick={() => {
-                              if (selectedOrganization === cert.organizeId) {
-                                setSelectedOrganization(undefined);
-                              }
-                              else {
-                                setSelectedOrganization(cert.organizeId)
-                              }
+                            onClick={() => navigate("/certificate/" + cert.certId)}
 
-                            }
-                            }
                             className="aspect-square rounded-lg overflow-hidden cursor-pointer 
                               transform hover:scale-105 transition-all duration-300">
                             <img
@@ -206,9 +192,19 @@ const JobDetail = () => {
                               onClick={(e) => e.stopPropagation()}
                             />
                             <div className="absolute bg-white/80 backdrop-blur-sm p-2 items-center rounded-full top-2 right-2 w-10 h-10 text-center"
-                              onClick={(e) => { 
-                                e.stopPropagation() 
-                                navigate("/certificate/" + cert.certId)
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                // navigate("/certificate/" + cert.certId)
+
+                                if (selectedOrganization === cert.organizeId) {
+                                  setSelectedOrganization(undefined);
+                                }
+                                else {
+                                  setSelectedOrganization(cert.organizeId)
+                                }
+
+
+
                               }}
                             >
                               <GrView className="inline-block" />
