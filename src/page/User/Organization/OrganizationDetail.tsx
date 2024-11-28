@@ -96,7 +96,7 @@ const OrganizationDetail = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 text-center">
+        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
             {/* Breadcrumb */}
             <nav className="px-4 py-3 text-sm md:text-base">
                 <div className="max-w-7xl mx-auto flex items-center space-x-2 text-gray-600 dark:text-gray-300">
@@ -109,65 +109,59 @@ const OrganizationDetail = () => {
             </nav>
 
             {/* Header Section */}
-            <header className="max-w-7xl mx-auto px-4 py-12 md:py-8 flex flex-col md:flex-row gap-8">
-                {/* Left Section - Organization Info */}
-                <div className="md:w-2/3">
-                    <h1 className="fade-in text-4xl md:text-6xl lg:text-8xl font-extrabold bg-clip-text text-transparent 
-            bg-[linear-gradient(to_right,theme(colors.indigo.600),theme(colors.indigo.300),theme(colors.sky.600),theme(colors.fuchsia.600),theme(colors.sky.600),theme(colors.indigo.300),theme(colors.indigo.600))] 
-            dark:bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))]
-            bg-[length:200%_auto] animate-gradient uppercase tracking-tight">
-                        {organization?.organizeName || "Organization Not Found"}
-                    </h1>
+            <header className="max-w-7xl mx-auto px-4 py-12 md:py-8 text-center">
+                <h1 className="fade-in text-4xl md:text-6xl lg:text-8xl font-extrabold bg-clip-text text-transparent 
+                    bg-[linear-gradient(to_right,theme(colors.indigo.600),theme(colors.indigo.300),theme(colors.sky.600),theme(colors.fuchsia.600),theme(colors.sky.600),theme(colors.indigo.300),theme(colors.indigo.600))] 
+                    dark:bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.indigo.100),theme(colors.sky.400),theme(colors.fuchsia.400),theme(colors.sky.400),theme(colors.indigo.100),theme(colors.indigo.400))]
+                    bg-[length:200%_auto] animate-gradient uppercase tracking-tight">
+                    {organization?.organizeName || "Organization Not Found"}
+                </h1>
 
-                    <h2 className="fade-in mt-6 text-3xl md:text-5xl font-bold text-gray-900 dark:text-white">
-                        Welcome to <span className="text-blue-600 dark:text-blue-400">{organization?.organizeName || "____"}</span>
-                    </h2>
-
-                    <div className="mt-6 text-2xl font-bold text-gray-900 dark:text-white">
-                        You will pay ${isLoading ? "Loading..." : thisCost} if you don't choose our!
-                    </div>
-                    <p className="mt-4 text-gray-500 text-xl">
-                        Please select a checkbox in the top of certification!
-                    </p>
-                </div>
-
-                {/* Right Section - Address & Contact */}
-                <div className="md:w-1/3 space-y-6">
+                <h2 className="fade-in mt-6 text-3xl md:text-5xl font-bold text-gray-900 dark:text-white">
+                    Welcome to <span className="text-blue-600 dark:text-blue-400">{organization?.organizeName || "____"}</span>
+                </h2>              
+                  
+                <div className="fade-in flex flex-col md:flex-row gap-6 mt-8 max-w-4xl mx-auto prose prose-lg text-gray-800 dark:prose-invert dark:text-white text-2xl">
                     {/* Address Section */}
-                    <div className="bg-gradient-to-r gap-5 flex items-center from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 p-6 rounded-xl shadow-md">
-                        <h3 className="text-xl md:text-2xl font-semibold text-indigo-600 dark:text-indigo-400">
+                    <div className="flex-1 bg-gradient-to-r justify-center from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 p-2 rounded-xl shadow-md">
+                        <div>
+                        <h3 className="text-xl md:text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-2 md:mb-0">
                             📍 Address:
                         </h3>
-                        <p className="text-lg text-gray-800 dark:text-gray-300">
+                        <p className="text-lg text-gray-800 dark:text-gray-300 ml-4">
                             {organization?.organizeAddress || "Address not found"}
                         </p>
+                        </div>
                     </div>
 
                     {/* Contact Section */}
-                    <div className="bg-gradient-to-r gap-5 flex items-center from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 p-6 rounded-xl shadow-md">
-                        <h3 className="text-xl md:text-2xl font-semibold text-indigo-600 dark:text-indigo-400">
+                    <div className="bg-gradient-to-r justify-center from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 p-2 rounded-xl shadow-md">
+                        <div>
+                        <h3 className="text-xl md:text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-2 md:mb-0">
                             📞 Contact:
                         </h3>
-                        <p className="text-lg text-gray-800 dark:text-gray-300">
+                        <p className="text-lg text-gray-800 dark:text-gray-300 ml-4">
                             <a
-                                href={`https://${organization?.organizeContact}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-200"
-                                onClick={(e) => e.stopPropagation()}
+                            href={`https://${organization?.organizeContact}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-200"
+                            onClick={(e) => e.stopPropagation()}
                             >
-                                {organization?.organizeContact}
+                            {organization?.organizeContact}
                             </a>
                         </p>
+                        </div>
                     </div>
                 </div>
-            </header>
-            <div className="m-auto text-center">
-            <div className="mt-6 text-2xl font-bold text-gray-900 dark:text-white">
-                You will pay ${isLoading ? "Loading..." : thisCost} if you don't choose our!
-            </div>
-            <p className="mt-4 text-gray-500 text-xl">Please select checkbox in the top of certtification!</p>
-            </div>
+
+                <div className="fade-in mt-6 text-2xl font-bold text-gray-900 dark:text-white">
+                    You need to pay ${isLoading ? "Loading..." : thisCost} to obtain these certificates.
+                </div>
+                <p className="fade-in mt-4 text-gray-500 text-xl">
+                    Please select a checkbox in the top of certification!
+                </p>
+            </header>            
             {/* Certificates Grid */}
             <main className="max-w-7xl mx-auto px-4 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

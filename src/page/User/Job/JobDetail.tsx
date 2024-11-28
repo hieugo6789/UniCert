@@ -136,10 +136,10 @@ const JobDetail = () => {
             __html: jobDetail?.jobPositionDescription || ""
           }} />
         </div>
-        <div className="mt-6 text-2xl font-bold text-gray-900 dark:text-white">
-          You will pay ${isLoading ? "Loading..." : thisCost} if you don't choose our!
+        <div className="fade-in mt-6 text-2xl font-bold text-gray-900 dark:text-white">
+          You need to pay ${isLoading ? "Loading..." : thisCost} to obtain these certificates.
         </div>
-        <p className="mt-4 text-gray-500 text-xl">Please select checkbox in the top of certtification!</p>
+        <p className=" fade-in mt-4 text-gray-500 text-xl">Please select checkbox in the top of certtification!</p>
       </header>
 
       {/* Certificates Grid */}
