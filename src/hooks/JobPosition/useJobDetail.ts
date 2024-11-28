@@ -22,10 +22,17 @@ const useJobDetail = () => {
   const jobDetailByOrganize = async (jobId: number, organizeId?: number) => {
     dispatch(JobDetailsStart());
     try {
-      const response = await agent.JobPosition.getJobFilterByOrganization(
-        jobId,
-        organizeId
-      );
+      let response;
+      if(organizeId){
+        response = await agent.JobPosition.getJobFilterByOrganization(
+          jobId,
+          organizeId
+        );
+      }
+      else{
+        response = await agent.JobPosition.getJobFilterByOrganization(jobId);
+      }
+      console.log("response", response.data);
       dispatch(JobDetailSuccess(response.data));
     } catch (error) {
       console.error("Error fetching Job details:", error);
