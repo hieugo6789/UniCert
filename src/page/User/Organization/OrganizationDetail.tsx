@@ -201,17 +201,8 @@ const OrganizationDetail = () => {
                                                 .filter((cert) => cert.typeName === section.type)
                                                 .map((cert) => (
                                                     <div key={cert.certId}
-                                                        // onClick={() => navigate("/certificate/" + cert.certId)}
-                                                        onClick={() => {
-                                                            if (selectedOrganization === cert.organizeId) {
-                                                                setSelectedOrganization(undefined);
-                                                            }
-                                                            else {
-                                                                setSelectedOrganization(cert.organizeId)
-                                                            }
-
-                                                        }
-                                                        }
+                                                        onClick={() => navigate("/certificate/" + cert.certId)}
+                                                       
                                                         className="aspect-square rounded-lg overflow-hidden cursor-pointer 
                               transform hover:scale-105 transition-all duration-300">
                                                         <img
