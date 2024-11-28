@@ -175,8 +175,17 @@ const JobDetail = () => {
                         .filter((cert) => cert.typeName === section.type)
                         .map((cert) => (
                           <div key={cert.certId}
-                            onClick={() => navigate("/certificate/" + cert.certId)}
+                            // onClick={() => navigate("/certificate/" + cert.certId)}
+                            onClick={() => {
+                              if (selectedOrganization === cert.organizeId) {
+                                setSelectedOrganization(undefined);
+                              }
+                              else {
+                                setSelectedOrganization(cert.organizeId)
+                              }
 
+                            }
+                            }
                             className="aspect-square rounded-lg overflow-hidden cursor-pointer 
                               transform hover:scale-105 transition-all duration-300">
                             <img
@@ -194,17 +203,7 @@ const JobDetail = () => {
                             <div className="absolute bg-white/80 backdrop-blur-sm p-2 items-center rounded-full top-2 right-2 w-10 h-10 text-center"
                               onClick={(e) => {
                                 e.stopPropagation()
-                                // navigate("/certificate/" + cert.certId)
-
-                                if (selectedOrganization === cert.organizeId) {
-                                  setSelectedOrganization(undefined);
-                                }
-                                else {
-                                  setSelectedOrganization(cert.organizeId)
-                                }
-
-
-
+                                navigate("/certificate/" + cert.certId)
                               }}
                             >
                               <GrView className="inline-block" />
