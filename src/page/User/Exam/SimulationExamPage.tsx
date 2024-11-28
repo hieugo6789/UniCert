@@ -131,7 +131,7 @@ const SimulationExamPage = () => {
       });
       
       // Bỏ các câu hỏi không hợp lệ nếu cần
-      setQuestions(orderedQuestions.filter((q) => q.id !== -1));
+      setQuestions(orderedQuestions.filter((q:any) => q.id !== -1));
       
     } else {
       const allQuestions = state.currentExam.listQuestions;
