@@ -46,6 +46,12 @@ const OrganizationDetail = () => {
         getOrganizeDetails(id); // Gọi hàm lấy chi tiết tổ chức với `id`
     }, [id]);
 
+    useEffect(() => {
+        if (state.currentOrganize.organizePermission !== "Approve"){
+          navigate('/organization');
+        }
+      }, [state, navigate]);
+
     // Cập nhật state khi nhận dữ liệu mới từ API
     useEffect(() => {
         if (state?.currentOrganize) {

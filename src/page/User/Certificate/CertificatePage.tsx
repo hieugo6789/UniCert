@@ -15,14 +15,14 @@ const CertificatePage = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const { certificate, loading, metaData, refetchCertificates } =
     useCertificate({
-      searchKeyWord: searchKeyword,
+      searchKeyWord: searchKeyword, 
       pageNumber: currentPage,
       pageSize: itemsPerPage,
     });
   const [certificates, setCertificates] = useState<allCertificationData[]>([]);
 
   useEffect(() => {
-    refetchCertificates(searchKeyword, currentPage, itemsPerPage, 1);
+    refetchCertificates(searchKeyword, currentPage, itemsPerPage, 1);    
   }, [searchKeyword, currentPage]);
 
   // Cập nhật danh sách chứng chỉ khi có dữ liệu mới

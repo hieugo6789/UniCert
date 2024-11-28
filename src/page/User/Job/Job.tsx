@@ -37,6 +37,7 @@ const Job = () => {
       const approvedJobs = job.filter(j => j.jobPositionPermission === 'Approve');
       setJobs(approvedJobs);
     }
+    setCurrentPage(1);
   }, [keyword, job]);
 
   // Handle pagination changes

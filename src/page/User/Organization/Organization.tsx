@@ -14,14 +14,17 @@ const Organization = () => {
     const [searchKeyword, setSearchKeyword] = useState<string>("");
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize] = useState(5); // Số phần tử trên mỗi trang
+    const [pageSize] = useState(5); // Số phần tử trên mỗi trang    
+    
+    useEffect(() => {
+        refetchOrganizations(); // Fetch initial jobs
+    }, []);
+
     useEffect(() => {
         setOrganizations(organization);
         setFilteredOrganizations(organization);
     }, [organization]);
-    useEffect(() => {
-        refetchOrganizations(); // Fetch initial jobs
-    }, []);
+
     useEffect(() => {
         const keyword = searchKeyword.toLowerCase();
         const filtered = organizations.filter((org) =>

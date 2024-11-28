@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link, useParams } from "react-router-dom"; 
+import { Link, useParams, useNavigate } from "react-router-dom"; 
 import { allMajorPaginationData } from "../../../models/major";
 import { cardCertificate } from "../../../models/certificate";
 import useMajorDetail from "../../../hooks/Major/useMajorDetail";
@@ -8,6 +8,7 @@ import CertificateCard from "../../../components/Certifications/CertificateCard"
 
 const MajorDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>(); 
+  const navigate = useNavigate();
   const [major, setMajor] = useState<allMajorPaginationData | null>(null);
   const [allCerts, setAllCerts] = useState<cardCertificate[]>([]);
   const [filteredCerts, setFilteredCerts] = useState<cardCertificate[]>([]);
@@ -35,6 +36,12 @@ const MajorDetailPage: React.FC = () => {
     };
     getMajorDetail();
   }, [id]);
+
+  useEffect(() => {
+    if (state.currentMajor.majorPermission !== "Approve"){
+      navigate('/majors');
+    }
+  }, [state, navigate]);
 
   // Fetch Job Details associated with the Major
   useEffect(() => {

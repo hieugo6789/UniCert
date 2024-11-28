@@ -104,12 +104,6 @@ const Courses = () => {
     fetchCourses();
   }, []);
 
-  // useEffect(() => {
-  //   if (course.length > 0) {
-  //     const approvedCourses = course.filter(c => c.coursePermission === 'Approve');
-  //     setCourses(approvedCourses);
-  //   }
-  // }, [course]);
   useEffect(() => {
     if (course.length > 0) {
       const approvedCourses = course.filter(c => c.coursePermission === 'Approve');
@@ -118,6 +112,7 @@ const Courses = () => {
       console.log(approvedCourses)
     }
   }, [course]);
+  
   const paginatedCourses = courses.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -126,9 +121,6 @@ const Courses = () => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' }); // Cuộn lên đầu trang
   };
-
-
-
 
   useEffect(() => {
     if (userId) {

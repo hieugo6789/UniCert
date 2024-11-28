@@ -29,7 +29,7 @@ const Majors = () => {
       m.majorName.toLowerCase().includes(keyword.toLowerCase()) && 
       m.majorPermission === "Approve"
     );
-    setMajors(filteredMajors);
+    setMajors(filteredMajors);    
   }, [keyword, major]);
 
   const maxPage = Math.ceil(majors.length / majorsPerPage);

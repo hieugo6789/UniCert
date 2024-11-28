@@ -48,36 +48,19 @@ const JobDetail = () => {
     getJobDetails(id);
   }, [id]);
 
-  // useEffect(() => {
-  //   if (state?.currentJob) {
-  //     setJobDetail(state.currentJob);
-  //     const approvedJobCerts = state.currentJob.certificationDetails
-  //       ? state.currentJob.certificationDetails.filter((cert) => cert.permission === "Approve")
-  //       : [];
-  //     setCertList(approvedJobCerts);
-  //   }
-  // }, [state]);
+  useEffect(() => {
+    if (state.currentJob.jobPositionPermission !== "Approve"){
+      navigate('/job');
+    }
+  }, [state, navigate]);
+
   useEffect(() => {
     if (state?.currentJob) {
       setJobDetail(state.currentJob);
-      // console.log("Current Job Details:", state.currentJob);
-      // const approvedJobCerts = state.currentJob.certificationDetails ?? [];
-      // console.log("Approved Certifications:", approvedJobCerts);
-
-      // setCertList(approvedJobCerts);
     }
   }, [state]);
 
   useEffect(() => {
-    // if (jobDetail) {
-    //   console.log("Updated Job Detail:", jobDetail);
-    //   console.log("Updated Certification Details:", jobDetail[0]?.certificationDetails);
-    // }
-    // if(jobDetail?.certificationDetails) {
-    //   setCertList(jobDetailItem.certificationDetails ?? []);
-    //   console.log("Updated Job Detail:", jobDetail);
-    //   // setCertList(jobDetail.certificationDetails ?? []);
-    // }
     setCertList(jobDetail?.certificationDetails ?? []);
     if (certList.length <= 0) {
       const jobDetailItem = jobDetail as any; // ép kiểu tạm thời nếu chắc chắn về cấu trúc dữ liệu

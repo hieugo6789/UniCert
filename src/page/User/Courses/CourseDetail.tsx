@@ -43,6 +43,12 @@ const CourseDetail = () => {
     }, [id]);
 
     useEffect(() => {
+        if (state.currentCourse.coursePermission !== "Approve"){
+          navigate('/courses');
+        }
+      }, [state, navigate]);
+
+    useEffect(() => {
         if (state) {
             setCourseDetail(state?.currentCourse);
             setCert(state?.currentCourse?.certificationDetails || []);

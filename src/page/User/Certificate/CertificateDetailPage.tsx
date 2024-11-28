@@ -45,6 +45,12 @@ const CertificateDetailPage = () => {
   }, [id]);
 
   useEffect(() => {
+    if (state.currentCert.permission !== "Approve"){
+      navigate('/certificate');
+    }
+  }, [state, navigate]);
+
+  useEffect(() => {
     setCertificate(state?.currentCert);
   }, [state]);
 
