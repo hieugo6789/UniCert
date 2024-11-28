@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AvatarImage from "../UI/AvatarImage";
 import Logo from "./Logo";
-import { ShoppingCartOutlined, MenuOutlined, SearchOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { ShoppingCartOutlined, MenuOutlined, SearchOutlined, ArrowLeftOutlined, DownOutlined } from "@ant-design/icons";
 import useCartByUserId from "../../hooks/Cart/useCartByUserId";
 import Cookies from "js-cookie";
 import SearchDropdown from "./SearchDropdown";
@@ -13,7 +13,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isPathwayOpen, setIsPathwayOpen] = useState(false);
   const location = useLocation();
   const userId = Cookies.get("userId");
   const { state, getCart } = useCartByUserId();
@@ -50,7 +50,7 @@ const Header = () => {
   const handleClickOutside = (event: MouseEvent) => {
     const target = event.target as HTMLElement | null;
     if (target && target.closest('.dropdown') === null) {
-      setIsDropdownOpen(false);
+      setIsPathwayOpen(false);
     }
   };
 
@@ -75,22 +75,32 @@ const Header = () => {
           {['certificate', 'courses', 'majors', 'pathway', 'about'].map((tab) => (
             <div key={tab} className="relative dropdown">
               <Link
-                to={`./${tab === 'pathway' ? 'job' : tab}`}
+                to={tab === 'pathway' ? '#' : `./${tab}`}
                 className={`relative transition-colors text-base font-medium ${activeTab === tab
                     ? 'dark:text-purple-400 text-purple-800 after:absolute after:bottom-[-12px] after:left-0 after:w-full after:h-0.5 after:bg-purple-800 dark:after:bg-purple-400'
                     : 'text-black dark:text-white hover:text-purple-800 dark:hover:text-purple-400 hover:after:absolute hover:after:bottom-[-12px] hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-purple-800/50 dark:hover:after:bg-purple-400/50'
                   }`}
-                onClick={tab === 'pathway' ? () => setIsDropdownOpen(!isDropdownOpen) : undefined}
+                onClick={tab === 'pathway' ? (e) => { e.preventDefault(); setIsPathwayOpen(!isPathwayOpen); } : () => setIsPathwayOpen(false)}
               >
                 {tab === 'certificate' ? 'Certifications' :
                   tab === 'courses' ? 'Courses' :
                     tab === 'majors' ? 'Majors' :
                       tab === 'pathway' ? 'Pathway' : 'About Us'}
               </Link>
-              {tab === 'pathway' && isDropdownOpen && (
-                <div className="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md z-10">
-                  <Link to="./job" className="block px-4 py-2 text-sm text-gray-700 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Job Position</Link>
-                  <Link to="./organization" className="block px-4 py-2 text-sm text-gray-700 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Organization</Link>
+              {tab === 'pathway' && isPathwayOpen && (
+                <div className="absolute left-0 w-32 bg-white dark:bg-gray-800 shadow-lg rounded-md z-10">
+                  <Link to="./job" 
+                  className="block px-4 py-2 text-sm text-gray-700 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" 
+                  onClick={() => { setIsPathwayOpen(false); }}
+                  >
+                    Job Position
+                  </Link>
+                  <Link to="./organization" 
+                  className="block px-4 py-2 text-sm text-gray-700 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" 
+                  onClick={() => { setIsPathwayOpen(false); }}
+                  >
+                    Organization
+                  </Link>
                 </div>
               )}
             </div>
@@ -207,29 +217,49 @@ const Header = () => {
                 </div>
               )}
               {['certificate', 'courses', 'majors', 'pathway', 'about'].map((tab) => (
-                <div key={tab} className="relative">
+                <div key={tab} className="relative dropdown">
                   <Link
-                    to={`./${tab === 'pathway' ? '/job' : tab}`}
-                    className={`px-6 py-4 text-base ${activeTab === tab
-                        ? 'dark:bg-gray-800 bg-gray-100 dark:text-white text-black border-l-4 border-purple-400'
+                    to={tab === 'pathway' ? '#' : `./${tab}`}
+                    className={`w-full text-left px-6 py-4 flex items-center justify-between ${
+                      activeTab === tab
+                        ? 'bg-gray-100 dark:bg-gray-800 text-black dark:text-white border-l-4 border-purple-400'
                         : 'text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white hover:border-l-4 hover:border-purple-400'
-                      }`}
-                    onClick={tab === 'pathway' ? () => setIsDropdownOpen(!isDropdownOpen) : () => setIsMenuOpen(false)}
+                    }`}
+                    onClick={tab === 'pathway' ? (e) => { e.preventDefault(); setIsPathwayOpen(!isPathwayOpen); } : () => setIsMenuOpen(false)}                    
                   >
                     {tab === 'certificate' ? 'Certifications' :
                       tab === 'courses' ? 'Courses' :
                         tab === 'majors' ? 'Majors' :
                           tab === 'pathway' ? 'Pathway' : 'About Us'}
+                    {tab === 'pathway' && (
+                      <DownOutlined
+                        className={`ml-2 transition-transform ${
+                          isPathwayOpen ? 'rotate-180' : 'rotate-0'
+                        }`}
+                      />
+                    )}
                   </Link>
-                  {tab === 'pathway' && isDropdownOpen && (
-                    <div className="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md z-10">
-                      <Link to="./job" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Job Position</Link>
-                      <Link to="./organization" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Organization</Link>
+                  {tab === 'pathway' && isPathwayOpen && (
+                    <div className="pl-8 py-2 space-y-2 bg-gray-50 dark:bg-gray-900">
+                      <Link
+                        to="./job"
+                        className="block text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md px-4 py-2"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Job Position
+                      </Link>
+                      <Link
+                        to="./organization"
+                        className="block text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md px-4 py-2"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Organization
+                      </Link>
                     </div>
                   )}
                 </div>
               ))}
-              <ThemeSwitch className="ml-5 mb-2"/>
+              <ThemeSwitch className="ml-5 mb-2" />
             </nav>
 
             {!isLoggedIn && (
