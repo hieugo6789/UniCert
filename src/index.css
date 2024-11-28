@@ -19,18 +19,9 @@
 .fade-in.show {
   opacity: 1;
 }
-.prose ul {
-  @apply list-disc pl-10; /* Adjusts the padding for the list */
-}
 
 .prose li {
-  @apply mb-2; /* Adds some margin below each list item */
-}
-.prose h2 {
-  @apply text-2xl font-bold;
-}
-.prose h2 {
-  @apply text-3xl font-bold;
+  @apply ml-2; /* Adds some margin below each list item */
 }
 .vertical-text {
   writing-mode: vertical-lr;

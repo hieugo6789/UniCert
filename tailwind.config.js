@@ -1,42 +1,41 @@
-const {nextui} = require('@nextui-org/theme');
+const { nextui } = require("@nextui-org/theme");
 
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@nextui-org/theme/dist/components/(calendar|date-picker|button|ripple|spinner|date-input|popover).js"
+    "./node_modules/@nextui-org/theme/dist/components/(calendar|date-picker|button|ripple|spinner|date-input|popover).js",
   ],
-  darkMode: 'class',
+  darkMode: "class",
   theme: {
     extend: {
       fontFamily: {
-        inter: ['Inter', 'sans-serif'],
+        inter: ["Inter", "sans-serif"],
       },
     },
   },
   theme: {
     extend: {
       fontFamily: {
-        inter: ['Inter', 'sans-serif'],
+        inter: ["Inter", "sans-serif"],
       },
       keyframes: {
-        'gradient': {
-          to: { 'background-position': '200% center' },
+        gradient: {
+          to: { "background-position": "200% center" },
         },
         float: {
           "100%": { transform: "translateY(20px)" },
         },
-        'infinite-scroll': {
-          from: { transform: 'translateX(0)' },
-          to: { transform: 'translateX(-100%)' },
+        "infinite-scroll": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-100%)" },
         },
       },
       animation: {
-
-        'gradient': 'gradient 8s linear infinite',
+        gradient: "gradient 8s linear infinite",
         float: "float 1s infinite ease-in-out alternate",
-        'infinite-scroll': 'infinite-scroll 25s linear infinite',
+        "infinite-scroll": "infinite-scroll 25s linear infinite",
       },
       zIndex: {
         100: "100",
@@ -44,5 +43,5 @@ export default {
       },
     },
   },
-  plugins: [nextui()],
+  plugins: [require("@tailwindcss/typography"), nextui()],
 };

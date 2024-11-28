@@ -15,12 +15,18 @@ import useFeedbackByCertId from "../../../hooks/Feedback/useFeedbackByCertId";
 
 const CertificateDetailPage = () => {
   const [activeTab, setActiveTab] = useState("Description");
-  const [cert, setCertificate] = useState<allCertificationData | undefined>(undefined);
+  const [cert, setCertificate] = useState<allCertificationData | undefined>(
+    undefined
+  );
   const id = Number(useParams().id);
   const { state, getCertDetails } = useCertDetail();
-  const { schedule } = useSchedule();  
-  const [filteredSchedule, setFilteredSchedule] = useState<allSchedulePaginationData[]>([]);
-  const [filteredCourses, setFilteredCourses] = useState<allCoursePaginationData[]>([]);
+  const { schedule } = useSchedule();
+  const [filteredSchedule, setFilteredSchedule] = useState<
+    allSchedulePaginationData[]
+  >([]);
+  const [filteredCourses, setFilteredCourses] = useState<
+    allCoursePaginationData[]
+  >([]);
   const { course, refetchCourses } = useCourse();
   const { feedback } = useFeedbackByCertId({ certId: id });
   const [showAllMajors, setShowAllMajors] = useState(false);
@@ -38,13 +44,15 @@ const CertificateDetailPage = () => {
     fetchData();
   }, [id]);
 
-  useEffect(() => {    
-    setCertificate(state?.currentCert);    
+  useEffect(() => {
+    setCertificate(state?.currentCert);
   }, [state]);
 
   useEffect(() => {
-    const filtered = schedule.filter(session => Number(session.certId) === id);
-    setFilteredSchedule(filtered);    
+    const filtered = schedule.filter(
+      (session) => Number(session.certId) === id
+    );
+    setFilteredSchedule(filtered);
   }, [schedule, id]);
 
   useEffect(() => {
@@ -52,15 +60,15 @@ const CertificateDetailPage = () => {
       try {
         await refetchCourses();
       } catch (error) {
-        console.error('Failed to fetch courses: ', error);
+        console.error("Failed to fetch courses: ", error);
       }
     };
     fetchCourses();
   }, []);
 
   useEffect(() => {
-    const filteredCourses = course.filter(course => 
-      course.certificationDetails[0]?.certId === cert?.certId
+    const filteredCourses = course.filter(
+      (course) => course.certificationDetails[0]?.certId === cert?.certId
     );
     setFilteredCourses(filteredCourses);
   }, [course, cert]);
@@ -98,16 +106,41 @@ const CertificateDetailPage = () => {
                 <h1 className="text-3xl font-bold mb-4">{cert?.certName}</h1>
                 <div className="space-y-3">
                   <div className="flex items-center">
-                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-5 h-5 mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
                     <span>Level: {cert?.typeName}</span>
                   </div>
                   <div className="flex items-center">
-                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-5 h-5 mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
-                    <span>Fee: {cert?.certCost ? `Minimum ${cert.certCost}$ to purchase` : 'Free'}</span>
+                    <span>
+                      Fee:{" "}
+                      {cert?.certCost
+                        ? `Minimum ${cert.certCost}$ to purchase`
+                        : "Free"}
+                    </span>
                   </div>
                   <div className="mt-6">
                     <GetExamSimulation certId={cert?.certId || 0} />
@@ -118,93 +151,110 @@ const CertificateDetailPage = () => {
               {/* Quick Info Card */}
               <div className="lg:col-span-1">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
-                  <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">Quick Information</h2>
+                  <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">
+                    Quick Information
+                  </h2>
                   <div className="space-y-4">
                     <div>
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Prerequisites</h3>
-                      {cert?.certPrerequisite && cert?.certPrerequisiteId && 
-                       cert.certPrerequisite.length > 0 && cert.certPrerequisiteId.length > 0 ? (
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+                        Prerequisites
+                      </h3>
+                      {cert?.certPrerequisite &&
+                      cert?.certPrerequisiteId &&
+                      cert.certPrerequisite.length > 0 &&
+                      cert.certPrerequisiteId.length > 0 ? (
                         <div className="flex flex-wrap gap-2">
-                          {cert.certPrerequisite.map((name: string, index: number) => {
-                            const id = cert.certPrerequisiteId[index];
-                            if (!name || !id) return null;
-
-                            return (
-                              <button
-                                key={id}
-                                onClick={() => navigate(`/certificate/${id}`)}
-                                className="inline-flex items-center px-3 py-1.5 
-                                  bg-purple-50 dark:bg-purple-900 hover:bg-purple-100 dark:hover:bg-purple-800
-                                  text-purple-700 dark:text-purple-200 rounded-full text-sm font-medium 
-                                  transition-colors duration-200
-                                  border border-purple-200 dark:border-purple-700 hover:border-purple-300 dark:hover:border-purple-600
-                                  group"
-                              >
-                                <svg 
-                                  xmlns="http://www.w3.org/2000/svg" 
-                                  className="h-4 w-4 mr-1.5 text-purple-500 dark:text-purple-300 group-hover:text-purple-600 dark:group-hover:text-purple-200" 
-                                  fill="none" 
-                                  viewBox="0 0 24 24" 
-                                  stroke="currentColor"
-                                >
-                                  <path 
-                                    strokeLinecap="round" 
-                                    strokeLinejoin="round" 
-                                    strokeWidth={2} 
-                                    d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11" 
-                                  />
-                                </svg>
-                                {name}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        <p className="text-gray-600 dark:text-gray-300 italic flex items-center">
-                          <svg 
-                            xmlns="http://www.w3.org/2000/svg" 
-                            className="h-4 w-4 mr-1.5 text-gray-400 dark:text-gray-500" 
-                            fill="none" 
-                            viewBox="0 0 24 24" 
-                            stroke="currentColor"
-                          >
-                            <path 
-                              strokeLinecap="round" 
-                              strokeLinejoin="round" 
-                              strokeWidth={2} 
-                              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
-                            />
-                          </svg>
-                          No prerequisites certificate
-                        </p>
-                      )}
-                    </div>                    
-
-                    {/* Majors Section */}
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Majors</h3>
-                      {cert?.majorNames && cert?.majorIds && cert.majorNames.length > 0 ? (
-                        <div>
-                          <div className="flex flex-wrap gap-2">
-                            {cert.majorNames.slice(0, showAllMajors ? cert.majorNames.length : 2).map((name: string, index: number) => {
-                              const id = cert.majorIds[index];
+                          {cert.certPrerequisite.map(
+                            (name: string, index: number) => {
+                              const id = cert.certPrerequisiteId[index];
                               if (!name || !id) return null;
 
                               return (
                                 <button
                                   key={id}
-                                  onClick={() => navigate(`/major/${id}`)}
+                                  onClick={() => navigate(`/certificate/${id}`)}
                                   className="inline-flex items-center px-3 py-1.5 
+                                  bg-purple-50 dark:bg-purple-900 hover:bg-purple-100 dark:hover:bg-purple-800
+                                  text-purple-700 dark:text-purple-200 rounded-full text-sm font-medium 
+                                  transition-colors duration-200
+                                  border border-purple-200 dark:border-purple-700 hover:border-purple-300 dark:hover:border-purple-600
+                                  group"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-4 w-4 mr-1.5 text-purple-500 dark:text-purple-300 group-hover:text-purple-600 dark:group-hover:text-purple-200"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"
+                                    />
+                                  </svg>
+                                  {name}
+                                </button>
+                              );
+                            }
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-gray-600 dark:text-gray-300 italic flex items-center">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4 mr-1.5 text-gray-400 dark:text-gray-500"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          No prerequisites certificate
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Majors Section */}
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+                        Majors
+                      </h3>
+                      {cert?.majorNames &&
+                      cert?.majorIds &&
+                      cert.majorNames.length > 0 ? (
+                        <div>
+                          <div className="flex flex-wrap gap-2">
+                            {cert.majorNames
+                              .slice(
+                                0,
+                                showAllMajors ? cert.majorNames.length : 2
+                              )
+                              .map((name: string, index: number) => {
+                                const id = cert.majorIds[index];
+                                if (!name || !id) return null;
+
+                                return (
+                                  <button
+                                    key={id}
+                                    onClick={() => navigate(`/major/${id}`)}
+                                    className="inline-flex items-center px-3 py-1.5 
                                     bg-purple-50 dark:bg-purple-900 hover:bg-purple-100 dark:hover:bg-purple-800
                                     text-purple-700 dark:text-purple-200 rounded-full text-sm font-medium 
                                     transition-transform transform hover:scale-105
                                     border border-purple-200 dark:border-purple-700 hover:border-purple-300 dark:hover:border-purple-600
                                     group"
-                                >
-                                  {name}
-                                </button>
-                              );
-                            })}
+                                  >
+                                    {name}
+                                  </button>
+                                );
+                              })}
                           </div>
                           {cert.majorNames.length > 2 && (
                             <button
@@ -221,7 +271,12 @@ const CertificateDetailPage = () => {
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
                                   >
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M19 9l-7 7-7-7"
+                                    />
                                   </svg>
                                 </>
                               ) : (
@@ -234,7 +289,12 @@ const CertificateDetailPage = () => {
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
                                   >
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M5 15l7-7 7 7"
+                                    />
                                   </svg>
                                 </>
                               )}
@@ -242,39 +302,54 @@ const CertificateDetailPage = () => {
                           )}
                         </div>
                       ) : (
-                        <p className="text-gray-600 dark:text-gray-300 italic flex items-center">No majors suitable for this certificate</p>
+                        <p className="text-gray-600 dark:text-gray-300 italic flex items-center">
+                          No majors suitable for this certificate
+                        </p>
                       )}
                     </div>
 
                     {/* Job Positions Section */}
                     <div>
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Job Positions</h3>
-                      {cert?.jobPositionNames && cert?.jobPositionIds && cert.jobPositionNames.length > 0 ? (
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+                        Job Positions
+                      </h3>
+                      {cert?.jobPositionNames &&
+                      cert?.jobPositionIds &&
+                      cert.jobPositionNames.length > 0 ? (
                         <div>
                           <div className="flex flex-wrap gap-2">
-                            {cert.jobPositionNames.slice(0, showAllJobPositions ? cert.jobPositionNames.length : 2).map((name: string, index: number) => {
-                              const id = cert.jobPositionIds[index];
-                              if (!name || !id) return null;
+                            {cert.jobPositionNames
+                              .slice(
+                                0,
+                                showAllJobPositions
+                                  ? cert.jobPositionNames.length
+                                  : 2
+                              )
+                              .map((name: string, index: number) => {
+                                const id = cert.jobPositionIds[index];
+                                if (!name || !id) return null;
 
-                              return (
-                                <button
-                                  key={id}
-                                  onClick={() => navigate(`/job/${id}`)}
-                                  className="inline-flex items-center px-3 py-1.5 
+                                return (
+                                  <button
+                                    key={id}
+                                    onClick={() => navigate(`/job/${id}`)}
+                                    className="inline-flex items-center px-3 py-1.5 
                                     bg-purple-50 dark:bg-purple-900 hover:bg-purple-100 dark:hover:bg-purple-800
                                     text-purple-700 dark:text-purple-200 rounded-full text-sm font-medium 
                                     transition-transform transform hover:scale-105
                                     border border-purple-200 dark:border-purple-700 hover:border-purple-300 dark:hover:border-purple-600
                                     group"
-                                >
-                                  {name}
-                                </button>
-                              );
-                            })}
+                                  >
+                                    {name}
+                                  </button>
+                                );
+                              })}
                           </div>
                           {cert.jobPositionNames.length > 2 && (
                             <button
-                              onClick={() => setShowAllJobPositions(!showAllJobPositions)}
+                              onClick={() =>
+                                setShowAllJobPositions(!showAllJobPositions)
+                              }
                               className="mt-3 flex items-center text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline transition-all duration-200"
                             >
                               {showAllJobPositions ? (
@@ -287,7 +362,12 @@ const CertificateDetailPage = () => {
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
                                   >
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M19 9l-7 7-7-7"
+                                    />
                                   </svg>
                                 </>
                               ) : (
@@ -300,7 +380,12 @@ const CertificateDetailPage = () => {
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
                                   >
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M5 15l7-7 7 7"
+                                    />
                                   </svg>
                                 </>
                               )}
@@ -308,13 +393,19 @@ const CertificateDetailPage = () => {
                           )}
                         </div>
                       ) : (
-                        <p className="text-gray-600 dark:text-gray-300 italic flex items-center">No job positions suitable for this certificate</p>
+                        <p className="text-gray-600 dark:text-gray-300 italic flex items-center">
+                          No job positions suitable for this certificate
+                        </p>
                       )}
                     </div>
 
                     <div>
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Validity Period</h3>
-                      <p className="text-gray-800 dark:text-gray-200">{cert?.certValidity || "Permanent certificate"}</p>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                        Validity Period
+                      </h3>
+                      <p className="text-gray-800 dark:text-gray-200">
+                        {cert?.certValidity || "Permanent certificate"}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -328,16 +419,21 @@ const CertificateDetailPage = () => {
       <div className="container mx-auto px-4">
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg mt-8 overflow-hidden">
           <div className="flex flex-wrap sm:flex-nowrap border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
-            {["Description", cert?.certCost && cert.certCost > 0 ? "Exam Details" : null, "Feedback"]
+            {[
+              "Description",
+              cert?.certPointSystem ? "Point system" : null,
+              "Feedback",
+            ]
               .filter(Boolean)
               .map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab!)}
                   className={`flex-shrink-0 w-full sm:w-auto px-4 sm:px-8 py-3 sm:py-4 font-medium transition-colors duration-200
-                    ${activeTab === tab
-                      ? "border-b-2 border-purple-500 text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/50"
-                      : "text-gray-600 dark:text-gray-300 hover:text-purple-500 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/30"
+                    ${
+                      activeTab === tab
+                        ? "border-b-2 border-purple-500 text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/50"
+                        : "text-gray-600 dark:text-gray-300 hover:text-purple-500 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/30"
                     }`}
                 >
                   {tab}
@@ -348,10 +444,14 @@ const CertificateDetailPage = () => {
           {/* Tab Content */}
           <div className="p-6">
             {activeTab === "Description" && cert && (
-              <Description props={cert} schedule={filteredSchedule} course={filteredCourses}/>
+              <Description
+                props={cert}
+                schedule={filteredSchedule}
+                course={filteredCourses}
+              />
             )}
-            {activeTab === "Exam Details" && cert && <ExamDetails {...cert} />}
-            {activeTab === "Feedback" && <Feedback feedback={feedback}/>}
+            {activeTab === "Point system" && cert && <ExamDetails {...cert} />}
+            {activeTab === "Feedback" && <Feedback feedback={feedback} />}
           </div>
         </div>
       </div>
