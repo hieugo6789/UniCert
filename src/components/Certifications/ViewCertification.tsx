@@ -61,7 +61,12 @@ const ViewCertification: React.FC<ViewCertDetailProps> = ({ certId }) => {
               />
             </Descriptions.Item>
             <Descriptions.Item label="Point System">
-              {state.currentCert.certPointSystem}
+              <div
+                className="prose list-disc whitespace-pre-wrap text-sm"
+                dangerouslySetInnerHTML={{
+                  __html: state.currentCert.certPointSystem || "",
+                }}
+              />
             </Descriptions.Item>
             <Descriptions.Item label="Image">
               {state?.currentCert?.certImage ? (
