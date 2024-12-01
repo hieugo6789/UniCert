@@ -173,7 +173,7 @@ const AdminNotification = () => {
                                 </Menu.Item>
                                 {!notif.isRead && (
                                   <Menu.Item
-                                    key="read"
+                                    key="readViolation"
                                     onClick={() =>
                                       recordViolation(notif.notificationId)
                                     }

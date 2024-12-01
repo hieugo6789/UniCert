@@ -71,7 +71,11 @@ const Wallet = () => {
           <div>
             {parsedUserId && historyTransaction.length > 0 ? (
               historyTransaction
-                .filter((transaction) => transaction.transStatus === "Success")
+                .filter(
+                  (transaction) =>
+                    transaction.transStatus === "Success" ||
+                    transaction.transStatus === "Refunded"
+                )
                 .map((transaction, index) => (
                   <div key={index}>
                     <div className="flex justify-center items-center mb-2">
@@ -98,7 +102,9 @@ const Wallet = () => {
                         />
                         <div className="mt-2">
                           <p className="text-lg font-semibold text-yellow-600 dark:text-yellow-500">
-                            +{transaction.point}
+                            {transaction.transStatus === "Refunded"
+                              ? transaction.point
+                              : `+${transaction.point}`}
                           </p>
                         </div>
                       </div>
