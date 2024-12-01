@@ -12,13 +12,13 @@ import {
   UpdateRole,
 } from "../models/user";
 import { scheduleInput, updateSchedule } from "../models/schedule";
-import { createCertificate, updateCert } from "../models/certificate";
+import { createCertificate, createCertProps, updateCert } from "../models/certificate";
 import { createJobInput, updateJobInput } from "../models/jobPosition";
 import { inputTransaction } from "../models/transaction";
 import { createCourse, updateCourse } from "../models/course";
 import { createVoucher, updateVoucher } from "../models/voucher";
 import { createPayment, payNow } from "../models/payment";
-import { updateCart } from "../models/cart";
+import { updateCart } from "../models/cart";  
 import {
   createCourseEnrollment,
   createExamEnrollment,
@@ -78,6 +78,7 @@ const Major = {
     ),
   filterMajor: (majorId: string, jobId: string) =>
     requests.get(`api/v1/major/${majorId}/jobPosition/${jobId}`),
+  
 };
 const Organization = {
   getAllOrganizations: (name?: string) =>
@@ -117,6 +118,8 @@ const JobPosition = {
     requests.put1(
       `api/v1/job-position/Permission?jobPositionId=${jobId}&jobPositionPermission=${permission}`
     ),
+    getRecommedByUser: (userId: string) =>
+      requests.get(`/api/v1/job-position/recommended/${userId}`),
 };
 
 const Certificate = {
@@ -358,6 +361,20 @@ const Employees = {
   createEmployeeAccount: (input: CreateEmployeeAccount) =>
     requests.post("api/v1/users", input),
 };
+const selectedCert = {
+  getByUser(userId: string) {
+    return requests.get(`api/v1/selected-cert/user/${userId}/certs`);
+  },
+  createSelectedCert(input: createCertProps) {
+    return requests.post(`api/v1/selected-cert/user/certs`, input);
+  },
+  deleteSelectedCert(userId: number, certId: number) {
+    return requests.del(`api/v1/selected-cert/user/${userId}/certs/${certId}`);
+  },
+  UpdateSelectedCert(input: createCertProps) {
+    return requests.put(`api/v1/selected-cert/user/certs`, input);
+  },
+};
 const agent = {
   Major,
   Account,
@@ -383,5 +400,6 @@ const agent = {
   ChangePassword,
   resetPassword,
   Employees,
+  selectedCert,
 };
 export default agent;
