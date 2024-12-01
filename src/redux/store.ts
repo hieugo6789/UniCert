@@ -72,6 +72,12 @@ import resetPasswordReducer from "./slice/Password/ResetPasswordSlice";
 import forgotPasswordReducer from "./slice/Password/ForgotPasswordSlice";
 import createAccountReducer from "./slice/Account/createAccountSlice";
 import certCostReducer from "./slice/Certification/getTotalCertSlice";
+import getRecommedByUser  from "./slice/JobPosition/recommendedJobSlice";
+import getSelectedCert from "./slice/Certification/getSelectedCertSlice";
+import createSelectedCert from "./slice/Certification/createSelectedCertSlice";
+import deleteSelectedCert from "./slice/Certification/deleteSelectedCertSlice";
+import updateSelectedCert from "./slice/Certification/updateSelectedCertSlice";
+
 
 export const store = configureStore({
   reducer: {
@@ -147,6 +153,11 @@ export const store = configureStore({
     forgotPassword: forgotPasswordReducer,
     createAccount: createAccountReducer,
     certCost: certCostReducer,
+    getRecommedByUser: getRecommedByUser,
+    getSelectedCert: getSelectedCert,
+    createSlectedCert: createSelectedCert,
+    deleteSelectedCert: deleteSelectedCert,
+    updateSelectedCert: updateSelectedCert,
   },
 });
 
