@@ -57,6 +57,7 @@ import CheckStudentEnrollCode from "./components/Course/CheckStudentEnrollCode";
 import CourseEnrollDetailPage from "./page/User/Courses/CourseEnrollDetailPage";
 import Organization from "./page/User/Organization/Organization";
 import OrganizationDetail from "./page/User/Organization/OrganizationDetail";
+import Pathway from "./page/User/Pathway/Pathway";
 
 const Layout = () => {
   return (
@@ -104,6 +105,7 @@ function App() {
         { path: "/register", element: <Register /> },
         { path: "/profile", element: <Profile /> },
         { path: "/reset-password", element: <ResetPassword /> },
+        { path: "/pathway", element: <Pathway /> },
       ],
     },    
     {
