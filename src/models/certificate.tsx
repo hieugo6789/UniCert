@@ -112,9 +112,9 @@ export interface metaData {
   totalPages: number;
 }
 
-
 export interface createCertProps {
   userId: number;
-  certificateId:number[];
+  certificationId:number[];
 }
+
 
