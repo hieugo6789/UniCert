@@ -114,7 +114,7 @@ export interface metaData {
 
 
 export interface createCertProps {
-  userId:number;
+  userId: number;
   certificateId:number[];
 }
 

@@ -1,5 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaSearch, FaTimes, FaChevronDown, FaLaptopCode, FaDatabase, FaCloud, FaArrowDown, FaLink, FaBook, FaDollarSign, FaCheck, FaBuilding } from "react-icons/fa";
+import useAllCertification from "../../../hooks/Certification/useAllCertification";
+import { allCertificationData } from "../../../models/certificate";
+import useGetSelectedCert from "../../../hooks/Certification/useGetSelectedCert";
+import { useCreateSelectedCert } from "../../../hooks/Certification/useCreateSelectedCert";
+import useDeleteSelectedCert from "../../../hooks/Certification/useDeleteSelectedCert";
+import Cookies from "js-cookie";
+import { showToast } from '../../../utils/toastUtils';
+import { useNavigate } from "react-router-dom";
 
 interface RoadmapStep {
   step: number;
@@ -13,11 +21,6 @@ interface RoadmapStep {
   progress: number;
   organization: string;
   orgLogo: string;
-}
-
-interface Certification {
-  id: number;
-  name: string;
 }
 
 // Add interface for job position
@@ -59,22 +62,34 @@ const Modal = ({ isOpen, onClose, children, title } : any) => {
 // Add type for valid tabs
 type TabType = 'frontend' | 'backend' | 'cloud';
 
-const CertificationInterface = () => {
-  const [selectedCerts, setSelectedCerts] = useState<Certification[]>([]);
+const Pathway = () => {
+  const userId = Cookies.get("userId");
+  const navigate = useNavigate();  
+  const { certificate } = useAllCertification();
+  const { certificate: selectCert, fetchSelectedCert } = useGetSelectedCert();
+  const { handleCreateCert } = useCreateSelectedCert();
+  const { handleDeleteCertificate } = useDeleteSelectedCert();
+  const [certificates, setCertificates] = useState<allCertificationData[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('frontend');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedJob, setSelectedJob] = useState<JobPosition | null>(null);  
 
-  const certifications = [
-    { id: 1, name: "AWS Solutions Architect" },
-    { id: 2, name: "Azure Cloud Developer" },
-    { id: 3, name: "Google Cloud Engineer" },
-    { id: 4, name: "MongoDB Developer" },
-    { id: 5, name: "React Developer" },
-    { id: 6, name: "Node.js Developer" }
-  ];
+  useEffect(() => {
+    const approvedCertificates = certificate.filter((c) => c.permission === "Approve");
+    setCertificates(approvedCertificates);
+  }, [certificate]);
+
+  useEffect(() => {
+    if (!userId) {
+      showToast("Please login to access this page", "error");
+      navigate('/login');
+      return;
+    }
+    fetchSelectedCert(userId); // Thay "userId" bằng ID người dùng thực tế
+    console.log("Test")
+  }, [userId]);
 
   const jobPositions = [
     {
@@ -229,15 +244,15 @@ const CertificationInterface = () => {
     ]
   };
 
-  const handleCertSelect = (cert : any) => {
-    if (!selectedCerts.find((c) => c.id === cert.id)) {
-      setSelectedCerts([...selectedCerts, cert]);
+  const handleCertSelect = (cert: any) => {
+    if (!selectCert.find((c) => c.certId === cert.certId)) {      
+      handleCreateCert({ userId: Number(userId) , certificateId: [cert.certId] }); // Thay "userId" bằng ID người dùng thực tế
     }
     setIsDropdownOpen(false);
   };
 
-  const handleCertRemove = (certId : any) => {
-    setSelectedCerts(selectedCerts.filter((cert) => cert.id !== certId));
+  const handleCertRemove = (certId: any) => {    
+    handleDeleteCertificate(certId);
   };
 
   const handleJobCardClick = (job: any) => {
@@ -246,8 +261,8 @@ const CertificationInterface = () => {
     setIsModalOpen(true);
   };
 
-  const filteredCerts = certifications.filter((cert) =>
-    cert.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredCerts = certificates.filter((cert) =>
+    cert.certName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const groupedRoadmap = (tab: keyof typeof roadmaps) => {
@@ -274,17 +289,17 @@ const CertificationInterface = () => {
           >
             <div className="flex items-center justify-between">
               <div className="flex flex-wrap gap-2">
-                {selectedCerts.map((cert) => (
+                {selectCert.map((cert) => (
                   <span
-                    key={cert.id}
+                    key={cert.certId}
                     className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center gap-2"
                   >
-                    {cert.name}
+                    {cert.certName}
                     <FaTimes
                       className="cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleCertRemove(cert.id);
+                        handleCertRemove(cert.certId);
                       }}
                     />
                   </span>
@@ -311,11 +326,11 @@ const CertificationInterface = () => {
               <div className="max-h-60 overflow-y-auto">
                 {filteredCerts.map((cert) => (
                   <div
-                    key={cert.id}
+                    key={cert.certId}
                     className="p-2 hover:bg-gray-100 cursor-pointer"
                     onClick={() => handleCertSelect(cert)}
                   >
-                    {cert.name}
+                    {cert.certName}
                   </div>
                 ))}
               </div>
@@ -491,4 +506,4 @@ const CertificationInterface = () => {
   );
 };
 
-export default CertificationInterface;
+export default Pathway;
