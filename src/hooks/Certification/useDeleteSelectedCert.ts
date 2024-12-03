@@ -7,10 +7,10 @@ const useDeleteSelectedCert = () => {
   const state = useAppSelector((state) => state.getSelectedCert);
   const dispatch = useAppDispatch();
 
-  const handleDeleteCertificate = async (certId: number) => {
+  const handleDeleteCertificate = async (userId:number,certId: number) => {
     dispatch(deleteCertificateFailure());
     try {
-      const response = await agent.Certificate.deleteCertificate(certId);
+      const response = await agent.selectedCert.deleteSelectedCert(userId,certId);
       dispatch(deleteCertificateSuccess(response.data));
     } catch (error) {
       console.error("Error deleting certification:", error);
