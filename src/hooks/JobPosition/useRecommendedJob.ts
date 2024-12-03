@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppDispatch } from "../../redux/hook";
 import { currentJob } from "../../models/jobPosition";
 import { getRecommedByUser } from "../../redux/slice/JobPosition/recommendedJobSlice";
 
 
-const useRecommendedJobs = (userId: string) => {
+const useRecommendedJobs = () => {
     const dispatch = useAppDispatch();
     const [recommendedJobs, setRecommendedJobs] = useState<currentJob[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     // Function to fetch recommended jobs
-    const fetchRecommendedJobs = async () => {
+    const fetchRecommendedJobs = async (userId: string) => {
         setLoading(true);
         setError(null); // Reset error before making the request
         try {
@@ -33,11 +33,11 @@ const useRecommendedJobs = (userId: string) => {
     };
 
     // Fetch recommended jobs when the component mounts or userId changes
-    useEffect(() => {
-        if (userId) {
-            fetchRecommendedJobs();
-        }
-    }, [userId]); // Trigger when `userId` changes
+    // useEffect(() => {
+    //     if (userId) {
+    //         fetchRecommendedJobs();
+    //     }
+    // }, [userId]); // Trigger when `userId` changes
 
     return { recommendedJobs, loading, error, refetchRecommendedJobs: fetchRecommendedJobs };
 };
