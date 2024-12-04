@@ -165,7 +165,7 @@ const ExamDetailPage = () => {
                 <div className="p-6">
                     {activeTab === "Detail" && (
                         <div className="space-y-8 animate-fadeIn">
-                            <ExamResultTable />
+                            <ExamResultTable props={exam}/>
                         </div>
                     )}
                     {activeTab === "Feedback" && (

@@ -4,11 +4,13 @@ import useScoreDetail from "../../hooks/Score/useScoreDetail";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
 
-const ExamResultTable = () => {
+const ExamResultTable = ({props} : any) => {
     const userId = Cookies.get("userId") || 0;
     const examId = useParams().id;
     const [examResults, setExamResults] = useState<score[]>([]);
     const { state, getScoreDetails } = useScoreDetail();
+
+    console.log("Test", props.passingScore)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,11 +47,11 @@ const ExamResultTable = () => {
 
     return (
         <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg w-full p-4 sm:p-6">
-            <h2 className="text-xl sm:text-2xl font-bold text-center mb-4 text-gray-800 dark:text-gray-100">Exam Results</h2>
-
+            <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 dark:text-gray-100">Exam Results</h2>
+            <p className="text-lg sm:text-lg font-bold text-center mb-4 text-gray-800 dark:text-gray-100">The minimum score required to pass the exam is {props.passingScore}.</p>
             {averageScore && (
                 <div className="text-center mb-6">
-                    <p className={`font-semibold text-base sm:text-lg ${Number(averageScore) >= 50 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>
+                    <p className={`font-semibold text-base sm:text-lg ${Number(averageScore) >= props.passingScore ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>
                         Average Score: {averageScore}/100
                     </p>
                     {examResults.length > 1 && (
@@ -62,12 +64,12 @@ const ExamResultTable = () => {
 
             {examResults.length > 0 && (
                 <div className={`text-center mb-6 p-3 rounded-lg ${
-                    examResults[0].scoreValue >= 50 
+                    examResults[0].scoreValue >= props.passingScore 
                         ? "bg-green-50 dark:bg-green-900/50 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800" 
                         : "bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800"
                 }`}>
                     <p className="font-semibold text-sm sm:text-base">
-                        {examResults[0].scoreValue >= 50 
+                        {examResults[0].scoreValue >= props.passingScore 
                             ? "Congratulations! You have passed the exam" 
                             : "You have not passed the exam yet. Keep practicing!"}
                     </p>
