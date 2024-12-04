@@ -3,166 +3,126 @@ import CustomModal from "../../../components/UI/CustomModal";
 import useJobDetail from "../../../hooks/JobPosition/useJobDetail";
 import { allJobPaginationData } from "../../../models/jobPosition";
 import { FaArrowDown, FaBook, FaCheck, FaLink } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
   jobId: string;
 }
+
+interface certTab {
+  certCode: string;
+  certDescription: string;
+  certId: number;
+  certImage: string;
+  certName: string;
+  typeName: string;
+  organizeId: number;
+}
+
 const PathwayModal = (props: ModalProps) => {
-  const [job, setJob] = useState<allJobPaginationData>();
+  const [job, setJob] = useState<allJobPaginationData | null>(null);
   const { state, jobDetailByOrganize } = useJobDetail();
+  const [certList, setCertList] = useState<certTab[]>([]);
 
   useEffect(() => {
-    if(props.isOpen)
-      jobDetailByOrganize(Number(props.jobId))
-  }, [props.jobId]);
+    if (props.isOpen) {
+      jobDetailByOrganize(Number(props.jobId));
+    }
+  }, [props.isOpen, props.jobId]);
 
   useEffect(() => {
     if (state?.currentJob) {
-      // setJobDetail(state.currentJob);
       const jobDetailItem = state?.currentJob as any;
-      console.log(state?.currentJob);
       setJob(jobDetailItem?.[0] ?? null);
-      //   setCertList(jobDetailItem?.[0]?.certificationTwoId ?? []);
-
+      setCertList(jobDetailItem?.[0]?.certificationTwoId ?? []);
     }
   }, [state]);
 
-  return (
-    <CustomModal isOpen={props.isOpen} onClose={props.onClose} title={props.title}>
-      <div>Hello</div>
-      <div className="transition-all duration-500 ease-in-out">
-        <div className="border rounded-lg overflow-hidden">
-          <div className="p-4 bg-gray-50">
-            <div className="flex items-center justify-between mb-2">
-              <span className="font-semibold">Overall Progress</span>
-              <span className="text-sm text-gray-600">
-                {job?.certificationDetails ? Math.round(
-                  job.certificationDetails.reduce((acc, step) => acc + step.certValidity === 'Completed' ? 100 : 0, 0) /
-                  job.certificationDetails.length
-                ) : 0}%
-              </span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2.5">
-              <div
-                className="bg-blue-500 h-2.5 rounded-full transition-all duration-500"
-                style={{
-                  width: `${job?.certificationDetails ? Math.round(
-                    job.certificationDetails.reduce((acc, step) => acc + step.certValidity === 'Completed' ? 100 : 0, 0) /
-                    job.certificationDetails.length
-                  ) : 0}%`
-                }}
-              ></div>
-            </div>
-          </div>
+  const calculateProgress = () => {
+    if (!job?.certificationDetails) return 0;
+    const completed = job.certificationDetails.filter(
+      (cert) => cert.certValidity === "Completed"
+    ).length;
+    return Math.round((completed / job.certificationDetails.length) * 100);
+  };
 
-          <div className="p-6">
-            {job?.certificationDetails && job.certificationDetails.length > 0 ? job.certificationDetails.map((step, index) => (
-              <div key={step.certId}>
-                <div className="mb-12 last:mb-0">
-                  <div className="flex items-center gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+  const shortenDescription = (description: string) => {
+    return description.length > 300
+      ? `${description.substring(0, 300)}...`
+      : description
+  }
+  const navigate = useNavigate();
+  return (
+    <CustomModal isOpen={props.isOpen} onClose={props.onClose} title={props?.title || "Job"} size="full">
+      <div className="p-4 max-h-[80vh] overflow-y-auto">
+        {job ? (
+          <>
+            <h2 className="text-lg font-bold">{job.jobPositionName}</h2>
+            <p className="text-sm text-gray-600">{job.jobPositionDescription}</p>
+
+            <div className="mt-4">
+              <h3 className="text-md font-semibold flex items-center gap-2">
+                <FaBook /> Certifications Progress
+              </h3>
+              <div className="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700 mt-2">
+                <div
+                  className="bg-green-500 h-4 rounded-full"
+                  style={{ width: `${calculateProgress()}%` }}
+                ></div>
+              </div>
+              <p className="text-sm text-gray-600 mt-2">
+                {calculateProgress()}% completed
+              </p>
+            </div>
+
+            <div className="mt-4">
+              <h3 className="text-md font-semibold flex items-center gap-2">
+                <FaArrowDown /> Certificate Details
+              </h3>
+              <ul className="mt-2 overflow-y-auto">
+                {certList.map((cert) => (
+                  <li key={cert.certId} className="mb-4 flex items-center gap-4">
+                    {/* Certificate Image */}
                     <img
-                      src={`https://${step.certImage}`}
-                      alt={step.certName}
-                      className="w-12 h-12 rounded-full object-cover"
+                      src={cert.certImage}
+                      alt={cert.certName}
+                      className="w-16 h-16 object-cover rounded-md"
                     />
                     <div>
-                      <h3 className="text-xl font-bold flex items-center gap-2">
-                        <FaBook className="text-blue-500" />
-                        {step.certName}
-                      </h3>
-                      <p className="text-sm text-gray-600">{step.certValidity}</p>
-                    </div>
-                  </div>
-
-                  <div className="mb-8 last:mb-0">
-                    <div className="flex items-start">
-                      <div className="relative">
-                        <div className={`w-12 h-12 rounded-full ${step.certValidity === 'Completed' ? "bg-green-500" : "bg-blue-500"} text-white flex items-center justify-center font-bold text-xl`}>
-                          {step.certValidity === 'Completed' ? <FaCheck /> : step.certId}
-                        </div>
-                        {index < job?.certificationDetails.length - 1 && (
-                          <div className="absolute top-12 left-1/2 transform -translate-x-1/2 h-16 flex items-center">
-                            <FaArrowDown className="text-gray-400 text-2xl" />
-                          </div>
-                        )}
-                      </div>
-                      <div className="ml-6 flex-1">
-                        <div className="bg-white rounded-lg shadow-lg p-4 transform transition-all duration-300 hover:scale-102">
-                          <div className="flex items-center justify-between mb-4">
-                            <h4 className="text-xl font-semibold">{step.certName}</h4>
-                            <span className="text-sm text-gray-500">Duration: {step.certValidity}</span>
-                          </div>
-
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <img
-                              src={`https://${step.certImage}`}
-                              alt={step.certName}
-                              className="w-full h-48 object-cover rounded-lg"
-                            />
-                            <div className="space-y-3">
-                              <div>
-                                {/* <h5 className="font-semibold flex items-center gap-2">
-                                    <FaBook className="text-blue-500" /> Prerequisites
-                                  </h5>
-                                  <p className="text-gray-600">{step.}</p> */}
-                              </div>
-                              <div>
-                                {/* <h5 className="font-semibold flex items-center gap-2">
-                                    <FaDollarSign className="text-green-500" /> Estimated Cost
-                                  </h5>
-                                  <p className="text-gray-600">{step.cost}</p> */}
-                              </div>
-                              <div>
-                                <h5 className="font-semibold flex items-center gap-2">
-                                  <FaLink className="text-purple-500" /> Certification Provider
-                                </h5>
-                                {/* <a
-                                    href={step.provider}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-blue-500 hover:underline"
-                                  >
-                                    Visit Provider
-                                  </a> */}
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="mt-4">
-                            <h5 className="font-semibold mb-2">Learning Resources</h5>
-                            {/* <ul className="list-disc list-inside text-gray-600">
-                                {step.resources.map((resource, idx) => (
-                                  <li key={idx}>{resource}</li>
-                                ))}
-                              </ul> */}
-                          </div>
-
-                          <div className="mt-4">
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="text-sm font-semibold">Progress</span>
-                              <span className="text-sm text-gray-600">{step.certValidity === 'Completed' ? '100' : '0'}%</span>
-                            </div>
-                            <div className="w-full bg-gray-200 rounded-full h-2.5">
-                              <div
-                                className="bg-blue-500 h-2.5 rounded-full transition-all duration-500"
-                                style={{ width: `${step.certValidity === 'Completed' ? '100' : '0'}%` }}
-                              ></div>
-                            </div>
-                          </div>
-                        </div>
+                      <h4 className="text-lg font-semibold">{cert.certName}</h4>
+                      {/* <p className="text-sm text-gray-600">{cert.certDescription}</p> */}
+                      <div className="text-sm text-gray-600"
+                        dangerouslySetInnerHTML={{
+                          __html: shortenDescription(cert.certDescription) || "",
+                        }}
+                      />
+                      <div className="flex items-center gap-2 mt-2">
+                        <button className="flex items-center gap-1 px-2 py-1 bg-blue-500 text-white rounded-md"
+                        onClick={()=>navigate(`/certificate/${cert.certId}`)}
+                        >
+                          <FaLink />
+                          <span>View Details</span>
+                        </button>
+                        <button className="flex items-center gap-1 px-2 py-1 bg-green-500 text-white rounded-md">
+                          <FaCheck />
+                          <span>Completed</span>
+                        </button>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            )) : <div>No certification details available</div>}
-          </div>
-        </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        ) : (
+          <p className="text-center text-gray-600">Loading job details...</p>
+        )}
       </div>
     </CustomModal>
   );
-}
+};
 
 export default PathwayModal;
