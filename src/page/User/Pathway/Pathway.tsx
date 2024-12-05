@@ -46,12 +46,18 @@ const Pathway = () => {
     setSelectedCerts([...selectedCerts, ...updatedCerts]);
   };
 
+  const handleCompleteCert = (certId: number) => {
+    const certToAdd = certificates.find(cert => cert.certId === certId);
+    if (certToAdd) {
+      handleAddCert(certId);
+    }
+  };
+
   useEffect(() => {
-    // Refetch recommended jobs whenever selectedCerts changes
-    if (userId) {
+    if (userId && selectedCerts.length > 0) {
       refetchRecommendedJobs(userId?.toString() || "0");
     }
-  }, [selectedCerts, userId, refetchRecommendedJobs]);  // Trigger refetch on selectedCerts change
+  }, [selectedCerts.length, userId, refetchRecommendedJobs]);
 
   useEffect(() => {
     setSelectedCerts(selectCert);
@@ -92,6 +98,16 @@ const Pathway = () => {
   const indexOfLastJob = jobPage * jobsPerPage;
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
   const currentJobs = jobPositions.slice(indexOfFirstJob, indexOfLastJob);
+
+  const uniqueOrganizations = Array.from(
+    new Set(selectedCerts.map(cert => cert.organizeId))
+  ).map(id => {
+    const org = selectedCerts.find(cert => cert.organizeId === id);
+    return {
+      id: org?.organizeId ?? 0,
+      name: org?.organizeName ?? ''
+    };
+  }).filter(org => org.id !== 0);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -134,40 +150,24 @@ const Pathway = () => {
             </div>
             {isDropdownOpen && (
               <div className="max-h-60 overflow-y-auto mb-2">
-                {filteredCerts.map((cert) => (
-                  <div
-                    key={cert.certId}
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => handleAddCert(cert.certId)}
-                  >
-                    {cert.certName}
-                  </div>
-                ))}
+                {filteredCerts.map((cert) => {
+                  const isSelected = selectedCerts.some(selectedCert => selectedCert.certId === cert.certId);
+                  return (
+                    <div
+                      key={cert.certId}
+                      className={`p-2 ${isSelected ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100 cursor-pointer'}`}
+                      onClick={() => !isSelected && handleAddCert(cert.certId)} // Prevent adding if already selected
+                    >
+                      {cert.certName}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
         </div>
       </div>
-
-
-      {/* Job Positions Grid */}
-      {/* <div className="mb-8 mt-[100px]">
-        <h2 className="text-2xl font-bold mb-4">Recommended Positions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {currentJobs.map((job) => (
-            <div
-              key={job.jobPositionId}
-              className="border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer transform hover:scale-105 transition-transform duration-200"
-              onClick={() => handleJobCardClick(job)}
-            >
-              <div className="p-4">
-                <h3 className="text-xl font-semibold">{job.jobPositionName}</h3>
-                <JobDescription description={job.jobPositionDescription || ""} />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div> */}
+      
       <div className="mb-8 mt-[100px]">
         <h2 className="text-2xl font-bold mb-4">Recommended Positions</h2>
         <div className="grid grid-cols-1 gap-6">
@@ -215,7 +215,15 @@ const Pathway = () => {
         </button>
       </div>
 
-      <PathwayModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Pathway" jobId={selectedJob || "0"} />
+      <PathwayModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        title="Pathway" 
+        jobId={selectedJob || "0"} 
+        selectedCertIds={selectedCerts.map(cert => cert.certId)}
+        organizations={uniqueOrganizations}
+        onCompleteCert={handleCompleteCert}
+      />
     </div>
   );
 };
