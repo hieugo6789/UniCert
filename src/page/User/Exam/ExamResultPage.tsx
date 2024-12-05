@@ -1,10 +1,10 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import CustomButton from "../../../components/UI/CustomButton";
 import { useCreateFeedback } from "../../../hooks/Feedback/useCreateFeedback";
 import Cookies from "js-cookie";
 import { showToast } from "../../../utils/toastUtils";
 import axios from "axios";
+import { FaCertificate, FaRedo, FaArrowLeft, FaComment, FaCloudUploadAlt, FaSearch, FaPaperPlane, FaCheckCircle } from "react-icons/fa";
 
 const ExamResultPage = () => {
     const location = useLocation();
@@ -112,105 +112,151 @@ const ExamResultPage = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-blue-50 dark:from-gray-900 to-white dark:to-gray-800 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto">
+            <div className="max-w-4xl mx-auto">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
-                    {/* Header Section */}
-                    <div className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900 px-8 py-10 text-center">
-                        <div className={`inline-flex items-center justify-center p-2 rounded-full mb-4 ${scoreValue >= 5 ? "bg-green-500" : "bg-yellow-500"
+                    {/* Score Section */}
+                    <div className="bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-800 dark:to-blue-800 px-8 py-12 text-center relative overflow-hidden">
+                        <div className="relative z-10">
+                            <div className={`inline-flex items-center justify-center w-24 h-24 rounded-full mb-6 ${
+                                scoreValue >= 50 
+                                    ? "bg-green-500 dark:bg-green-400" 
+                                    : "bg-yellow-500 dark:bg-yellow-400"
                             }`}>
-                            {scoreValue >= 5 ? (
-                                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                            ) : (
-                                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                </svg>
-                            )}
+                                <span className="text-4xl font-bold text-white">
+                                    {scoreValue.toFixed(0)}
+                                </span>
+                            </div>
+                            
+                            <div className="flex justify-center space-x-2 mb-6">
+                                {Array.from({ length: 5 }, (_, index) => {
+                                    const starValue = (index * 2 + 1) * 10;
+                                    return (
+                                        <span 
+                                            key={index} 
+                                            className={`text-3xl transition-all duration-300 ${
+                                                scoreValue >= starValue 
+                                                    ? "text-yellow-300 transform scale-110" 
+                                                    : scoreValue >= starValue - 10 
+                                                        ? "text-yellow-200 transform scale-105" 
+                                                        : "text-gray-400"
+                                            }`}
+                                        >
+                                            ★
+                                        </span>
+                                    );
+                                })}
+                            </div>
+                            
+                            <p className="text-white/80 font-medium">
+                                Completed on {formatVietnameseDateTime(createdAt)}
+                            </p>
                         </div>
-                        <h1 className="text-5xl font-bold text-white mb-4">
-                            {scoreValue.toFixed(0)}<span className="text-3xl">/100</span>
-                        </h1>
-                        <div className="flex justify-center space-x-1 mb-4">
-                            {Array.from({ length: 5 }, (_, index) => {
-                                const starValue = (index * 2 + 1) * 10;
-                                return (
-                                    <span key={index} className="text-2xl">
-                                        {scoreValue >= starValue ? "⭐" : scoreValue >= starValue - 10 ? "🌟" : "☆"}
-                                    </span>
-                                );
-                            })}
-                        </div>
-                        <p className="text-blue-100">
-                            Completed on {formatVietnameseDateTime(createdAt)}
-                        </p>
+                        
+                        {/* Decorative circles */}
+                        <div className="absolute top-0 left-0 w-32 h-32 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2" />
+                        <div className="absolute bottom-0 right-0 w-40 h-40 bg-white/5 rounded-full translate-x-1/4 translate-y-1/4" />
                     </div>
 
                     {/* Actions Section */}
-                    <div className="px-8 py-6 bg-white dark:bg-gray-800 space-y-6">
+                    <div className="px-8 py-6 space-y-8">
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             {scoreValue >= 50 ? (
-                                <CustomButton
+                                <button
                                     onClick={() => navigate("/")}
-                                    label="View Certificate"
-                                    className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors duration-200"
-                                />
+                                    className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
+                                >
+                                    <FaCertificate />
+                                    View Certificate
+                                </button>
                             ) : (
-                                <CustomButton
+                                <button
                                     onClick={() => navigate("/exam/" + examId + "/simulation")}
-                                    label="Try Again"
-                                    className="px-6 py-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-medium transition-colors duration-200"
-                                />
+                                    className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-white rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
+                                >
+                                    <FaRedo />
+                                    Try Again
+                                </button>
                             )}
-                            <CustomButton
+                            <button
                                 onClick={() => navigate("/exam/" + examId)}
-                                label="Return to Exam Page"
-                                className="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors duration-200"
-                            />
+                                className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-xl font-medium transition-all duration-200 shadow hover:shadow-lg"
+                            >
+                                <FaArrowLeft />
+                                Return to Exam
+                            </button>
                         </div>
 
                         {/* Feedback Section */}
                         {!isLeaveFeedback ? (
-                            <div className="mt-8 border-t dark:border-gray-700 pt-6">
-                                <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Share Your Experience</h3>
-                                <div className="space-y-4">
+                            <div className="border-t dark:border-gray-700 pt-8">
+                                <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-6 flex items-center gap-2">
+                                    <FaComment className="text-purple-500" />
+                                    Share Your Experience
+                                </h3>
+                                <div className="space-y-6">
                                     <textarea
                                         id="feedbackDescriptionInput"
-                                        className="w-full p-4 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                                        className="w-full p-4 rounded-xl border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 resize-none"
                                         rows={4}
                                         placeholder="Help us improve by sharing your thoughts about the exam..."
                                         value={feedback}
                                         onChange={(e) => setFeedback(e.target.value)}
                                     />
-                                    <label
-                                        htmlFor="uploadFile1"
-                                        className="bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 font-semibold text-base rounded max-w-full mb-4 h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 dark:border-gray-600 border-dashed mx-auto font-[sans-serif]"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-11 mb-2 fill-gray-500 dark:fill-gray-400" viewBox="0 0 32 32">
-                                            <path d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z" />
-                                            <path d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z" />
-                                        </svg>
-                                        Upload file
 
-                                        <input type="file" id="uploadFile1" className="hidden" onChange={handleImageChange} />
-                                        <p className="text-xs font-medium text-gray-400 dark:text-gray-500 mt-2">PNG, JPG SVG, WEBP, and GIF are Allowed.</p>
-                                    </label>
-                                    {previewImage && (
-                                        <div className="mt-4 mb-4">
-                                            <img src={previewImage} alt="Preview" className="w-1/2 h-auto rounded-lg" onClick={() => handleOpenModal(previewImage)} />
-                                        </div>
-                                    )}
-                                    <CustomButton
+                                    {/* Image Upload Area */}
+                                    <div className="relative">
+                                        <label
+                                            htmlFor="uploadFile1"
+                                            className="group bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 rounded-xl h-40 flex flex-col items-center justify-center cursor-pointer border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-purple-500 dark:hover:border-purple-400 transition-colors"
+                                        >
+                                            <div className="flex flex-col items-center">
+                                                <FaCloudUploadAlt className="w-12 h-12 mb-2 text-gray-400 group-hover:text-purple-500 transition-colors" />
+                                                <span className="font-medium group-hover:text-purple-500">Upload Screenshot</span>
+                                                <p className="text-xs text-gray-400 mt-1">PNG, JPG, SVG, WEBP, or GIF</p>
+                                            </div>
+                                            <input type="file" id="uploadFile1" className="hidden" onChange={handleImageChange} accept="image/*" />
+                                        </label>
+
+                                        {previewImage && (
+                                            <div className="mt-4 relative group">
+                                                <img 
+                                                    src={previewImage} 
+                                                    alt="Preview" 
+                                                    className="w-full h-48 object-cover rounded-xl cursor-pointer" 
+                                                    onClick={() => handleOpenModal(previewImage)} 
+                                                />
+                                                <div 
+                                                    className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center"
+                                                    onClick={() => handleOpenModal(previewImage)}
+                                                >
+                                                    <FaSearch className="text-white text-xl" />
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <button
                                         onClick={handleFeedbackSubmit}
-                                        label="Submit Feedback"
                                         disabled={!feedback.trim()}
-                                        className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200"
-                                    />
+                                        className={`w-full py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
+                                            feedback.trim()
+                                                ? 'bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white shadow-lg hover:shadow-xl'
+                                                : 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
+                                        }`}
+                                    >
+                                        <FaPaperPlane />
+                                        Submit Feedback
+                                    </button>
                                 </div>
                             </div>
                         ) : (
-                            <div className="text-center py-4">
-                                <p className="text-green-600 dark:text-green-400 font-medium">Thank you for your valuable feedback!</p>
+                            <div className="text-center py-8">
+                                <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full mb-4">
+                                    <FaCheckCircle className="text-3xl text-green-500" />
+                                </div>
+                                <p className="text-green-600 dark:text-green-400 font-medium text-lg">
+                                    Thank you for your valuable feedback!
+                                </p>
                             </div>
                         )}
                     </div>
@@ -220,11 +266,11 @@ const ExamResultPage = () => {
             {/* Image Modal */}
             {isModalOpen && (
                 <div 
-                    className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center modal-background"
+                    className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center modal-background backdrop-blur-sm"
                     onClick={handleModalClick}
                 >
-                    <div className="max-w-3xl max-h-[90vh] overflow-auto bg-white dark:bg-gray-800 rounded-lg p-2">
-                        <img src={modalImage || ''} alt="Enlarged preview" className="w-full h-auto" />
+                    <div className="max-w-4xl max-h-[90vh] overflow-auto bg-white dark:bg-gray-800 rounded-xl p-2 m-4">
+                        <img src={modalImage || ''} alt="Enlarged preview" className="w-full h-auto rounded-lg" />
                     </div>
                 </div>
             )}
