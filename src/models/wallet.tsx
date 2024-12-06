@@ -15,3 +15,12 @@ export interface currentWallet {
   history: string;
   walletStatus: string;
 }
+
+export interface inputRefund {
+  walletId: number;
+  point: number;
+  bankAccount: {
+    accountNumber: string;
+    bankName: string;
+  };
+}

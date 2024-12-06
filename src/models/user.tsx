@@ -53,3 +53,15 @@ export interface resetPasswordInput {
   resetCode: string;
   newPassword: string;
 }
+
+export interface bankInformation {
+  id: string;
+  name: string;
+  code: string;
+  bin: number;
+  short_name: string;
+  logo_url: string;
+  icon_url: string;
+  swift_code: string;
+  lookup_supported: number;
+}

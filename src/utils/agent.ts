@@ -12,13 +12,17 @@ import {
   UpdateRole,
 } from "../models/user";
 import { scheduleInput, updateSchedule } from "../models/schedule";
-import { createCertificate, createCertProps, updateCert } from "../models/certificate";
+import {
+  createCertificate,
+  createCertProps,
+  updateCert,
+} from "../models/certificate";
 import { createJobInput, updateJobInput } from "../models/jobPosition";
 import { inputTransaction } from "../models/transaction";
 import { createCourse, updateCourse } from "../models/course";
 import { createVoucher, updateVoucher } from "../models/voucher";
 import { createPayment, payNow } from "../models/payment";
-import { updateCart } from "../models/cart";  
+import { updateCart } from "../models/cart";
 import {
   createCourseEnrollment,
   createExamEnrollment,
@@ -78,7 +82,6 @@ const Major = {
     ),
   filterMajor: (majorId: string, jobId: string) =>
     requests.get(`api/v1/major/${majorId}/jobPosition/${jobId}`),
-  
 };
 const Organization = {
   getAllOrganizations: (name?: string) =>
@@ -118,8 +121,8 @@ const JobPosition = {
     requests.put1(
       `api/v1/job-position/Permission?jobPositionId=${jobId}&jobPositionPermission=${permission}`
     ),
-    getRecommedByUser: (userId: string) =>
-      requests.get(`/api/v1/job-position/recommended/${userId}`),
+  getRecommedByUser: (userId: string) =>
+    requests.get(`/api/v1/job-position/recommended/${userId}`),
 };
 
 const Certificate = {
@@ -151,7 +154,8 @@ const Certificate = {
     requests.put1(
       `api/v1/certification/update-permission/${certId}?permission=${permission}`
     ),
-      getTotalCertCost: (input: number[]) => requests.post(`api/v1/certification/total-cert-cost`,input),
+  getTotalCertCost: (input: number[]) =>
+    requests.post(`api/v1/certification/total-cert-cost`, input),
 };
 
 const Schedule = {

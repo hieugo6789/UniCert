@@ -4,7 +4,7 @@ import Coin from "../../../assets/images/Coin.png";
 import Cookies from "js-cookie";
 import { Button } from "antd";
 import TopUpWallet from "../../../components/Wallet/TopUpWallet";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useHistoryTransaction from "../../../hooks/Transactions/useHistoryTransaction";
 import CustomModal from "../../../components/UI/CustomModal";
 
@@ -61,6 +61,7 @@ const Wallet = () => {
           </div>
           <Button onClick={handlePlusCoin}> + </Button>
         </div>
+        <Link to="refund"> Refund</Link>
       </div>
 
       <div className="flex justify-center min-h-[30vh]">

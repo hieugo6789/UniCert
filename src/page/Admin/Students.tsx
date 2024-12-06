@@ -10,13 +10,13 @@ import {
 } from "antd";
 import { useAccounts } from "../../hooks/Account/useAccount";
 import { useEffect, useState } from "react";
-import Coin from "../../assets/images/Coin.png";
 import setUserStatus from "../../hooks/Account/useUserStatus";
 import useUserDetail from "../../hooks/Account/useUserDetail";
 import useWalletDetail from "../../hooks/Wallet/useWalletDetail";
 import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import AdminNotification from "../../components/Notification/AdminNotification";
+import AdminRefund from "../../components/Wallet/AdminRefund";
 
 const Students = () => {
   const {
@@ -126,17 +126,21 @@ const Students = () => {
     {
       title: "Coin",
       key: "coin",
-      width: 130,
-      render: (record: any) => (
-        <div className="flex justify-between items-center ">
-          {wallets[record.userId]?.point || 0}{" "}
-          <img
-            src={Coin}
-            alt="Coin"
-            className="size-7"
-          />
-        </div>
-      ),
+      width: 100,
+      render: (record: any) => {
+        const wallet = wallets[record.userId]; // Lấy thông tin ví từ userId
+        return (
+          <div className="flex justify-between items-center">
+            {wallet?.point || 0}{" "}
+            {wallet && (
+              <AdminRefund
+                walletId={wallet.walletId}
+                onSuccess={refetch}
+              />
+            )}
+          </div>
+        );
+      },
     },
   ];
 

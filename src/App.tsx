@@ -58,6 +58,7 @@ import CourseEnrollDetailPage from "./page/User/Courses/CourseEnrollDetailPage";
 import Organization from "./page/User/Organization/Organization";
 import OrganizationDetail from "./page/User/Organization/OrganizationDetail";
 import Pathway from "./page/User/Pathway/Pathway";
+import Refund from "./components/Wallet/Refund";
 
 const Layout = () => {
   return (
@@ -90,6 +91,7 @@ function App() {
         { path: "job/:id", element: <JobDetail /> },
         { path: "history/:id", element: <HistoryPage /> },
         { path: "wallet", element: <Wallet /> },
+        { path: "wallet/refund", element: <Refund /> },
         { path: "wallet/bill", element: <Bill /> },
         { path: "wallet/:transId", element: <Wallet /> },
         { path: "wallet/0", element: <Wallet /> },
@@ -99,15 +101,15 @@ function App() {
         { path: "/exam/:id/simulation/submit", element: <SubmitExamPage /> },
         { path: "/exam/:id/simulation/result", element: <ExamResultPage /> },
         { path: "/enrollment/:id", element: <CourseEnrollDetailPage /> },
-        { path: "/organization",element: <Organization/>},
-        { path: "/organization/:id",element: <OrganizationDetail/>},
+        { path: "/organization", element: <Organization /> },
+        { path: "/organization/:id", element: <OrganizationDetail /> },
         { path: "/login", element: <Login /> },
         { path: "/register", element: <Register /> },
         { path: "/profile", element: <Profile /> },
         { path: "/reset-password", element: <ResetPassword /> },
         { path: "/pathway", element: <Pathway /> },
       ],
-    },    
+    },
     {
       path: "/admin",
       element: (
