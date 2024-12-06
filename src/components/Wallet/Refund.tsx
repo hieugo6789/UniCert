@@ -39,7 +39,7 @@ const Refund = () => {
 
   const handleCheckAccount = async () => {
     if (!selectedBank || !accountNumber) {
-      message.error("Please fill in bank and account details first.");
+      message.error("Please select bank and fill account details first.");
       return;
     }
 
@@ -127,9 +127,9 @@ const Refund = () => {
           ))}
         </div>
       </div>
-      <div className="col-span-2 ">
+      <div className="col-span-2 h-fit border rounded-lg p-4 mt-4 pb-6 shadow-lg">
         <div className="mb-4 ">
-          <label className="block mb-2 pt-4">Account Number</label>
+          <label className="block mb-2">Account Number</label>
           <Input
             placeholder="Enter account number"
             value={accountNumber}
@@ -155,9 +155,9 @@ const Refund = () => {
           </div>
         )}
         <div className="mb-4">
-          <label className="block mb-2">Points</label>
+          <label className="block mb-2">Coins</label>
           <InputNumber
-            placeholder="Enter points"
+            placeholder="Enter coins"
             min={1}
             className="w-full"
             value={points}

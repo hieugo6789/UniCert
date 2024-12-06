@@ -7,6 +7,7 @@ export interface feedbackPagination {
   feedbackImage?: string;
   feedbackPermission: boolean;
   examPermission: string;
+  feedbackRatingvalue: number;
   userDetails: {
     userId: number;
     username: string;
@@ -22,6 +23,7 @@ export interface currentFeedback {
   feedbackImage: string;
   feedbackPermission: boolean;
   examPermission: string;
+  feedbackRatingvalue: number;
   userDetails: {
     userId: number;
     username: string;

@@ -5,6 +5,7 @@ import { Pagination, Table, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 import { FiMessageCircle } from "react-icons/fi";
 import AdminNotification from "../../components/Notification/AdminNotification";
+import AverageRating from "../../components/Exam/AverageRating";
 
 const Feedback = () => {
   const navigate = useNavigate();
@@ -36,6 +37,11 @@ const Feedback = () => {
           <div className="ml-1">{record.examCode}</div>
         </Tag>
       ),
+    },
+    {
+      title: "Rating",
+      key: "rating",
+      render: (record: any) => <AverageRating examId={record.examId} />,
     },
     {
       title: "Feedback",
@@ -97,6 +103,7 @@ const Feedback = () => {
               pageSize={pageSize}
               total={exam.length}
               onChange={handlePaginationChange}
+              showSizeChanger={false}
             />
           </div>
         </div>

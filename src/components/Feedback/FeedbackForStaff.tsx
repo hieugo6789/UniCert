@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, message, Modal, Spin } from "antd";
+import { Avatar, Button, Card, message, Modal, Rate, Spin } from "antd";
 import AvatarAdmin from "../Header/AvatarAdmin";
 import useDeleteFeedback from "../../hooks/Feedback/useDeleteFeedback";
 import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
@@ -78,7 +78,11 @@ const FeedbackForStaff = () => {
                 <Card
                   key={item.feedbackId}
                   hoverable
-                  className="rounded-lg shadow-md"
+                  className={
+                    item.feedbackPermission === true
+                      ? `rounded-lg shadow-md`
+                      : `rounded-lg shadow-md bg-red-300`
+                  }
                 >
                   <div className="flex items-start">
                     <Avatar
@@ -89,6 +93,15 @@ const FeedbackForStaff = () => {
                       className="mr-4"
                     />
                     <div className="flex-1">
+                      <div>
+                        {
+                          <Rate
+                            value={item.feedbackRatingvalue}
+                            allowHalf
+                            disabled
+                          />
+                        }
+                      </div>
                       <div className="flex justify-between items-center">
                         <div>
                           <h4 className="font-semibold">

@@ -7,6 +7,7 @@ import TopUpWallet from "../../../components/Wallet/TopUpWallet";
 import { Link, useLocation } from "react-router-dom";
 import useHistoryTransaction from "../../../hooks/Transactions/useHistoryTransaction";
 import CustomModal from "../../../components/UI/CustomModal";
+import WithDraw from "../../../assets/icons/withdraw.png";
 
 const Wallet = () => {
   const { wallets, getWalletDetails } = useWalletDetail();
@@ -46,7 +47,7 @@ const Wallet = () => {
 
   return (
     <>
-      <div className="flex justify-end mr-36">
+      <div className="flex justify-end mr-32">
         <div className="bg-white dark:bg-gray-800 shadow-md rounded-xl px-4 py-2 flex items-center justify-center space-x-2 max-w-72 h-full">
           <span className="text-gray-700 dark:text-gray-300">Your Coins:</span>
           <div className="flex items-center">
@@ -61,7 +62,14 @@ const Wallet = () => {
           </div>
           <Button onClick={handlePlusCoin}> + </Button>
         </div>
-        <Link to="refund"> Refund</Link>
+        <div className=" flex ml-4 items-center">
+          <Link to="refund">
+            <img
+              src={WithDraw}
+              className="size-10"
+            />
+          </Link>
+        </div>
       </div>
 
       <div className="flex justify-center min-h-[30vh]">
