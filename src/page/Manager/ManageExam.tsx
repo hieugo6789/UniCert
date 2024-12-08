@@ -157,6 +157,7 @@ const ManageExam = () => {
               pageSize={pageSize}
               total={exam.length}
               onChange={handlePaginationChange}
+              showSizeChanger={false}
             />
           </div>
         </div>
