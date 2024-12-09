@@ -4,7 +4,7 @@ import { useCreateFeedback } from "../../../hooks/Feedback/useCreateFeedback";
 import Cookies from "js-cookie";
 import { showToast } from "../../../utils/toastUtils";
 import axios from "axios";
-import { FaCertificate, FaRedo, FaArrowLeft, FaComment, FaCloudUploadAlt, FaSearch, FaPaperPlane, FaCheckCircle } from "react-icons/fa";
+import { FaCertificate, FaRedo, FaArrowLeft, FaComment, FaCloudUploadAlt, FaSearch, FaPaperPlane, FaCheckCircle, FaStar } from "react-icons/fa";
 
 const ExamResultPage = () => {
     const location = useLocation();
@@ -12,6 +12,7 @@ const ExamResultPage = () => {
     const [feedback, setFeedback] = useState("");
     const { state, handleCreateFeedback } = useCreateFeedback();
     const [isLeaveFeedback, setIsLeaveFeedback] = useState(false);
+    const [rating, setRating] = useState(0);
 
     const { examId, scoreValue, createdAt } = location.state || {};
 
@@ -28,6 +29,7 @@ const ExamResultPage = () => {
             feedbackDescription: (document.getElementById("feedbackDescriptionInput") as HTMLInputElement).value,
             feedbackImage: imageUrl,
             feedbackCreatedAt: vietnamTime,
+            feedbackRatingvalue: rating
         }).then(() => {
             setIsLeaveFeedback(true);
         });
@@ -35,7 +37,7 @@ const ExamResultPage = () => {
     };
 
     useEffect(() => {
-        if (state.createdFeedback) {            
+        if (state.createdFeedback) {
             (document.getElementById("feedbackDescriptionInput") as HTMLInputElement)!.value = "";
             setSelectedImage(null);
             setPreviewImage(null);
@@ -96,9 +98,9 @@ const ExamResultPage = () => {
     };
 
     const formatVietnameseDateTime = (date: string | Date) => {
-        const utcDate = new Date(date);        
+        const utcDate = new Date(date);
         const vietnamTime = new Date(utcDate.getTime() + 7 * 60 * 60 * 1000);
-        
+
         return vietnamTime.toLocaleString("en-US", {
             weekday: 'long',
             year: 'numeric',
@@ -109,7 +111,9 @@ const ExamResultPage = () => {
             hour12: false
         });
     };
-
+    const handleRatingChange = (value: number) => {
+        setRating(value);
+    };
     return (
         <div className="min-h-screen bg-gradient-to-b from-blue-50 dark:from-gray-900 to-white dark:to-gray-800 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
@@ -117,41 +121,39 @@ const ExamResultPage = () => {
                     {/* Score Section */}
                     <div className="bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-800 dark:to-blue-800 px-8 py-12 text-center relative overflow-hidden">
                         <div className="relative z-10">
-                            <div className={`inline-flex items-center justify-center w-24 h-24 rounded-full mb-6 ${
-                                scoreValue >= 50 
-                                    ? "bg-green-500 dark:bg-green-400" 
+                            <div className={`inline-flex items-center justify-center w-24 h-24 rounded-full mb-6 ${scoreValue >= 50
+                                    ? "bg-green-500 dark:bg-green-400"
                                     : "bg-yellow-500 dark:bg-yellow-400"
-                            }`}>
+                                }`}>
                                 <span className="text-4xl font-bold text-white">
                                     {scoreValue.toFixed(0)}
                                 </span>
                             </div>
-                            
+
                             <div className="flex justify-center space-x-2 mb-6">
                                 {Array.from({ length: 5 }, (_, index) => {
                                     const starValue = (index * 2 + 1) * 10;
                                     return (
-                                        <span 
-                                            key={index} 
-                                            className={`text-3xl transition-all duration-300 ${
-                                                scoreValue >= starValue 
-                                                    ? "text-yellow-300 transform scale-110" 
-                                                    : scoreValue >= starValue - 10 
-                                                        ? "text-yellow-200 transform scale-105" 
+                                        <span
+                                            key={index}
+                                            className={`text-3xl transition-all duration-300 ${scoreValue >= starValue
+                                                    ? "text-yellow-300 transform scale-110"
+                                                    : scoreValue >= starValue - 10
+                                                        ? "text-yellow-200 transform scale-105"
                                                         : "text-gray-400"
-                                            }`}
+                                                }`}
                                         >
                                             ★
                                         </span>
                                     );
                                 })}
                             </div>
-                            
+
                             <p className="text-white/80 font-medium">
                                 Completed on {formatVietnameseDateTime(createdAt)}
                             </p>
                         </div>
-                        
+
                         {/* Decorative circles */}
                         <div className="absolute top-0 left-0 w-32 h-32 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2" />
                         <div className="absolute bottom-0 right-0 w-40 h-40 bg-white/5 rounded-full translate-x-1/4 translate-y-1/4" />
@@ -202,7 +204,26 @@ const ExamResultPage = () => {
                                         value={feedback}
                                         onChange={(e) => setFeedback(e.target.value)}
                                     />
-
+                                    <div className="flex space-x-3 justify-center">
+                                        {[...Array(5)].map((_, index) => {
+                                            const ratingValue = index + 1;
+                                            return (
+                                                <label key={index}>
+                                                    <input
+                                                        type="radio"
+                                                        name="rating"
+                                                        value={ratingValue}
+                                                        onClick={() => handleRatingChange(ratingValue)}
+                                                        className="hidden"
+                                                    />
+                                                    <FaStar
+                                                        size={30}
+                                                        className="cursor-pointer text-yellow-500 hover:text-yellow-600 transition-all duration-300"
+                                                        color={ratingValue <= (rating || 0) ? "orange" : "gray"}
+                                                    />
+                                                </label>
+                                            );
+                                        })}</div>
                                     {/* Image Upload Area */}
                                     <div className="relative">
                                         <label
@@ -219,13 +240,13 @@ const ExamResultPage = () => {
 
                                         {previewImage && (
                                             <div className="mt-4 relative group">
-                                                <img 
-                                                    src={previewImage} 
-                                                    alt="Preview" 
-                                                    className="w-full h-48 object-cover rounded-xl cursor-pointer" 
-                                                    onClick={() => handleOpenModal(previewImage)} 
+                                                <img
+                                                    src={previewImage}
+                                                    alt="Preview"
+                                                    className="w-full h-48 object-cover rounded-xl cursor-pointer"
+                                                    onClick={() => handleOpenModal(previewImage)}
                                                 />
-                                                <div 
+                                                <div
                                                     className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center"
                                                     onClick={() => handleOpenModal(previewImage)}
                                                 >
@@ -238,11 +259,10 @@ const ExamResultPage = () => {
                                     <button
                                         onClick={handleFeedbackSubmit}
                                         disabled={!feedback.trim()}
-                                        className={`w-full py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
-                                            feedback.trim()
+                                        className={`w-full py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2 ${feedback.trim()
                                                 ? 'bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white shadow-lg hover:shadow-xl'
                                                 : 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
-                                        }`}
+                                            }`}
                                     >
                                         <FaPaperPlane />
                                         Submit Feedback
@@ -265,7 +285,7 @@ const ExamResultPage = () => {
 
             {/* Image Modal */}
             {isModalOpen && (
-                <div 
+                <div
                     className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center modal-background backdrop-blur-sm"
                     onClick={handleModalClick}
                 >
