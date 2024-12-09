@@ -44,35 +44,45 @@ const ExamFeedback = () => {
     vietnamTime.setHours(vietnamTime.getHours() + 7);
     // Handle creating feedback
     const handleSubmitFeedback = async () => {
-        const feedbackDescription = (document.getElementById("feedbackDescriptionInput") as HTMLInputElement).value;
-        let response;
-        if (selectedImage) {
-            const uploadedImageUrl = await uploadCloudinary();
-            response = await handleCreateFeedback({
-                userId: Cookies.get("userId") || "",
-                examId: Number(id),
-                feedbackDescription,
-                feedbackImage: uploadedImageUrl || "",
-                feedbackCreatedAt: vietnamTime,
-                feedbackRatingvalue: rating,
-            });
-        } else {
-            response = await handleCreateFeedback({
-                userId: Cookies.get("userId") || "",
-                examId: Number(id),
-                feedbackDescription,
-                feedbackImage: "",
-                feedbackCreatedAt: vietnamTime,
-                feedbackRatingvalue: rating,
-            });
+        const feedbackDescription = (document.getElementById("feedbackDescriptionInput") as HTMLInputElement).value.trim();
+        const userId = Cookies.get("userId") || "";
+        const examId = Number(id);
+    
+        // Kiểm tra điều kiện: phải có ít nhất description hoặc rating
+        if (!feedbackDescription && (!rating || rating === 0)) {
+            showToast("Please provide a description or a rating to submit feedback.", "error");
+            return;
         }
-        console.log("Test", response);
-        if (response?.data.feedbackPermission == false) {
-            showToast("Your feedback contains inappropriate content and is pending review.", "error");
-        } else {
-            showToast("Feedback created successfully", "success");
+    
+        let feedbackImage = "";
+        if (selectedImage) {
+            feedbackImage = await uploadCloudinary() || "";
+        }
+    
+        const feedbackData = {
+            userId,
+            examId,
+            feedbackDescription,
+            feedbackImage,
+            feedbackCreatedAt: vietnamTime,
+            feedbackRatingvalue: rating || 0, // Nếu không có rating thì đặt mặc định là 0
+        };
+    
+        try {
+            const response = await handleCreateFeedback(feedbackData);
+    
+            console.log("Test", response);
+            if (response?.data.feedbackPermission === false) {
+                showToast("Your feedback contains inappropriate content and is pending review.", "error");
+            } else {
+                showToast("Feedback created successfully", "success");
+            }
+        } catch (error) {
+            console.error("Error submitting feedback:", error);
+            showToast("An error occurred while submitting feedback. Please try again.", "error");
         }
     };
+    
 
     useEffect(() => {
         if (state.createdFeedback) {
@@ -414,22 +424,24 @@ const ExamFeedback = () => {
                                 </div>
                             ) : (
                                 <>
-                                    <div className="flex">
-                                        {[...Array(5)].map((_, index) => {
-                                            const ratingValue = index + 1;
-                                            return (
-                                                <label key={index}>
+                                    {feedback.feedbackRatingvalue > 0 && (
+                                        <div className="flex">
+                                            {[...Array(5)].map((_, index) => {
+                                                const ratingValue = index + 1;
+                                                return (
+                                                    <label key={index}>
 
-                                                    <FaStar
-                                                        key={index}
-                                                        size={30}
-                                                        className="cursor-pointer text-yellow-500 hover:text-yellow-600 transition-all duration-300"
-                                                        color={ratingValue <= feedback.feedbackRatingvalue ? "orange" : "gray"}
-                                                    />
-                                                </label>
-                                            );
-                                        })}
-                                    </div>
+                                                        <FaStar
+                                                            key={index}
+                                                            size={30}
+                                                            className="cursor-pointer text-yellow-500 hover:text-yellow-600 transition-all duration-300"
+                                                            color={ratingValue <= feedback.feedbackRatingvalue ? "orange" : "gray"}
+                                                        />
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
                                     <p className="mt-2 text-gray-900 dark:text-white">{feedback.feedbackDescription}</p>
 
                                 </>
