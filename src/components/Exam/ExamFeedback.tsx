@@ -27,6 +27,7 @@ const ExamFeedback = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalImage, setModalImage] = useState<string | null>(null);
     const [editRating, setEditRating] = useState(0);
+    const [isRated, setIsRated] = useState(false);
 
     // Refetch feedback when examId changes
     useEffect(() => {
@@ -35,11 +36,20 @@ const ExamFeedback = () => {
 
     useEffect(() => {
         if (feedback.length > 0) {
-            const approvedFeedbacks = feedback.filter(f => f.feedbackPermission == true);
+            const approvedFeedbacks = feedback.filter(f => f.feedbackPermission === true);
             setFeedbacks(approvedFeedbacks);
+    
+            // Kiểm tra nếu có bất kỳ feedback nào của user hiện tại có feedbackRatingvalue > 0
+            const hasRated = approvedFeedbacks.some(
+                f => f.userId === Number(Cookies.get("userId")) && f.feedbackRatingvalue > 0
+            );
+            setIsRated(hasRated);
+    
+            console.log("Approved feedbacks:", approvedFeedbacks);
+            console.log("Is rated:", hasRated);
         }
     }, [feedback]);
-
+    
     const vietnamTime = new Date();
     vietnamTime.setHours(vietnamTime.getHours() + 7);
     // Handle creating feedback
@@ -47,18 +57,18 @@ const ExamFeedback = () => {
         const feedbackDescription = (document.getElementById("feedbackDescriptionInput") as HTMLInputElement).value.trim();
         const userId = Cookies.get("userId") || "";
         const examId = Number(id);
-    
+
         // Kiểm tra điều kiện: phải có ít nhất description hoặc rating
         if (!feedbackDescription && (!rating || rating === 0)) {
             showToast("Please provide a description or a rating to submit feedback.", "error");
             return;
         }
-    
+
         let feedbackImage = "";
         if (selectedImage) {
             feedbackImage = await uploadCloudinary() || "";
         }
-    
+
         const feedbackData = {
             userId,
             examId,
@@ -67,22 +77,28 @@ const ExamFeedback = () => {
             feedbackCreatedAt: vietnamTime,
             feedbackRatingvalue: rating || 0, // Nếu không có rating thì đặt mặc định là 0
         };
-    
+
         try {
             const response = await handleCreateFeedback(feedbackData);
-    
+
             console.log("Test", response);
             if (response?.data.feedbackPermission === false) {
                 showToast("Your feedback contains inappropriate content and is pending review.", "error");
             } else {
                 showToast("Feedback created successfully", "success");
+                // kiểm tra trong feedback có feedbackRatingValue khác 0 thì set isRated = true
+                if (response?.data.feedbackRatingvalue > 0) {
+                    setIsRated(true);
+                } else {
+                    setIsRated(false);
+                }
             }
         } catch (error) {
             console.error("Error submitting feedback:", error);
             showToast("An error occurred while submitting feedback. Please try again.", "error");
         }
     };
-    
+
 
     useEffect(() => {
         if (state.createdFeedback) {
@@ -95,15 +111,24 @@ const ExamFeedback = () => {
     }, [state]);
 
     // Handle editing feedback
-    const handleEditFeedback = (feedbackId: number, feedbackDescription: string, feedbackImage: string, feedbackRatingvalue: number) => {
+    const handleEditFeedback = (
+        feedbackId: number,
+        feedbackDescription: string,
+        feedbackImage: string,
+        feedbackRatingvalue: number
+    ) => {
         setEditingFeedback((prev) => ({
             ...prev,
-            [feedbackId]: feedbackDescription,
+            [feedbackId]: feedbackDescription || " ", // Đảm bảo có giá trị rỗng nếu không có description
         }));
-        setSelectedImage(null);  // Reset selected image when editing feedback
-        setPreviewImage(feedbackImage);  // Set the current feedback image as preview
-        setEditRating(feedbackRatingvalue);  // Set the current feedback rating
+        setSelectedImage(null); // Reset selected image
+        setPreviewImage(feedbackImage); // Đặt hình ảnh hiện tại nếu có
+        setEditRating(feedbackRatingvalue || 0); // Đặt giá trị rating hiện tại hoặc 0
+        console.log("Edit rating", feedbackRatingvalue);
+        console.log(editingFeedback);
     };
+    
+
 
     // Handle canceling edit
     const handleCancelEdit = (feedbackId: number) => {
@@ -251,27 +276,31 @@ const ExamFeedback = () => {
                     </div>
                 )}
                 <div className="px-40">
-                    <div className="flex space-x-3 justify-center mb-2">
-                        {[...Array(5)].map((_, index) => {
-                            const ratingValue = index + 1;
-                            return (
-                                <label key={index}>
-                                    <input
-                                        type="radio"
-                                        name="rating"
-                                        value={ratingValue}
-                                        onClick={() => handleRatingChange(ratingValue)}
-                                        className="hidden"
-                                    />
-                                    <FaStar
-                                        size={30}
-                                        className="cursor-pointer text-yellow-500 hover:text-yellow-600 transition-all duration-300"
-                                        color={ratingValue <= (rating || 0) ? "orange" : "gray"}
-                                    />
-                                </label>
-                            );
-                        })}
-                    </div>
+                    {!isRated && (
+                        <div className="flex space-x-3 justify-center mb-2">
+                            {[...Array(5)].map((_, index) => {
+                                const ratingValue = index + 1;
+                                return (
+                                    <label key={index} className="cursor-pointer">
+                                        <input
+                                            type="radio"
+                                            name="rating"
+                                            value={ratingValue}
+                                            onChange={() => handleRatingChange(ratingValue)}
+                                            className="hidden"
+                                        />
+                                        <FaStar
+                                            size={30}
+                                            className="cursor-pointer text-yellow-500 hover:text-yellow-600 transition-all duration-300"
+                                            color={ratingValue <= (rating || 0) ? "orange" : "gray"}
+                                        />
+                                    </label>
+                                );
+                            })}
+                        </div>
+                    )}
+
+
                 </div>
                 <textarea
                     id="feedbackDescriptionInput"
@@ -335,78 +364,42 @@ const ExamFeedback = () => {
 
                             {editingFeedback[feedback.feedbackId] ? (
                                 <div>
-                                    <textarea
-                                        value={editingFeedback[feedback.feedbackId]}
-                                        onChange={(e) =>
-                                            setEditingFeedback({
-                                                ...editingFeedback,
-                                                [feedback.feedbackId]: e.target.value,
-                                            })
-                                        }
-                                        className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg mt-2 resize-none focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                                        rows={4}
-                                    />
-                                    <div className="flex">
-                                        {[...Array(5)].map((_, index) => {
-                                            const editValue = index + 1;
-                                            return (
-                                                <label key={index}>
-                                                    <input
-                                                        type="radio"
-                                                        name="rating"
-                                                        value={editValue}
-                                                        onClick={() => handleEditRatingChange(editValue)}
-                                                        className="hidden"
-                                                    />
-                                                    <FaStar
-                                                        size={30}
-                                                        className="cursor-pointer text-yellow-500 hover:text-yellow-600 transition-all duration-300"
-                                                        color={editValue <= (editRating || 0) ? "orange" : "gray"}
-                                                    />
-                                                </label>
-                                            );
-                                        })}
-                                    </div>
-                                    <div className="mt-4">
-                                        <label
-                                            htmlFor={`uploadFile-${feedback.feedbackId}`}
-                                            className="bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 font-semibold text-base rounded mb-4 h-32 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 dark:border-gray-600 border-dashed mx-auto hover:bg-gray-50 dark:hover:bg-gray-600 transition-all"
-                                        >
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="w-8 mb-2 fill-gray-500 dark:fill-gray-300" viewBox="0 0 32 32">
-                                                <path d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z" />
-                                                <path d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z" />
-                                            </svg>
-                                            <span className="text-sm">Change Image</span>
-                                            <input
-                                                type="file"
-                                                id={`uploadFile-${feedback.feedbackId}`}
-                                                className="hidden"
-                                                onChange={handleImageChange}
-                                                accept="image/*"
-                                            />
-                                        </label>
-                                        {previewImage && (
-                                            <div className="relative group">
-                                                <img
-                                                    src={previewImage}
-                                                    alt="Preview"
-                                                    className="w-full h-48 object-cover rounded-lg cursor-pointer"
-                                                    onClick={() => handleOpenModal(previewImage)}
-                                                />
-                                                <div
-                                                    className="absolute top-2 right-2 bg-red-500 dark:bg-red-600 p-1 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
-                                                    onClick={() => {
-                                                        setSelectedImage(null);
-                                                        setPreviewImage(null);
-                                                    }}
-                                                >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
+                                    {feedback.feedbackDescription && (
+                                        <textarea
+                                            value={editingFeedback[feedback.feedbackId]}
+                                            onChange={(e) =>
+                                                setEditingFeedback({
+                                                    ...editingFeedback,
+                                                    [feedback.feedbackId]: e.target.value,
+                                                })
+                                            }
+                                            className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg mt-2 resize-none focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                                            rows={4}
+                                        />
+                                    )}
+                                    {feedback.feedbackRatingvalue > 0 && (
+                                        <div className="flex mt-2">
+                                            {[...Array(5)].map((_, index) => {
+                                                const editValue = index + 1;
+                                                return (
+                                                    <label key={index}>
+                                                        <input
+                                                            type="radio"
+                                                            name={`rating-${feedback.feedbackId}`}
+                                                            value={editValue}
+                                                            onClick={() => handleEditRatingChange(editValue)}
+                                                            className="hidden"
+                                                        />
+                                                        <FaStar
+                                                            size={30}
+                                                            className="cursor-pointer text-yellow-500 hover:text-yellow-600 transition-all duration-300"
+                                                            color={editValue <= (editRating || 0) ? "orange" : "gray"}
+                                                        />
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
                                     <div className="mt-4 flex space-x-2">
                                         <button
                                             className="bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 text-white py-2 px-6 rounded-lg transition-all"
@@ -430,9 +423,7 @@ const ExamFeedback = () => {
                                                 const ratingValue = index + 1;
                                                 return (
                                                     <label key={index}>
-
                                                         <FaStar
-                                                            key={index}
                                                             size={30}
                                                             className="cursor-pointer text-yellow-500 hover:text-yellow-600 transition-all duration-300"
                                                             color={ratingValue <= feedback.feedbackRatingvalue ? "orange" : "gray"}
@@ -442,10 +433,12 @@ const ExamFeedback = () => {
                                             })}
                                         </div>
                                     )}
-                                    <p className="mt-2 text-gray-900 dark:text-white">{feedback.feedbackDescription}</p>
-
+                                    {feedback.feedbackDescription && (
+                                        <p className="mt-2 text-gray-900 dark:text-white">{feedback.feedbackDescription}</p>
+                                    )}
                                 </>
                             )}
+
 
                             {feedback.feedbackImage && !editingFeedback[feedback.feedbackId] && (
                                 <div className="mt-4">
