@@ -21,12 +21,18 @@ const ExamResultPage = () => {
         if (selectedImage) {
             imageUrl = await uploadCloudinary() || "";
         }
+
         const vietnamTime = new Date();
         vietnamTime.setHours(vietnamTime.getHours() + 7);
+        const feedbackDescription = (document.getElementById("feedbackDescriptionInput") as HTMLInputElement).value
+        if (!feedbackDescription && (!rating || rating === 0)) {
+            showToast("Please provide a description or a rating to submit feedback.", "error");
+            return;
+        }
         await handleCreateFeedback({
             userId: Cookies.get("userId") || "",
             examId: examId,
-            feedbackDescription: (document.getElementById("feedbackDescriptionInput") as HTMLInputElement).value,
+            feedbackDescription: feedbackDescription,
             feedbackImage: imageUrl,
             feedbackCreatedAt: vietnamTime,
             feedbackRatingvalue: rating
@@ -122,8 +128,8 @@ const ExamResultPage = () => {
                     <div className="bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-800 dark:to-blue-800 px-8 py-12 text-center relative overflow-hidden">
                         <div className="relative z-10">
                             <div className={`inline-flex items-center justify-center w-24 h-24 rounded-full mb-6 ${scoreValue >= 50
-                                    ? "bg-green-500 dark:bg-green-400"
-                                    : "bg-yellow-500 dark:bg-yellow-400"
+                                ? "bg-green-500 dark:bg-green-400"
+                                : "bg-yellow-500 dark:bg-yellow-400"
                                 }`}>
                                 <span className="text-4xl font-bold text-white">
                                     {scoreValue.toFixed(0)}
@@ -137,10 +143,10 @@ const ExamResultPage = () => {
                                         <span
                                             key={index}
                                             className={`text-3xl transition-all duration-300 ${scoreValue >= starValue
-                                                    ? "text-yellow-300 transform scale-110"
-                                                    : scoreValue >= starValue - 10
-                                                        ? "text-yellow-200 transform scale-105"
-                                                        : "text-gray-400"
+                                                ? "text-yellow-300 transform scale-110"
+                                                : scoreValue >= starValue - 10
+                                                    ? "text-yellow-200 transform scale-105"
+                                                    : "text-gray-400"
                                                 }`}
                                         >
                                             ★
@@ -258,15 +264,16 @@ const ExamResultPage = () => {
 
                                     <button
                                         onClick={handleFeedbackSubmit}
-                                        disabled={!feedback.trim()}
-                                        className={`w-full py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2 ${feedback.trim()
-                                                ? 'bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white shadow-lg hover:shadow-xl'
-                                                : 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
+                                        disabled={!(feedback.trim() || rating > 0)} // Nút chỉ hoạt động khi feedback hoặc rating được cung cấp
+                                        className={`w-full py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2 ${feedback.trim() || rating > 0
+                                                ? "bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white shadow-lg hover:shadow-xl"
+                                                : "bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed"
                                             }`}
                                     >
                                         <FaPaperPlane />
                                         Submit Feedback
                                     </button>
+
                                 </div>
                             </div>
                         ) : (
