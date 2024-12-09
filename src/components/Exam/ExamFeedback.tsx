@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import { showToast } from "../../utils/toastUtils";
 import DefaultImage from "../../assets/images/Avatar/DefaultAvatar.jpg";
 import axios from "axios";
+import { FaStar } from 'react-icons/fa';
 
 const ExamFeedback = () => {
     const { state, handleCreateFeedback } = useCreateFeedback();
@@ -21,9 +22,11 @@ const ExamFeedback = () => {
     const [editingFeedback, setEditingFeedback] = useState<{ [key: number]: string }>({});
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
+    const [rating, setRating] = useState(0);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalImage, setModalImage] = useState<string | null>(null);
+    const [editRating, setEditRating] = useState(0);
 
     // Refetch feedback when examId changes
     useEffect(() => {
@@ -31,11 +34,11 @@ const ExamFeedback = () => {
     }, [id]);
 
     useEffect(() => {
-        if(feedback.length > 0) {
+        if (feedback.length > 0) {
             const approvedFeedbacks = feedback.filter(f => f.feedbackPermission == true);
             setFeedbacks(approvedFeedbacks);
         }
-    }, [feedback]); 
+    }, [feedback]);
 
     const vietnamTime = new Date();
     vietnamTime.setHours(vietnamTime.getHours() + 7);
@@ -51,6 +54,7 @@ const ExamFeedback = () => {
                 feedbackDescription,
                 feedbackImage: uploadedImageUrl || "",
                 feedbackCreatedAt: vietnamTime,
+                feedbackRatingvalue: rating,
             });
         } else {
             response = await handleCreateFeedback({
@@ -59,8 +63,9 @@ const ExamFeedback = () => {
                 feedbackDescription,
                 feedbackImage: "",
                 feedbackCreatedAt: vietnamTime,
+                feedbackRatingvalue: rating,
             });
-        }        
+        }
         console.log("Test", response);
         if (response?.data.feedbackPermission == false) {
             showToast("Your feedback contains inappropriate content and is pending review.", "error");
@@ -71,23 +76,25 @@ const ExamFeedback = () => {
 
     useEffect(() => {
         if (state.createdFeedback) {
-            refetchFeedbacks(Number(id));            
+            refetchFeedbacks(Number(id));
             (document.getElementById("feedbackDescriptionInput") as HTMLInputElement).value = "";
             setSelectedImage(null);
             setPreviewImage(null);
+            setRating(0);
         }
     }, [state]);
 
     // Handle editing feedback
-    const handleEditFeedback = (feedbackId: number, feedbackDescription: string, feedbackImage: string) => {
+    const handleEditFeedback = (feedbackId: number, feedbackDescription: string, feedbackImage: string, feedbackRatingvalue: number) => {
         setEditingFeedback((prev) => ({
             ...prev,
             [feedbackId]: feedbackDescription,
         }));
         setSelectedImage(null);  // Reset selected image when editing feedback
         setPreviewImage(feedbackImage);  // Set the current feedback image as preview
+        setEditRating(feedbackRatingvalue);  // Set the current feedback rating
     };
-    
+
     // Handle canceling edit
     const handleCancelEdit = (feedbackId: number) => {
         setEditingFeedback((prev) => {
@@ -97,23 +104,25 @@ const ExamFeedback = () => {
         });
         setSelectedImage(null);
         setPreviewImage(null);
+        setEditRating(0);
     };
 
     const handleUpdateFeedback = async (feedbackId: number) => {
         if (editingFeedback[feedbackId] !== undefined) {
             let updatedFeedbackImage = "";
-    
+
             // If there's a new image selected, upload it to Cloudinary
             if (selectedImage) {
                 updatedFeedbackImage = await uploadCloudinary(); // Upload new image
             }
-    
+
             // Update feedback details including description and the new image (if any)
             const response = await updateFeedbackDetails(feedbackId, {
                 feedbackDescription: editingFeedback[feedbackId],
                 feedbackImage: updatedFeedbackImage || "", // If no new image, keep it blank
+                feedbackRatingvalue: editRating,
             });
-    
+
             // Clean up editing state and refetch feedback
             setEditingFeedback((prev) => {
                 const updated = { ...prev };
@@ -142,6 +151,14 @@ const ExamFeedback = () => {
             setPreviewImage(URL.createObjectURL(file));
         }
     };
+
+    // Handle rating change
+    const handleRatingChange = (value: number) => {
+        setRating(value);
+    };
+    const handleEditRatingChange = (value: number) => {
+        setEditRating(value);
+    }
 
     // Upload image to Cloudinary
     const uploadCloudinary = async () => {
@@ -204,13 +221,13 @@ const ExamFeedback = () => {
                     </label>
                 ) : (
                     <div className="relative group mb-4">
-                        <img 
-                            src={previewImage} 
-                            alt="Preview" 
-                            className="w-full h-48 object-cover rounded-lg cursor-pointer" 
+                        <img
+                            src={previewImage}
+                            alt="Preview"
+                            className="w-full h-48 object-cover rounded-lg cursor-pointer"
                             onClick={() => handleOpenModal(previewImage)}
                         />
-                        <div 
+                        <div
                             className="absolute top-2 right-2 bg-red-500 dark:bg-red-600 p-1 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
                             onClick={() => {
                                 setSelectedImage(null);
@@ -223,7 +240,29 @@ const ExamFeedback = () => {
                         </div>
                     </div>
                 )}
-
+                <div className="px-40">
+                    <div className="flex space-x-3 justify-center mb-2">
+                        {[...Array(5)].map((_, index) => {
+                            const ratingValue = index + 1;
+                            return (
+                                <label key={index}>
+                                    <input
+                                        type="radio"
+                                        name="rating"
+                                        value={ratingValue}
+                                        onClick={() => handleRatingChange(ratingValue)}
+                                        className="hidden"
+                                    />
+                                    <FaStar
+                                        size={30}
+                                        className="cursor-pointer text-yellow-500 hover:text-yellow-600 transition-all duration-300"
+                                        color={ratingValue <= (rating || 0) ? "orange" : "gray"}
+                                    />
+                                </label>
+                            );
+                        })}
+                    </div>
+                </div>
                 <textarea
                     id="feedbackDescriptionInput"
                     className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg resize-none focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
@@ -246,130 +285,174 @@ const ExamFeedback = () => {
                 )}
                 {feedbacks.map((feedback) => (
                     <div key={feedback.feedbackId} className="bg-white dark:bg-gray-700 rounded-lg shadow p-4 flex items-start space-x-4">
-                    <img
-                        src={feedback.userDetails.userImage || DefaultImage}
-                        alt={feedback.userDetails.username}
-                        className="w-12 h-12 rounded-full object-cover"
-                    />
-                    <div className="flex-1">
-                        <div className="flex justify-between items-center">
-                            <div>
-                                <h2 className="font-semibold text-lg text-gray-900 dark:text-white">{feedback.userDetails.username}</h2>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">
-                                    {new Date(feedback.feedbackCreatedAt).toLocaleString("vi", {
-                                        timeZone: "Asia/Ho_Chi_Minh",
-                                    })}
-                                </p>
+                        <img
+                            src={feedback.userDetails.userImage || DefaultImage}
+                            alt={feedback.userDetails.username}
+                            className="w-12 h-12 rounded-full object-cover"
+                        />
+                        <div className="flex space-x-3 justify-center mb-2">
+
+                        </div>
+                        <div className="flex-1">
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <h2 className="font-semibold text-lg text-gray-900 dark:text-white">{feedback.userDetails.username}</h2>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                                        {new Date(feedback.feedbackCreatedAt).toLocaleString("vi", {
+                                            timeZone: "Asia/Ho_Chi_Minh",
+                                        })}
+                                    </p>
+
+                                </div>
+
+                                {feedback.userId === Number(Cookies.get("userId")) && (
+                                    <div className="flex space-x-2">
+                                        <button
+                                            className="bg-yellow-500 dark:bg-yellow-600 hover:bg-yellow-600 dark:hover:bg-yellow-700 text-white py-1 px-3 rounded-lg flex items-center transition-all"
+                                            onClick={() => handleEditFeedback(feedback.feedbackId, feedback.feedbackDescription, feedback.feedbackImage || "", feedback.feedbackRatingvalue)}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            className="bg-red-500 dark:bg-red-600 hover:bg-red-600 dark:hover:bg-red-700 text-white py-1 px-3 rounded-lg flex items-center transition-all"
+                                            onClick={() => handleDelete(feedback.feedbackId)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                )}
                             </div>
 
-                            {feedback.userId === Number(Cookies.get("userId")) && (
-                                <div className="flex space-x-2">
-                                    <button
-                                        className="bg-yellow-500 dark:bg-yellow-600 hover:bg-yellow-600 dark:hover:bg-yellow-700 text-white py-1 px-3 rounded-lg flex items-center transition-all"
-                                        onClick={() => handleEditFeedback(feedback.feedbackId, feedback.feedbackDescription, feedback.feedbackImage || "")}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        className="bg-red-500 dark:bg-red-600 hover:bg-red-600 dark:hover:bg-red-700 text-white py-1 px-3 rounded-lg flex items-center transition-all"
-                                        onClick={() => handleDelete(feedback.feedbackId)}
-                                    >
-                                        Delete
-                                    </button>
+                            {editingFeedback[feedback.feedbackId] ? (
+                                <div>
+                                    <textarea
+                                        value={editingFeedback[feedback.feedbackId]}
+                                        onChange={(e) =>
+                                            setEditingFeedback({
+                                                ...editingFeedback,
+                                                [feedback.feedbackId]: e.target.value,
+                                            })
+                                        }
+                                        className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg mt-2 resize-none focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                                        rows={4}
+                                    />
+                                    <div className="flex">
+                                        {[...Array(5)].map((_, index) => {
+                                            const editValue = index + 1;
+                                            return (
+                                                <label key={index}>
+                                                    <input
+                                                        type="radio"
+                                                        name="rating"
+                                                        value={editValue}
+                                                        onClick={() => handleEditRatingChange(editValue)}
+                                                        className="hidden"
+                                                    />
+                                                    <FaStar
+                                                        size={30}
+                                                        className="cursor-pointer text-yellow-500 hover:text-yellow-600 transition-all duration-300"
+                                                        color={editValue <= (editRating || 0) ? "orange" : "gray"}
+                                                    />
+                                                </label>
+                                            );
+                                        })}
+                                    </div>
+                                    <div className="mt-4">
+                                        <label
+                                            htmlFor={`uploadFile-${feedback.feedbackId}`}
+                                            className="bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 font-semibold text-base rounded mb-4 h-32 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 dark:border-gray-600 border-dashed mx-auto hover:bg-gray-50 dark:hover:bg-gray-600 transition-all"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="w-8 mb-2 fill-gray-500 dark:fill-gray-300" viewBox="0 0 32 32">
+                                                <path d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z" />
+                                                <path d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z" />
+                                            </svg>
+                                            <span className="text-sm">Change Image</span>
+                                            <input
+                                                type="file"
+                                                id={`uploadFile-${feedback.feedbackId}`}
+                                                className="hidden"
+                                                onChange={handleImageChange}
+                                                accept="image/*"
+                                            />
+                                        </label>
+                                        {previewImage && (
+                                            <div className="relative group">
+                                                <img
+                                                    src={previewImage}
+                                                    alt="Preview"
+                                                    className="w-full h-48 object-cover rounded-lg cursor-pointer"
+                                                    onClick={() => handleOpenModal(previewImage)}
+                                                />
+                                                <div
+                                                    className="absolute top-2 right-2 bg-red-500 dark:bg-red-600 p-1 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
+                                                    onClick={() => {
+                                                        setSelectedImage(null);
+                                                        setPreviewImage(null);
+                                                    }}
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="mt-4 flex space-x-2">
+                                        <button
+                                            className="bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 text-white py-2 px-6 rounded-lg transition-all"
+                                            onClick={() => handleUpdateFeedback(feedback.feedbackId)}
+                                        >
+                                            Save Changes
+                                        </button>
+                                        <button
+                                            className="bg-gray-500 dark:bg-gray-600 hover:bg-gray-600 dark:hover:bg-gray-700 text-white py-2 px-6 rounded-lg transition-all"
+                                            onClick={() => handleCancelEdit(feedback.feedbackId)}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    <div className="flex">
+                                        {[...Array(5)].map((_, index) => {
+                                            const ratingValue = index + 1;
+                                            return (
+                                                <label key={index}>
+
+                                                    <FaStar
+                                                        key={index}
+                                                        size={30}
+                                                        className="cursor-pointer text-yellow-500 hover:text-yellow-600 transition-all duration-300"
+                                                        color={ratingValue <= feedback.feedbackRatingvalue ? "orange" : "gray"}
+                                                    />
+                                                </label>
+                                            );
+                                        })}
+                                    </div>
+                                    <p className="mt-2 text-gray-900 dark:text-white">{feedback.feedbackDescription}</p>
+
+                                </>
+                            )}
+
+                            {feedback.feedbackImage && !editingFeedback[feedback.feedbackId] && (
+                                <div className="mt-4">
+                                    <img
+                                        src={feedback.feedbackImage}
+                                        alt="Feedback Image"
+                                        className="w-full sm:w-1/2 h-auto rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                                        onClick={() => handleOpenModal(feedback.feedbackImage || "")}
+                                    />
                                 </div>
                             )}
                         </div>
-
-                        {editingFeedback[feedback.feedbackId] ? (
-                            <div>
-                                <textarea
-                                    value={editingFeedback[feedback.feedbackId]}
-                                    onChange={(e) =>
-                                        setEditingFeedback({
-                                            ...editingFeedback,
-                                            [feedback.feedbackId]: e.target.value,
-                                        })
-                                    }
-                                    className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg mt-2 resize-none focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                                    rows={4}
-                                />
-                                <div className="mt-4">
-                                    <label
-                                        htmlFor={`uploadFile-${feedback.feedbackId}`}
-                                        className="bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 font-semibold text-base rounded mb-4 h-32 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 dark:border-gray-600 border-dashed mx-auto hover:bg-gray-50 dark:hover:bg-gray-600 transition-all"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-8 mb-2 fill-gray-500 dark:fill-gray-300" viewBox="0 0 32 32">
-                                            <path d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z" />
-                                            <path d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z" />
-                                        </svg>
-                                        <span className="text-sm">Change Image</span>
-                                        <input
-                                            type="file"
-                                            id={`uploadFile-${feedback.feedbackId}`}
-                                            className="hidden"
-                                            onChange={handleImageChange}
-                                            accept="image/*"
-                                        />
-                                    </label>
-                                    {previewImage && (
-                                        <div className="relative group">
-                                            <img
-                                                src={previewImage}
-                                                alt="Preview"
-                                                className="w-full h-48 object-cover rounded-lg cursor-pointer"
-                                                onClick={() => handleOpenModal(previewImage)}
-                                            />
-                                            <div 
-                                                className="absolute top-2 right-2 bg-red-500 dark:bg-red-600 p-1 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
-                                                onClick={() => {
-                                                    setSelectedImage(null);
-                                                    setPreviewImage(null);
-                                                }}
-                                            >
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                                <div className="mt-4 flex space-x-2">
-                                    <button
-                                        className="bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 text-white py-2 px-6 rounded-lg transition-all"
-                                        onClick={() => handleUpdateFeedback(feedback.feedbackId)}
-                                    >
-                                        Save Changes
-                                    </button>
-                                    <button
-                                        className="bg-gray-500 dark:bg-gray-600 hover:bg-gray-600 dark:hover:bg-gray-700 text-white py-2 px-6 rounded-lg transition-all"
-                                        onClick={() => handleCancelEdit(feedback.feedbackId)}
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </div>
-                        ) : (
-                            <p className="mt-2 text-gray-900 dark:text-white">{feedback.feedbackDescription}</p>
-                        )}
-
-                        {feedback.feedbackImage && !editingFeedback[feedback.feedbackId] && (
-                            <div className="mt-4">
-                                <img
-                                    src={feedback.feedbackImage}
-                                    alt="Feedback Image"
-                                    className="w-full sm:w-1/2 h-auto rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
-                                    onClick={() => handleOpenModal(feedback.feedbackImage || "")}
-                                />
-                            </div>
-                        )}
                     </div>
-                </div>
-            ))}
+                ))}
             </div>
             {isModalOpen && (
                 <div
                     className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50 p-4 modal-background"
-                    onClick={handleModalClick} 
+                    onClick={handleModalClick}
                 >
                     <div className="relative bg-white dark:bg-gray-800 p-2 rounded-lg max-w-4xl max-h-[90vh] overflow-auto">
                         <img src={modalImage || ""} alt="Preview" className="max-w-full h-auto" />
