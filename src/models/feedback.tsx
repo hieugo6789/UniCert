@@ -33,14 +33,17 @@ export interface currentFeedback {
 export interface createFeedback {
   userId: string;
   examId: number;
+  feedbackRatingvalue: number;
   feedbackDescription: string;
   feedbackImage: string;
   feedbackCreatedAt: Date;
 }
 export interface updateFeedback {
   feedbackDescription: string;
+  feedbackRatingvalue: number;
   feedbackImage: string;
 }
+
 
 export interface deleteFeedback {
   feedbackId: number;
