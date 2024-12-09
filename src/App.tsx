@@ -59,6 +59,7 @@ import Organization from "./page/User/Organization/Organization";
 import OrganizationDetail from "./page/User/Organization/OrganizationDetail";
 import Pathway from "./page/User/Pathway/Pathway";
 import Refund from "./components/Wallet/Refund";
+import RefundSuccess from "./components/Wallet/RefundSuccess";
 
 const Layout = () => {
   return (
@@ -92,6 +93,7 @@ function App() {
         { path: "history/:id", element: <HistoryPage /> },
         { path: "wallet", element: <Wallet /> },
         { path: "wallet/refund", element: <Refund /> },
+        { path: "wallet/refund/success", element: <RefundSuccess /> },
         { path: "wallet/bill", element: <Bill /> },
         { path: "wallet/:transId", element: <Wallet /> },
         { path: "wallet/0", element: <Wallet /> },

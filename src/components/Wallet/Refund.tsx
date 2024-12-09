@@ -4,8 +4,10 @@ import Cookies from "js-cookie";
 import { Input, InputNumber, Button, message } from "antd";
 import useWalletDetail from "../../hooks/Wallet/useWalletDetail";
 import { bankInformation } from "../../models/user";
+import { useNavigate } from "react-router-dom";
 
 const Refund = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [banks, setBanks] = useState<bankInformation[]>([]);
   const [ownerName, setOwnerName] = useState<string | null>(null);
@@ -92,7 +94,7 @@ const Refund = () => {
         "https://certificateinformationportal.azurewebsites.net/api/v1/refund/SendRequestRefund",
         requestData
       );
-      message.success("Refund request sent successfully!");
+      navigate("success");
       console.log("Refund response:", response.data);
     } catch (error) {
       message.error("Failed to send refund request. Please try again.");
