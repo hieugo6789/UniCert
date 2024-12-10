@@ -151,14 +151,18 @@ const Notification = () => {
                           <Dropdown
                             overlay={
                               <Menu>
-                                <Menu.Item
-                                  key="read"
-                                  onClick={() =>
-                                    handleReadNotification(notif.notificationId)
-                                  }
-                                >
-                                  Mark as read
-                                </Menu.Item>
+                                {!notif.isRead && (
+                                  <Menu.Item
+                                    key="read"
+                                    onClick={() =>
+                                      handleReadNotification(
+                                        notif.notificationId
+                                      )
+                                    }
+                                  >
+                                    Mark as read
+                                  </Menu.Item>
+                                )}
                                 <Menu.Item
                                   key="delete"
                                   danger

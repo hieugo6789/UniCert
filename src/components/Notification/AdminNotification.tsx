@@ -163,24 +163,31 @@ const AdminNotification = () => {
                           <Dropdown
                             overlay={
                               <Menu>
-                                <Menu.Item
-                                  key="read"
-                                  onClick={() =>
-                                    handleReadNotification(notif.notificationId)
-                                  }
-                                >
-                                  Mark as read
-                                </Menu.Item>
                                 {!notif.isRead && (
                                   <Menu.Item
-                                    key="readViolation"
+                                    key="read"
                                     onClick={() =>
-                                      recordViolation(notif.notificationId)
+                                      handleReadNotification(
+                                        notif.notificationId
+                                      )
                                     }
                                   >
-                                    Record violation for this user
+                                    Mark as read
                                   </Menu.Item>
                                 )}
+                                {!notif.isRead &&
+                                  !notif.notificationName
+                                    .toLowerCase()
+                                    .includes("account status") && (
+                                    <Menu.Item
+                                      key="readViolation"
+                                      onClick={() =>
+                                        recordViolation(notif.notificationId)
+                                      }
+                                    >
+                                      Record violation for this user
+                                    </Menu.Item>
+                                  )}
                                 <Menu.Item
                                   key="delete"
                                   danger
