@@ -8,7 +8,6 @@ import CustomButton from '../../../components/UI/CustomButton';
 import ExamResultTable from '../../../components/Exam/ExamResultTable';
 import Cookies from 'js-cookie';
 import { showToast } from '../../../utils/toastUtils';
-import { Rate } from "antd";
 import AverageRating from '../../../components/Exam/AverageRating';
 
 const ExamDetailPage = () => {
