@@ -9,7 +9,7 @@ import ExamResultTable from '../../../components/Exam/ExamResultTable';
 import Cookies from 'js-cookie';
 import { showToast } from '../../../utils/toastUtils';
 import { Rate } from "antd";
-import axios from 'axios';
+import AverageRating from '../../../components/Exam/AverageRating';
 
 const ExamDetailPage = () => {
     const id = useParams().id || 0;
@@ -20,24 +20,6 @@ const ExamDetailPage = () => {
     const [isPurchased, setIsPurchased] = useState(false);
     const { state, getExamDetails } = useExamDetail();
     const { examEnrollment, refetchExamEnrollments } = useExamEnrollment({ userId: userId || "" });
-    const [averageRating, setAverageRating] = useState<number | null>(null);
-    const [ratingCount, setRatingCount] = useState<number | null>(null);
-
-    useEffect(() => {
-        const fetchAverageRating = async () => {
-            try {
-                const response = await axios.get(
-                    `https://certificateinformationportal.azurewebsites.net/api/v1/feedback/average/${id}`
-                );
-                setAverageRating(response.data.data.averageRating);
-                setRatingCount(response.data.data.feedbackCount);
-            } catch (err) {
-                console.error(err);
-            }
-        };
-
-        fetchAverageRating();
-    }, [id]);
     useEffect(() => {
         if (!userId) {
             showToast("Please login to access this page", "error");
@@ -144,15 +126,7 @@ const ExamDetailPage = () => {
                             <span className="font-medium text-yellow-600 dark:text-yellow-400 ml-auto">{exam?.examDiscountFee}</span>
                             <img src={coin} alt="Coin" className="w-6 h-6 animate-bounce" />
                         </div>
-                        <div className="flex items-center gap-3 bg-yellow-50/80 dark:bg-yellow-900/30 backdrop-blur px-4 py-3 rounded-lg hover:bg-yellow-100 dark:hover:bg-yellow-900/50 transition-colors duration-300 shadow-sm">
-
-                            <Rate
-                                value={averageRating || 0}
-                                allowHalf
-                                disabled
-                            />
-                            <div className="text-gray-500 text-base">/ {ratingCount}</div>
-                        </div>
+                        <AverageRating examId={exam?.examId} />
                     </div>
 
                     <div className="bg-gray-50/50 dark:bg-gray-700/50 rounded-lg p-4">
