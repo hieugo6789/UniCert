@@ -8,6 +8,7 @@ import { showToast } from '../../utils/toastUtils';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from 'antd';
 import useWalletDetail from '../../hooks/Wallet/useWalletDetail';
+import AverageRating from './AverageRating';
 
 interface ExamEnrollmentCardProps {
   enrollment: examEnrollment;
@@ -135,6 +136,7 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment, onStat
                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2 sm:line-clamp-1">
                     {exam.examDescription}
                   </p>
+                  <AverageRating examId={exam.examId} />
                 </div>
               </div>
               {enrollment.examEnrollmentStatus === 'Completed' ? (
