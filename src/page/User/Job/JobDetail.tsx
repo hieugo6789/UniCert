@@ -5,6 +5,7 @@ import useJobDetail from "../../../hooks/JobPosition/useJobDetail";
 import CustomButton from "../../../components/UI/CustomButton";
 import useTotalCost from "../../../hooks/Certification/useTotalCertCost";
 import { GrView } from "react-icons/gr";
+import { FaEye } from "react-icons/fa";
 
 interface certTab {
   certCode: string;
@@ -116,7 +117,7 @@ const JobDetail = () => {
           <span>/</span>
           <span className="text-blue-600 dark:text-blue-400">{jobDetail?.jobPositionName}</span>
         </div>
-      </nav>
+      </nav>      
 
       {/* Header Section */}
       <header className="max-w-7xl mx-auto px-4 py-12 md:py-8 text-center">
@@ -139,11 +140,16 @@ const JobDetail = () => {
         <div className="fade-in mt-6 text-2xl font-bold text-gray-900 dark:text-white">
           You need to pay ${isLoading ? "Loading..." : thisCost} to obtain these certificates.
         </div>
-        <p className=" fade-in mt-4 text-gray-500 text-xl">Please select checkbox in the top of certtification!</p>
+        <p className=" fade-in mt-4 text-gray-500 text-xl">Please select checkbox in the top of certification!</p>                
       </header>
 
       {/* Certificates Grid */}
       <main className="max-w-7xl mx-auto px-4 py-12">
+        <div className="mb-4 p-4 bg-blue-50 dark:bg-gray-800 rounded-lg shadow-md text-center">
+          <p className="text-sm text-gray-700 dark:text-gray-300">
+            <strong>Instructions:</strong> Click on the <span className="text-blue-500">certificate image</span> to filter by organization. Click the <FaEye className="inline text-blue-500" /> icon to view certificate details.
+          </p>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Certificate Sections */}
           {[

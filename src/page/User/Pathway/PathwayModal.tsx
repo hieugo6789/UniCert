@@ -45,7 +45,7 @@ const PathwayModal = (props: ModalProps) => {
     if (state?.currentJob) {
       const jobDetailItem = state?.currentJob as any;
       setJob(jobDetailItem?.[0] ?? null);
-      setCertList(jobDetailItem?.[0]?.certificationTwoId ?? []);
+      setCertList(jobDetailItem?.[0]?.certificationTwoId ?? []);      
     }    
   }, [state]);
 

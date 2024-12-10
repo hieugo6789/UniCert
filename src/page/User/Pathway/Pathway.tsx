@@ -12,6 +12,11 @@ import useDeleteSelectedCert from "../../../hooks/Certification/useDeleteSelecte
 import { useCreateSelectedCert } from "../../../hooks/Certification/useCreateSelectedCert";
 import PathwayModal from "./PathwayModal";
 
+interface OrgType {
+  id: number;
+  name: string;
+}
+
 const Pathway = () => {
   const userId = Cookies.get("userId");
   const navigate = useNavigate();
@@ -27,6 +32,7 @@ const Pathway = () => {
   const { recommendedJobs, refetchRecommendedJobs } = useRecommendedJobs();
   const { handleDeleteCertificate } = useDeleteSelectedCert();
   const { handleCreateCert } = useCreateSelectedCert();
+  const [jobCertOrganizes, setJobCertOrganizes] = useState<OrgType[]>([]);
 
   const [jobPage, setJobPage] = useState(1); // Job pagination state
   const jobsPerPage = 5; // Number of jobs per page
@@ -66,7 +72,7 @@ const Pathway = () => {
 
   useEffect(() => {
     if (recommendedJobs) {
-      setJobPositions(recommendedJobs);
+      setJobPositions(recommendedJobs);    
     }
   }, [recommendedJobs]);
 
@@ -86,7 +92,21 @@ const Pathway = () => {
 
   const handleJobCardClick = (job: any) => {
     setSelectedJob(job.jobPositionId);
+    setJobCertOrganizes([]);
     setIsModalOpen(true);
+    const uniqueOrgs = Array.from(
+      new Map<number, OrgType>(
+        job.certOrganizes.map((org: any) => [
+          org?.organizeId,
+          {
+            id: org?.organizeId ?? 0,
+            name: org?.organizeName ?? ''
+          } as OrgType
+        ])
+      ).values()
+    ).filter((org): org is OrgType => org.id !== 0);
+        
+    setJobCertOrganizes(uniqueOrgs);
   };
 
   const filteredCerts = certificates.filter((cert) =>
@@ -98,16 +118,6 @@ const Pathway = () => {
   const indexOfLastJob = jobPage * jobsPerPage;
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
   const currentJobs = jobPositions.slice(indexOfFirstJob, indexOfLastJob);
-
-  const uniqueOrganizations = Array.from(
-    new Set(selectedCerts.map(cert => cert.organizeId))
-  ).map(id => {
-    const org = selectedCerts.find(cert => cert.organizeId === id);
-    return {
-      id: org?.organizeId ?? 0,
-      name: org?.organizeName ?? ''
-    };
-  }).filter(org => org.id !== 0);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -270,7 +280,7 @@ const Pathway = () => {
         title="Pathway" 
         jobId={selectedJob || "0"} 
         selectedCertIds={selectedCerts.map(cert => cert.certId)}
-        organizations={uniqueOrganizations}
+        organizations={jobCertOrganizes}
         onCompleteCert={handleCompleteCert}
       />
     </div>
