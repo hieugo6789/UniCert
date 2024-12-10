@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { allExamPaginationData } from "../../models/SimulationExam/simulationExam";
 import Coin from "../../assets/images/Coin.png";
+import AverageRating from "./AverageRating";
 
 interface ExamSimulaCardProps extends allExamPaginationData {
   onClick?: () => void;
@@ -57,6 +58,7 @@ const ExamSimulaCard: React.FC<ExamSimulaCardProps> = ({
         <p className="text-sm text-gray-600">Duration: {duration} minutes</p>
         <p className="text-sm text-gray-600">Number of questions: {questionCount}</p>
       </div>
+      <AverageRating examId={examId} />
       <div className="flex items-center justify-between mt-auto">
         <div>
           {examDiscountFee === examFee ? (
