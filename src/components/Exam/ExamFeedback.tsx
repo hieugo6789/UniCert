@@ -38,18 +38,18 @@ const ExamFeedback = () => {
         if (feedback.length > 0) {
             const approvedFeedbacks = feedback.filter(f => f.feedbackPermission === true);
             setFeedbacks(approvedFeedbacks);
-    
+
             // Kiểm tra nếu có bất kỳ feedback nào của user hiện tại có feedbackRatingvalue > 0
             const hasRated = approvedFeedbacks.some(
                 f => f.userId === Number(Cookies.get("userId")) && f.feedbackRatingvalue > 0
             );
             setIsRated(hasRated);
-    
+
             console.log("Approved feedbacks:", approvedFeedbacks);
             console.log("Is rated:", hasRated);
         }
     }, [feedback]);
-    
+
     const vietnamTime = new Date();
     vietnamTime.setHours(vietnamTime.getHours() + 7);
     // Handle creating feedback
@@ -127,7 +127,7 @@ const ExamFeedback = () => {
         console.log("Edit rating", feedbackRatingvalue);
         console.log(editingFeedback);
     };
-    
+
 
 
     // Handle canceling edit
@@ -365,17 +365,58 @@ const ExamFeedback = () => {
                             {editingFeedback[feedback.feedbackId] ? (
                                 <div>
                                     {feedback.feedbackDescription && (
-                                        <textarea
-                                            value={editingFeedback[feedback.feedbackId]}
-                                            onChange={(e) =>
-                                                setEditingFeedback({
-                                                    ...editingFeedback,
-                                                    [feedback.feedbackId]: e.target.value,
-                                                })
-                                            }
-                                            className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg mt-2 resize-none focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                                            rows={4}
-                                        />
+                                        <>
+                                            <textarea
+                                                value={editingFeedback[feedback.feedbackId]}
+                                                onChange={(e) =>
+                                                    setEditingFeedback({
+                                                        ...editingFeedback,
+                                                        [feedback.feedbackId]: e.target.value,
+                                                    })
+                                                }
+                                                className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg mt-2 resize-none focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                                                rows={4}
+                                            />
+                                            <div className="mt-4">
+                                                <label
+                                                    htmlFor={`uploadFile-${feedback.feedbackId}`}
+                                                    className="bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 font-semibold text-base rounded mb-4 h-32 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 dark:border-gray-600 border-dashed mx-auto hover:bg-gray-50 dark:hover:bg-gray-600 transition-all"
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-8 mb-2 fill-gray-500 dark:fill-gray-300" viewBox="0 0 32 32">
+                                                        <path d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z" />
+                                                        <path d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z" />
+                                                    </svg>
+                                                    <span className="text-sm">Change Image</span>
+                                                    <input
+                                                        type="file"
+                                                        id={`uploadFile-${feedback.feedbackId}`}
+                                                        className="hidden"
+                                                        onChange={handleImageChange}
+                                                        accept="image/*"
+                                                    />
+                                                </label>
+                                                {previewImage && (
+                                                    <div className="relative group">
+                                                        <img
+                                                            src={previewImage}
+                                                            alt="Preview"
+                                                            className="w-full h-48 object-cover rounded-lg cursor-pointer"
+                                                            onClick={() => handleOpenModal(previewImage)}
+                                                        />
+                                                        <div
+                                                            className="absolute top-2 right-2 bg-red-500 dark:bg-red-600 p-1 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
+                                                            onClick={() => {
+                                                                setSelectedImage(null);
+                                                                setPreviewImage(null);
+                                                            }}
+                                                        >
+                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div></>
                                     )}
                                     {feedback.feedbackRatingvalue > 0 && (
                                         <div className="flex mt-2">
