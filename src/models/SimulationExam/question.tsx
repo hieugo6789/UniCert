@@ -2,7 +2,7 @@ export interface currentQuestion {
   questionId: number;
   questionName: string;
   examId: number;
-  questionType: number;
+  questionType: string;
   answers: [
     {
       answerId: number;

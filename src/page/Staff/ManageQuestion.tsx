@@ -111,24 +111,35 @@ const ManageQuestion = () => {
                   __html: question.questionName || "",
                 }}
               />
-              <div className="grid grid-cols-2 gap-4">
-                {question.answers?.map((answer, answerIndex) => (
-                  <div
-                    key={answerIndex}
-                    className={`border p-4 rounded-md shadow-sm hover:bg-gray-100 transition flex justify-between items-center`}
-                  >
-                    {answer.answerText}
-                    {answer.isCorrect && (
-                      <span>
-                        <img
-                          src={correct}
-                          className="size-6"
-                        />
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
+
+              {/* Hiển thị khác biệt cho Essay */}
+              {question.questionType === "Essay" ? (
+                <div className="border p-4 rounded-md shadow-sm">
+                  <strong>Answer:</strong>
+                  <p className="mt-2 text-gray-700">
+                    {question.answers?.[0]?.answerText || "No answer provided."}
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-4">
+                  {question.answers?.map((answer, answerIndex) => (
+                    <div
+                      key={answerIndex}
+                      className={`border p-4 rounded-md shadow-sm hover:bg-gray-100 transition flex justify-between items-center`}
+                    >
+                      {answer.answerText}
+                      {answer.isCorrect && (
+                        <span>
+                          <img
+                            src={correct}
+                            className="size-6"
+                          />
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>

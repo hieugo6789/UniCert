@@ -72,6 +72,7 @@ export interface currentExamDetail {
     {
       questionId: number;
       questionName: string;
+      questionType: string;
       answers: [
         {
           answerId: number;

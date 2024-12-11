@@ -37,7 +37,7 @@ const UpdateQuestion: React.FC<UpdateQuestionProps> = ({
         examId: questionDetail.currentQuestion.examId,
         answers: questionDetail.currentQuestion.answers?.map((answer) => ({
           text: answer.text,
-          isCorrect: answer.isCorrect ? true : false, // Convert to `true` or `undefined`
+          isCorrect: answer.isCorrect ? true : false,
         })),
       });
     }
@@ -57,71 +57,132 @@ const UpdateQuestion: React.FC<UpdateQuestionProps> = ({
       onCancel={onClose}
       footer={null}
     >
-      <Form
-        form={form}
-        layout="vertical"
-        onFinish={handleFinish}
-        initialValues={questionDetail} // Initial values set based on fetched data
-      >
-        <Form.Item
-          name="questionName"
-          label="Question Name"
+      {questionDetail.currentQuestion.questionType === "Choice" ? (
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleFinish}
+          initialValues={questionDetail} // Initial values set based on fetched data
         >
-          <MyEditor
-            value={form.getFieldValue("questionName")}
-            onChange={(content) =>
-              form.setFieldsValue({ questionName: content })
-            }
-          />
-        </Form.Item>
-        <Form.Item
-          name="examId"
-          label="Exam Id"
-          hidden
-        >
-          <Input type="hidden" />
-        </Form.Item>
-
-        <Form.List name="answers">
-          {(fields) => (
-            <div>
-              {fields.map((field, index) => (
-                <Space
-                  key={field.key}
-                  align="baseline"
-                  className="w-full flex items-end"
-                >
-                  <Form.Item
-                    {...field}
-                    name={[field.name, "text"]}
-                    label={`Answer ${index + 1}`}
-                    key={`answer-text-${field.key}`} // unique key
-                    style={{ width: "860px" }}
-                  >
-                    <Input style={{ width: "100%" }} />
-                  </Form.Item>
-                  <Form.Item
-                    name={[field.name, "isCorrect"]}
-                    valuePropName="checked"
-                    key={`answer-isCorrect-${field.key}`}
-                  >
-                    <Checkbox>Correct</Checkbox>
-                  </Form.Item>
-                </Space>
-              ))}
-            </div>
-          )}
-        </Form.List>
-
-        <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
+          <Form.Item
+            name="questionName"
+            label="Question Name"
           >
-            Update Question
-          </Button>
-        </Form.Item>
-      </Form>
+            <MyEditor
+              value={form.getFieldValue("questionName")}
+              onChange={(content) =>
+                form.setFieldsValue({ questionName: content })
+              }
+            />
+          </Form.Item>
+          <Form.Item
+            name="examId"
+            label="Exam Id"
+            hidden
+          >
+            <Input type="hidden" />
+          </Form.Item>
+
+          <Form.List name="answers">
+            {(fields) => (
+              <div>
+                {fields.map((field, index) => (
+                  <Space
+                    key={field.key}
+                    align="baseline"
+                    className="w-full flex items-end"
+                  >
+                    <Form.Item
+                      {...field}
+                      name={[field.name, "text"]}
+                      label={`Answer ${index + 1}`}
+                      key={`answer-text-${field.key}`} // unique key
+                      style={{ width: "860px" }}
+                    >
+                      <Input style={{ width: "100%" }} />
+                    </Form.Item>
+                    <Form.Item
+                      name={[field.name, "isCorrect"]}
+                      valuePropName="checked"
+                      key={`answer-isCorrect-${field.key}`}
+                    >
+                      <Checkbox>Correct</Checkbox>
+                    </Form.Item>
+                  </Space>
+                ))}
+              </div>
+            )}
+          </Form.List>
+
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+            >
+              Update Question
+            </Button>
+          </Form.Item>
+        </Form>
+      ) : (
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleFinish}
+          initialValues={questionDetail} // Initial values set based on fetched data
+        >
+          <Form.Item
+            name="questionName"
+            label="Question Name:"
+          >
+            <MyEditor
+              value={form.getFieldValue("questionName")}
+              onChange={(content) =>
+                form.setFieldsValue({ questionName: content })
+              }
+            />
+          </Form.Item>
+          <Form.Item
+            name="examId"
+            label="Exam Id"
+            hidden
+          >
+            <Input type="hidden" />
+          </Form.Item>
+
+          <Form.List name="answers">
+            {(fields) => (
+              <div>
+                {fields.map((field) => (
+                  <Space
+                    key={field.key}
+                    align="baseline"
+                    className="w-full flex items-end"
+                  >
+                    <Form.Item
+                      {...field}
+                      name={[field.name, "text"]}
+                      label="Answer:"
+                      key={`answer-text-${field.key}`}
+                      style={{ width: "952px" }}
+                    >
+                      <Input.TextArea rows={4} />
+                    </Form.Item>
+                  </Space>
+                ))}
+              </div>
+            )}
+          </Form.List>
+
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+            >
+              Update Question
+            </Button>
+          </Form.Item>
+        </Form>
+      )}
     </Modal>
   );
 };
