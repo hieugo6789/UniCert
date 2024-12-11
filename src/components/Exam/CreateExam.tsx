@@ -16,6 +16,7 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
     examCode: "",
     examDescription: "",
     examFee: 0,
+    passingScore: 0,
     voucherIds: [] as number[],
     examImage: "",
     certId: 0,
@@ -50,6 +51,7 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
         examCode: "",
         examDescription: "",
         examFee: 0,
+        passingScore: 0,
         voucherIds: [],
         examImage: "",
         certId: 0,
@@ -254,6 +256,26 @@ const CreateExam = ({ refetchExams }: { refetchExams: () => void }) => {
                 setFormData({ ...formData, questionCount: value ?? 0 })
               }
               placeholder="Enter total questions"
+              style={{ width: "100%" }}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Passing Score (%)"
+            name="passingScore"
+            rules={[
+              {
+                required: true,
+                message: "Please input the passing score!",
+              },
+            ]}
+          >
+            <InputNumber
+              name="passingScore"
+              value={formData.passingScore}
+              onChange={(value) =>
+                setFormData({ ...formData, passingScore: value ?? 0 })
+              }
+              placeholder="Enter passing score"
               style={{ width: "100%" }}
             />
           </Form.Item>

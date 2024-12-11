@@ -111,6 +111,7 @@ export interface createExam {
   certId: number;
   examDescription: string;
   examFee: number;
+  passingScore: number;
   voucherIds: number[];
   examImage: string;
   duration: number;
