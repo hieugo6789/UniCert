@@ -32,6 +32,7 @@ export interface currentExam {
   certId: number;
   examDescription: string;
   examFee: number;
+  passingScore: number;
   examDiscountFee: number;
   examImage: string;
   examPermission: string;
@@ -60,6 +61,7 @@ export interface currentExamDetail {
   certId: number;
   examDescription: string;
   examFee: number;
+  passingScore: number;
   examDiscountFee: number;
   examImage: string;
   examPermission: string;
@@ -128,6 +130,7 @@ export interface updateExam {
   certId: number;
   examDescription: string;
   examFee: number;
+  passingScore: number;
   voucherIds: number[];
   examImage: string;
   duration: number;

@@ -78,6 +78,11 @@ const ViewExamDetail: React.FC<ViewExamDetailProps> = ({ examId }) => {
                   {state.currentExam.questionCount} questions
                 </span>
               </Descriptions.Item>
+              <Descriptions.Item label="Passing Score">
+                <span className="text-gray-600">
+                  {state.currentExam.passingScore} %
+                </span>
+              </Descriptions.Item>
               <Descriptions.Item label="Fee">
                 <div className="flex items-center">
                   {state.currentExam.examFee}

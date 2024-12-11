@@ -38,6 +38,7 @@ const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
         examCode: currentExam.examCode,
         examDescription: currentExam.examDescription,
         examFee: currentExam.examFee,
+        passingScore: currentExam.passingScore,
         duration: currentExam.duration,
         questionCount: currentExam.questionCount,
         voucherIds: Vouchers,
@@ -198,6 +199,21 @@ const UpdateExam: React.FC<UpdateExamProps> = ({ examId, refetchExams }) => {
           >
             <InputNumber
               placeholder="Enter total questions"
+              style={{ width: "100%" }}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Passing Score"
+            name="passingScore"
+            rules={[
+              {
+                required: true,
+                message: "Please enter passing score",
+              },
+            ]}
+          >
+            <InputNumber
+              placeholder="Enter passing score"
               style={{ width: "100%" }}
             />
           </Form.Item>
