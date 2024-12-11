@@ -2,6 +2,7 @@ export interface currentQuestion {
   questionId: number;
   questionName: string;
   examId: number;
+  questionType: number;
   answers: [
     {
       answerId: number;
@@ -14,6 +15,7 @@ export interface currentQuestion {
 export interface createQuestion {
   questionName: string;
   examId: number;
+  questionType: number;
   answers: {
     text: string;
     isCorrect: boolean;
