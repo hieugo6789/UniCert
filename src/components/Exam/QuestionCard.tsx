@@ -2,12 +2,17 @@ import { FaFlag } from "react-icons/fa";
 
 type QuestionProps = {
   question: {
+    id: number;
     questionText: string;
-    options: { answerId: number; answerText: string }[];
-    correctAnswerIndex: number;
+    questionType: string;
+    options?: {
+      answerId: number;
+      answerText: string;
+    }[];
+    correctAnswerId: number;
   };
   currentQuestionIndex: number;
-  selectedAnswer: number[] | null;
+  selectedAnswer: number[];
   flagged: boolean;
   onFlag: () => void;
   onSelectAnswer: (answerId: number) => void;
@@ -52,7 +57,7 @@ const QuestionCard: React.FC<QuestionProps> = ({
       </div>
 
       <div className="space-y-3">
-        {question.options.map((option) => (
+        {question.options?.map((option) => (
           <button
             key={option.answerId}
             onClick={() => onSelectAnswer(option.answerId)}
@@ -72,7 +77,7 @@ const QuestionCard: React.FC<QuestionProps> = ({
         <button
           onClick={onClearAnswer}
           className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 
-            ${selectedAnswer?.length && selectedAnswer?.length > 0 
+            ${selectedAnswer?.length > 0 
               ? 'text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30' 
               : 'text-gray-300 dark:text-gray-600 cursor-not-allowed'}`}
           disabled={!selectedAnswer?.length}
