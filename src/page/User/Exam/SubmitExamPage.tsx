@@ -4,9 +4,11 @@ import { createScore } from "../../../models/score";
 import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
 import { useCreateScore } from "../../../hooks/Score/useCreateScore";
+
 type Answer = {
     questionId: number;
     userAnswerId: number[];
+    essayAnswer?: string;
 };
 
 const SubmitExamPage = () => {
@@ -14,20 +16,18 @@ const SubmitExamPage = () => {
     const navigate = useNavigate();
     const id = Number(useParams().id || 0);
 
-    // Kiểm tra xem có dữ liệu từ location state không
     useEffect(() => {
         if (!location.state?.formattedAnswers) {
+            console.log(formattedAnswers)
             navigate(`/exam/${id}/simulation`);
         }
     }, [location.state, id, navigate]);
 
-    // Định nghĩa kiểu dữ liệu cho formattedAnswers
     const formattedAnswers: Answer[] = location.state?.formattedAnswers || [];
     const timeLeft: number = location.state?.timeLeft || 0;
-    const { state, handleCreateScore,clearCreateScore } = useCreateScore();
+    const { state, handleCreateScore, clearCreateScore } = useCreateScore();
     const [currentTimeLeft, setCurrentTimeLeft] = useState(timeLeft);
 
-    // Thêm countdown timer
     useEffect(() => {
         if (currentTimeLeft === 0) {
             handleSubmitResults();
@@ -50,16 +50,17 @@ const SubmitExamPage = () => {
     const handleSubmitResults = async () => {
         try {
             const sendInput: createScore = {
-                userId: Number(Cookie.get("userId") || 0), // đảm bảo userId có giá trị hợp lệ
+                userId: Number(Cookie.get("userId") || 0),
                 examId: id,
                 questionRequests: formattedAnswers.map((answer: Answer) => ({
                     questionId: answer.questionId,
-                    userAnswerId: Array.isArray(answer.userAnswerId) ? answer.userAnswerId : [answer.userAnswerId]
+                    userAnswerId: Array.isArray(answer.userAnswerId) ? answer.userAnswerId : [answer.userAnswerId],
+                    userAnswerText: answer.essayAnswer || ""
                 }))
             };
+            console.log(sendInput)
 
-            // console.log(sendInput);
-            await handleCreateScore(sendInput); // Đảm bảo chờ xử lý xong trước khi chuyển trang            
+            await handleCreateScore(sendInput);
         } catch (error) {
             console.error("Error submitting exam results:", error);
             alert("Failed to submit results. Please try again.");
@@ -69,19 +70,20 @@ const SubmitExamPage = () => {
     useEffect(() => {
         if (state.createdScore) {
             console.log(state.createdScore);
-            navigate("/exam/"+id+"/simulation/result", { state: state.createdScore }); // Điều hướng đến trang kết quả
+            navigate("/exam/"+id+"/simulation/result", { state: state.createdScore });
             clearCreateScore();
         }
     }, [state, navigate]);
 
-    // Thêm hàm kiểm tra câu hỏi chưa trả lời
     const isUnanswered = (answer: Answer) => {
+        if (answer.essayAnswer !== undefined) {
+            return !answer.essayAnswer || answer.essayAnswer.trim() === '';
+        }
         return !answer.userAnswerId || 
                answer.userAnswerId.length === 0 || 
                (answer.userAnswerId.length === 1 && answer.userAnswerId[0] === 0);
     };
 
-    // Sửa lại hàm handleBackToExam để không lọc câu trả lời
     const handleBackToExam = () => {
         navigate("/exam/" + id + "/simulation", { 
             state: { 
