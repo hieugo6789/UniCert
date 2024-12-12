@@ -84,7 +84,9 @@ const ExamFeedback = () => {
             console.log("Test", response);
             if (response?.data.feedbackPermission === false) {
                 showToast("Your feedback contains inappropriate content and is pending review.", "error");
-            } else {
+            } else if (!response) {
+                showToast("You are sending feedback too frequently. Please try again later.", "error");
+            }else{            
                 showToast("Feedback created successfully", "success");
                 // kiểm tra trong feedback có feedbackRatingValue khác 0 thì set isRated = true
                 if (response?.data.feedbackRatingvalue > 0) {
@@ -93,9 +95,8 @@ const ExamFeedback = () => {
                     setIsRated(false);
                 }
             }
-        } catch (error) {
-            console.error("Error submitting feedback:", error);
-            showToast("An error occurred while submitting feedback. Please try again.", "error");
+        } catch (error: any) {            
+            showToast(`${error.response?.data?.message || "Unknown error"}`, "error");   
         }
     };
 

@@ -2,6 +2,7 @@ import { feedbackPagination } from "../../models/feedback";
 import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import DefaultImage from "../../assets/images/Avatar/DefaultAvatar.jpg";
+import { FaStar } from "react-icons/fa";
 
 const Feedback = ({ feedback }: { feedback: feedbackPagination[] }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -38,6 +39,22 @@ const Feedback = ({ feedback }: { feedback: feedbackPagination[] }) => {
 
                 {/* Feedback Content */}
                 <div className="space-y-4">
+                  {item.feedbackRatingvalue > 0 && (
+                    <div className="flex">
+                        {[...Array(5)].map((_, index) => {
+                            const ratingValue = index + 1;
+                            return (
+                                <label key={index}>
+                                    <FaStar
+                                        size={30}
+                                        className="cursor-pointer text-yellow-500 hover:text-yellow-600 transition-all duration-300"
+                                        color={ratingValue <= item.feedbackRatingvalue ? "orange" : "gray"}
+                                    />
+                                </label>
+                            );
+                        })}
+                    </div>
+                  )}
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                     {item.feedbackDescription}
                   </p>
