@@ -1,10 +1,11 @@
 import CustomButton from "../UI/CustomButton";
 
 type SidebarProps = {
-  questions: { id: number }[];
+  questions: { id: number; questionType: string }[];
   currentQuestionIndex: number;
   setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
   selectedAnswers: number[][];
+  essayAnswers: string[];
   flaggedQuestions: boolean[];
   timeLeft: number;
   handleSubmitExam: () => void;
@@ -15,6 +16,7 @@ const SimulationExamSidebar: React.FC<SidebarProps> = ({
   currentQuestionIndex,
   setCurrentQuestionIndex,
   selectedAnswers,
+  essayAnswers,
   flaggedQuestions,
   handleSubmitExam
 }) => {
@@ -68,9 +70,13 @@ const SimulationExamSidebar: React.FC<SidebarProps> = ({
                     ? 'bg-green-600 dark:bg-green-500 text-white ring-2 ring-green-600 dark:ring-green-500 ring-offset-2 dark:ring-offset-gray-800'
                     : flaggedQuestions[index]
                       ? 'bg-yellow-500 dark:bg-yellow-400 text-white hover:bg-yellow-600 dark:hover:bg-yellow-500'
-                      : selectedAnswers[index]?.length > 0
-                        ? 'bg-blue-500 dark:bg-blue-400 text-white hover:bg-blue-600 dark:hover:bg-blue-500'
-                        : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                      : q.questionType === 'Essay'
+                        ? (essayAnswers[index] && essayAnswers[index].trim() !== '')
+                          ? 'bg-blue-500 dark:bg-blue-400 text-white hover:bg-blue-600 dark:hover:bg-blue-500'
+                          : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                        : selectedAnswers[index]?.length > 0
+                          ? 'bg-blue-500 dark:bg-blue-400 text-white hover:bg-blue-600 dark:hover:bg-blue-500'
+                          : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }
                 `}
               >
