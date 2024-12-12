@@ -57,13 +57,13 @@ const SimulationExamSidebar: React.FC<SidebarProps> = ({
         {/* Question Grid */}
         <div>
           <h3 className="font-medium text-gray-700 dark:text-gray-200 mb-2">Question Navigation</h3>
-          <div className="grid grid-cols-9 sm:grid-cols-9 md:grid-cols-10 lg:grid-cols-12 xl:grid-cols-5 gap-2">
+          <div className="grid grid-cols-9 sm:grid-cols-9 md:grid-cols-10 lg:grid-cols-12 xl:grid-cols-7 gap-2">
             {questions.map((q, index) => (
               <button
                 key={q.id}
                 onClick={() => setCurrentQuestionIndex(index)}
                 className={`
-                  w-10 h-10 rounded-lg font-medium transition-all duration-200
+                  w-8 h-8 rounded-lg font-medium transition-all duration-200
                   flex items-center justify-center text-sm shadow-sm
                   hover:transform hover:scale-105
                   ${index === currentQuestionIndex
