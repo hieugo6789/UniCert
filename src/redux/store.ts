@@ -67,17 +67,17 @@ import scoreReducer from "./slice/Score/scoreByUserAndExam";
 import dashboardReducer from "./slice/Dashboard/DashboardSlice";
 import notificationReducer from "./slice/Notification/notificationSlice";
 import deleteNotificationReducer from "./slice/Notification/deleteNotificationSlice";
+import userNotificationReducer from "./slice/Notification/userNotificationSlice";
 import changePasswordReducer from "./slice/Password/ChangePasswordSlice";
 import resetPasswordReducer from "./slice/Password/ResetPasswordSlice";
 import forgotPasswordReducer from "./slice/Password/ForgotPasswordSlice";
 import createAccountReducer from "./slice/Account/createAccountSlice";
 import certCostReducer from "./slice/Certification/getTotalCertSlice";
-import getRecommedByUser  from "./slice/JobPosition/recommendedJobSlice";
+import getRecommedByUser from "./slice/JobPosition/recommendedJobSlice";
 import getSelectedCert from "./slice/Certification/getSelectedCertSlice";
 import createSelectedCert from "./slice/Certification/createSelectedCertSlice";
 import deleteSelectedCert from "./slice/Certification/deleteSelectedCertSlice";
 import updateSelectedCert from "./slice/Certification/updateSelectedCertSlice";
-
 
 export const store = configureStore({
   reducer: {
@@ -148,6 +148,7 @@ export const store = configureStore({
     dashboard: dashboardReducer,
     notification: notificationReducer,
     deleteNotification: deleteNotificationReducer,
+    userNotification: userNotificationReducer,
     changePassword: changePasswordReducer,
     resetPassword: resetPasswordReducer,
     forgotPassword: forgotPasswordReducer,

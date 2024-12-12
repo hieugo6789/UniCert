@@ -350,6 +350,8 @@ const Notification = {
     ),
   deleteNotification: (notificationId: number) =>
     requests.del(`api/v1/notification/${notificationId}`),
+  getUserNotification: (userId: number) =>
+    requests.get(`api/v1/notification/Student/${userId}`),
 };
 const ChangePassword = {
   changePassword: (input: ChangePasswordInput, userId: string) =>
