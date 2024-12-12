@@ -7,14 +7,30 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Cookies from 'js-cookie';
 import { showToast } from '../../../utils/toastUtils';
 import useExamEnrollment from '../../../hooks/Enrollment/useExam';
+import EssayQuestion from "./EssayQuestion";
+
 type Answer = {
   questionId: number;
   userAnswerId: number[];
+  essayAnswer?: string;
 };
+
+type Question = {
+  id: number;
+  questionText: string;
+  questionType: string;
+  options?: {
+    answerId: number;
+    answerText: string;
+  }[];
+  correctAnswerId: number;
+  essayAnswer?: string;
+}
+
 const SimulationExamPage = () => {
   const id = Number(useParams().id || 0);
   const userId = Cookies.get("userId");
-  const [questions, setQuestions] = useState<any[]>([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
   const { state, getExamDetails } = useExamDetail();
   const [duration, setDuration] = useState(0);
   const location = useLocation();
@@ -31,132 +47,111 @@ const SimulationExamPage = () => {
 
   useEffect(() => {
     if (!userId) {
-        showToast("Please login to access this page", "error");
-        navigate('/login');
-        return;
-    }    
+      showToast("Please login to access this page", "error");
+      navigate('/login');
+      return;
+    }
     refetchExamEnrollments(userId || "");
   }, [userId]);
 
-  useEffect(() => {        
+  useEffect(() => {
     const checkExamPurchase = () => {
-        const purchased = examEnrollment.some(
-            (e) => e.examEnrollmentStatus === "Completed" && 
-            e.simulationExamDetail.some(
-                (simExam) => simExam.examId === Number(id)
-            )
-        );
-        console.log("Test", purchased);
-        setIsPurchased(purchased);
+      const purchased = examEnrollment.some(
+        (e) => e.examEnrollmentStatus === "Completed" &&
+          e.simulationExamDetail.some(
+            (simExam) => simExam.examId === Number(id)
+          )
+      );
+      console.log("Test", purchased);
+      setIsPurchased(purchased);
     };
 
     checkExamPurchase();
   }, [userId, id, examEnrollment]);
-  
-  // useEffect(() => {
-  //   // Skip if already initialized or no exam data
-  //   if (isInitialized || !state?.currentExam?.listQuestions) {
-  //     return;
-  //   }
 
-  //   setDuration(state.currentExam.duration);
-  //   const questionCount = state.currentExam.questionCount;
-
-  //   // If we have formatted answers from location state, use those questions
-  //   if (location.state?.formattedAnswers?.length > 0) {
-  //     const formattedAnswers = location.state.formattedAnswers;
-  //     const allQuestions = state.currentExam.listQuestions;
-      
-  //     // Map questions in the same order as formatted answers
-  //     const orderedQuestions = formattedAnswers.map((answer: any) => {
-  //       const question = allQuestions.find((q: any) => q.questionId === answer.questionId);
-  //       return {
-  //         id: question?.questionId,
-  //         questionText: question?.questionName,
-  //         options: question?.answers.map((answer: any) => ({
-  //           answerId: answer.answerId,
-  //           answerText: answer.answerText,
-  //         })),
-  //         correctAnswerId: -1,
-  //       };
-  //     });
-      
-  //     setQuestions(orderedQuestions);
-  //   } else {
-  //     // For new exam, shuffle questions
-  //     const allQuestions = state.currentExam.listQuestions;
-  //     const shuffledQuestions = [...allQuestions].sort(() => Math.random() - 0.5);
-  //     const selectedQuestions = shuffledQuestions.slice(0, questionCount);
-
-  //     const formattedQuestions = selectedQuestions.map((q: any) => ({
-  //       id: q.questionId,
-  //       questionText: q.questionName,
-  //       options: q.answers.map((answer: any) => ({
-  //         answerId: answer.answerId,
-  //         answerText: answer.answerText,
-  //       })),
-  //       correctAnswerId: -1,
-  //     }));
-  //     setQuestions(formattedQuestions);
-  //   }
-
-  //   setIsInitialized(true);
-  // }, [state, location.state, isInitialized]);
   useEffect(() => {
     if (isInitialized || !state?.currentExam?.listQuestions) {
       return;
     }
-  
+
     setDuration(state.currentExam.duration);
     const questionCount = state.currentExam.questionCount;
-  
+
     if (location.state?.formattedAnswers?.length > 0) {
       const formattedAnswers = location.state.formattedAnswers;
       const allQuestions = state.currentExam.listQuestions;
-  
+
       const orderedQuestions = formattedAnswers.map((answer: any) => {
         const question = allQuestions.find((q: any) => q.questionId === answer.questionId);
-      
-        const shuffledAnswers = [...(question?.answers ?? [])].sort(() => Math.random() - 0.5);
-      
+        
+        if (!question) {
+          return null;
+        }
+
+        if (question.questionType === 'Essay') {
+          return {
+            id: question.questionId,
+            questionText: question.questionName,
+            questionType: 'Essay',
+            essayAnswer: question.answers[0]?.answerText || '',
+            correctAnswerId: -1
+          };
+        }
+
+        const shuffledAnswers = [...(question.answers ?? [])].sort(() => Math.random() - 0.5);
+        const correctAnswer = question.answers.find((a: any) => a.isCorrect)?.answerId || -1;
+
         return {
-          id: question?.questionId ?? -1,
-          questionText: question?.questionName ?? "Unknown Question",
+          id: question.questionId,
+          questionText: question.questionName,
+          questionType: 'Choice',
           options: shuffledAnswers.map((answer: any) => ({
             answerId: answer.answerId,
             answerText: answer.answerText,
           })),
-          correctAnswerId: -1,
+          correctAnswerId: correctAnswer,
         };
       });
-      
-      // Bỏ các câu hỏi không hợp lệ nếu cần
-      setQuestions(orderedQuestions.filter((q:any) => q.id !== -1));
-      
+
+      setQuestions(orderedQuestions.filter((q): q is Question => q !== null));
+
     } else {
       const allQuestions = state.currentExam.listQuestions;
       const shuffledQuestions = [...allQuestions].sort(() => Math.random() - 0.5);
       const selectedQuestions = shuffledQuestions.slice(0, questionCount);
-  
+      
       const formattedQuestions = selectedQuestions.map((q: any) => {
-        const shuffledAnswers = [...q.answers].sort(() => Math.random() - 0.5); // Tráo câu trả lời
+        if (q.questionType === 'Essay') {
+          return {
+            id: q.questionId,
+            questionText: q.questionName,
+            questionType: 'Essay',
+            essayAnswer: q.answers[0]?.answerText || '',
+            correctAnswerId: -1
+          };
+        }
+
+        const shuffledAnswers = [...q.answers].sort(() => Math.random() - 0.5);
+        const correctAnswer = q.answers.find((a: any) => a.isCorrect)?.answerId || -1;
+
         return {
           id: q.questionId,
           questionText: q.questionName,
+          questionType: 'Choice',
           options: shuffledAnswers.map((answer: any) => ({
             answerId: answer.answerId,
             answerText: answer.answerText,
           })),
-          correctAnswerId: -1,
+          correctAnswerId: correctAnswer,
         };
       });
-  
+
       setQuestions(formattedQuestions);
     }
-  
+
     setIsInitialized(true);
   }, [state, location.state, isInitialized]);
-  
+
 
   const [flaggedQuestions, setFlaggedQuestions] = useState<boolean[]>(Array(questions.length).fill(false));
 
@@ -168,20 +163,30 @@ const SimulationExamPage = () => {
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<number[][]>(Array(questions.length).fill([]));
-
-  const handleSelectAnswer = (questionIndex: number, answerId: number) => {
-    const newAnswers = [...selectedAnswers];
-    const currentAnswers = newAnswers[questionIndex] || [];
-    const answerIndex = currentAnswers.indexOf(answerId);
-    
-    if (answerIndex === -1) {
-      // Add answer if not already selected
-      newAnswers[questionIndex] = [...currentAnswers, answerId];
-    } else {
-      // Remove answer if already selected
-      newAnswers[questionIndex] = currentAnswers.filter(id => id !== answerId);
+  const [essayAnswers, setEssayAnswers] = useState<string[]>(() => {
+    if (location.state?.essayAnswers) {
+      return location.state.essayAnswers;
     }
-    setSelectedAnswers(newAnswers);
+    return Array(questions.length).fill('');
+  });
+
+  const handleSelectAnswer = (questionIndex: number, answerId: number | string) => {
+    if (questions[questionIndex].questionType === 'Essay') {
+      const newEssayAnswers = [...essayAnswers];
+      newEssayAnswers[questionIndex] = answerId as string;
+      setEssayAnswers(newEssayAnswers);
+    } else {
+      const newAnswers = [...selectedAnswers];
+      const currentAnswers = newAnswers[questionIndex] || [];
+      const answerIndex = currentAnswers.indexOf(answerId as number);
+
+      if (answerIndex === -1) {
+        newAnswers[questionIndex] = [...currentAnswers, answerId as number];
+      } else {
+        newAnswers[questionIndex] = currentAnswers.filter(id => id !== answerId);
+      }
+      setSelectedAnswers(newAnswers);
+    }
   };
 
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
@@ -206,23 +211,33 @@ const SimulationExamPage = () => {
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
-  // Get formattedAnswers from location state
   const formattedAnswers: Answer[] = location.state?.formattedAnswers || [];
 
-  // Update selectedAnswers when formattedAnswers or questions change
   useEffect(() => {
     if (formattedAnswers.length > 0 && questions.length > 0) {
       const newSelectedAnswers = questions.map((question) => {
+        if (question.questionType === 'Essay') return [];
         const matchingAnswer = formattedAnswers.find(
           (answer) => answer.questionId === question.id
         );
         return matchingAnswer ? matchingAnswer.userAnswerId : [];
       });
       setSelectedAnswers(newSelectedAnswers);
+
+      // Restore essay answers
+      const newEssayAnswers = questions.map((question) => {
+        if (question.questionType === 'Essay') {
+          const matchingAnswer = formattedAnswers.find(
+            (answer) => answer.questionId === question.id
+          );
+          return matchingAnswer?.essayAnswer || '';
+        }
+        return '';
+      });
+      setEssayAnswers(newEssayAnswers);
     }
   }, [formattedAnswers, questions]);
 
-  // update timeLeft from location state
   useEffect(() => {
     if (location.state?.timeLeft) {
       setTimeLeft(location.state.timeLeft);
@@ -234,38 +249,47 @@ const SimulationExamPage = () => {
   const navigate = useNavigate();
 
   const handleSubmitExam = () => {
-    // Clear any existing state first
-    navigate("/exam/" + id + "/simulation/submit", { replace: true });
-
     const formattedAnswers = questions.map((question, index) => ({
       questionId: question.id,
-      userAnswerId: selectedAnswers[index] || []
+      userAnswerId: question.questionType === 'Essay' ? [] : (selectedAnswers[index] || []),
+      essayAnswer: question.questionType === 'Essay' ? essayAnswers[index] : undefined
     }));
 
-    // Navigate with new state
-    navigate("/exam/" + id + "/simulation/submit", { state: { formattedAnswers, timeLeft } });
+    navigate("/exam/" + id + "/simulation/submit", { 
+      state: { 
+        formattedAnswers, 
+        timeLeft, 
+        essayAnswers 
+      } 
+    });
   };
 
   const handleClearAnswer = (questionIndex: number) => {
-    const newAnswers = [...selectedAnswers];
-    newAnswers[questionIndex] = [];
-    setSelectedAnswers(newAnswers);
+    if (questions[questionIndex].questionType === 'Essay') {
+      const newEssayAnswers = [...essayAnswers];
+      newEssayAnswers[questionIndex] = '';
+      setEssayAnswers(newEssayAnswers);
+    } else {
+      const newAnswers = [...selectedAnswers];
+      newAnswers[questionIndex] = [];
+      setSelectedAnswers(newAnswers);
+    }
   };
 
   if (!isPurchased) {
     return (
-        <div className="max-w-7xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-            <div className="text-center py-12">
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">Please Purchase This Exam First</h2>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">You need to purchase this exam before you can access its details.</p>
-                <button
-                    onClick={() => navigate("/certificate")}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200"
-                >
-                    Go Back
-                </button>
-            </div>
+      <div className="max-w-7xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+        <div className="text-center py-12">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">Please Purchase This Exam First</h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">You need to purchase this exam before you can access its details.</p>
+          <button
+            onClick={() => navigate("/certificate")}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200"
+          >
+            Go Back
+          </button>
         </div>
+      </div>
     );
   }
 
@@ -279,25 +303,35 @@ const SimulationExamPage = () => {
           </div>
         </div>
         {questions[currentQuestionIndex] && (
-          <QuestionCard
-            question={questions[currentQuestionIndex]}
-            currentQuestionIndex={currentQuestionIndex}
-            selectedAnswer={selectedAnswers[currentQuestionIndex]}
-            flagged={flaggedQuestions[currentQuestionIndex]}
-            onFlag={() => handleFlagQuestion(currentQuestionIndex)}
-            onSelectAnswer={(answerId) => handleSelectAnswer(currentQuestionIndex, answerId)}
-            onClearAnswer={() => handleClearAnswer(currentQuestionIndex)}
-          />
+          questions[currentQuestionIndex].questionType === 'Choice' ? (
+            <QuestionCard
+              question={questions[currentQuestionIndex]}
+              currentQuestionIndex={currentQuestionIndex}
+              selectedAnswer={selectedAnswers[currentQuestionIndex]}
+              flagged={flaggedQuestions[currentQuestionIndex]}
+              onFlag={() => handleFlagQuestion(currentQuestionIndex)}
+              onSelectAnswer={(answerId) => handleSelectAnswer(currentQuestionIndex, answerId)}
+              onClearAnswer={() => handleClearAnswer(currentQuestionIndex)}
+            />
+          ) : (
+            <EssayQuestion
+              question={questions[currentQuestionIndex]}
+              currentQuestionIndex={currentQuestionIndex}
+              selectedAnswer={essayAnswers[currentQuestionIndex]}
+              flagged={flaggedQuestions[currentQuestionIndex]}
+              onFlag={() => handleFlagQuestion(currentQuestionIndex)}
+              onSelectAnswer={(answer) => handleSelectAnswer(currentQuestionIndex, answer)}
+              onClearAnswer={() => handleClearAnswer(currentQuestionIndex)}
+            />
+          )
         )}
 
-        {/* Navigation buttons */}
         <div className="flex items-center justify-between mt-6">
           <CustomButton
-            className={`px-6 py-3 rounded-lg transition-all duration-200 ${
-              currentQuestionIndex > 0
-                ? "bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 text-white"
-                : "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
-            }`}
+            className={`px-6 py-3 rounded-lg transition-all duration-200 ${currentQuestionIndex > 0
+              ? "bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 text-white"
+              : "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
+              }`}
             onClick={() => {
               if (currentQuestionIndex > 0) {
                 setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
@@ -307,11 +341,10 @@ const SimulationExamPage = () => {
             disabled={currentQuestionIndex === 0}
           />
           <CustomButton
-            className={`px-6 py-3 rounded-lg transition-all duration-200 ${
-              currentQuestionIndex < questions.length - 1
-                ? "bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 text-white" 
-                : "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
-            }`}
+            className={`px-6 py-3 rounded-lg transition-all duration-200 ${currentQuestionIndex < questions.length - 1
+              ? "bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 text-white"
+              : "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
+              }`}
             onClick={() => {
               if (currentQuestionIndex < questions.length - 1) {
                 setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
@@ -328,6 +361,7 @@ const SimulationExamPage = () => {
           currentQuestionIndex={currentQuestionIndex}
           setCurrentQuestionIndex={setCurrentQuestionIndex}
           selectedAnswers={selectedAnswers}
+          essayAnswers={essayAnswers}
           flaggedQuestions={flaggedQuestions}
           timeLeft={timeLeft || 0}
           handleSubmitExam={handleSubmitExam}
