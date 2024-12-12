@@ -113,7 +113,7 @@ const SimulationExamPage = () => {
         };
       });
 
-      setQuestions(orderedQuestions.filter((q): q is Question => q !== null));
+      setQuestions(orderedQuestions.filter((q:any): q is Question => q !== null));
 
     } else {
       const allQuestions = state.currentExam.listQuestions;
