@@ -7,10 +7,20 @@ import { FaStar } from "react-icons/fa";
 const Feedback = ({ feedback }: { feedback: feedbackPagination[] }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [feedbacks, setFeedbacks] = useState<feedbackPagination[]>([]);
+  const [selectedRating, setSelectedRating] = useState<number>(0);
   useEffect(() => {
     const approvedFeedbacks = feedback.filter(f => f.feedbackPermission == true);
     setFeedbacks(approvedFeedbacks);
+    console.log(approvedFeedbacks);
   }, [feedback]);
+
+  useEffect(() => {
+    if (selectedRating === -1) {
+      setFeedbacks(feedback.filter(f => f.feedbackPermission == true));
+    } else {
+      setFeedbacks(feedback.filter(f => f.feedbackPermission == true && f.feedbackRatingvalue == selectedRating));
+    }
+  }, [selectedRating]);
 
   return (
     <>
@@ -19,14 +29,35 @@ const Feedback = ({ feedback }: { feedback: feedbackPagination[] }) => {
           <h1 className="text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">
             What Our Students Say
           </h1>          
-          
+          <div className="flex justify-center mb-6">
+            <label className="text-gray-700 dark:text-gray-300 mr-4">
+              Filter by Rating:
+            </label>
+            <select
+              className="border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 dark:bg-gray-800 dark:text-gray-100"
+              value={selectedRating}
+              onChange={(e) => setSelectedRating(Number(e.target.value))}
+            >
+              <option value={-1}>All</option>
+              <option value={0}>Just Comment</option>
+              <option value={1}>1 Star</option>
+              <option value={2}>2 Stars</option>
+              <option value={3}>3 Stars</option>
+              <option value={4}>4 Stars</option>
+              <option value={5}>5 Stars</option>
+            </select>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {feedbacks.length === 0 && (
+              <div className="text-center text-gray-700 dark:text-gray-300">
+                No feedbacks found.
+                </div>
+                )}
             {feedbacks.map((item) => (
               <div 
                 key={item.examId} 
                 className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 relative hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >                
-
                 {/* User Info */}
                 <div className="flex items-center space-x-4 mb-6 mt-4">                  
                   <img 
