@@ -13,9 +13,32 @@ const ExamResultPage = () => {
     const { state, handleCreateFeedback } = useCreateFeedback();
     const [isLeaveFeedback, setIsLeaveFeedback] = useState(false);
     const [rating, setRating] = useState(0);
+    const [isRated, setIsRated] = useState(false);
 
     const { examId, scoreValue, createdAt } = location.state || {};
+    useEffect(() => {
+        const fetchFeedback = async () => {
+            try {
+                const response = await axios.get(
+                    `https://certificateinformationportal.azurewebsites.net/api/v1/feedback/exam/${examId}`
+                );
+                if (response.data.data.length > 0) {
+                    console.log(Cookies.get("userId"));
+                    const userFeedback = response.data.data.find((feedback: any) => feedback.userId == Cookies.get("userId"));
+                    console.log(userFeedback);
+                    if (userFeedback) {
+                        setIsRated(true);
+                    }
+                }
+                console.log(isRated);
+                console.log(response.data.data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
 
+        fetchFeedback();
+    }, [examId]);
     const handleFeedbackSubmit = async () => {
         let imageUrl = "";
         if (selectedImage) {
@@ -135,7 +158,7 @@ const ExamResultPage = () => {
                                     {scoreValue.toFixed(0)}
                                 </span>
                             </div>
-
+                            
                             <div className="flex justify-center space-x-2 mb-6">
                                 {Array.from({ length: 5 }, (_, index) => {
                                     const starValue = (index * 2 + 1) * 10;
@@ -210,6 +233,7 @@ const ExamResultPage = () => {
                                         value={feedback}
                                         onChange={(e) => setFeedback(e.target.value)}
                                     />
+                                    {!isRated && (
                                     <div className="flex space-x-3 justify-center">
                                         {[...Array(5)].map((_, index) => {
                                             const ratingValue = index + 1;
@@ -230,6 +254,7 @@ const ExamResultPage = () => {
                                                 </label>
                                             );
                                         })}</div>
+                                    )}
                                     {/* Image Upload Area */}
                                     <div className="relative">
                                         <label
@@ -271,7 +296,7 @@ const ExamResultPage = () => {
                                             }`}
                                     >
                                         <FaPaperPlane />
-                                        Submit Feedback
+                                        Submit Feedback 
                                     </button>
 
                                 </div>
