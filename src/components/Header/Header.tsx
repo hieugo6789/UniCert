@@ -84,7 +84,7 @@ const Header = () => {
           <SearchDropdown />
         </div>
         <nav className="flex items-center space-x-4">
-          {["certificate", "courses", "majors", "pathway", "about"].map(
+          {["certificate", "pathway", "majors", "courses", "about"].map(
             (tab) => (
               <div
                 key={tab}
@@ -108,12 +108,12 @@ const Header = () => {
                 >
                   {tab === "certificate"
                     ? "Certifications"
-                    : tab === "courses"
-                    ? "Courses"
-                    : tab === "majors"
-                    ? "Majors"
                     : tab === "pathway"
                     ? "Pathway"
+                    : tab === "majors"
+                    ? "Majors"                    
+                    : tab === "courses"
+                    ? "Courses"
                     : "About Us"}
                 </Link>
                 {tab === "pathway" && isPathwayOpen && (
@@ -270,7 +270,7 @@ const Header = () => {
                   />
                 </div>
               )}
-              {["certificate", "courses", "majors", "pathway", "about"].map(
+              {["certificate", "pathway", "majors", "courses", "about"].map(
                 (tab) => (
                   <div
                     key={tab}
@@ -294,12 +294,12 @@ const Header = () => {
                     >
                       {tab === "certificate"
                         ? "Certifications"
-                        : tab === "courses"
-                        ? "Courses"
-                        : tab === "majors"
-                        ? "Majors"
                         : tab === "pathway"
                         ? "Pathway"
+                        : tab === "majors"
+                        ? "Majors"                        
+                        : tab === "courses"
+                        ? "Courses"
                         : "About Us"}
                       {tab === "pathway" && (
                         <DownOutlined
