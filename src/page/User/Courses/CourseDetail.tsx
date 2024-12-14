@@ -4,12 +4,14 @@ import useCourseDetail from "../../../hooks/Course/useCourseDetail";
 import CustomButton from "../../../components/UI/CustomButton";
 import { allCoursePaginationData } from "../../../models/course";
 import useCartByUserId from "../../../hooks/Cart/useCartByUserId";
-import useUpdateCart from "../../../hooks/Cart/useUpdateCart";
 import useCourseEnrollment from "../../../hooks/Enrollment/useCourse";
 import { courseEnrollment } from "../../../models/enrollment";
 import Coin from "../../../assets/images/Coin.png"
 import Cookies from "js-cookie";
 import { showToast } from "../../../utils/toastUtils";
+import { usePayNow } from "../../../hooks/Payment/usePayNow";
+import { Modal } from "antd";
+import useWalletDetail from "../../../hooks/Wallet/useWalletDetail";
 
 interface certTab {
     certId: number;
@@ -31,12 +33,15 @@ const CourseDetail = () => {
     const userId = Cookies.get("userId");
     const [purchasedCourses, setPurchasedCourses] = useState<courseEnrollment[]>([]);
     const [pendingPaymentCourses, setPendingPaymentCourses] = useState<courseEnrollment[]>([]);
-    const { state: cartState, getCart } = useCartByUserId();
-    const { updateCart } = useUpdateCart();
+    const { state: cartState, getCart } = useCartByUserId();    
     const { courseEnrollment, refetchCourseEnrollments } = useCourseEnrollment({ userId: userId || "" });
-    const [isInCart, setIsInCart] = useState(false);
     const [isPurchased, setIsPurchased] = useState(false);
     const [isPendingPayment, setIsPendingPayment] = useState(false);
+    const [selectedCourse, setSelectedCourse] = useState<any>(null);
+    const [showPaymentModal, setShowPaymentModal] = useState(false);
+    const { handlePayNow } = usePayNow();
+    const { wallets, getWalletDetails } = useWalletDetail();
+
     useEffect(() => {
         setCert([]);
         getCourseDetails(id || "-1");
@@ -76,8 +81,7 @@ const CourseDetail = () => {
             getCart(userId);
             refetchCourseEnrollments(userId);
         } else {
-            setPurchasedCourses([]);
-            setIsInCart(false);
+            setPurchasedCourses([]);            
             setIsPurchased(false);
             setIsPendingPayment(false);
         }
@@ -94,33 +98,58 @@ const CourseDetail = () => {
         const purchased = purchasedCourses.some((e) =>
             (e.courseDetails || []).some((c) => c.courseId.toString() === id)
         );
-        const cart = cartState.currentCart?.courseDetails?.some(
-            (course: any) => course.courseId.toString() === id
-        );
         const pendingPayment = pendingPaymentCourses.some((e) =>
             (e.courseDetails || []).some((c) => c.courseId.toString() === id)
-        );
-        setIsInCart(!!cart);
+        );        
         setIsPurchased(!!purchased);
         setIsPendingPayment(!!pendingPayment);
     }, [purchasedCourses, pendingPaymentCourses, cartState.currentCart, id]);
 
-    const addToCart = (courseId: string) => async () => {
+    useEffect(() => {
+        if (userId) {
+          getWalletDetails(userId, null);
+        }
+      }, [userId]);
+
+    const handleBuyNow = (courseItem: any) => {
         if (!userId) {
-            showToast("Please log in to add courses to your cart.", "error");
+            showToast("Please log in to purchase course", "error");
             return;
         }
-        const examIds = cartState.currentCart.examDetails.map((exam: any) => exam.examId);
-        const courseIds = cartState.currentCart.courseDetails.map((course: any) => course.courseId);
-        try {
-            await updateCart(userId, { examId: [...examIds], courseId: [...courseIds, courseId] });
-            getCart(userId);
-            showToast("Course added to cart successfully", "success");
-        } catch (error) {
-            console.error("Failed to add course to cart: ", error);
-            showToast("Failed to add course to cart", "error");
-        }
+        setSelectedCourse(courseItem);
+        setShowPaymentModal(true);
     };
+
+    const handleConfirmPayment = async () => {
+        if (!userId || !selectedCourse) return;
+    
+        try {
+          const response = await handlePayNow({
+            userId: Number(userId),
+            simulation_Exams: [],
+            courses: [selectedCourse.courseId],
+          });
+    
+          console.log("Payment Response:", response);
+    
+          showToast("Payment successful", "success");
+          setShowPaymentModal(false);
+    
+          if (userId) {
+            refetchCourseEnrollments(userId);
+          }
+    
+          if (response.data.courseEnrollmentId) {
+            navigate(`/enrollment/${response.data.courseEnrollmentId}`);
+          }
+    
+        } catch (error: any) {
+          showToast(`${error.response?.data?.message || "Unknown error"}`, "error");
+          if (userId) {
+            refetchCourseEnrollments(userId);
+          }
+        }
+      };
 
     useEffect(() => {
         const scrollToTop = () => {
@@ -190,16 +219,17 @@ const CourseDetail = () => {
                 {/* Action Button */}
                 <div className="mt-5 px-4 text-center">
                     {isPurchased ? (
-                        <CustomButton label="Purchased" disabled className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4" />
-                    ) : isInCart ? (
-                        <CustomButton label="In Cart" disabled className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4" />
+                        <CustomButton label="Purchased" disabled className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4" />                    
                     ) : isPendingPayment ? (
                         <CustomButton label="Pending Payment" disabled className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4" />
                     ) : (
                         <CustomButton 
-                            label="Add to Cart" 
+                            label="Buy Now" 
                             shining 
-                            onClick={addToCart(state.currentCourse.courseId)} 
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleBuyNow(state.currentCourse.courseId);
+                              }}                            
                             className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4" 
                         />
                     )}
@@ -247,6 +277,41 @@ const CourseDetail = () => {
                     )}
                 </div>
             </div> */}
+            <Modal
+                title="Confirm Payment"
+                visible={showPaymentModal}
+                onCancel={() => setShowPaymentModal(false)}
+                footer={null}
+                destroyOnClose
+            >
+                <div className="p-4">
+                <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                    <span className="text-gray-600 dark:text-gray-300">Course Price:</span>
+                    <span className="flex items-center gap-2 font-medium">
+                        {selectedCourse?.courseDiscountFee}
+                        <img src={Coin} alt="coin" className="h-5" />
+                    </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                    <span className="text-gray-600 dark:text-gray-300">Your Balance:</span>
+                    <span className="flex items-center gap-2 font-medium">
+                        {userId ? wallets[userId]?.point || 0 : 0}
+                        <img src={Coin} alt="coin" className="h-5" />
+                    </span>
+                    </div>
+                    <div className="border-t dark:border-gray-600 pt-4">
+                    <button
+                        onClick={handleConfirmPayment}
+                        className="w-full px-4 py-2 bg-purple-600 dark:bg-purple-700 text-white rounded-lg font-medium 
+                        hover:bg-purple-700 dark:hover:bg-purple-800 transition-colors disabled:bg-purple-300 dark:disabled:bg-purple-500"
+                    >
+                        Confirm Payment
+                    </button>
+                    </div>
+                </div>
+                </div>
+            </Modal>
         </div>
     );
 };

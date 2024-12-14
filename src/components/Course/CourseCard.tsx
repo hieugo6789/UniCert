@@ -5,23 +5,19 @@ import Coin from "../../assets/images/Coin.png";
 interface CourseCardProps {
   course: allCoursePaginationData;
   onClick?: () => void;
-  isInCart: boolean;
   isPurchased: boolean;
   isPendingPayment?: boolean;
   hideButton?: boolean;
-  onBuyNow?: () => void;
 }
 
-const CourseCard = ({ course, onClick, isInCart, isPurchased, isPendingPayment, hideButton, onBuyNow }: CourseCardProps) => {
+const CourseCard = ({ course, onClick, isPurchased, isPendingPayment, hideButton }: CourseCardProps) => {
   const navigate = useNavigate();
   const buttonText = isPurchased 
     ? "Purchased" 
     : isPendingPayment 
-    ? "Pending Payment" 
-    : isInCart 
-    ? "In Cart" 
-    : "Add To Cart";
-  const buttonStyles = isPurchased || isInCart || isPendingPayment
+    ? "Pending Payment"     
+    : "Buy Now";
+  const buttonStyles = isPurchased  || isPendingPayment
     ? "bg-gray-400 dark:bg-gray-600 cursor-not-allowed" 
     : "bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 transform hover:scale-105 transition-all duration-200";
 
@@ -75,20 +71,10 @@ const CourseCard = ({ course, onClick, isInCart, isPurchased, isPendingPayment, 
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                onBuyNow?.();
-              }}
-              className={`${buttonStyles} text-white px-4 py-2 rounded-lg`}              
-              hidden={isInCart || isPurchased || isPendingPayment}
-            >
-              Buy Now
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
                 if (onClick) onClick();
               }}
               className={`${buttonStyles} text-white px-4 py-2 rounded-lg`}
-              disabled={isInCart || isPurchased || isPendingPayment}
+              disabled={ isPurchased || isPendingPayment}
             >
               {buttonText}
             </button>

@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import useCartByUserId from "../../../hooks/Cart/useCartByUserId";
 import Cookies from "js-cookie";
 import { currentCart } from "../../../models/cart";
-import { BiBook } from "react-icons/bi";
 import { PiExam } from "react-icons/pi";
 import useUpdateCart from "../../../hooks/Cart/useUpdateCart";
-import { useCreateCourseEnrollment } from "../../../hooks/Enrollment/useCreateCourse";
 import { useCreateExamEnrollment } from "../../../hooks/Enrollment/useCreateExam";
 import coin from "../../../assets/images/Coin.png";
 import { Link } from "react-router-dom";
@@ -16,12 +14,10 @@ const ITEMS_PER_PAGE = 10;
 
 const Cart = () => {
   const userId = Cookies.get("userId");
-  const [carts, setCarts] = useState<currentCart | null>(null);
-  const [currentCoursePage, setCurrentCoursePage] = useState<number>(1);
+  const [carts, setCarts] = useState<currentCart | null>(null);  
   const [currentExamPage, setCurrentExamPage] = useState<number>(1);
   const { state, getCart } = useCartByUserId();
-  const { updateCart } = useUpdateCart();
-  const { state: createdCourseEnroll, handleCreateCourseEnrollment } = useCreateCourseEnrollment();
+  const { updateCart } = useUpdateCart();  
   const { state: createdExamEnroll, handleCreateExamEnrollment } = useCreateExamEnrollment();
   const { handleCreatePayment } = useCreatePayment();
   const { wallets, getWalletDetails } = useWalletDetail();
@@ -70,36 +66,17 @@ const Cart = () => {
     }
   }, [userId, transactionId]);
 
-  const loadMoreCourses = () => {
-    setCurrentCoursePage((prev) => prev + 1);
-  };
-
   const loadMoreExams = () => {
     setCurrentExamPage((prev) => prev + 1);
   };
-
-  const displayedCourses = carts?.courseDetails?.slice(0, currentCoursePage * ITEMS_PER_PAGE) || [];
-  const displayedExams = carts?.examDetails?.slice(0, currentExamPage * ITEMS_PER_PAGE) || [];
-
-  const toggleCourseSelection = (course: any) => {
-    setSelectedCourses((prev) =>
-      prev.includes(course) ? prev.filter((c) => c !== course) : [...prev, course]
-    );
-  };
+  
+  const displayedExams = carts?.examDetails?.slice(0, currentExamPage * ITEMS_PER_PAGE) || [];  
 
   const toggleExamSelection = (exam: any) => {
     setSelectedExams((prev) =>
       prev.includes(exam) ? prev.filter((e) => e !== exam) : [...prev, exam]
     );
-  };
-
-  const handleSelectAllCourses = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      setSelectedCourses(displayedCourses);
-    } else {
-      setSelectedCourses([]);
-    }
-  };
+  };  
 
   const handleSelectAllExams = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
@@ -112,17 +89,9 @@ const Cart = () => {
   const handlePayment = async () => {
     try {
       // Kiểm tra nếu không có item nào được chọn
-      if (selectedCourses.length === 0 && selectedExams.length === 0) {
+      if (selectedExams.length === 0) {
         showToast("Please select items to purchase", "error");
         return;
-      }
-
-      // Tạo course enrollment nếu có
-      if (selectedCourses.length > 0) {
-        await handleCreateCourseEnrollment({
-          userId: userId?.toString() || "",
-          courses: selectedCourses.map((course) => course.courseId),
-        });
       }
 
       // Tạo exam enrollment nếu có
@@ -155,17 +124,6 @@ const Cart = () => {
     }
   };
 
-  const handleDeleteCourse = async (courseId: number) => {
-    const updatedCourses = carts?.courseDetails?.filter((course) => course.courseId !== courseId) || [];
-    const updatedCourseIds = updatedCourses.map((course) => course.courseId);
-    const examIds = carts?.examDetails?.map((exam) => exam.examId) || [];
-    toggleCourseSelection(carts?.courseDetails?.find((course) => course.courseId === courseId) || {});
-
-    await updateCart(userId?.toString() || "", { courseId: updatedCourseIds, examId: examIds });
-    getCart(userId?.toString() || "");
-    showToast("Course removed from cart successfully", "success");
-  };
-
   const handleDeleteExam = async (examId: number) => {
     const updatedExams = carts?.examDetails?.filter((exam) => exam.examId !== examId) || [];
     const updatedExamIds = updatedExams.map((exam) => exam.examId);
@@ -182,20 +140,6 @@ const Cart = () => {
     setIsPopupOpen(false);
     if (continueAction) {
       try {
-        // Tạo payment cho course
-        if (selectedCourses.length > 0) {                    
-          const courseEnrollmentId = (createdCourseEnroll?.createdCourseEnrollment as any)?.data?.courseEnrollmentId;          
-          if (courseEnrollmentId) {
-            await handleCreatePayment({
-              userId: userId?.toString() || "",
-              examEnrollmentId: 0,
-              courseEnrollmentId: courseEnrollmentId,
-            });
-          } else {
-            console.error("courseEnrollmentId is undefined");
-          }
-        }
-
         // Tạo payment cho exam
         if (selectedExams.length > 0) {          
           const examEnrollmentId = (createdExamEnroll?.createdExamEnrollment as any)?.data?.examEnrollment?.examEnrollmentId;
@@ -337,87 +281,6 @@ const Cart = () => {
                 </button>
               )}
             </div>
-
-            {/* Courses Section */}
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">Your Courses</h2>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="checkbox"
-                    checked={selectedCourses.length === displayedCourses.length && displayedCourses.length > 0}
-                    onChange={handleSelectAllCourses}
-                    className="w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-purple-600 focus:ring-purple-500"
-                  />
-                  <label className="text-gray-600 dark:text-gray-300 font-medium">Select All</label>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                {displayedCourses.length > 0 ? (
-                  displayedCourses.map((course) => (
-                    <div key={course.courseId} 
-                      className="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
-                      <input
-                        type="checkbox"
-                        checked={selectedCourses.includes(course)}
-                        onChange={() => toggleCourseSelection(course)}
-                        className="w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-purple-600 focus:ring-purple-500"
-                      />
-                      <img 
-                        src={course.courseImage} 
-                        alt={course.courseName} 
-                        className="w-20 h-20 rounded-lg object-cover ml-4 shadow-sm"
-                      />
-                      <div className="flex-1 ml-6">
-                        <Link 
-                          to={"/course/" + course.courseId} 
-                          className="text-lg font-semibold text-gray-800 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                        >
-                          {course.courseName}
-                        </Link>
-                        <p className="text-gray-500 dark:text-gray-400 mt-1">Code: {course.courseCode}</p>
-                        <div className="flex items-center gap-2 mt-2">
-                          <span className="text-lg font-bold text-purple-600 dark:text-purple-400">{course.courseDiscountFee}</span>
-                          <img src={coin} alt="coin" className="h-5" />
-                        </div>
-                        <div className="flex gap-3 mt-4">
-                          <button
-                            onClick={() => toggleCourseSelection(course)}
-                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors
-                              ${selectedCourses.includes(course) 
-                                ? 'bg-red-50 dark:bg-red-900/50 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/70' 
-                                : 'bg-purple-50 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/70'
-                              }`}
-                          >
-                            {selectedCourses.includes(course) ? 'Remove' : 'Add to Payment'}
-                          </button>
-                          <button
-                            onClick={() => handleDeleteCourse(course.courseId)}
-                            className="px-4 py-2 bg-red-50 dark:bg-red-900/50 text-red-600 dark:text-red-400 rounded-lg text-sm font-medium hover:bg-red-100 dark:hover:bg-red-900/70 transition-colors"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-center py-12 text-gray-500 dark:text-gray-400">
-                    No courses in your cart
-                  </div>
-                )}
-              </div>
-
-              {displayedCourses.length < (carts?.courseDetails?.length || 0) && (
-                <button 
-                  onClick={loadMoreCourses} 
-                  className="mt-6 w-full py-3 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium"
-                >
-                  Load More Courses
-                </button>
-              )}
-            </div>
           </div>
         </div>
 
@@ -440,14 +303,7 @@ const Cart = () => {
                   {selectedExams.length}
                   <PiExam className="text-purple-600 dark:text-purple-400 text-lg" />
                 </span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="text-gray-600 dark:text-gray-300">Courses Selected</span>
-                <span className="flex items-center gap-2 font-medium text-gray-800 dark:text-gray-200">
-                  {selectedCourses.length}
-                  <BiBook className="text-purple-600 dark:text-purple-400 text-lg" />
-                </span>
-              </div>
+              </div>              
               
               <div className="border-t border-gray-100 dark:border-gray-700 pt-4">
                 <div className="flex justify-between items-center mb-2">
@@ -481,21 +337,7 @@ const Cart = () => {
                     ))}
                   </div>
                 </div>
-              )}
-
-              {selectedCourses.length > 0 && (
-                <div>
-                  <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Selected Courses</h3>
-                  <div className="space-y-2">
-                    {selectedCourses.map((course) => (
-                      <div key={course.courseId} className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                        <BiBook className="text-purple-600 dark:text-purple-400" />
-                        <p className="truncate">{course.courseName}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+              )}              
             </div>
           </div>
         </div>

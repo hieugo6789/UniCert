@@ -190,8 +190,7 @@ const Description = ({ props, schedule, course }: DescriptionProps) => (
           {course.map((course) => (
             <CourseCard
               key={course.courseId}
-              course={course}
-              isInCart={false}
+              course={course}              
               isPurchased={false}
               hideButton={true}
             />

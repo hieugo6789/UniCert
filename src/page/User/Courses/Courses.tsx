@@ -3,8 +3,6 @@ import CourseCard from "../../../components/Course/CourseCard";
 import { allCoursePaginationData } from "../../../models/course";
 import useCourse from "../../../hooks/Course/useCourse";
 import Loading from "../../../components/UI/Loading";
-import useUpdateCart from "../../../hooks/Cart/useUpdateCart";
-import useCartByUserId from "../../../hooks/Cart/useCartByUserId";
 import useCourseEnrollment from "../../../hooks/Enrollment/useCourse";
 import { usePayNow } from "../../../hooks/Payment/usePayNow";
 import { courseEnrollment } from "../../../models/enrollment";
@@ -25,9 +23,7 @@ const Courses = () => {
   const userId = Cookies.get("userId");
   const navigate = useNavigate();
   const [courses, setCourses] = useState<allCoursePaginationData[]>([]);
-  const { course, loading, refetchCourses } = useCourse();
-  const { state, getCart } = useCartByUserId();
-  const { updateCart } = useUpdateCart();
+  const { course, loading, refetchCourses } = useCourse();  
   const [purchasedCourses, setPurchasedCourses] = useState<courseEnrollment[]>([]);
   const [pendingPaymentCourses, setPendingPaymentCourses] = useState<courseEnrollment[]>([]);
   const { courseEnrollment, loading: courseLoad, refetchCourseEnrollments } = useCourseEnrollment({ userId: userId || "" });
@@ -60,7 +56,6 @@ const Courses = () => {
 
   useEffect(() => {
     if (userId) {
-      getCart(userId);
       refetchCourseEnrollments(userId);
     }
   }, [userId]);
@@ -73,25 +68,7 @@ const Courses = () => {
       setPendingPaymentCourses(pendingPaymentCourses);
     }
   }, [courseEnrollment, userId]);
-
-  const addToCart = (courseId: string) => async () => {
-    if (!userId) {
-      showToast("Please log in to add courses to your cart.", "error");
-      return;
-    }
-    const examIds = state.currentCart.examDetails.map((exam: any) => exam.examId);
-    const courseIds = state.currentCart.courseDetails.map((course: any) => course.courseId);
-
-    updateCart(userId.toString(), {
-      examId: [...examIds],
-      courseId: [...courseIds, courseId],
-    }).then(() => {
-      showToast("Course added to cart successfully", "success");
-      getCart(userId);
-    }).catch((error) => {
-      showToast("Failed to add course to cart: " + error, "error");
-    });
-  };
+  
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -231,8 +208,7 @@ const Courses = () => {
 
         {paginatedCourses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {paginatedCourses.map((course) => {
-              const isInCart = !!(userId && state.currentCart.courseDetails.some((c: any) => c.courseId === course.courseId));
+            {paginatedCourses.map((course) => {            
               const isPurchased = !!(userId && (purchasedCourses || []).some((e) =>
                 (e.courseDetails || []).some((c) => c.courseId.toString() === course.courseId.toString())
               ));
@@ -243,11 +219,9 @@ const Courses = () => {
                 <CourseCard
                   key={course.courseId}
                   course={course}
-                  onClick={isInCart || isPurchased || isPendingPayment ? undefined : addToCart(course.courseId)}
-                  isInCart={isInCart}
+                  onClick={ isPurchased || isPendingPayment ? undefined : () => handleBuyNow(course)}
                   isPurchased={isPurchased}
                   isPendingPayment={isPendingPayment}
-                  onBuyNow={() => handleBuyNow(course)}
                 />
               );
             })}
