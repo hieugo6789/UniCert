@@ -337,7 +337,7 @@ const ExamFeedback = () => {
                     Submit Feedback
                 </button>
             </div>
-            <div className="flex justify-center mb-6">
+            <div className="flex items-center justify-center mb-6">
             <label className="text-gray-700 dark:text-gray-300 mr-4">
               Filter by Rating:
             </label>
