@@ -88,14 +88,17 @@ const PathwayModal = (props: ModalProps) => {
       grouped[level].push(cert);
     });
   
-    // Đảm bảo các nhóm xuất hiện đúng theo thứ tự levelOrder
+    // Đảm bảo các nhóm xuất hiện đúng theo thứ tự levelOrder và ẩn các cấp độ không có chứng chỉ
     const sortedGrouped: CertLevel = {};
     levelOrder.forEach(level => {
-      sortedGrouped[level] = grouped[level] || [];
+      if (grouped[level] && grouped[level].length > 0) {
+        sortedGrouped[level] = grouped[level];
+      }
     });
   
     return sortedGrouped;
   };
+  
   
 
   return (
