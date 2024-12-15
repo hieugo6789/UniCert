@@ -15,10 +15,13 @@ const ExamFeedback = () => {
     const { state, handleCreateFeedback } = useCreateFeedback();
     const { handleDeleteFeedback } = useDeleteFeedback();
     const { updateFeedbackDetails } = useUpdateFeedback();
+    const [selectedRating, setSelectedRating] = useState<number>(6); // Default to "All"
+    const [filteredFeedbacks, setFilteredFeedbacks] = useState<feedbackPagination[]>([]);
+
     const id = useParams().id || 0;
     const { feedback, refetchFeedbacks } = useFeedback({ examId: Number(id) });
 
-    const [feedbacks, setFeedbacks] = useState<feedbackPagination[]>([]);
+    // const [feedbacks, setFeedbacks] = useState<feedbackPagination[]>([]);
     const [editingFeedback, setEditingFeedback] = useState<{ [key: number]: string }>({});
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -37,7 +40,7 @@ const ExamFeedback = () => {
     useEffect(() => {
         if (feedback.length > 0) {
             const approvedFeedbacks = feedback.filter(f => f.feedbackPermission === true);
-            setFeedbacks(approvedFeedbacks);
+            // setFeedbacks(approvedFeedbacks);
 
             // Kiểm tra nếu có bất kỳ feedback nào của user hiện tại có feedbackRatingvalue > 0
             const hasRated = approvedFeedbacks.some(
@@ -86,7 +89,7 @@ const ExamFeedback = () => {
                 showToast("Your feedback contains inappropriate content and is pending review.", "error");
             } else if (!response) {
                 showToast("You are sending feedback too frequently. Please try again later.", "error");
-            }else{            
+            } else {
                 showToast("Feedback created successfully", "success");
                 // kiểm tra trong feedback có feedbackRatingValue khác 0 thì set isRated = true
                 if (response?.data.feedbackRatingvalue > 0) {
@@ -95,8 +98,8 @@ const ExamFeedback = () => {
                     setIsRated(false);
                 }
             }
-        } catch (error: any) {            
-            showToast(`${error.response?.data?.message || "Unknown error"}`, "error");   
+        } catch (error: any) {
+            showToast(`${error.response?.data?.message || "Unknown error"}`, "error");
         }
     };
 
@@ -110,6 +113,23 @@ const ExamFeedback = () => {
             setRating(0);
         }
     }, [state]);
+    useEffect(() => {
+        refetchFeedbacks(Number(id));
+    }, [selectedRating]);
+    useEffect(() => {
+        // console.log(feedback);
+        setFilteredFeedbacks([]);
+        // Lọc dữ liệu feedback dựa trên selectedRating
+        const updatedFeedbacks = feedback.filter((f) => {
+            if (!f.feedbackPermission) return false; // Loại bỏ feedback chưa được phép hiển thị
+
+            if (selectedRating === 6) return true; // Hiển thị tất cả
+            if (selectedRating === 0) return f.feedbackRatingvalue === 0; // Hiển thị "Just Comment"
+            return f.feedbackRatingvalue === selectedRating; // Hiển thị theo số sao
+        });
+        // console.log(updatedFeedbacks);
+        setFilteredFeedbacks(updatedFeedbacks); // Cập nhật danh sách feedback
+    }, [feedback]); // Cập nhật mỗi khi selectedRating hoặc feedback thay đổi
 
     // Handle editing feedback
     const handleEditFeedback = (
@@ -317,13 +337,31 @@ const ExamFeedback = () => {
                     Submit Feedback
                 </button>
             </div>
-
+            <div className="flex justify-center mb-6">
+            <label className="text-gray-700 dark:text-gray-300 mr-4">
+              Filter by Rating:
+            </label>
+            <select
+              className="border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 dark:bg-gray-800 dark:text-gray-100"
+              value={selectedRating}
+              onChange={(e) => setSelectedRating(Number(e.target.value))}
+            >
+              <option value={6}>All</option>
+              <option value={0}>Just Comment</option>
+              <option value={1}>1 Star</option>
+              <option value={2}>2 Stars</option>
+              <option value={3}>3 Stars</option>
+              <option value={4}>4 Stars</option>
+              <option value={5}>5 Stars</option>
+            </select>
+          </div>
             {/* Display Feedback */}
             <div className="space-y-4 max-w-3xl mx-auto">
-                {feedbacks.length === 0 && (
+                {filteredFeedbacks.length === 0 && (
                     <p className="text-center text-gray-500 dark:text-gray-400">No feedback yet.</p>
                 )}
-                {feedbacks.map((feedback) => (
+                
+                {filteredFeedbacks.map((feedback) => (
                     <div key={feedback.feedbackId} className="bg-white dark:bg-gray-700 rounded-lg shadow p-4 flex items-start space-x-4">
                         <img
                             src={feedback.userDetails.userImage || DefaultImage}
