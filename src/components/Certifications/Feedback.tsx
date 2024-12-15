@@ -42,7 +42,7 @@ const Feedback = () => {
             What Our Students Say
           </h1>
           {/* Bộ lọc rating */}
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center items-center mb-6">
             <label className="text-gray-700 dark:text-gray-300 mr-4">
               Filter by Rating:
             </label>
