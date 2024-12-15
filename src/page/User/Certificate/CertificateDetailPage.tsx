@@ -11,7 +11,6 @@ import { allSchedulePaginationData } from "../../../models/schedule";
 import useCourse from "../../../hooks/Course/useCourse";
 import { allCoursePaginationData } from "../../../models/course";
 import Feedback from "../../../components/Certifications/Feedback";
-import useFeedbackByCertId from "../../../hooks/Feedback/useFeedbackByCertId";
 
 const CertificateDetailPage = () => {
   const [activeTab, setActiveTab] = useState("Description");
@@ -28,7 +27,7 @@ const CertificateDetailPage = () => {
     allCoursePaginationData[]
   >([]);
   const { course, refetchCourses } = useCourse();
-  const { feedback } = useFeedbackByCertId({ certId: id });
+  
   const [showAllMajors, setShowAllMajors] = useState(false);
   const [showAllJobPositions, setShowAllJobPositions] = useState(false);
   const navigate = useNavigate();
@@ -561,7 +560,7 @@ const CertificateDetailPage = () => {
               />
             )}
             {activeTab === "Point system" && cert && <ExamDetails {...cert} />}
-            {activeTab === "Feedback" && <Feedback feedback={feedback} />}
+            {activeTab === "Feedback" && <Feedback />}
           </div>
         </div>
       </div>
