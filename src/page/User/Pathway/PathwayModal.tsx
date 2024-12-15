@@ -33,13 +33,12 @@ const PathwayModal = (props: ModalProps) => {
   const [job, setJob] = useState<allJobPaginationData | null>(null);
   const { state, jobDetailByOrganize } = useJobDetail();
   const [certList, setCertList] = useState<certTab[]>([]);
-  const [selectedOrg, setSelectedOrg] = useState<number | undefined>(undefined);  
-
+  const [selectedOrg, setSelectedOrg] = useState<number | undefined>(undefined); 
   useEffect(() => {
     if (props.isOpen && props.jobId && selectedOrg) {
       jobDetailByOrganize(Number(props.jobId), selectedOrg);
     }
-  }, [props.isOpen, props.jobId, selectedOrg]);
+  }, [props.isOpen,selectedOrg]);
 
   useEffect(() => {
     if (state?.currentJob) {
@@ -51,9 +50,12 @@ const PathwayModal = (props: ModalProps) => {
 
   useEffect(() => {
     if (props.isOpen) {
-      if (props.organizations.length > 0 && selectedOrg === undefined) {
+      if (props.organizations.length > 0) {
         setSelectedOrg(props.organizations[0].id);
       }
+    } else {
+      // Đặt lại trạng thái khi modal đóng
+      setSelectedOrg(undefined);
     }
   }, [props.isOpen, props.organizations]);
 
@@ -72,20 +74,29 @@ const PathwayModal = (props: ModalProps) => {
       ? `${description.substring(0, 300)}...`
       : description;
   };
-
   const navigate = useNavigate();
-
   const groupCertsByLevel = (certs: certTab[]) => {
+    const levelOrder = ["Foundation", "Associate", "Professional", "Expert", "Specialty", "Other"];
     const grouped: CertLevel = {};
+  
+    // Nhóm các chứng chỉ vào từng cấp độ
     certs.forEach(cert => {
-      const level = cert.typeName || 'Other';
+      const level = cert.typeName || "Other";
       if (!grouped[level]) {
         grouped[level] = [];
       }
       grouped[level].push(cert);
     });
-    return grouped;
+  
+    // Đảm bảo các nhóm xuất hiện đúng theo thứ tự levelOrder
+    const sortedGrouped: CertLevel = {};
+    levelOrder.forEach(level => {
+      sortedGrouped[level] = grouped[level] || [];
+    });
+  
+    return sortedGrouped;
   };
+  
 
   return (
     <CustomModal isOpen={props.isOpen} onClose={props.onClose} title={props?.title || "Job"} size="full">
