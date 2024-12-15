@@ -1,11 +1,8 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useAppDispatch } from "../../redux/hook";
 import { feedbackPagination } from "../../models/feedback";
 import { fetchFeedbackByCertId } from "../../redux/slice/Feedback/feedbackSlice";
-interface UseFeedbackByCertIdProps {
-  certId: number;
-}
-const useFeedbackByCertId = ({ certId }: UseFeedbackByCertIdProps) => {
+const useFeedbackByCertId = () => {
   const dispatch = useAppDispatch();
   const [feedback, setFeedback] = useState<feedbackPagination[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -21,9 +18,9 @@ const useFeedbackByCertId = ({ certId }: UseFeedbackByCertIdProps) => {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    fetchFeedbacks(certId);
-  }, []);
+  // useEffect(() => {
+  //   fetchFeedbacks(certId);
+  // }, []);
 
   return { feedback, loading, refetchFeedbacks: fetchFeedbacks };
 };
