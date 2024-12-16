@@ -351,7 +351,7 @@ const SimulationExamPage = () => {
           >
             Previous
           </button>
-          <div className="flex items-center space-x-2">
+          {/* <div className="flex items-center space-x-2">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <button
                 key={page}
@@ -363,7 +363,7 @@ const SimulationExamPage = () => {
                 {page}
               </button>
             ))}
-          </div>
+          </div> */}
           <button
             className={`px-4 py-2 rounded-lg ${currentPage < totalPages
               ? "bg-blue-600 hover:bg-blue-700 text-white"
