@@ -17,7 +17,7 @@ const Transaction = () => {
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={3}
-                stroke="maroon"
+                stroke="green"
                 className="w-4 h-4"
               >
                 <path
