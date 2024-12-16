@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import SimulationExamSidebar from "../../../components/Exam/SimulationExamSidebar";
 import QuestionCard from "../../../components/Exam/QuestionCard";
-import CustomButton from "../../../components/UI/CustomButton";
 import useExamDetail from "../../../hooks/SimulationExam/useExamDetail";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Cookies from 'js-cookie';
@@ -83,7 +82,7 @@ const SimulationExamPage = () => {
 
       const orderedQuestions = formattedAnswers.map((answer: any) => {
         const question = allQuestions.find((q: any) => q.questionId === answer.questionId);
-        
+
         if (!question) {
           return null;
         }
@@ -113,13 +112,13 @@ const SimulationExamPage = () => {
         };
       });
 
-      setQuestions(orderedQuestions.filter((q:any): q is Question => q !== null));
+      setQuestions(orderedQuestions.filter((q: any): q is Question => q !== null));
 
     } else {
       const allQuestions = state.currentExam.listQuestions;
       const shuffledQuestions = [...allQuestions].sort(() => Math.random() - 0.5);
       const selectedQuestions = shuffledQuestions.slice(0, questionCount);
-      
+
       const formattedQuestions = selectedQuestions.map((q: any) => {
         if (q.questionType === 'Essay') {
           return {
@@ -255,12 +254,12 @@ const SimulationExamPage = () => {
       essayAnswer: question.questionType === 'Essay' ? essayAnswers[index] : undefined
     }));
 
-    navigate("/exam/" + id + "/simulation/submit", { 
-      state: { 
-        formattedAnswers, 
-        timeLeft, 
-        essayAnswers 
-      } 
+    navigate("/exam/" + id + "/simulation/submit", {
+      state: {
+        formattedAnswers,
+        timeLeft,
+        essayAnswers
+      }
     });
   };
 
@@ -275,6 +274,14 @@ const SimulationExamPage = () => {
       setSelectedAnswers(newAnswers);
     }
   };
+  const [currentPage, setCurrentPage] = useState(1);
+  const questionsPerPage = 5;
+
+  const totalPages = Math.ceil(questions.length / questionsPerPage);
+  const currentQuestions = questions.slice(
+    (currentPage - 1) * questionsPerPage,
+    currentPage * questionsPerPage
+  );
 
   if (!isPurchased) {
     return (
@@ -302,57 +309,70 @@ const SimulationExamPage = () => {
             {timeLeft !== null ? formatTime(timeLeft) : "Loading..."}
           </div>
         </div>
-        {questions[currentQuestionIndex] && (
-          questions[currentQuestionIndex].questionType === 'Choice' ? (
-            <QuestionCard
-              question={questions[currentQuestionIndex]}
-              currentQuestionIndex={currentQuestionIndex}
-              selectedAnswer={selectedAnswers[currentQuestionIndex]}
-              flagged={flaggedQuestions[currentQuestionIndex]}
-              onFlag={() => handleFlagQuestion(currentQuestionIndex)}
-              onSelectAnswer={(answerId) => handleSelectAnswer(currentQuestionIndex, answerId)}
-              onClearAnswer={() => handleClearAnswer(currentQuestionIndex)}
-            />
-          ) : (
-            <EssayQuestion
-              question={questions[currentQuestionIndex]}
-              currentQuestionIndex={currentQuestionIndex}
-              selectedAnswer={essayAnswers[currentQuestionIndex]}
-              flagged={flaggedQuestions[currentQuestionIndex]}
-              onFlag={() => handleFlagQuestion(currentQuestionIndex)}
-              onSelectAnswer={(answer) => handleSelectAnswer(currentQuestionIndex, answer)}
-              onClearAnswer={() => handleClearAnswer(currentQuestionIndex)}
-            />
-          )
-        )}
+        <div className="flex flex-col">
+          {currentQuestions.map((question, index) => (
+            question.questionType === 'Choice' ? (
+              <QuestionCard
+                key={question.id}
+                question={question}
+                currentQuestionIndex={(currentPage - 1) * questionsPerPage + index}
+                selectedAnswer={selectedAnswers[(currentPage - 1) * questionsPerPage + index]}
+                flagged={flaggedQuestions[(currentPage - 1) * questionsPerPage + index]}
+                onFlag={() => handleFlagQuestion((currentPage - 1) * questionsPerPage + index)}
+                onSelectAnswer={(answerId) =>
+                  handleSelectAnswer((currentPage - 1) * questionsPerPage + index, answerId)
+                }
+                onClearAnswer={() => handleClearAnswer((currentPage - 1) * questionsPerPage + index)}
+              />
+            ) : (
+              <EssayQuestion
+                key={question.id}
+                question={question}
+                currentQuestionIndex={(currentPage - 1) * questionsPerPage + index}
+                selectedAnswer={essayAnswers[(currentPage - 1) * questionsPerPage + index]}
+                flagged={flaggedQuestions[(currentPage - 1) * questionsPerPage + index]}
+                onFlag={() => handleFlagQuestion((currentPage - 1) * questionsPerPage + index)}
+                onSelectAnswer={(answer) =>
+                  handleSelectAnswer((currentPage - 1) * questionsPerPage + index, answer)
+                }
+                onClearAnswer={() => handleClearAnswer((currentPage - 1) * questionsPerPage + index)}
+              />
+            )
+          ))}
+        </div>
 
-        <div className="flex items-center justify-between mt-6">
-          <CustomButton
-            className={`px-6 py-3 rounded-lg transition-all duration-200 ${currentQuestionIndex > 0
-              ? "bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 text-white"
-              : "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
-              }`}
-            onClick={() => {
-              if (currentQuestionIndex > 0) {
-                setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
-              }
-            }}
-            label="Previous Question"
-            disabled={currentQuestionIndex === 0}
-          />
-          <CustomButton
-            className={`px-6 py-3 rounded-lg transition-all duration-200 ${currentQuestionIndex < questions.length - 1
-              ? "bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 text-white"
-              : "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
-              }`}
-            onClick={() => {
-              if (currentQuestionIndex < questions.length - 1) {
-                setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-              }
-            }}
-            label="Next Question"
-            disabled={currentQuestionIndex === questions.length - 1}
-          />
+        <div className="flex justify-between mt-6">
+          <button
+            className={`px-4 py-2 rounded-lg ${currentPage > 1
+              ? "bg-blue-600 hover:bg-blue-700 text-white"
+              : "bg-gray-200 text-gray-400 cursor-not-allowed"}`}
+            onClick={() => setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <div className="flex items-center space-x-2">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                className={`px-4 py-2 rounded-lg ${page === currentPage
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 hover:bg-gray-300 text-gray-700"}`}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+          <button
+            className={`px-4 py-2 rounded-lg ${currentPage < totalPages
+              ? "bg-blue-600 hover:bg-blue-700 text-white"
+              : "bg-gray-200 text-gray-400 cursor-not-allowed"}`}
+            onClick={() => setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
         </div>
       </div>
       <div className="w-full col-span-1 pr-4">
@@ -363,11 +383,17 @@ const SimulationExamPage = () => {
           selectedAnswers={selectedAnswers}
           essayAnswers={essayAnswers}
           flaggedQuestions={flaggedQuestions}
-          timeLeft={timeLeft || 0}
+          visibleQuestionIndexes={currentQuestions.map((q) => q.id)}
           handleSubmitExam={handleSubmitExam}
+          setCurrentPage={setCurrentPage} // Điều hướng đến trang
+          questionsPerPage={questionsPerPage} // Số câu hỏi mỗi trang
         />
+
       </div>
+
+
     </div>
+
   );
 };
 
