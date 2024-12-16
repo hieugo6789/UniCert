@@ -4,6 +4,7 @@ import downArrow from "../../assets/icons/downoutlined-16.png";
 import upArrow from "../../assets/icons/upoutlined-16.png";
 import { DashboardOutlined } from "@ant-design/icons";
 import { FiUsers } from "react-icons/fi";
+import transactionIcon from "../../assets/icons/hitoryTransaction.png";
 
 import UniCertLogo from "../../assets/images/UniCertLogo.png";
 import { RiFeedbackFill } from "react-icons/ri";
@@ -117,6 +118,25 @@ const MenuAdmin = () => {
             <RiFeedbackFill className="mr-3" />{" "}
           </span>
           Feedback
+        </span>
+      </NavLink>
+      <NavLink
+        to="/admin/transaction"
+        className={({ isActive }) =>
+          isActive
+            ? "flex items-center p-2 mb-2 bg-purple-200 rounded-lg"
+            : "flex items-center p-2 mb-2 text-gray-800 hover:bg-gray-100 rounded-lg"
+        }
+      >
+        <span className="pl-2 flex items-center">
+          <span>
+            <img
+              src={transactionIcon}
+              alt="transaction"
+              className="size-4 mr-2"
+            />
+          </span>
+          Transaction
         </span>
       </NavLink>
     </div>

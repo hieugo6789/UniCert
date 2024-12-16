@@ -60,6 +60,7 @@ import OrganizationDetail from "./page/User/Organization/OrganizationDetail";
 import Pathway from "./page/User/Pathway/Pathway";
 import Refund from "./components/Wallet/Refund";
 import RefundSuccess from "./components/Wallet/RefundSuccess";
+import Transaction from "./page/Admin/Transaction";
 
 const Layout = () => {
   return (
@@ -128,6 +129,7 @@ function App() {
         { path: "students", element: <Students /> },
         { path: "feedback", element: <Feedback /> },
         { path: "feedback/exam/:id", element: <FeedbackForStaff /> },
+        { path: "transaction", element: <Transaction /> },
       ],
     },
     {

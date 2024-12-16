@@ -15,12 +15,28 @@ const initialState: HistoryTransactionState = {
   error: null,
 };
 export const fetchAllHistoryTransaction = createAsyncThunk(
-  "admin/fetchAllHistoryTransaction",
+  "user/fetchAllHistoryTransaction",
   async (userId: number) => {
     try {
       const response = await agent.TransactionWallet.getHistoryTransaction(
         userId
       );
+      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return {
+          message: error.response?.data.error.message,
+          status: error.response?.status,
+        };
+      }
+    }
+  }
+);
+export const fetchAllTransactionAdmin = createAsyncThunk(
+  "admin/fetchAllHistoryTransaction",
+  async () => {
+    try {
+      const response = await agent.TransactionWallet.getAllTransaction();
       return response;
     } catch (error) {
       if (error instanceof AxiosError) {

@@ -89,17 +89,18 @@ const Wallet = () => {
                   <div key={index}>
                     <div className="flex justify-center items-center mb-2">
                       <p className="text-gray-400 dark:text-gray-500">
-                        {new Date(transaction.createdAt).toLocaleString(
-                          "en-US",
-                          {
-                            weekday: "long",
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          }
-                        )}
+                        {new Date(
+                          new Date(transaction.createdAt).setHours(
+                            new Date(transaction.createdAt).getHours() + 7
+                          )
+                        ).toLocaleString("en-US", {
+                          weekday: "long",
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
                       </p>
                     </div>
                     <div className="flex mb-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out">

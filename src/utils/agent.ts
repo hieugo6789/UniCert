@@ -189,6 +189,7 @@ const TransactionWallet = {
     requests.post("api/v1/transaction", input),
   getHistoryTransaction: (userId: number) =>
     requests.get(`api/v1/transaction/get-by-user/${userId}`),
+  getAllTransaction: () => requests.get("api/v1/transaction"),
 };
 const Checkout = {
   getCheckOut: (transactionId: number) =>
