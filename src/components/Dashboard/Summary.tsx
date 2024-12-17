@@ -58,6 +58,16 @@ const Summary = () => {
         </div>
         <p className="text-gray-500">Total VNĐ</p>
       </div>
+      <div className="border-l border-gray-200 h-8"></div>
+      <div className="text-center">
+        <div className="flex items-center">
+          <p className="text-2xl font-semibold">
+            {summary.totalAmoutOfRefund.toLocaleString()}
+          </p>
+        </div>
+        <p className="text-gray-500">Total Refund</p>
+      </div>
+      <div className="border-l border-gray-200 h-8"></div>
       <div className="text-center">
         <div className="flex items-center">
           <p className="text-2xl font-semibold">

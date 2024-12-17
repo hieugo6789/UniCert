@@ -7,6 +7,7 @@ export interface summaryDashboard {
   totalStudents: number;
   totalPoint: number;
   totalAmountOfTopUp: number;
+  totalAmoutOfRefund: number;
 }
 export interface PieChartModel {
   totalStudents: number;
