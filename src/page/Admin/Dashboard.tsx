@@ -4,8 +4,9 @@ import Summary from "../../components/Dashboard/Summary";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import useMonthlyRevenue from "../../hooks/Dashboard/useMonthlyRevenue";
 import AdminNotification from "../../components/Notification/AdminNotification";
-import PieChart from "../../components/Dashboard/PieChart";
-import CustomSale from "../../components/Dashboard/CustomSale";
+import DailyRevenue from "../../components/Dashboard/DailyRevenue";
+// import PieChart from "../../components/Dashboard/PieChart";
+// import CustomSale from "../../components/Dashboard/CustomSale";
 
 const Dashboard = () => {
   const [year, setYear] = useState<number>(2024);
@@ -33,10 +34,14 @@ const Dashboard = () => {
         <div className="w-full">
           <Summary />
         </div>
-        <div className="flex mt-6">
-          <PieChart />
-          <CustomSale />
-        </div>
+        {/* <div className="grid grid-cols-10 mt-6">
+          <div className="col-span-4">
+            <PieChart />
+          </div>
+          <div className="col-span-4">
+            <CustomSale />
+          </div>
+        </div> */}
 
         <AdminChart
           data={revenue}
@@ -44,6 +49,7 @@ const Dashboard = () => {
           onYearChange={handleYearChange}
           loading={loading}
         />
+        <DailyRevenue />
       </div>
     </>
   );

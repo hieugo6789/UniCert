@@ -67,13 +67,13 @@ const PieChart = () => {
       <div className="flex items-center">
         {/* Pie Chart */}
         <div
-          className="w-36 h-36 rounded-full ml-11"
+          className="w-36 h-36 rounded-full ml-6"
           style={{
             background: `conic-gradient(${conicGradient})`,
           }}
         ></div>
         {/* Legend */}
-        <div className="p-6 px-11">
+        <div className="p-6 px-6">
           {chartData.map((item, index) => (
             <div
               key={index}

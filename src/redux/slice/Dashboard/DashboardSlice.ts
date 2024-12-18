@@ -32,10 +32,26 @@ export const fetchSummaryDashboard = createAsyncThunk(
 );
 
 export const fetchMonthlyRevenue = createAsyncThunk(
-  "admin/fetchSummaryDashboard",
+  "admin/fetchMonthlyDashboard",
   async (year: number) => {
     try {
       const response = await agent.Dashboard.getYearRevenue(year);
+      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return {
+          message: error.response?.data.error.message,
+          status: error.response?.status,
+        };
+      }
+    }
+  }
+);
+export const fetchDailyRevenue = createAsyncThunk(
+  "admin/fetchDailyDashboard",
+  async ({ year, month }: { year: number; month: number }) => {
+    try {
+      const response = await agent.Dashboard.getMonthRevenue(year, month);
       return response;
     } catch (error) {
       if (error instanceof AxiosError) {

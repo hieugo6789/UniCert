@@ -336,7 +336,7 @@ const Dashboard = {
   getYearRevenue: (year: number) =>
     requests.get(`api/v1/dashboard/monthly-revenue/${year}`),
   getMonthRevenue: (year: number, month: number) =>
-    requests.get(`api/v1/dashboard/weekly-revenue/${year}/${month}`),
+    requests.get(`api/v1/dashboard/daily-revenue/${year}/${month}`),
 };
 const Notification = {
   getNotification: (role: string) =>
