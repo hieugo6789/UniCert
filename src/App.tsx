@@ -75,6 +75,13 @@ const Layout = () => {
 function App() {
   const token = localStorage.getItem("token");
   const router = createBrowserRouter([
+     {
+      path: "/",
+      children: [
+        { path: "/exam/:id/simulation", element: <SimulationExamPage /> },
+        { path: "/exam/:id/simulation/submit", element: <SubmitExamPage /> },
+      ],
+    },
     {
       path: "/",
       element: <Layout />,
@@ -100,8 +107,8 @@ function App() {
         { path: "wallet/0", element: <Wallet /> },
         { path: "/cart", element: <Cart /> },
         { path: "/exam/:id", element: <ExamDetailPage /> },
-        { path: "/exam/:id/simulation", element: <SimulationExamPage /> },
-        { path: "/exam/:id/simulation/submit", element: <SubmitExamPage /> },
+        // { path: "/exam/:id/simulation", element: <SimulationExamPage /> },
+        // { path: "/exam/:id/simulation/submit", element: <SubmitExamPage /> },
         { path: "/exam/:id/simulation/result", element: <ExamResultPage /> },
         { path: "/enrollment/:id", element: <CourseEnrollDetailPage /> },
         { path: "/organization", element: <Organization /> },
