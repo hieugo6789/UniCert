@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../redux/hook";
-import {
-  fetchDailyRevenue,
-  fetchMonthlyRevenue,
-} from "../../redux/slice/Dashboard/DashboardSlice";
+import { fetchDailyRevenue } from "../../redux/slice/Dashboard/DashboardSlice";
 
 interface UseDailyRevenueProps {
   year: number;
