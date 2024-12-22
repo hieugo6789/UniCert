@@ -61,6 +61,7 @@ import Pathway from "./page/User/Pathway/Pathway";
 import Refund from "./components/Wallet/Refund";
 import RefundSuccess from "./components/Wallet/RefundSuccess";
 import Transaction from "./page/Admin/Transaction";
+import DetailCertificate from "./page/Staff/DetailCertificate";
 
 const Layout = () => {
   return (
@@ -179,6 +180,7 @@ function App() {
         { path: "major", element: <Major /> },
         { path: "organizations", element: <Organizations /> },
         { path: "certificate", element: <Certificate /> },
+        { path: "certificate/:id", element: <DetailCertificate /> },
         {
           path: "internalCourses/checkEnrollCode",
           element: <CheckStudentEnrollCode />,

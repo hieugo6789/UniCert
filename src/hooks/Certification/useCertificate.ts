@@ -41,7 +41,6 @@ const useCertificate = ({
         })
       );
       setCertificate(response.payload.data.data || []);
-      console.log(response.payload);
       setMetaData(response.payload.metadata);
     } catch (err) {
       console.log("Error fetching certificates.", err);

@@ -12,10 +12,12 @@ import UpdateCert from "../../components/Certifications/UpdateCert";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import ViewCertification from "../../components/Certifications/ViewCertification";
 import Notification from "../../components/Notification/Notification";
+import { useNavigate } from "react-router-dom";
 
 const { confirm } = Modal;
 
 const Certificate = () => {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
   const { handleDeleteCertificate } = useDeleteCertificate();
@@ -176,6 +178,13 @@ const Certificate = () => {
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}
+                onRow={(record) => {
+                  return {
+                    onClick: () => {
+                      navigate(`/staff/certificate/${record.certId}`);
+                    },
+                  };
+                }}
                 className="header-bg-pink"
               />
             ) : (

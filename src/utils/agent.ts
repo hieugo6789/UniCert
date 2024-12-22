@@ -69,7 +69,7 @@ const requests = {
 
 const Major = {
   getAllMajors: (name?: string) =>
-    requests.get(`api/v1/Major/${name ? name : ""}`),
+    requests.get(`api/v1/Major${name ? `/${name}` : ""}`),
   getDetailMajor: (majorId: string | undefined) =>
     requests.get(`/api/v1/major/${majorId}`),
   createMajor: (input: MajorInput) => requests.post("api/v1/Major", input),
@@ -102,7 +102,7 @@ const Organization = {
 
 const JobPosition = {
   getAllJob: (name?: string) =>
-    requests.get(`api/v1/job-position/${name ? name : ""}`),
+    requests.get(`api/v1/job-position${name ? `/${name}` : ""}`),
   getJobDetail: (jobId: string | undefined) =>
     requests.get(`api/v1/job-position/${jobId}`),
   createJobPosition: (input: createJobInput) =>
