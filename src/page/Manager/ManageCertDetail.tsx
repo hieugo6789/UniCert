@@ -4,14 +4,31 @@ import { useNavigate, useParams } from "react-router-dom";
 import useCertDetail from "../../hooks/Certification/useCertDetail";
 import { allCertificationData } from "../../models/certificate";
 import ScheduleForCert from "../../components/Calendar/ScheduleForCert";
+import DetailPermission from "../../components/Permission/DetailPermission";
+import useCertPermission from "../../hooks/Certification/useCertPermission";
 
 const ManageCertDetail = () => {
+  const { updatePermissionCertDetails } = useCertPermission();
   const certId = Number(useParams().id);
   const { state, getCertDetails } = useCertDetail();
   const [cert, setCertificate] = useState<allCertificationData | undefined>(
     undefined
   );
   const navigate = useNavigate();
+
+  const mapStatusToNumber = (status: string): number => {
+    switch (status) {
+      case "Pending":
+        return 0;
+      case "Approve":
+        return 1;
+      case "Reject":
+        return 2;
+      default:
+        return 0; 
+    }
+  };
+ 
   useEffect(() => {
     const fetchCertificateDetail = async () => {
       try {
@@ -21,7 +38,7 @@ const ManageCertDetail = () => {
       }
     };
     fetchCertificateDetail();
-  }, [certId]);
+  }, [certId, cert?.permission]);
   useEffect(() => {
     setCertificate(state?.currentCert);
   }, [state]);
@@ -45,21 +62,11 @@ const ManageCertDetail = () => {
         <div className="p-4 bg-white rounded-lg shadow-lg">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-2xl text-blue-600">Certification Details</h3>
-            <div
-              className={`text-sm px-3 py-1 rounded-md shadow ${
-                cert?.permission === "Approve"
-                  ? "text-white bg-green-500"
-                  : cert?.permission === "Reject"
-                  ? "text-white bg-red-500"
-                  : "text-white bg-blue-500"
-              }`}
-            >
-              {cert?.permission === "Approve"
-                ? "Approved"
-                : cert?.permission === "Reject"
-                ? "Rejected"
-                : "Pending"}
-            </div>
+            <DetailPermission
+              Id={certId}
+              updateFunction={updatePermissionCertDetails}
+              initialStatus={mapStatusToNumber(state.currentCert.permission)}
+            />
           </div>
           <div className="flex ">
             <Descriptions
