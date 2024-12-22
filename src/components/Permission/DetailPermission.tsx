@@ -1,5 +1,5 @@
 import { message, Select } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const { Option } = Select;
 
 interface UpdateDetailPermissionProps {
@@ -11,14 +11,18 @@ interface UpdateDetailPermissionProps {
 const DetailPermission: React.FC<UpdateDetailPermissionProps> = ({
   Id,
   updateFunction,
-  initialStatus
+  initialStatus,
 }) => {
   const [selectedStatus, setSelectedStatus] = useState<number>(initialStatus);
 
+  useEffect(() => {
+    setSelectedStatus(initialStatus);
+  }, [initialStatus]);
+
   const handleChange = async (value: number) => {
-    setSelectedStatus(value); 
+    setSelectedStatus(value);
     try {
-      await updateFunction(Id, value); 
+      await updateFunction(Id, value);
       message.success("Updated successfully!");
     } catch (error) {
       message.error("Failed to update.");

@@ -32,13 +32,13 @@ const ManageCertDetail = () => {
   useEffect(() => {
     const fetchCertificateDetail = async () => {
       try {
-        getCertDetails(Number(certId));
+        getCertDetails(certId);
       } catch (error) {
         console.error("Error fetching certificate details:", error);
       }
     };
     fetchCertificateDetail();
-  }, [certId, cert?.permission]);
+  }, [certId, state.currentCert.permission]);
   useEffect(() => {
     setCertificate(state?.currentCert);
   }, [state]);
