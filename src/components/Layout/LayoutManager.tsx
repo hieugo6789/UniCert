@@ -6,7 +6,7 @@ import Notification from "../Notification/Notification";
 const LayoutManager = () => {
   return (
     <div className="grid grid-cols-12">
-      <div className="col-span-2">
+      <div className="col-span-2 h-full">
         <MenuManager />
       </div>
       <div className="col-span-10 bg-gradient-to-r from-indigo-50 to-indigo-100">
@@ -16,7 +16,7 @@ const LayoutManager = () => {
           </div>
           <AvatarAdmin />
         </div>
-        <div className="h-[91vh] ">
+        <div className="min-h-[91vh] ">
           <Outlet />
         </div>
       </div>

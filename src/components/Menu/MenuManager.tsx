@@ -9,7 +9,7 @@ import UniCertLogo from "../../assets/images/UniCertLogo.png";
 import { BiSolidDiscount } from "react-icons/bi";
 const MenuManager = () => {
   return (
-    <div className=" w-full bg-white p-6 rounded-lg shadow-lg h-full">
+    <div className=" w-full bg-white p-6 rounded-lg shadow-lg sticky top-0 h-screen">
       <div className="flex justify-center pb-6 border-b mb-4">
         <img
           src={UniCertLogo}

@@ -62,6 +62,7 @@ import Refund from "./components/Wallet/Refund";
 import RefundSuccess from "./components/Wallet/RefundSuccess";
 import Transaction from "./page/Admin/Transaction";
 import DetailCertificate from "./page/Staff/DetailCertificate";
+import ManageCertDetail from "./page/Manager/ManageCertDetail";
 
 const Layout = () => {
   return (
@@ -152,6 +153,7 @@ function App() {
       ),
       children: [
         { path: "certificate", element: <ManageCertification /> },
+        { path: "certificate/:id", element: <ManageCertDetail /> },
         { path: "internalCourses", element: <ManageCourse /> },
         { path: "simulationExam", element: <ManageExam /> },
         { path: "jobPosition", element: <ManageJobPosition /> },

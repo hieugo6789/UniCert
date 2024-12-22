@@ -5,8 +5,10 @@ import { useState } from "react";
 import UpdatePermission from "../../components/Permission/UpdatePermission";
 import useCertPermission from "../../hooks/Certification/useCertPermission";
 import { SearchOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 const ManageCertification = () => {
+  const navigate = useNavigate();
   const { updatePermissionCertDetails } = useCertPermission();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
@@ -97,15 +99,17 @@ const ManageCertification = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <ViewCertification certId={record.certId} />
-          <UpdatePermission
-            Id={record.certId}
-            refetch={refetchCertificates}
-            searchTerm={searchTerm}
-            currentPage={currentPage}
-            pageSize={pageSize}
-            updateFunction={updatePermissionCertDetails}
-          />
+          <div onClick={(e) => e.stopPropagation()}>
+            <ViewCertification certId={record.certId} />
+            <UpdatePermission
+              Id={record.certId}
+              refetch={refetchCertificates}
+              searchTerm={searchTerm}
+              currentPage={currentPage}
+              pageSize={pageSize}
+              updateFunction={updatePermissionCertDetails}
+            />
+          </div>
         </>
       ),
     },
@@ -144,6 +148,13 @@ const ManageCertification = () => {
                   pagination={false}
                   loading={loading}
                   rowClassName={() => "h-[8.7vh]"}
+                  onRow={(record) => {
+                    return {
+                      onClick: () => {
+                        navigate(`/manager/certificate/${record.certId}`);
+                      },
+                    };
+                  }}
                   className="header-bg-pink"
                 />
               ) : (

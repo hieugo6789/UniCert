@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { Descriptions, Tag, Button } from "antd";
+import { Button, Descriptions, Tag } from "antd";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import useCertDetail from "../../hooks/Certification/useCertDetail";
 import { allCertificationData } from "../../models/certificate";
-import Notification from "../../components/Notification/Notification";
-import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import ScheduleForCert from "../../components/Calendar/ScheduleForCert";
 
-const DetailCertificate: React.FC = () => {
+const ManageCertDetail = () => {
   const certId = Number(useParams().id);
   const { state, getCertDetails } = useCertDetail();
-  const navigate = useNavigate();
   const [cert, setCertificate] = useState<allCertificationData | undefined>(
     undefined
   );
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchCertificateDetail = async () => {
       try {
@@ -25,7 +22,6 @@ const DetailCertificate: React.FC = () => {
     };
     fetchCertificateDetail();
   }, [certId]);
-
   useEffect(() => {
     setCertificate(state?.currentCert);
   }, [state]);
@@ -36,24 +32,14 @@ const DetailCertificate: React.FC = () => {
 
   return (
     <>
-      <div className="h-[10vh] flex justify-between items-center">
-        <div className="flex items-center w-full ">
-          <div>
-            <Button
-              type="link"
-              onClick={() => navigate(-1)}
-              className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center gap-2 transition-all"
-            >
-              <span className="text-2xl mb-1">←</span> Back
-            </Button>
-          </div>
-        </div>
-        <div className="mr-10 flex items-center">
-          <div className="mr-6">
-            <Notification />
-          </div>
-          <AvatarAdmin />
-        </div>
+      <div className="relative">
+        <Button
+          type="link"
+          onClick={() => navigate(-1)}
+          className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center gap-2 transition-all absolute bottom-4"
+        >
+          <span className="text-2xl mb-1">←</span> Back
+        </Button>
       </div>
       <div className="p-2">
         <div className="p-4 bg-white rounded-lg shadow-lg">
@@ -180,5 +166,4 @@ const DetailCertificate: React.FC = () => {
     </>
   );
 };
-
-export default DetailCertificate;
+export default ManageCertDetail;
