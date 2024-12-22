@@ -29,10 +29,6 @@ const DetailCertificate: React.FC = () => {
     setCertificate(state?.currentCert);
   }, [state]);
 
-  // if (loading || state.isLoading) {
-  //   return <Spin size="large" className="flex justify-center mt-10" />;
-  // }
-
   if (!state.currentCert) {
     return <p className="text-center mt-10">No certificate details found.</p>;
   }
@@ -78,14 +74,14 @@ const DetailCertificate: React.FC = () => {
                 : "Pending"}
             </div>
           </div>
-          <div className="flex">
+          <div className="flex ">
             <Descriptions
               bordered
               size="middle"
               column={1}
               labelStyle={{ fontWeight: "bold" }}
               contentStyle={{ textAlign: "left" }}
-              className="ant-descriptions"
+              className="ant-descriptions min-w-10000 "
             >
               <Descriptions.Item label="Name">
                 <span className="text-blue-700">{cert?.certName}</span>
@@ -166,7 +162,7 @@ const DetailCertificate: React.FC = () => {
                   : "None"}
               </Descriptions.Item>
             </Descriptions>
-            <div className="border  border-l-0 rounded-e-lg p-4">
+            <div className="border border-l-0 rounded-e-lg p-4 w-full">
               <div
                 className="prose list-disc whitespace-pre-wrap text-sm"
                 dangerouslySetInnerHTML={{
