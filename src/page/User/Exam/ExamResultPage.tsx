@@ -40,10 +40,11 @@ const ExamResultPage = () => {
         fetchFeedback();
     }, [examId]);
     const handleFeedbackSubmit = async () => {
-        let imageUrl = "";
+        let feedbackImage = "";
         if (selectedImage) {
-            imageUrl = await uploadCloudinary() || "";
+            feedbackImage = await uploadCloudinary() || "";
         }
+        const userId = Cookies.get("userId") || "";
 
         const vietnamTime = new Date();
         vietnamTime.setHours(vietnamTime.getHours() + 7);
@@ -52,17 +53,36 @@ const ExamResultPage = () => {
             showToast("Please provide a description or a rating to submit feedback.", "error");
             return;
         }
-        await handleCreateFeedback({
-            userId: Cookies.get("userId") || "",
-            examId: examId,
-            feedbackDescription: feedbackDescription,
-            feedbackImage: imageUrl,
+
+        const feedbackData = {
+            userId,
+            examId,
+            feedbackDescription,
+            feedbackImage,
             feedbackCreatedAt: vietnamTime,
-            feedbackRatingvalue: rating
-        }).then(() => {
-            setIsLeaveFeedback(true);
-        });
-        showToast("Feedback submitted successfully", "success");
+            feedbackRatingvalue: rating || 0, // Nếu không có rating thì đặt mặc định là 0
+        };        
+        try {
+            const response = await handleCreateFeedback(feedbackData);
+
+            console.log("Test", response);
+            if (response?.data.feedbackPermission === false) {
+                showToast("Your feedback contains inappropriate content and is pending review.", "error");
+            } else if (!response) {
+                showToast("You are sending feedback too frequently. Please try again later.", "error");
+            } else {
+                showToast("Feedback created successfully", "success");
+                // kiểm tra trong feedback có feedbackRatingValue khác 0 thì set isRated = true
+                if (response?.data.feedbackRatingvalue > 0) {
+                    setIsRated(true);
+                } else {
+                    setIsRated(false);
+                }
+                setIsLeaveFeedback(true);        
+            }
+        } catch (error: any) {
+            showToast(`${error.response?.data?.message || "Unknown error"}`, "error");
+        }                
     };
 
     useEffect(() => {

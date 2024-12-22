@@ -8,6 +8,8 @@ import { Link, useLocation } from "react-router-dom";
 import useHistoryTransaction from "../../../hooks/Transactions/useHistoryTransaction";
 import CustomModal from "../../../components/UI/CustomModal";
 import WithDraw from "../../../assets/icons/withdraw.png";
+import { showToast } from '../../../utils/toastUtils';
+import { useNavigate } from "react-router-dom";
 
 const Wallet = () => {
   const { wallets, getWalletDetails } = useWalletDetail();
@@ -18,7 +20,7 @@ const Wallet = () => {
     : { historyTransaction: [] };
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [transactionId, setTransactionId] = useState<number | null>(null); // Transaction ID state
-
+  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
@@ -32,9 +34,12 @@ const Wallet = () => {
   }, [location.pathname]);
 
   useEffect(() => {
-    if (userId) {
-      getWalletDetails(userId, transactionId);
-    }
+    if (!userId) {
+      showToast("Please login to access this page", "error");
+      navigate('/login');
+      return;
+    } 
+    getWalletDetails(userId, transactionId);   
   }, [userId, transactionId]);
 
   const handlePlusCoin = () => {

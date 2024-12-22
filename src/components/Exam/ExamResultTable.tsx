@@ -96,7 +96,7 @@ const ExamResultTable = ({props} : any) => {
                                         {examResults.length - index}
                                     </td>
                                     <td className={`py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm font-medium ${
-                                        result.scoreValue >= 50 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
+                                        result.scoreValue >= props.passingScore ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
                                     }`}>
                                         {result.scoreValue.toFixed(0)}/100
                                     </td>
