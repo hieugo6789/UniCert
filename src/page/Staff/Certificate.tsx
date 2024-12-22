@@ -103,15 +103,19 @@ const Certificate = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <ViewCertification certId={record.certId} />
-          <UpdateCert
-            certId={record.certId}
-            refetchCertificates={refetchCertificates}
-          />
-          <DeleteOutlined
-            onClick={() => showDeleteConfirm(record.certId)}
-            style={{ color: "red", marginLeft: 12 }}
-          />
+          <div
+            onClick={(e) => e.stopPropagation()} 
+          >
+            <ViewCertification certId={record.certId} />
+            <UpdateCert
+              certId={record.certId}
+              refetchCertificates={refetchCertificates}
+            />
+            <DeleteOutlined
+              onClick={() => showDeleteConfirm(record.certId)}
+              style={{ color: "red", marginLeft: 12 }}
+            />
+          </div>
         </>
       ),
     },

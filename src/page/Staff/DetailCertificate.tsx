@@ -36,14 +36,14 @@ const DetailCertificate: React.FC = () => {
   return (
     <>
       <div className="h-[10vh] flex justify-between items-center">
-        <div className="flex items-center w-full ml-10">
+        <div className="flex items-center w-full ">
           <div>
             <Button
               type="link"
               onClick={() => navigate(-1)}
-              className=" text-blue-500"
+              className="text-blue-600 hover:text-blue-800 font-semibold text-lg flex items-center gap-2 transition-all"
             >
-              ← Back
+              <span className="text-2xl mb-1">←</span> Back
             </Button>
           </div>
         </div>
