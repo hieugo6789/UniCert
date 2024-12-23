@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Descriptions, Tag, Button } from "antd";
-import useCertDetail from "../../hooks/Certification/useCertDetail";
-import { allCertificationData } from "../../models/certificate";
-import Notification from "../../components/Notification/Notification";
-import AvatarAdmin from "../../components/Header/AvatarAdmin";
-import ScheduleForCert from "../../components/Calendar/ScheduleForCert";
+import useCertDetail from "../../../hooks/Certification/useCertDetail";
+import { allCertificationData } from "../../../models/certificate";
+import Notification from "../../../components/Notification/Notification";
+import AvatarAdmin from "../../../components/Header/AvatarAdmin";
+import ScheduleForCert from "../../../components/Calendar/ScheduleForCert";
 
 const DetailCertificate: React.FC = () => {
   const certId = Number(useParams().id);

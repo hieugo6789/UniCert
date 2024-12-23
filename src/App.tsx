@@ -61,8 +61,12 @@ import Pathway from "./page/User/Pathway/Pathway";
 import Refund from "./components/Wallet/Refund";
 import RefundSuccess from "./components/Wallet/RefundSuccess";
 import Transaction from "./page/Admin/Transaction";
-import DetailCertificate from "./page/Staff/DetailCertificate";
+import DetailCertificate from "./page/Staff/Detail/DetailCertificate";
 import ManageCertDetail from "./page/Manager/ManageCertDetail";
+import DetailMajor from "./page/Staff/Detail/DetailMajor";
+import DetailJobPosition from "./page/Staff/Detail/DetailJobPosition";
+import DetailOrganize from "./page/Staff/Detail/DetailOrganize";
+import DetailExam from "./page/Staff/Detail/DetailExam";
 
 const Layout = () => {
   return (
@@ -177,10 +181,14 @@ function App() {
         { path: "internalCourses", element: <InternalCourses /> },
         { path: "internalCourses/:id", element: <ManageStudents /> },
         { path: "simulationExam", element: <SimulationExam /> },
-        { path: "simulationExam/:id", element: <ManageQuestion /> },
+        { path: "simulationExam/:id", element: <DetailExam /> },
+        { path: "simulationExam/question/:id", element: <ManageQuestion /> },
         { path: "jobPosition", element: <JobPosition /> },
+        { path: "jobPosition/:id", element: <DetailJobPosition /> },
         { path: "major", element: <Major /> },
+        { path: "major/:id", element: <DetailMajor /> },
         { path: "organizations", element: <Organizations /> },
+        { path: "organizations/:id", element: <DetailOrganize /> },
         { path: "certificate", element: <Certificate /> },
         { path: "certificate/:id", element: <DetailCertificate /> },
         {

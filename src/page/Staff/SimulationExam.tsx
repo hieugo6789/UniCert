@@ -8,12 +8,13 @@ import ViewExamDetail from "../../components/Exam/ViewExamDetail";
 import UpdateExam from "../../components/Exam/UpdateExam";
 import CreateExam from "../../components/Exam/CreateExam";
 import Coin from "../../assets/images/Coin.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Notification from "../../components/Notification/Notification";
 
 const { confirm } = Modal;
 
 const SimulationExam = () => {
+  const navigate = useNavigate();
   const { exam, loading, refetchExams } = useExam();
   const { handleDeleteExam } = useDeleteExam();
 
@@ -122,29 +123,31 @@ const SimulationExam = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <ViewExamDetail examId={record.examId} />
-          <UpdateExam
-            examId={record.examId}
-            refetchExams={refetchExams}
-          />
-          <DeleteOutlined
-            onClick={() => showDeleteConfirm(record.examId)}
-            style={{ color: "red", marginLeft: 12 }}
-          />
-          <Link
-            to={`/staff/simulationExam/${record.examId}`}
-            style={{
-              marginLeft: 12,
-              color: "#007bff",
-              fontWeight: "bold",
-              cursor: "pointer",
-              transition: "color 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#0056b3")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "#007bff")}
-          >
-            Question
-          </Link>
+          <div onClick={(e) => e.stopPropagation()}>
+            <ViewExamDetail examId={record.examId} />
+            <UpdateExam
+              examId={record.examId}
+              refetchExams={refetchExams}
+            />
+            <DeleteOutlined
+              onClick={() => showDeleteConfirm(record.examId)}
+              style={{ color: "red", marginLeft: 12 }}
+            />
+            <Link
+              to={`/staff/simulationExam/question/${record.examId}`}
+              style={{
+                marginLeft: 12,
+                color: "#007bff",
+                fontWeight: "bold",
+                cursor: "pointer",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#0056b3")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#007bff")}
+            >
+              Question
+            </Link>
+          </div>
         </>
       ),
     },
@@ -193,6 +196,13 @@ const SimulationExam = () => {
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}
+                onRow={(record) => {
+                  return {
+                    onClick: () => {
+                      navigate(`/staff/simulationExam/${record.examId}`);
+                    },
+                  };
+                }}
                 className="header-bg-pink"
               />
             ) : (

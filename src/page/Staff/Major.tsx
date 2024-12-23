@@ -12,10 +12,12 @@ import UpdateMajor from "../../components/Majors/UpdateMajor";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import ViewMajorDetail from "../../components/Majors/ViewMajorDetail";
 import Notification from "../../components/Notification/Notification";
+import { useNavigate } from "react-router-dom";
 
 const { confirm } = Modal;
 
 const Major = () => {
+  const navigate = useNavigate();
   const { major, loading, refetchMajors } = useMajor();
   const { handleDeleteMajor } = useDeleteMajor();
   const [searchTerm, setSearchTerm] = useState("");
@@ -124,15 +126,17 @@ const Major = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <ViewMajorDetail majorId={record.majorId} />
-          <UpdateMajor
-            majorId={record.majorId}
-            refetchMajors={refetchMajors}
-          />
-          <DeleteOutlined
-            onClick={() => showDeleteConfirm(record.majorId)}
-            style={{ color: "red", marginLeft: 12 }}
-          />
+          <div onClick={(e) => e.stopPropagation()}>
+            <ViewMajorDetail majorId={record.majorId} />
+            <UpdateMajor
+              majorId={record.majorId}
+              refetchMajors={refetchMajors}
+            />
+            <DeleteOutlined
+              onClick={() => showDeleteConfirm(record.majorId)}
+              style={{ color: "red", marginLeft: 12 }}
+            />
+          </div>
         </>
       ),
     },
@@ -204,6 +208,13 @@ const Major = () => {
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}
+                onRow={(record) => {
+                  return {
+                    onClick: () => {
+                      navigate(`/staff/major/${record.majorId}`);
+                    },
+                  };
+                }}
                 className="header-bg-pink"
               />
             ) : (

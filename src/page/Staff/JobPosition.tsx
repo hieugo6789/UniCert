@@ -12,10 +12,12 @@ import UpdateJobPosition from "../../components/JobPosition/UpdateJobPosition";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import ViewJobPosition from "../../components/JobPosition/ViewJobPosition";
 import Notification from "../../components/Notification/Notification";
+import { useNavigate } from "react-router-dom";
 
 const { confirm } = Modal;
 
 const JobPosition = () => {
+  const navigate = useNavigate();
   const { job, loading, refetchJobs } = useJob();
   const { handleDeleteJob } = useDeleteJob();
   const [searchTerm, setSearchTerm] = useState("");
@@ -126,15 +128,17 @@ const JobPosition = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <ViewJobPosition jobPositionId={record.jobPositionId} />
-          <UpdateJobPosition
-            jobPositionId={record.jobPositionId}
-            refetchJobs={refetchJobs}
-          />
-          <DeleteOutlined
-            onClick={() => showDeleteConfirm(record.jobPositionId)}
-            style={{ color: "red", marginLeft: 12 }}
-          />
+          <div onClick={(e) => e.stopPropagation()}>
+            <ViewJobPosition jobPositionId={record.jobPositionId} />
+            <UpdateJobPosition
+              jobPositionId={record.jobPositionId}
+              refetchJobs={refetchJobs}
+            />
+            <DeleteOutlined
+              onClick={() => showDeleteConfirm(record.jobPositionId)}
+              style={{ color: "red", marginLeft: 12 }}
+            />
+          </div>
         </>
       ),
     },
@@ -203,6 +207,13 @@ const JobPosition = () => {
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}
+                onRow={(record) => {
+                  return {
+                    onClick: () => {
+                      navigate(`/staff/jobPosition/${record.jobPositionId}`);
+                    },
+                  };
+                }}
                 className="header-bg-pink"
               />
             ) : (

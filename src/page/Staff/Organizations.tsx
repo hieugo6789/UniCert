@@ -10,10 +10,12 @@ import UpdateOrganize from "../../components/Organization/UpdateOrganize";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import ViewOrganize from "../../components/Organization/ViewOrganize";
 import Notification from "../../components/Notification/Notification";
+import { useNavigate } from "react-router-dom";
 
 const { confirm } = Modal;
 
 const Organizations = () => {
+  const navigate = useNavigate();
   const { organization, loading, refetchOrganizations } = useOrganization();
   const { handleDeleteOrganize } = useDeleteOrganize();
   const [searchTerm, setSearchTerm] = useState("");
@@ -80,15 +82,17 @@ const Organizations = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <ViewOrganize organizeId={record.organizeId} />
-          <UpdateOrganize
-            organizeId={record.organizeId}
-            refetchOrganizations={refetchOrganizations}
-          />
-          <DeleteOutlined
-            onClick={() => showDeleteConfirm(record.organizeId)}
-            style={{ color: "red", marginLeft: 12 }}
-          />
+          <div onClick={(e) => e.stopPropagation()}>
+            <ViewOrganize organizeId={record.organizeId} />
+            <UpdateOrganize
+              organizeId={record.organizeId}
+              refetchOrganizations={refetchOrganizations}
+            />
+            <DeleteOutlined
+              onClick={() => showDeleteConfirm(record.organizeId)}
+              style={{ color: "red", marginLeft: 12 }}
+            />
+          </div>
         </>
       ),
     },
@@ -194,6 +198,13 @@ const Organizations = () => {
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}
+                onRow={(record) => {
+                  return {
+                    onClick: () => {
+                      navigate(`/staff/organizations/${record.organizeId}`);
+                    },
+                  };
+                }}
                 className="header-bg-pink"
               />
             ) : (
