@@ -10,8 +10,10 @@ import defaultNotification from "../../assets/images/defaultNoti.png";
 import { GoDotFill } from "react-icons/go";
 import useDeleteNotification from "../../hooks/Notification/useDeleteNotification";
 import { TbDots } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 
 const Notification = () => {
+  const navigate = useNavigate();
   const role = Cookies.get("role") || "";
   const { notification, loading, refetch } = useNotification({ role });
   const { handleDeleteNotification } = useDeleteNotification();
@@ -163,6 +165,19 @@ const Notification = () => {
                                     Mark as read
                                   </Menu.Item>
                                 )}
+                                <Menu.Item
+                                  key="see"
+                                  onClick={() => {
+                                    handleReadNotification(
+                                      notif.notificationId
+                                    );
+                                    navigate(
+                                      `/${notif.role}/${notif.notificationType}/${notif.notificationTypeId}`
+                                    );
+                                  }}
+                                >
+                                  See detail
+                                </Menu.Item>
                                 <Menu.Item
                                   key="delete"
                                   danger
