@@ -25,10 +25,10 @@ const ManageCertDetail = () => {
       case "Reject":
         return 2;
       default:
-        return 0; 
+        return 0;
     }
   };
- 
+
   useEffect(() => {
     const fetchCertificateDetail = async () => {
       try {
@@ -38,11 +38,12 @@ const ManageCertDetail = () => {
       }
     };
     fetchCertificateDetail();
-  }, [certId, state.currentCert]);
+  }, [certId]);
+
   useEffect(() => {
     setCertificate(state?.currentCert);
-  }, [state]);
-  
+  }, [state.currentCert]);
+
   if (!state.currentCert) {
     return <p className="text-center mt-10">No certificate details found.</p>;
   }
@@ -65,7 +66,10 @@ const ManageCertDetail = () => {
             <DetailPermission
               Id={certId}
               updateFunction={updatePermissionCertDetails}
-              initialStatus={mapStatusToNumber(state.currentCert?.permission || "Pending")}
+              initialStatus={mapStatusToNumber(
+                state.currentCert?.permission || "Pending"
+              )}
+              onUpdateSuccess={() => getCertDetails(certId)}
             />
           </div>
           <div className="flex ">

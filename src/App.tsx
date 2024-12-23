@@ -67,6 +67,7 @@ import DetailMajor from "./page/Staff/Detail/DetailMajor";
 import DetailJobPosition from "./page/Staff/Detail/DetailJobPosition";
 import DetailOrganize from "./page/Staff/Detail/DetailOrganize";
 import DetailExam from "./page/Staff/Detail/DetailExam";
+import ManageExamDetail from "./page/Manager/Detail/ManageExamDetail";
 
 const Layout = () => {
   return (
@@ -81,7 +82,7 @@ const Layout = () => {
 function App() {
   const token = localStorage.getItem("token");
   const router = createBrowserRouter([
-     {
+    {
       path: "/",
       children: [
         { path: "/exam/:id/simulation", element: <SimulationExamPage /> },
@@ -160,6 +161,7 @@ function App() {
         { path: "certificate/:id", element: <ManageCertDetail /> },
         { path: "internalCourses", element: <ManageCourse /> },
         { path: "simulationExam", element: <ManageExam /> },
+        { path: "simulationExam/:id", element: <ManageExamDetail /> },
         { path: "jobPosition", element: <ManageJobPosition /> },
         { path: "major", element: <ManageMajor /> },
         { path: "organizations", element: <ManageOrganize /> },

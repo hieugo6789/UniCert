@@ -6,8 +6,10 @@ import usePermissionExam from "../../hooks/SimulationExam/usePermissionExam";
 import Coin from "../../assets/images/Coin.png";
 import ViewExamDetail from "../../components/Exam/ViewExamDetail";
 import UpdateVoucherExam from "../../components/Voucher/UpdateVoucherExam";
+import { useNavigate } from "react-router-dom";
 
 const ManageExam = () => {
+  const navigate = useNavigate();
   const { exam, loading, refetchExams } = useExam();
   const { updatePermissionExamDetails } = usePermissionExam();
   const [pageSize] = useState(8);
@@ -114,17 +116,19 @@ const ManageExam = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <div className="flex">
-            <ViewExamDetail examId={record.examId} />
-            <UpdatePermission
-              Id={record.examId}
-              refetch={refetchExams}
-              updateFunction={updatePermissionExamDetails}
-            />
-            <UpdateVoucherExam
-              examId={record.examId}
-              refetchExams={refetchExams}
-            />
+          <div onClick={(e) => e.stopPropagation()}>
+            <div className="flex">
+              <ViewExamDetail examId={record.examId} />
+              <UpdatePermission
+                Id={record.examId}
+                refetch={refetchExams}
+                updateFunction={updatePermissionExamDetails}
+              />
+              <UpdateVoucherExam
+                examId={record.examId}
+                refetchExams={refetchExams}
+              />
+            </div>
           </div>
         </>
       ),
@@ -145,6 +149,13 @@ const ManageExam = () => {
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}
+                onRow={(record) => {
+                  return {
+                    onClick: () => {
+                      navigate(`/manager/simulationExam/${record.examId}`);
+                    },
+                  };
+                }}
                 className="header-bg-pink"
               />
             ) : (

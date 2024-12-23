@@ -6,12 +6,14 @@ interface UpdateDetailPermissionProps {
   Id: number;
   initialStatus: number;
   updateFunction: (Id: number, status: number) => Promise<void>;
+  onUpdateSuccess: () => void;
 }
 
 const DetailPermission: React.FC<UpdateDetailPermissionProps> = ({
   Id,
   updateFunction,
   initialStatus,
+  onUpdateSuccess,
 }) => {
   const [selectedStatus, setSelectedStatus] = useState<number>(initialStatus);
 
@@ -23,6 +25,7 @@ const DetailPermission: React.FC<UpdateDetailPermissionProps> = ({
     setSelectedStatus(value);
     try {
       await updateFunction(Id, value);
+      onUpdateSuccess();
       message.success("Updated successfully!");
     } catch (error) {
       message.error("Failed to update.");
