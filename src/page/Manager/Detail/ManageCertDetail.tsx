@@ -1,11 +1,11 @@
 import { Button, Descriptions, Tag } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import useCertDetail from "../../hooks/Certification/useCertDetail";
-import { allCertificationData } from "../../models/certificate";
-import ScheduleForCert from "../../components/Calendar/ScheduleForCert";
-import DetailPermission from "../../components/Permission/DetailPermission";
-import useCertPermission from "../../hooks/Certification/useCertPermission";
+import useCertDetail from "../../../hooks/Certification/useCertDetail";
+import { allCertificationData } from "../../../models/certificate";
+import ScheduleForCert from "../../../components/Calendar/ScheduleForCert";
+import DetailPermission from "../../../components/Permission/DetailPermission";
+import useCertPermission from "../../../hooks/Certification/useCertPermission";
 
 const ManageCertDetail = () => {
   const { updatePermissionCertDetails } = useCertPermission();

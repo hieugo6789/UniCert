@@ -62,7 +62,7 @@ import Refund from "./components/Wallet/Refund";
 import RefundSuccess from "./components/Wallet/RefundSuccess";
 import Transaction from "./page/Admin/Transaction";
 import DetailCertificate from "./page/Staff/Detail/DetailCertificate";
-import ManageCertDetail from "./page/Manager/ManageCertDetail";
+import ManageCertDetail from "./page/Manager/Detail/ManageCertDetail";
 import DetailMajor from "./page/Staff/Detail/DetailMajor";
 import DetailJobPosition from "./page/Staff/Detail/DetailJobPosition";
 import DetailOrganize from "./page/Staff/Detail/DetailOrganize";
