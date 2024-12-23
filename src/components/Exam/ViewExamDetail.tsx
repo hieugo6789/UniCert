@@ -73,6 +73,11 @@ const ViewExamDetail: React.FC<ViewExamDetailProps> = ({ examId }) => {
                   }}
                 />
               </Descriptions.Item>
+              <Descriptions.Item label="Duration">
+                <span className="text-gray-600">
+                  {state.currentExam.duration} minutes
+                </span>
+              </Descriptions.Item>
               <Descriptions.Item label="Questions">
                 <span className="text-gray-600">
                   {state.currentExam.questionCount} questions

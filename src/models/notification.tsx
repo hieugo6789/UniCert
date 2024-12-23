@@ -6,6 +6,8 @@ export interface allNotificationData {
   creationDate: Date;
   role: string;
   isRead: boolean;
+  notificationType: string;
+  notificationTypeId: number;
 }
 export interface currentNotification {
   notificationId: number;
@@ -15,6 +17,8 @@ export interface currentNotification {
   creationDate: Date;
   role: string;
   isRead: boolean;
+  notificationType: string;
+  notificationTypeId: number;
 }
 
 export interface deleteNotification {

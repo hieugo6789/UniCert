@@ -117,6 +117,7 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
         open={isModalVisible}
         onOk={handleOK}
         onCancel={handleCancel}
+        width={650}
       >
         <Tabs
           defaultActiveKey="1"
