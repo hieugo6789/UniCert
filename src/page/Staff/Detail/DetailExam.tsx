@@ -16,19 +16,20 @@ const DetailExam = () => {
   >(undefined);
 
   useEffect(() => {
-    const fetchCertificateDetail = async () => {
+    const fetchExamDetail = async () => {
       try {
         getExamDetails(simulationExamId);
       } catch (error) {
-        console.error("Error fetching certificate details:", error);
+        console.error("Error fetching Exam details:", error);
       }
     };
-    fetchCertificateDetail();
+    fetchExamDetail();
   }, [simulationExamId]);
 
   useEffect(() => {
     setSimulationExam(state?.currentExam);
   }, [state]);
+
   if (!state.currentExam) {
     return (
       <p className="text-center mt-10">No simulation exam details found.</p>
