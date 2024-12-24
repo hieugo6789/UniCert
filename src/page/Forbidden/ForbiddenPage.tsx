@@ -10,10 +10,10 @@ const ForbiddenPage = () => {
         You don't have permission to access this page.
       </p>
       <button
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/")}
         className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
       >
-        Go Back
+        Go Home
       </button>
     </div>
   );
