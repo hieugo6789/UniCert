@@ -68,7 +68,7 @@ import DetailJobPosition from "./page/Staff/Detail/DetailJobPosition";
 import DetailOrganize from "./page/Staff/Detail/DetailOrganize";
 import DetailExam from "./page/Staff/Detail/DetailExam";
 import ManageExamDetail from "./page/Manager/Detail/ManageExamDetail";
-
+import PreviewExam from "./page/User/Exam/PreviewExam";
 const Layout = () => {
   return (
     <>
@@ -117,6 +117,7 @@ function App() {
         // { path: "/exam/:id/simulation", element: <SimulationExamPage /> },
         // { path: "/exam/:id/simulation/submit", element: <SubmitExamPage /> },
         { path: "/exam/:id/simulation/result", element: <ExamResultPage /> },
+        {path:"/exam/:id/:scoreId", element: <PreviewExam />},
         { path: "/enrollment/:id", element: <CourseEnrollDetailPage /> },
         { path: "/organization", element: <Organization /> },
         { path: "/organization/:id", element: <OrganizationDetail /> },
