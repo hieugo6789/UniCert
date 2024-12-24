@@ -69,6 +69,8 @@ const PreviewExam = () => {
                         <div className="flex justify-between items-center mb-3">
                             <h3 className="font-bold text-lg text-gray-800 dark:text-gray-200">
                                 Question {index + 1}
+                                {/* {question.questionId}
+                                {question.questionType} */}
                             </h3>
                             <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
                                 Score: {question.scoreValue}
@@ -76,7 +78,7 @@ const PreviewExam = () => {
                         </div>
 
                         {/* Multiple Choice Question */}
-                        {question.questionType === "Choice" ? (
+                        {question.questionType.toLowerCase() === "choice" ? (
                             <div>
                                 <ul className="space-y-2">
                                     {question.systemAnswers.map((answer) => (
