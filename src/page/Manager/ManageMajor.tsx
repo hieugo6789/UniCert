@@ -4,8 +4,10 @@ import { useState } from "react";
 import ViewMajorDetail from "../../components/Majors/ViewMajorDetail";
 import UpdatePermission from "../../components/Permission/UpdatePermission";
 import usePermissionMajor from "../../hooks/Major/usePermissionMajor";
+import { useNavigate } from "react-router-dom";
 
 const ManageMajor = () => {
+  const navigate = useNavigate();
   const { major, loading, refetchMajors } = useMajor();
   const { updatePermissionMajorDetails } = usePermissionMajor();
   const [currentPage, setCurrentPage] = useState(1);
@@ -111,12 +113,14 @@ const ManageMajor = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <ViewMajorDetail majorId={record.majorId} />
-          <UpdatePermission
-            Id={record.majorId}
-            refetch={refetchMajors}
-            updateFunction={updatePermissionMajorDetails}
-          />
+          <div onClick={(e) => e.stopPropagation()}>
+            <ViewMajorDetail majorId={record.majorId} />
+            <UpdatePermission
+              Id={record.majorId}
+              refetch={refetchMajors}
+              updateFunction={updatePermissionMajorDetails}
+            />
+          </div>
         </>
       ),
     },
@@ -136,6 +140,13 @@ const ManageMajor = () => {
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}
+                onRow={(record) => {
+                  return {
+                    onClick: () => {
+                      navigate(`/manager/major/${record.majorId}`);
+                    },
+                  };
+                }}
                 className="header-bg-pink"
               />
             ) : (

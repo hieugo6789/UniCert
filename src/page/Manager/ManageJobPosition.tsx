@@ -4,8 +4,10 @@ import ViewJobPosition from "../../components/JobPosition/ViewJobPosition";
 import { Pagination, Table, Tag } from "antd";
 import UpdatePermission from "../../components/Permission/UpdatePermission";
 import usePermissionJob from "../../hooks/JobPosition/usePermissionJob";
+import { useNavigate } from "react-router-dom";
 
 const ManageJobPosition = () => {
+  const navigate = useNavigate();
   const { job, loading, refetchJobs } = useJob();
   const { updatePermissionJobDetails } = usePermissionJob();
   const [currentPage, setCurrentPage] = useState(1);
@@ -110,12 +112,14 @@ const ManageJobPosition = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <ViewJobPosition jobPositionId={record.jobPositionId} />
-          <UpdatePermission
-            Id={record.jobPositionId}
-            refetch={refetchJobs}
-            updateFunction={updatePermissionJobDetails}
-          />
+          <div onClick={(e) => e.stopPropagation()}>
+            <ViewJobPosition jobPositionId={record.jobPositionId} />
+            <UpdatePermission
+              Id={record.jobPositionId}
+              refetch={refetchJobs}
+              updateFunction={updatePermissionJobDetails}
+            />
+          </div>
         </>
       ),
     },
@@ -139,6 +143,13 @@ const ManageJobPosition = () => {
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}
+                onRow={(record) => {
+                  return {
+                    onClick: () => {
+                      navigate(`/manager/jobPosition/${record.jobPositionId}`);
+                    },
+                  };
+                }}
                 className="header-bg-pink"
               />
             ) : (

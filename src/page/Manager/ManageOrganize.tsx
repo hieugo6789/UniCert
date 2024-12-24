@@ -4,8 +4,10 @@ import { useState } from "react";
 import useOrganization from "../../hooks/Organization/useOrganization";
 import UpdatePermission from "../../components/Permission/UpdatePermission";
 import useOrganizePermission from "../../hooks/Organization/useOrganizePermission";
+import { useNavigate } from "react-router-dom";
 
 const ManageOrganize = () => {
+  const navigate = useNavigate();
   const { organization, loading, refetchOrganizations } = useOrganization();
   const { updatePermissionOrganizeDetails } = useOrganizePermission();
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,12 +58,14 @@ const ManageOrganize = () => {
       key: "actions",
       render: (record: any) => (
         <>
-          <ViewOrganize organizeId={record.organizeId} />
-          <UpdatePermission
-            Id={record.organizeId}
-            refetch={refetchOrganizations}
-            updateFunction={updatePermissionOrganizeDetails}
-          />
+          <div onClick={(e) => e.stopPropagation()}>
+            <ViewOrganize organizeId={record.organizeId} />
+            <UpdatePermission
+              Id={record.organizeId}
+              refetch={refetchOrganizations}
+              updateFunction={updatePermissionOrganizeDetails}
+            />
+          </div>
         </>
       ),
     },
@@ -85,6 +89,13 @@ const ManageOrganize = () => {
                 pagination={false}
                 loading={loading}
                 rowClassName={() => "h-[8.7vh]"}
+                onRow={(record) => {
+                  return {
+                    onClick: () => {
+                      navigate(`/manager/organizations/${record.organizeId}`);
+                    },
+                  };
+                }}
                 className="header-bg-pink"
               />
             ) : (

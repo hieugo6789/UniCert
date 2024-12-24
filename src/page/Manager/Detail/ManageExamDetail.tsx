@@ -62,7 +62,7 @@ const ManageExamDetail = () => {
       <div className="p-2">
         <div className="p-4 bg-white rounded-lg shadow-lg">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-2xl text-blue-600">Certification Details</h3>
+            <h3 className="text-2xl text-blue-600">Simulation exam Details</h3>
             <DetailPermission
               Id={examId}
               updateFunction={updatePermissionExamDetails}

@@ -68,6 +68,9 @@ import DetailJobPosition from "./page/Staff/Detail/DetailJobPosition";
 import DetailOrganize from "./page/Staff/Detail/DetailOrganize";
 import DetailExam from "./page/Staff/Detail/DetailExam";
 import ManageExamDetail from "./page/Manager/Detail/ManageExamDetail";
+import ManageJobDetail from "./page/Manager/Detail/ManageJobDetail";
+import ManageMajorDetail from "./page/Manager/Detail/ManageMajorDetail";
+import ManageOrganizeDetail from "./page/Manager/Detail/ManageOrganizeDetail";
 
 const Layout = () => {
   return (
@@ -163,8 +166,11 @@ function App() {
         { path: "simulationExam", element: <ManageExam /> },
         { path: "simulationExam/:id", element: <ManageExamDetail /> },
         { path: "jobPosition", element: <ManageJobPosition /> },
+        { path: "jobPosition/:id", element: <ManageJobDetail /> },
         { path: "major", element: <ManageMajor /> },
+        { path: "major/:id", element: <ManageMajorDetail /> },
         { path: "organizations", element: <ManageOrganize /> },
+        { path: "organizations/:id", element: <ManageOrganizeDetail /> },
         { path: "voucher", element: <Voucher /> },
       ],
     },
