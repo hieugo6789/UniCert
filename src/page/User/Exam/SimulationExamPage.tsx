@@ -275,6 +275,10 @@ const SimulationExamPage = () => {
     }
   };
   const [currentPage, setCurrentPage] = useState(1);
+  // cuộn tự động khi chuyển trang
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
   const questionsPerPage = 5;
 
   const totalPages = Math.ceil(questions.length / questionsPerPage);

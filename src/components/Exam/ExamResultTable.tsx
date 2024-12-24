@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { score } from "../../models/score";
 import useScoreDetail from "../../hooks/Score/useScoreDetail";
 import Cookies from "js-cookie";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const ExamResultTable = ({props} : any) => {
     const userId = Cookies.get("userId") || 0;
@@ -16,6 +16,7 @@ const ExamResultTable = ({props} : any) => {
         const fetchData = async () => {
             try {
                 await getScoreDetails(Number(userId), Number(examId));
+  
             } catch (error) {
                 console.error("Error fetching exam details:", error);
             }
@@ -25,6 +26,7 @@ const ExamResultTable = ({props} : any) => {
 
     useEffect(() => {
         setExamResults(state);
+        console.log("state", state)
     }, [state]);
 
     const averageScore = examResults.length > 0 
@@ -83,6 +85,7 @@ const ExamResultTable = ({props} : any) => {
                             <th className="py-3 px-4 sm:px-6 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">#</th>
                             <th className="py-3 px-4 sm:px-6 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">Score</th>
                             <th className="py-3 px-4 sm:px-6 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">Date & Time</th>
+                            <th className="py-3 px-4 sm:px-6 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">Action</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800">
@@ -102,6 +105,13 @@ const ExamResultTable = ({props} : any) => {
                                     </td>
                                     <td className="py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                                         {formatVietnameseDateTime(result.createdAt)}
+                                    </td>
+                                    <td className="py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm">
+                                        <button className="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none" >
+                                            <Link to={`/exam/${examId}/${result.scoreId}`}>
+                                            View Details
+                                            </Link>
+                                        </button>
                                     </td>
                                 </tr>
                         ))}

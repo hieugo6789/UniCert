@@ -382,6 +382,11 @@ const selectedCert = {
     return requests.put(`api/v1/selected-cert/user/certs`, input);
   },
 };
+const reviewExam = {
+  getReviewExam(input:{userId: string, examId: string, scoreId: string}) {
+    return requests.get(`api/v1/review-exam/review`,input);
+  },
+};
 const agent = {
   Major,
   Account,
@@ -408,5 +413,6 @@ const agent = {
   resetPassword,
   Employees,
   selectedCert,
+  reviewExam,
 };
 export default agent;
