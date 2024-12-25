@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import agent from "../../../utils/agent";
 
 interface Question {
@@ -26,7 +26,7 @@ const PreviewExam = () => {
     const userId = Cookies.get("userId")?.toString() || "";
     const { id: examId, scoreId } = useParams();
     const [examData, setExamData] = useState<ExamData | null>(null);
-
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchExamData = async () => {
             try {
@@ -51,9 +51,16 @@ const PreviewExam = () => {
             </div>
         );
     }
-
+    
     return (
         <div className="p-6 bg-gray-50 min-h-screen dark:bg-gray-900">
+            {/* nút back exam fixed */}
+            <button
+                onClick={() => navigate(`/exam/${examId}`)}
+                className="fixed top-24 right-5 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md"
+            >
+                Back to Exam
+            </button>
             <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6 dark:bg-gray-800">
                 <h1 className="text-3xl font-bold text-center text-blue-600 dark:text-blue-400 mb-4">
                     Exam Preview
