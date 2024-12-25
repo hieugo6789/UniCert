@@ -55,7 +55,8 @@ const SubmitExamPage = () => {
                 questionRequests: formattedAnswers.map((answer: Answer) => ({
                     questionId: answer.questionId,
                     userAnswerId: Array.isArray(answer.userAnswerId) ? answer.userAnswerId : [answer.userAnswerId],
-                    userAnswerText: answer.essayAnswer || ""
+                    userAnswerText: answer.essayAnswer || "",
+                    questionType: answer.essayAnswer ? 2 : 1
                 }))
             };
             console.log(sendInput)
