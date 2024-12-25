@@ -1,20 +1,19 @@
-import { Form, Input, message, Modal } from "antd";
-import useUpdateSchedule from "../../hooks/Schedule/useUpdateSchedule";
+import { Form, Input, message, Modal, Select } from "antd";
 import { useEffect, useState } from "react";
+import useUpdateSchedule from "../../hooks/Schedule/useUpdateSchedule";
 import useScheduleDetail from "../../hooks/Schedule/useScheduleDetail";
+import useAllCertification from "../../hooks/Certification/useAllCertification";
 
 interface UpdateScheduleProps {
   sessionId: number;
   refetchSchedules: () => void;
 }
-const UpdateSchedule: React.FC<UpdateScheduleProps> = ({
-  sessionId,
-  refetchSchedules,
-}) => {
+
+const UpdateSchedule: React.FC<UpdateScheduleProps> = ({ sessionId, refetchSchedules }) => {
   const [form] = Form.useForm();
   const { updateSchedule } = useUpdateSchedule();
-  const { state: scheduleDetailState, getScheduleDetails } =
-    useScheduleDetail();
+  const { state: scheduleDetailState, getScheduleDetails } = useScheduleDetail();
+  const { certificate } = useAllCertification();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -24,19 +23,19 @@ const UpdateSchedule: React.FC<UpdateScheduleProps> = ({
       getScheduleDetails(sessionId);
     }
   };
+
   useEffect(() => {
     if (scheduleDetailState.currentSchedule) {
       const currentSchedule = scheduleDetailState.currentSchedule;
       const vietnamTime = new Date(currentSchedule.sessionDate);
-      vietnamTime.setHours(vietnamTime.getHours() + 14);
+
       form.setFieldsValue({
         sessionName: currentSchedule.sessionName,
         sessionCode: currentSchedule.sessionCode,
-        sessionDate: currentSchedule.sessionDate
-          ? vietnamTime.toISOString().substring(0, 16)
-          : "",
+        sessionDate: vietnamTime.toISOString().substring(0, 16), // Format as 'YYYY-MM-DDTHH:MM'
         sessionAddress: currentSchedule.sessionAddress,
         sessionTime: currentSchedule.sessionTime,
+        certId: currentSchedule.certId,
       });
     }
   }, [scheduleDetailState.currentSchedule, sessionId, form]);
@@ -46,16 +45,12 @@ const UpdateSchedule: React.FC<UpdateScheduleProps> = ({
       // Validate fields before submission
       await form.validateFields();
       const formData = form.getFieldsValue();
-      const sessionDateInUTC = new Date(formData.sessionDate).toISOString(); // Chuyển đổi thời gian sang UTC
-      await updateSchedule(sessionId, {
-        ...formData,
-        sessionDate: sessionDateInUTC,
-      });
-      message.success("Course updated successfully!");
+      await updateSchedule(sessionId, formData); // Submit the form data as is
+      message.success("Schedule updated successfully!");
       refetchSchedules();
       setIsModalVisible(false); // Close modal after success
     } catch (error) {
-      message.error("Failed to update the courses.");
+      message.error("Failed to update the schedule.");
     }
   };
 
@@ -63,6 +58,7 @@ const UpdateSchedule: React.FC<UpdateScheduleProps> = ({
     setIsModalVisible(false);
     form.resetFields(); // Reset the form when closing the modal
   };
+
   return (
     <>
       <div onClick={showModal}>Update</div>
@@ -82,27 +78,21 @@ const UpdateSchedule: React.FC<UpdateScheduleProps> = ({
           <Form.Item
             label="Name"
             name="sessionName"
-            rules={[
-              { required: true, message: "Please input the schedule name!" },
-            ]}
+            rules={[{ required: true, message: "Please input the schedule name!" }]}
           >
             <Input placeholder="Enter schedule name" />
           </Form.Item>
           <Form.Item
             label="Code"
             name="sessionCode"
-            rules={[
-              { required: true, message: "Please input the schedule code!" },
-            ]}
+            rules={[{ required: true, message: "Please input the schedule code!" }]}
           >
             <Input placeholder="Enter schedule code" />
           </Form.Item>
           <Form.Item
-            label="Date"
+            label="Date and Time"
             name="sessionDate"
-            rules={[
-              { required: true, message: "Please select the schedule date!" },
-            ]}
+            rules={[{ required: true, message: "Please select the schedule date and time!" }]}
           >
             <Input
               type="datetime-local"
@@ -112,24 +102,45 @@ const UpdateSchedule: React.FC<UpdateScheduleProps> = ({
           <Form.Item
             label="Address"
             name="sessionAddress"
-            rules={[
-              { required: true, message: "Please input the schedule address!" },
-            ]}
+            rules={[{ required: true, message: "Please input the schedule address!" }]}
           >
             <Input placeholder="Enter schedule address" />
           </Form.Item>
           <Form.Item
             label="Time"
             name="sessionTime"
-            rules={[
-              { required: true, message: "Please input the time for exam!" },
-            ]}
+            rules={[{ required: true, message: "Please input the time for exam!" }]}
           >
             <Input placeholder="Enter time for exam" />
+          </Form.Item>
+          <Form.Item
+            label="Certification"
+            name="certId"
+            rules={[{ required: true, message: "Please select a certification!" }]}
+          >
+            <Select placeholder="Select Certification" style={{ width: "100%" }}>
+              {certificate.map((cert) => (
+                <Select.Option key={cert.certId} value={cert.certId}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span>{cert.certName}</span>
+                    <span style={{
+                      color: cert.permission === "Approve"
+                        ? "green"
+                        : cert.permission === "Reject"
+                        ? "red"
+                        : "blue",
+                    }}>
+                      {cert.permission}
+                    </span>
+                  </div>
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
         </Form>
       </Modal>
     </>
   );
 };
+
 export default UpdateSchedule;

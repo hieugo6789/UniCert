@@ -17,11 +17,18 @@ const CreateSchedule = ({
   const [form] = Form.useForm();
   const currentDate = new Date();
 
+  // Helper function to convert UTC to Vietnam Time (UTC+7)
+  const convertToVietnamTime = (date: Date) => {
+    const vietnamOffset = 7 * 60; // UTC+7 in minutes
+    const localTime = date.getTime() + vietnamOffset * 60 * 1000;
+    return new Date(localTime);
+  };
+
   const [formData, setFormData] = useState({
     sessionName: "",
     sessionCode: "",
     sessionAddress: "",
-    sessionDate: currentDate,
+    sessionDate: convertToVietnamTime(currentDate), // Convert current date to Vietnam Time
     certId: 0,
     sessionTime: "",
     sessionCreatedAt: currentDate,
@@ -40,7 +47,7 @@ const CreateSchedule = ({
         sessionName: "",
         sessionCode: "",
         sessionAddress: "",
-        sessionDate: currentDate,
+        sessionDate: new Date(), // Convert to Vietnam Time again
         certId: 0,
         sessionTime: "",
         sessionCreatedAt: currentDate,
@@ -73,6 +80,7 @@ const CreateSchedule = ({
       certId: value,
     });
   };
+
   return (
     <>
       <Button
@@ -101,9 +109,7 @@ const CreateSchedule = ({
           <Form.Item
             label="Name"
             name="sessionName"
-            rules={[
-              { required: true, message: "Please input the schedule name!" },
-            ]}
+            rules={[{ required: true, message: "Please input the schedule name!" }]}
           >
             <Input
               name="sessionName"
@@ -115,9 +121,7 @@ const CreateSchedule = ({
           <Form.Item
             label="Code"
             name="sessionCode"
-            rules={[
-              { required: true, message: "Please input the schedule code!" },
-            ]}
+            rules={[{ required: true, message: "Please input the schedule code!" }]}
           >
             <Input
               name="sessionCode"
@@ -129,9 +133,7 @@ const CreateSchedule = ({
           <Form.Item
             label="Address"
             name="sessionAddress"
-            rules={[
-              { required: true, message: "Please input the schedule address!" },
-            ]}
+            rules={[{ required: true, message: "Please input the schedule address!" }]}
           >
             <Input
               name="sessionAddress"
@@ -143,12 +145,7 @@ const CreateSchedule = ({
           <Form.Item
             label="Date and Time"
             name="sessionDate"
-            rules={[
-              {
-                required: true,
-                message: "Please select the schedule date and time!",
-              },
-            ]}
+            rules={[{ required: true, message: "Please select the schedule date and time!" }]}
           >
             <Input
               type="datetime-local"
@@ -160,7 +157,7 @@ const CreateSchedule = ({
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  sessionDate: new Date(e.target.value),
+                  sessionDate: convertToVietnamTime(new Date(e.target.value)),
                 })
               }
             />
@@ -168,9 +165,7 @@ const CreateSchedule = ({
           <Form.Item
             label="Time"
             name="sessionTime"
-            rules={[
-              { required: true, message: "Please input the time for exam!" },
-            ]}
+            rules={[{ required: true, message: "Please input the time for exam!" }]}
           >
             <Input
               name="sessionTime"
@@ -182,12 +177,7 @@ const CreateSchedule = ({
           <Form.Item
             label="Certification"
             name="certId"
-            rules={[
-              {
-                required: true,
-                message: "Please input the certification!",
-              },
-            ]}
+            rules={[{ required: true, message: "Please input the certification!" }]}
           >
             <Select
               placeholder="Select Certification"
@@ -195,10 +185,7 @@ const CreateSchedule = ({
               style={{ width: "100%" }}
             >
               {certificate.map((cert) => (
-                <Select.Option
-                  key={cert.certId}
-                  value={cert.certId}
-                >
+                <Select.Option key={cert.certId} value={cert.certId}>
                   <div
                     style={{
                       display: "flex",

@@ -86,8 +86,6 @@ const Schedule: React.FC = () => {
           <Spin spinning={loading}>
             <FullCalendar
               plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-              initialView="dayGridMonth"
-              timeZone="Asia/Ho_Chi_Minh"
               events={events}
               headerToolbar={{
                 left: "prev,next",
