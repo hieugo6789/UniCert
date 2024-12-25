@@ -91,7 +91,7 @@ const Description = ({ props, schedule, course }: DescriptionProps) => (
                   <span>
                   {new Date(
                     new Date(session.sessionDate).setHours(
-                      new Date(session.sessionDate).getHours() + 7
+                      new Date(session.sessionDate).getHours() + 0
                     )
                   )
                     .toLocaleString("vi-VN", {
