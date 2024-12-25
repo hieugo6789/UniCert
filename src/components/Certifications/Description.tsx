@@ -89,15 +89,19 @@ const Description = ({ props, schedule, course }: DescriptionProps) => (
                     />
                   </svg>
                   <span>
-                    {new Date(session.sessionDate)
-                      .toLocaleString("vi-VN", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })
-                      .replace(",", "")}
+                  {new Date(
+                    new Date(session.sessionDate).setHours(
+                      new Date(session.sessionDate).getHours() + 7
+                    )
+                  )
+                    .toLocaleString("vi-VN", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })
+                    .replace(",", "")}
                   </span>
                 </div>
 

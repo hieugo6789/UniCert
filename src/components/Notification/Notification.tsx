@@ -171,6 +171,7 @@ const Notification = () => {
                                     handleReadNotification(
                                       notif.notificationId
                                     );
+                                    setDropdownVisible(false)
                                     navigate(
                                       `/${notif.role}/${notif.notificationType}/${notif.notificationTypeId}`
                                     );
