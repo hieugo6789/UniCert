@@ -46,15 +46,15 @@ const SubmitExamPage = () => {
         const remainingSeconds = seconds % 60;
         return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
     };
-
     const handleSubmitResults = async () => {
         try {
+            
             const sendInput: createScore = {
                 userId: Number(Cookie.get("userId") || 0),
                 examId: id,
                 questionRequests: formattedAnswers.map((answer: Answer) => ({
                     questionId: answer.questionId,
-                    userAnswerId: Array.isArray(answer.userAnswerId) ? answer.userAnswerId : [answer.userAnswerId],
+                    userAnswerId: answer.userAnswerId.length>0 ? answer.userAnswerId : [0],
                     userAnswerText: answer.essayAnswer || "",
                     questionType: answer.essayAnswer ? 2 : 1
                 }))
