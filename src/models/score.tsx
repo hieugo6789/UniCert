@@ -3,6 +3,7 @@ export type createScore = {
     examId: number;
     questionRequests: Array<{
         questionId: number;
+        questionType: number;
         userAnswerId: number[];
         userAnswerText: string;
     }>;
