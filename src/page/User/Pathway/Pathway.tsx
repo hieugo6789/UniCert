@@ -63,18 +63,20 @@ const Pathway = () => {
     if (userId && selectedCerts.length > 0) {
       refetchRecommendedJobs(userId?.toString() || "0");
     }
-  }, [selectedCerts.length, userId, refetchRecommendedJobs]);
+  }, [userId, selectedCerts]);
 
   useEffect(() => {
     setSelectedCerts(selectCert);
     refetchRecommendedJobs(userId?.toString() || "0");
-  }, [selectCert, userId]);
+  }, [selectCert]);
 
   useEffect(() => {
-    if (recommendedJobs) {
-      setJobPositions(recommendedJobs);    
+    if (Array.isArray(recommendedJobs)) {
+      setJobPositions(recommendedJobs);
     }
   }, [recommendedJobs]);
+  
+  
 
   useEffect(() => {
     const approvedCertificates = certificate.filter((c) => c.permission === "Approve");
@@ -89,6 +91,7 @@ const Pathway = () => {
     }
     fetchSelectedCert(userId);
   }, [userId]);
+  
 
   const handleJobCardClick = (job: any) => {
     setSelectedJob(job.jobPositionId);
