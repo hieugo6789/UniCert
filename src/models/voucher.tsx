@@ -6,6 +6,8 @@ export interface allVoucherPaginationData {
   creationDate: Date;
   expiryDate: Date;
   voucherStatus: boolean;
+  voucherImage: string;
+  voucherLevel: string;
   examId: number[];
   courseId: number[];
   examDetails: [
@@ -34,6 +36,8 @@ export interface currentVoucher {
   creationDate: Date;
   expiryDate: Date;
   voucherStatus: boolean;
+  voucherImage: string;
+  voucherLevel: string;
   examId: number[];
   courseId: number[];
   examDetails: [
@@ -60,6 +64,8 @@ export interface createVoucher {
   percentage: number;
   creationDate: Date;
   expiryDate: Date;
+  voucherImage: string;
+  voucherLevel: number;
   examId: number[];
   courseId: number[];
 }
@@ -74,6 +80,8 @@ export interface updateVoucher {
   percentage: number;
   creationDate: Date;
   expiryDate: Date;
+  voucherImage: string;
+  voucherLevel: number;
   examId: number[];
   courseId: number[];
 }
