@@ -37,20 +37,40 @@ const Pathway = () => {
   const [jobPage, setJobPage] = useState(1); // Job pagination state
   const jobsPerPage = 5; // Number of jobs per page
 
-  const handleRemoveCert = (certId: number) => {
-    handleDeleteCertificate(Number(userId), certId);
-    const updatedCerts = selectedCerts.filter((cert) => cert.certId !== certId);
-    setSelectedCerts(updatedCerts);
+  const handleRemoveCert = async (certId: number) => {
+    try {
+      await handleDeleteCertificate(Number(userId), certId);
+      const updatedCerts = selectedCerts.filter((cert) => cert.certId !== certId);
+      setSelectedCerts(updatedCerts);
+      showToast("Certificate removed successfully", "success");
+  
+      // Gọi refetchRecommendedJobs sau khi xóa thành công
+      refetchRecommendedJobs(userId?.toString() || "0");
+    } catch (error) {
+      console.error("Failed to remove certificate:", error);
+      showToast("Failed to remove certificate", "error");
+    }
   };
+  
 
-  const handleAddCert = (certId: number) => {
-    handleCreateCert({
-      userId: Number(userId),
-      certificationId: [certId]
-    });
-    const updatedCerts = certificates.filter((cert) => cert.certId === certId);
-    setSelectedCerts([...selectedCerts, ...updatedCerts]);
+  const handleAddCert = async (certId: number) => {
+    try {
+      await handleCreateCert({
+        userId: Number(userId),
+        certificationId: [certId]
+      });
+      const updatedCerts = certificates.filter((cert) => cert.certId === certId);
+      setSelectedCerts([...selectedCerts, ...updatedCerts]);
+      showToast("Certificate added successfully", "success");
+  
+      // Gọi refetchRecommendedJobs sau khi thêm thành công
+      refetchRecommendedJobs(userId?.toString() || "0");
+    } catch (error) {
+      console.error("Failed to add certificate:", error);
+      showToast("Failed to add certificate", "error");
+    }
   };
+  
 
   const handleCompleteCert = (certId: number) => {
     const certToAdd = certificates.find(cert => cert.certId === certId);
@@ -59,11 +79,14 @@ const Pathway = () => {
     }
   };
 
-  useEffect(() => {
-    if (userId && selectedCerts.length > 0) {
-      refetchRecommendedJobs(userId?.toString() || "0");
-    }
-  }, [userId, selectedCerts.length]);
+  // useEffect(() => {
+  //   if (userId && selectedCerts.length > 0) {
+  //     refetchRecommendedJobs(userId?.toString() || "0");
+  //   }
+  //   else {
+  //     setJobPositions([]);
+  //   }
+  // }, [userId, selectedCerts.length]);
 
   useEffect(() => {
     setSelectedCerts(selectCert);
