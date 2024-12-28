@@ -117,6 +117,7 @@ const HistoryCourseCard: React.FC<HistoryCourseCardProps> = ({ enrollment, onSta
       >
         <div className="p-4">
           <div className="space-y-4">
+          <p className="text-gray-400 dark:text-gray-200 mt-2">Note: Valid for 3 days only.</p>
             <div className="flex justify-between items-center">
               <span className="text-gray-600 dark:text-gray-300">Enrollment Price:</span>
               <span className="flex items-center gap-2 font-medium">
