@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { useCreatePayment } from "../../../hooks/Payment/useCreatePayment";
 import useWalletDetail from "../../../hooks/Wallet/useWalletDetail";
 import { showToast } from "../../../utils/toastUtils";
+import { useNavigate } from "react-router-dom";
 const ITEMS_PER_PAGE = 10;
 
 const Cart = () => {
@@ -23,6 +24,7 @@ const Cart = () => {
   const { wallets, getWalletDetails } = useWalletDetail();
   const [transactionId, setTransactionId] = useState<number | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const navigate = useNavigate();
 
   const [selectedCourses, setSelectedCourses] = useState<any[]>([]);
   const [selectedExams, setSelectedExams] = useState<any[]>([]);
@@ -164,7 +166,8 @@ const Cart = () => {
       } catch (error: any) {
         setSelectedCourses([]);
         setSelectedExams([]);
-        showToast(`${error.response?.data?.message || "Unknown error"}`, "error");                                
+        showToast(`${error.response?.data?.message || "Unknown error"}`, "error");  
+        navigate('/wallet')
       }
     }else{
       setSelectedCourses([]);

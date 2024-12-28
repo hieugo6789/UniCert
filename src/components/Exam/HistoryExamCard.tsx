@@ -47,6 +47,7 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment, onStat
       }
     } catch (error: any) {
       showToast(`${error.response?.data?.message || "Unknown error"}`, "error");  
+      navigate('/wallet')
     }
   };
 

@@ -142,11 +142,33 @@ const CertificateDetailPage = () => {
                         d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                    <span>
+                    <span className="relative group flex items-center">
                       Fee:{" "}
                       {cert?.certCost
-                        ? `Minimum ${cert.certCost}$ to purchase`
+                        ? `${cert.certCost}$`
                         : "Free"}
+                      {cert?.certCost != 0 && (
+                        <>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 ml-1.5 text-white-400 dark:text-white-500"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                        {/* Tooltip */}
+                        <span className="absolute hidden group-hover:block bg-white text-black text-xs rounded-lg px-4 py-2 w-48 right-0 transform translate-x-full shadow-lg transition-opacity duration-200 opacity-0 group-hover:opacity-100">
+                          This is the minimum cost to own this certificate.
+                        </span>
+                      </>
+                      )}
                     </span>
                   </div>
                   <div className="flex items-center">                    

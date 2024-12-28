@@ -130,10 +130,12 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
       handleCancel();
     } catch (error) {
       if (error)
+        console.log("Test", error)
         showToast(`Insufficient balance in wallet`, "error");
         if (userId) {
           refetchExamEnrollments(userId);
         }
+        navigate('/wallet')
     } finally {
       setIsProcessing(false);
     }
