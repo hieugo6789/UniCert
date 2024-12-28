@@ -69,13 +69,17 @@ const PreviewExam = () => {
                     Total Score: <span className="font-bold text-blue-500">{examData.totalScore}</span>
                 </h2>
 
-                {examData.questions.map((question) => (
+                {examData.questions.map((question, index) => (
                     <div
                         key={question.questionId}
                         className="mb-6 p-5 rounded-lg shadow-md bg-gray-100 dark:bg-gray-700"
                     >
-
-
+                        <div className="flex justify-between items-center">
+                            <h1 className="text-lg font-semibold text-gray-800 dark:text-gray-300 mb-2"> Question {index + 1}</h1>
+                            <span className={`text-md font-bold text-gray-600 dark:text-gray-300 mb-2 ${question.isCorrectQuestion ? "text-green-500" : "text-red-500"}`}>
+                                Score: {question.scoreValue}
+                            </span>
+                        </div>
                         <div
                             className="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed"
                             dangerouslySetInnerHTML={{
@@ -135,9 +139,7 @@ const PreviewExam = () => {
                             </div>
                         )}
                         <div className="flex justify-between items-center mt-4">
-                            <span className={`text-md font-bold text-gray-600 dark:text-gray-300 mb-2 ${question.isCorrectQuestion ? "text-green-500" : "text-red-500"}`}>
-                                Score: {question.scoreValue}
-                            </span>
+
                             <p className="mt-4 text-xs text-gray-500 dark:text-gray-400">
                                 Submitted At: {new Date(question.submittedAt).toLocaleString()}
                             </p>
