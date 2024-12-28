@@ -23,7 +23,7 @@ const Courses = () => {
   const userId = Cookies.get("userId");
   const navigate = useNavigate();
   const [courses, setCourses] = useState<allCoursePaginationData[]>([]);
-  const { course, loading, refetchCourses } = useCourse();  
+  const { course, loading, refetchCourses } = useCourse();
   const [purchasedCourses, setPurchasedCourses] = useState<courseEnrollment[]>([]);
   const [pendingPaymentCourses, setPendingPaymentCourses] = useState<courseEnrollment[]>([]);
   const { courseEnrollment, loading: courseLoad, refetchCourseEnrollments } = useCourseEnrollment({ userId: userId || "" });
@@ -68,7 +68,7 @@ const Courses = () => {
       setPendingPaymentCourses(pendingPaymentCourses);
     }
   }, [courseEnrollment, userId]);
-  
+
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -89,7 +89,7 @@ const Courses = () => {
       console.log(approvedCourses)
     }
   }, [course]);
-  
+
   const paginatedCourses = courses.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -208,7 +208,7 @@ const Courses = () => {
 
         {paginatedCourses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {paginatedCourses.map((course) => {            
+            {paginatedCourses.map((course) => {
               const isPurchased = !!(userId && (purchasedCourses || []).some((e) =>
                 (e.courseDetails || []).some((c) => c.courseId.toString() === course.courseId.toString())
               ));
@@ -219,7 +219,7 @@ const Courses = () => {
                 <CourseCard
                   key={course.courseId}
                   course={course}
-                  onClick={ isPurchased || isPendingPayment ? undefined : () => handleBuyNow(course)}
+                  onClick={isPurchased || isPendingPayment ? undefined : () => handleBuyNow(course)}
                   isPurchased={isPurchased}
                   isPendingPayment={isPendingPayment}
                 />
@@ -354,6 +354,7 @@ const Courses = () => {
       >
         <div className="p-4">
           <div className="space-y-4">
+          <p className="text-gray-400 dark:text-gray-200 mt-2">Note: Valid for 3 days only.</p>
             <div className="flex justify-between items-center">
               <span className="text-gray-600 dark:text-gray-300">Course Price:</span>
               <span className="flex items-center gap-2 font-medium">
