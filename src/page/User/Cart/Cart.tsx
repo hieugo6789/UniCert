@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 import { useCreatePayment } from "../../../hooks/Payment/useCreatePayment";
 import useWalletDetail from "../../../hooks/Wallet/useWalletDetail";
 import { showToast } from "../../../utils/toastUtils";
-import { useNavigate } from "react-router-dom";
 const ITEMS_PER_PAGE = 10;
 
 const Cart = () => {
@@ -24,7 +23,6 @@ const Cart = () => {
   const { wallets, getWalletDetails } = useWalletDetail();
   const [transactionId, setTransactionId] = useState<number | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const navigate = useNavigate();
 
   const [selectedCourses, setSelectedCourses] = useState<any[]>([]);
   const [selectedExams, setSelectedExams] = useState<any[]>([]);
@@ -166,8 +164,7 @@ const Cart = () => {
       } catch (error: any) {
         setSelectedCourses([]);
         setSelectedExams([]);
-        showToast(`${error.response?.data?.message || "Unknown error"}`, "error");  
-        navigate('/wallet')
+        showToast(`${error.response?.data?.message || "Unknown error"}`, "error");                                
       }
     }else{
       setSelectedCourses([]);
@@ -182,6 +179,8 @@ const Cart = () => {
           <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-md">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">Confirm Payment</h2>
             <p className="text-gray-600 dark:text-gray-300">Are you sure you want to proceed with this payment?</p>
+            {/* Note chỉ có giới hạn 3 ngày */}
+            <p className="text-gray-400 dark:text-gray-200 mt-2">Note: Valid for 3 days only.</p>
             <div className="mt-8 flex justify-end gap-4">
               <button 
                 onClick={() => handlePopupAction(false)} 
