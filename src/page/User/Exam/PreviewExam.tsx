@@ -61,6 +61,21 @@ const PreviewExam = () => {
             >
                 Back to Exam
             </button>
+            <div className="fixed flex top-24 left-5 items-right bg-gray-200 p-5 rounded-xl flex-col justify-center mt-4">
+                <p className="text-lg font-semibold text-gray-800 dark:text-gray-300 mb-2">Legend:</p>
+                <div className="flex items-center mr-4">
+                    <div className="w-4 h-4 bg-green-100 rounded-md mr-2"></div>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">Correct Answer</span>
+                </div>
+                <div className="flex items-center mr-4">
+                    <div className="w-4 h-4 bg-green-100 border-l-4 border-green-500 rounded-md mr-2"></div>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">Your Correct Answer</span>
+                </div>
+                <div className="flex items-center">
+                    <div className="w-4 h-4 bg-red-300 border-l-4 border-red-500 rounded-md mr-2"></div>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">Your Incorrect Answer</span>
+                </div>
+            </div>
             <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6 dark:bg-gray-800">
                 <h1 className="text-3xl font-bold text-center text-blue-600 dark:text-blue-400 mb-4">
                     Exam Preview
