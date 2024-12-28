@@ -63,7 +63,7 @@ const Pathway = () => {
     if (userId && selectedCerts.length > 0) {
       refetchRecommendedJobs(userId?.toString() || "0");
     }
-  }, [userId, selectedCerts]);
+  }, [userId, selectedCerts.length]);
 
   useEffect(() => {
     setSelectedCerts(selectCert);
