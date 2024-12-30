@@ -280,6 +280,9 @@ const Voucher = {
     requests.del(`api/v1/voucher/${voucherId}`),
   updateVoucher: (voucherId: number, input: updateVoucher) =>
     requests.put(`api/v1/voucher/${voucherId}`, input),
+  getByUser: (userId: string) => requests.get(`api/v1/voucher/user/${userId}`),
+  getVoucherByUserId: (userId: string) =>
+    requests.get(`api/v1/voucher/by-user-level/${userId}`),
 };
 
 const Profile = {
@@ -314,6 +317,9 @@ const Enrollment = {
     requests.post("api/v1/exam-enrollment", input),
   deleteExamEnrollment: (eEnrollmentId: number) =>
     requests.del(`api/v1/exam-enrollment/${eEnrollmentId}`),
+  addVoucherToCart: (eErollmentId:number, input: { userId: string; simulation_Exams:number[], voucherIds: number[] }) =>
+    requests.put(`api/v1/exam-enrollment/update-with-voucher/`+eErollmentId, input),
+  
 };
 
 const Payment = {
