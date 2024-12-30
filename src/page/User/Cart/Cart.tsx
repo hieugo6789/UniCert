@@ -10,22 +10,101 @@ import { Link } from "react-router-dom";
 import { useCreatePayment } from "../../../hooks/Payment/useCreatePayment";
 import useWalletDetail from "../../../hooks/Wallet/useWalletDetail";
 import { showToast } from "../../../utils/toastUtils";
+import { currentVoucher } from "../../../models/voucher";
+import agent from "../../../utils/agent";
 const ITEMS_PER_PAGE = 10;
 
 const Cart = () => {
   const userId = Cookies.get("userId");
-  const [carts, setCarts] = useState<currentCart | null>(null);  
+  const [carts, setCarts] = useState<currentCart | null>(null);
+  const [histoyCarts, setHistoryCarts] = useState<currentCart | null>(null);
   const [currentExamPage, setCurrentExamPage] = useState<number>(1);
   const { state, getCart } = useCartByUserId();
-  const { updateCart } = useUpdateCart();  
+  const { updateCart } = useUpdateCart();
   const { state: createdExamEnroll, handleCreateExamEnrollment } = useCreateExamEnrollment();
   const { handleCreatePayment } = useCreatePayment();
   const { wallets, getWalletDetails } = useWalletDetail();
   const [transactionId, setTransactionId] = useState<number | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [vouchers, setVouchers] = useState<currentVoucher[]>([]);
+  const [selectedVoucher, setSelectedVoucher] = useState<currentVoucher | null>(null);
 
   const [selectedCourses, setSelectedCourses] = useState<any[]>([]);
   const [selectedExams, setSelectedExams] = useState<any[]>([]);
+  const lamTronLen = (a: number) => {
+    return a % 1 > 0 ? Math.ceil(a) : a;
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await agent.Voucher.getVoucherByUserId(userId || "");
+        console.log("Vouchers:", response.data);
+        setVouchers(response.data);
+      } catch (error) {
+        console.error("Error fetching vouchers:", error);
+      }
+    };
+    if (userId) {
+      fetchData();
+    }
+  }
+    , [userId]);
+  const handleChangeVoucher = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const voucherId = parseInt(e.target.value, 10);
+    const selectedVoucher = vouchers.find((v) => v.voucherId === voucherId);
+    console.log(e.target.value)
+    setSelectedVoucher(selectedVoucher || null);
+
+
+    const applyVoucher = (voucher: currentVoucher) => {
+      if (!voucher || !histoyCarts) return;
+      const updatedExams = histoyCarts?.examDetails?.map((exam) => ({
+        ...exam,
+        // examDiscountFee: exam.examDiscountFee -
+        //   (exam.examDiscountFee * voucher.percentage) / 100,
+        // nếu có phần thập phân thì làm tròn lên (vd: 0.01 thì là 1, 0.5 là 1)
+        examDiscountFee: lamTronLen(exam.examDiscountFee - (exam.examDiscountFee * voucher.percentage) / 100),
+      })) || [];
+
+
+      setCarts((prev: any) => {
+        if (!prev) return null;
+
+        return {
+          ...prev,
+          examDetails: updatedExams, // Đảm bảo truyền vào array
+        };
+      });
+      // setSelectedExams((prev) => prev.map((exam) => ({
+      //   ...exam,
+      //   examDiscountFee: (exam.examDiscountFee -
+      //     (exam.examDiscountFee * voucher.percentage) / 100),
+      // })));
+      // tìm selectedExam có id trong historyExam, tính toán lại discount fee
+      const updatedSelectedExams = selectedExams.map((exam) => {
+        const historyExam = histoyCarts?.examDetails?.find((e) => e.examId === exam.examId);
+        if (historyExam) {
+          return {
+            ...exam,
+            examDiscountFee: lamTronLen(historyExam.examDiscountFee - (historyExam.examDiscountFee * voucher.percentage) / 100),
+          };
+        }
+        return exam;
+      });
+      setSelectedExams(updatedSelectedExams);
+    };
+
+    console.log(selectedVoucher)
+
+    if (selectedVoucher) {
+      applyVoucher(selectedVoucher as currentVoucher);
+    }
+    else if (selectedVoucher === null) {
+      setCarts(histoyCarts);
+    }
+  };
+
+
 
   useEffect(() => {
     const scrollToTop = () => {
@@ -46,6 +125,7 @@ const Cart = () => {
   useEffect(() => {
     if (state) {
       setCarts(state.currentCart);
+      setHistoryCarts(state.currentCart);
     }
   }, [state]);
 
@@ -69,14 +149,21 @@ const Cart = () => {
   const loadMoreExams = () => {
     setCurrentExamPage((prev) => prev + 1);
   };
-  
-  const displayedExams = carts?.examDetails?.slice(0, currentExamPage * ITEMS_PER_PAGE) || [];  
+
+  const displayedExams = carts?.examDetails?.slice(0, currentExamPage * ITEMS_PER_PAGE) || [];
 
   const toggleExamSelection = (exam: any) => {
-    setSelectedExams((prev) =>
-      prev.includes(exam) ? prev.filter((e) => e !== exam) : [...prev, exam]
-    );
-  };  
+    // setSelectedExams((prev) =>
+    //   prev.includes(exam) ? prev.filter((e) => e !== exam) : [...prev, exam]
+    // );
+    setSelectedExams((prev) => {
+      if (prev.some((e) => e.examId === exam.examId)) {
+        return prev.filter((e) => e.examId !== exam.examId);
+      } else {
+        return [...prev, exam];
+      }
+    });
+  };
 
   const handleSelectAllExams = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
@@ -99,7 +186,8 @@ const Cart = () => {
         await handleCreateExamEnrollment({
           userId: userId?.toString() || "",
           simulation_Exams: selectedExams.map((exam) => exam.examId),
-        });
+        },
+          selectedVoucher ? [selectedVoucher.voucherId] : undefined);
       }
 
       // Cập nhật giỏ hàng
@@ -111,9 +199,9 @@ const Cart = () => {
         ?.filter((exam) => !selectedExams.includes(exam))
         .map((exam) => exam.examId) || [];
 
-      await updateCart(userId?.toString() || "", { 
-        courseId: updateCourseId, 
-        examId: updateExamId 
+      await updateCart(userId?.toString() || "", {
+        courseId: updateCourseId,
+        examId: updateExamId
       });
 
       // Mở popup xác nhận khi mọi thứ đã sẵn sàng
@@ -141,7 +229,7 @@ const Cart = () => {
     if (continueAction) {
       try {
         // Tạo payment cho exam
-        if (selectedExams.length > 0) {          
+        if (selectedExams.length > 0) {
           const examEnrollmentId = (createdExamEnroll?.createdExamEnrollment as any)?.data?.examEnrollment?.examEnrollmentId;
           if (examEnrollmentId) {
             await handleCreatePayment({
@@ -156,24 +244,24 @@ const Cart = () => {
         setSelectedCourses([]);
         setSelectedExams([]);
         await getCart(userId?.toString() || "");
-        
+
         // Cập nhật wallet balance sau khi thanh toán thành công
         await getWalletDetails(userId?.toString() || "", transactionId);
-        
+
         showToast("Payment Success", "success");
       } catch (error: any) {
         setSelectedCourses([]);
         setSelectedExams([]);
-        showToast(`${error.response?.data?.message || "Unknown error"}`, "error");                                
+        showToast(`${error.response?.data?.message || "Unknown error"}`, "error");
       }
-    }else{
+    } else {
       setSelectedCourses([]);
       setSelectedExams([]);
     }
   };
   return (
     <div className="container mx-auto p-2 sm:p-4 md:p-6 min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Popup Xác nhận */}  
+      {/* Popup Xác nhận */}
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 p-4">
           <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-md">
@@ -182,14 +270,14 @@ const Cart = () => {
             {/* Note chỉ có giới hạn 3 ngày */}
             <p className="text-gray-400 dark:text-gray-200 mt-2">Note: Valid for 3 days only.</p>
             <div className="mt-8 flex justify-end gap-4">
-              <button 
-                onClick={() => handlePopupAction(false)} 
+              <button
+                onClick={() => handlePopupAction(false)}
                 className="px-6 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium"
               >
                 Cancel
               </button>
-              <button 
-                onClick={() => handlePopupAction(true)} 
+              <button
+                onClick={() => handlePopupAction(true)}
                 className="px-6 py-2.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium"
               >
                 Confirm Payment
@@ -221,22 +309,26 @@ const Cart = () => {
               <div className="space-y-4">
                 {displayedExams.length > 0 ? (
                   displayedExams.map((exam) => (
-                    <div key={exam.examId} 
+                    <div key={exam.examId}
                       className="flex flex-col sm:flex-row items-start sm:items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors gap-4">
                       <input
                         type="checkbox"
-                        checked={selectedExams.includes(exam)}
+                        checked={
+                          // selectedExams.includes(exam)
+                          // nếu selectedExams có exam.id thì trả về true, ngược lại trả về false
+                          selectedExams.some((e) => e.examId === exam.examId)
+                        }
                         onChange={() => toggleExamSelection(exam)}
                         className="w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-purple-600 focus:ring-purple-500"
                       />
-                      <img 
-                        src={exam.examImage} 
-                        alt={exam.examName} 
+                      <img
+                        src={exam.examImage}
+                        alt={exam.examName}
                         className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg object-cover shadow-sm"
                       />
                       <div className="flex-1">
-                        <Link 
-                          to={"/exam/" + exam.examId} 
+                        <Link
+                          to={"/exam/" + exam.examId}
                           className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                         >
                           {exam.examName}
@@ -250,12 +342,15 @@ const Cart = () => {
                           <button
                             onClick={() => toggleExamSelection(exam)}
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors
-                              ${selectedExams.includes(exam) 
-                                ? 'bg-red-50 dark:bg-red-900/50 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/70' 
+                              ${selectedExams.some((e) => e.examId === exam.examId)
+
+                                ? 'bg-red-50 dark:bg-red-900/50 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/70'
                                 : 'bg-purple-50 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/70'
                               }`}
                           >
-                            {selectedExams.includes(exam) ? 'Remove' : 'Add to Payment'}
+                            {selectedExams.some((e) => e.examId === exam.examId)
+
+                              ? 'Remove' : 'Add to Payment'}
                           </button>
                           <button
                             onClick={() => handleDeleteExam(exam.examId)}
@@ -275,8 +370,8 @@ const Cart = () => {
               </div>
 
               {displayedExams.length < (carts?.examDetails?.length || 0) && (
-                <button 
-                  onClick={loadMoreExams} 
+                <button
+                  onClick={loadMoreExams}
                   className="mt-6 w-full py-3 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium"
                 >
                   Load More Exams
@@ -297,7 +392,7 @@ const Cart = () => {
             </button>
 
             <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-6">Order Summary</h2>
-            
+
             <div className="space-y-4 mb-6">
               <div className="flex justify-between items-center py-2">
                 <span className="text-gray-600 dark:text-gray-300">Exams Selected</span>
@@ -305,8 +400,8 @@ const Cart = () => {
                   {selectedExams.length}
                   <PiExam className="text-purple-600 dark:text-purple-400 text-lg" />
                 </span>
-              </div>              
-              
+              </div>
+
               <div className="border-t border-gray-100 dark:border-gray-700 pt-4">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-gray-600 dark:text-gray-300">Total Amount</span>
@@ -315,10 +410,43 @@ const Cart = () => {
                     <img src={coin} alt="coin" className="h-5" />
                   </span>
                 </div>
+                {/* select voucher */}
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-600 dark:text-gray-300">Voucher</span>
+                  <select
+                    className="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-lg focus:ring-purple-500"
+                    onChange={(e) => {
+                      const voucherId = parseInt(e.target.value, 10);
+                      const voucher = vouchers.find((v) => v.voucherId === voucherId);
+                      if (voucher) {
+                        handleChangeVoucher(e);
+                      } else {
+                        setCarts(histoyCarts);
+                        // set selected exam, find exam have id in history exam
+                        setSelectedExams((prev) => prev.map((exam) => histoyCarts?.examDetails?.find((e) => e.examId === exam.examId) || exam));
+                      }
+                    }}
+                  >
+                    <option value="0">Select Voucher</option>
+                    {vouchers.map((voucher) => (
+                      <option key={voucher.voucherId} value={voucher.voucherId}>
+                        {voucher.voucherName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-gray-500 dark:text-gray-400">Wallet Balance</span>
                   <span className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
                     {userId ? wallets[userId]?.point : 0}
+                    <img src={coin} alt="coin" className="h-4" />
+                  </span>
+                </div>
+                {/* voucher discount total */}
+                <div className="flex justify-between items-center text-sm mt-2">
+                  <span className="text-gray-500 dark:text-gray-400">Balance After Purchase</span>
+                  <span className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                    {userId ? wallets[userId]?.point - total : 0}
                     <img src={coin} alt="coin" className="h-4" />
                   </span>
                 </div>
@@ -339,7 +467,7 @@ const Cart = () => {
                     ))}
                   </div>
                 </div>
-              )}              
+              )}
             </div>
           </div>
         </div>
