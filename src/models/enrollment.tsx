@@ -22,6 +22,7 @@ export interface examEnrollment {
   examEnrollmentDate: Date;
   examEnrollmentStatus: string;
   totalPrice: number;
+  totalPriceVoucher:number;
   userId: string;
   simulationExamDetail: [
     {
