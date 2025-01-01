@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal } from "antd";
+import { Button, Form, Input, Modal, Select } from "antd";
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { useCreateVoucher } from "../../hooks/Voucher/useCreateVoucher";
@@ -25,6 +25,8 @@ const CreateVoucher = ({
     percentage: 0,
     creationDate: currentDate,
     expiryDate: expiryDate,
+    voucherImage: "",
+    voucherLevel: 0,
     examId: [] as number[],
     courseId: [] as number[],
   });
@@ -100,6 +102,7 @@ const CreateVoucher = ({
             percentage: formData.percentage,
             creationDate: formData.creationDate.toISOString().substring(0, 10),
             expiryDate: formData.expiryDate.toISOString().substring(0, 10),
+            voucherLevel: formData.voucherLevel,
             examId: formData.examId,
             courseId: formData.courseId,
           }}
@@ -199,6 +202,29 @@ const CreateVoucher = ({
                 })
               }
             />
+          </Form.Item>
+          <Form.Item
+            label="Voucher Level"
+            name="voucherLevel"
+            rules={[
+              {
+                required: true,
+                message: "Please select the voucher level!",
+              },
+            ]}
+          >
+            <Select
+              value={formData.voucherLevel}
+              onChange={(value) =>
+                setFormData({ ...formData, voucherLevel: value })
+              }
+              placeholder="Select voucher level"
+            >
+              <Select.Option value={0}>Bronze</Select.Option>
+              <Select.Option value={1}>Gold</Select.Option>
+              <Select.Option value={2}>Silver</Select.Option>
+              <Select.Option value={3}>Platinum</Select.Option>
+            </Select>
           </Form.Item>
         </Form>
       </Modal>

@@ -52,6 +52,12 @@ const Voucher = () => {
       },
     },
     {
+      title: "Level",
+      dataIndex: "voucherLevel",
+      key: "voucherLevel",
+      render: (voucherLevel: string) => <Tag>{voucherLevel}</Tag>,
+    },
+    {
       title: "Status",
       dataIndex: "voucherStatus",
       key: "voucherStatus",
@@ -112,13 +118,13 @@ const Voucher = () => {
   );
   return (
     <>
-      <div className="gap-4 p-2  h-full">
-        <div className=" bg-white px-4 pt-2 pb-4 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
-          <div className="mb-2 flex justify-start">
+      <div className="gap-4 p-2 h-full">
+        <div className="relative bg-white p-4 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
+          <div className="mb-2 flex justify-start absolute -top-14">
             <CreateVoucher refetchVouchers={refetchVouchers} />
           </div>
 
-          <div className="h-[73vh]">
+          <div className="h-[77vh]">
             {loading ? (
               <div>Loading...</div>
             ) : voucher.length > 0 ? (

@@ -1,4 +1,4 @@
-import { Form, Input, InputNumber, message, Modal } from "antd";
+import { Form, Input, InputNumber, message, Modal, Select } from "antd";
 import useUpdateVoucher from "../../hooks/Voucher/useUpdateVoucher";
 import useVoucherDetail from "../../hooks/Voucher/useVoucherDetail";
 
@@ -39,6 +39,7 @@ const UpdateVoucher: React.FC<UpdateVoucherProps> = ({
         : [];
 
       form.setFieldsValue({
+        voucherImage: currentVoucher.voucherImage,
         voucherName: currentVoucher.voucherName,
         voucherDescription: currentVoucher.voucherDescription,
         percentage: currentVoucher.percentage,
@@ -48,6 +49,7 @@ const UpdateVoucher: React.FC<UpdateVoucherProps> = ({
         expiryDate: currentVoucher.expiryDate
           ? new Date(currentVoucher.expiryDate).toISOString().split("T")[0]
           : "",
+        voucherLevel: currentVoucher.voucherLevel,
         examId: examIds,
         courseId: courseIds,
       });
@@ -58,10 +60,16 @@ const UpdateVoucher: React.FC<UpdateVoucherProps> = ({
     try {
       await form.validateFields();
       const formData = form.getFieldsValue(); // Get form data from form state
-      await updateVoucherDetails(voucherId, formData);
-      message.success("Voucher updated successfully!");
+      const updateData = {
+        ...formData,
+        examId: [], // Chuỗi rỗng mặc định
+        courseId: [], // Chuỗi rỗng mặc định
+      };
+  
+      await updateVoucherDetails(voucherId, updateData);
       refetchVouchers();
       setIsModalVisible(false);
+      message.success("Voucher updated successfully!");
     } catch (error) {
       message.error("Failed to update the voucher.");
     }
@@ -146,6 +154,33 @@ const UpdateVoucher: React.FC<UpdateVoucherProps> = ({
             <Input
               type="date"
               placeholder="Enter expiry date"
+            />
+          </Form.Item>
+          <Form.Item
+            label="VoucherLevel"
+            name="voucherLevel"
+            rules={[
+              { required: true, message: "Please select voucher level!" },
+            ]}
+          >
+            <Select placeholder="Select voucher level">
+              <Select.Option value={0}>Bronze</Select.Option>
+              <Select.Option value={1}>Silver</Select.Option>
+              <Select.Option value={2}>Gold</Select.Option>
+              <Select.Option value={3}>Diamond</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="Voucher Image"
+            name="voucherImage"
+            rules={[
+              { required: true, message: "Please upload or provide an image URL!" },
+            ]}
+          >
+            
+            <Input
+              placeholder="Enter image URL"
+              style={{ marginTop: 8 }}
             />
           </Form.Item>
         </Form>
