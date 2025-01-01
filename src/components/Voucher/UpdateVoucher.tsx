@@ -5,6 +5,8 @@ import useVoucherDetail from "../../hooks/Voucher/useVoucherDetail";
 import { EditOutlined } from "@ant-design/icons";
 
 import { useEffect, useState } from "react";
+import axios from "axios";
+import CustomInput from "../UI/CustomInput";
 
 interface UpdateVoucherProps {
   voucherId: number;
@@ -59,9 +61,18 @@ const UpdateVoucher: React.FC<UpdateVoucherProps> = ({
   const handleUpdate = async () => {
     try {
       await form.validateFields();
-      const formData = form.getFieldsValue(); // Get form data from form state
+      const formData = form.getFieldsValue();
+
+      let uploadedImageUrl = formData.certImage;
+
+      if (selectedImage) {
+        uploadedImageUrl = await uploadCloudinary();
+        console.log("New uploaded image URL:", uploadedImageUrl);
+      }      
+      
       const updateData = {
         ...formData,
+        voucherImage: uploadedImageUrl,
         examId: [], // Chuỗi rỗng mặc định
         courseId: [], // Chuỗi rỗng mặc định
       };
@@ -78,6 +89,38 @@ const UpdateVoucher: React.FC<UpdateVoucherProps> = ({
   const handleCancel = () => {
     setIsModalVisible(false);
     form.resetFields(); // Reset the form when closing the modal
+  };
+
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      console.log("Selected image file:", file);
+      setSelectedImage(file);
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  };
+
+  const uploadCloudinary = async () => {
+    if (selectedImage) {
+      const formUpload = new FormData();
+      formUpload.append("api_key", "994636724857583");
+      formUpload.append("file", selectedImage);
+      formUpload.append("upload_preset", "upload_image");
+      formUpload.append("folder", "Voucher");
+
+      try {
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/unicert/image/upload",
+          formUpload
+        );
+        console.log("Voucher upload successfully:", response.data.url);
+        return response.data.url;
+      } catch (error) {
+        console.error("Error uploading voucher:", error);
+      }
+    }
   };
 
   return (
@@ -172,15 +215,18 @@ const UpdateVoucher: React.FC<UpdateVoucherProps> = ({
           </Form.Item>
           <Form.Item
             label="Voucher Image"
-            name="voucherImage"
-            rules={[
-              { required: true, message: "Please upload or provide an image URL!" },
-            ]}
-          >
-            
-            <Input
-              placeholder="Enter image URL"
-              style={{ marginTop: 8 }}
+            name="voucherImage"            
+          >            
+            <img
+              src={previewImage || voucherDetailState.currentVoucher?.voucherImage || ""}
+              alt="Current Image"
+              className="w-32 h-32 bg-gray-300 mb-4"
+            />
+            <CustomInput
+              placeholder="Image"
+              type="file"
+              onChange={handleImageChange}
+              required
             />
           </Form.Item>
         </Form>

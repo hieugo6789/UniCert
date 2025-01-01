@@ -228,6 +228,17 @@ const Voucher = () => {
                 }
               })()}
             </p>
+            <p>
+              <strong>Image: </strong> {state?.currentVoucher?.voucherImage ? (
+                <img
+                  src={state.currentVoucher.voucherImage}
+                  alt="Certification"
+                  className="w-32 h-32 bg-gray-300 mb-4"
+                />
+              ) : (
+                <p>Loading image...</p>
+              )}
+            </p>
           </div>
         ) : (
           <p>No details available.</p>
