@@ -4,6 +4,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { useCreateVoucher } from "../../hooks/Voucher/useCreateVoucher";
 
 import axios from "axios";
+import CustomInput from "../UI/CustomInput";
 
 const CreateVoucher = ({
   refetchVouchers,
@@ -38,8 +39,18 @@ const CreateVoucher = ({
   const handleOK = async () => {
     try {
       await form.validateFields();
+      let uploadedImageUrl = formData.voucherImage;
 
-      await handleCreateVoucher(formData);
+      if (selectedImage) {
+        uploadedImageUrl = await uploadCloudinary();
+        console.log("New uploaded image URL:", uploadedImageUrl);
+      }
+
+      const updatedFormData = {
+        ...formData,
+        voucherImage: uploadedImageUrl,
+      };
+      await handleCreateVoucher(updatedFormData);
       setIsModalVisible(false);
       refetchVouchers();
     } catch (error) {
@@ -63,6 +74,39 @@ const CreateVoucher = ({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      console.log("Selected image file:", file);
+      setSelectedImage(file);
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  };
+
+  const uploadCloudinary = async () => {
+    if (selectedImage) {
+      const formUpload = new FormData();
+      formUpload.append("api_key", "994636724857583");
+      formUpload.append("file", selectedImage);
+      formUpload.append("upload_preset", "upload_image");
+      formUpload.append("folder", "Voucher");
+
+      try {
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/unicert/image/upload",
+          formUpload
+        );
+        console.log("Voucher upload successfully:", response.data.url);
+        return response.data.url;
+      } catch (error) {
+        console.error("Error uploading voucher:", error);
+      }
+    }
   };
 
   return (
@@ -100,6 +144,7 @@ const CreateVoucher = ({
             voucherName: formData.voucherName,
             voucherDescription: formData.voucherDescription,
             percentage: formData.percentage,
+            voucherImage: formData.voucherImage,
             creationDate: formData.creationDate.toISOString().substring(0, 10),
             expiryDate: formData.expiryDate.toISOString().substring(0, 10),
             voucherLevel: formData.voucherLevel,
@@ -158,6 +203,24 @@ const CreateVoucher = ({
               placeholder="Enter discount percentage"
             />
           </Form.Item>
+
+          <Form.Item
+            label="Voucher Image"
+            name="voucherImage"            
+          >
+            <img
+              src={previewImage || formData.voucherImage}
+              alt="Current Image"
+              className="w-32 h-32 bg-gray-300 mb-4"
+            />
+            <CustomInput
+              placeholder="Image"
+              type="file"
+              onChange={handleImageChange}
+              required
+            />
+          </Form.Item>
+
           <Form.Item
             label="Creation Date"
             name="creationDate"
