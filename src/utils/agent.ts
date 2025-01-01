@@ -38,6 +38,7 @@ import {
 } from "../models/SimulationExam/question";
 import { createScore } from "../models/score";
 import { CreateEmployeeAccount } from "../models/authentication";
+import { createPeerReview } from "../models/peerReview";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -317,9 +318,14 @@ const Enrollment = {
     requests.post("api/v1/exam-enrollment", input),
   deleteExamEnrollment: (eEnrollmentId: number) =>
     requests.del(`api/v1/exam-enrollment/${eEnrollmentId}`),
-  addVoucherToCart: (eErollmentId:number, input: { userId: string; simulation_Exams:number[], voucherIds: number[] }) =>
-    requests.put(`api/v1/exam-enrollment/update-with-voucher/`+eErollmentId, input),
-  
+  addVoucherToCart: (
+    eErollmentId: number,
+    input: { userId: string; simulation_Exams: number[]; voucherIds: number[] }
+  ) =>
+    requests.put(
+      `api/v1/exam-enrollment/update-with-voucher/` + eErollmentId,
+      input
+    ),
 };
 
 const Payment = {
@@ -389,8 +395,13 @@ const selectedCert = {
   },
 };
 const reviewExam = {
-  getReviewExam(input:{userId: string, examId: string, scoreId: string}) {
-    return requests.get(`api/v1/review-exam/review`,input);
+  getReviewExam(input: { userId: string; examId: string; scoreId: string }) {
+    return requests.get(`api/v1/review-exam/review`, input);
+  },
+};
+const peerReview = {
+  postPeerReview(input: createPeerReview) {
+    return requests.post("/api/v1/peer-review", input);
   },
 };
 const agent = {
@@ -420,5 +431,6 @@ const agent = {
   Employees,
   selectedCert,
   reviewExam,
+  peerReview,
 };
 export default agent;

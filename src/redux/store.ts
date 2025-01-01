@@ -78,6 +78,7 @@ import getSelectedCert from "./slice/Certification/getSelectedCertSlice";
 import createSelectedCert from "./slice/Certification/createSelectedCertSlice";
 import deleteSelectedCert from "./slice/Certification/deleteSelectedCertSlice";
 import updateSelectedCert from "./slice/Certification/updateSelectedCertSlice";
+import createPeerReviewReducer from "./slice/PeerReview/createPeerReviewSlice";
 
 export const store = configureStore({
   reducer: {
@@ -159,6 +160,7 @@ export const store = configureStore({
     createSlectedCert: createSelectedCert,
     deleteSelectedCert: deleteSelectedCert,
     updateSelectedCert: updateSelectedCert,
+    createPeerReview: createPeerReviewReducer,
   },
 });
 
