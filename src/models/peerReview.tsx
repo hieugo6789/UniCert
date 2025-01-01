@@ -22,6 +22,26 @@ export interface peerReviewByScoreId {
   reviewDate: Date;
   maxQuestionScore: number;
 }
+export interface peerReviewById {
+  peerReviewId: number;
+  reviewerId: number;
+  reviewedUserId: number;
+  scoreId: number;
+  scorePeerReviewer: number;
+  feedbackPeerReviewer: string;
+  reviewDate: Date;
+  maxQuestionScore: number;
+  userAnswers: [
+    {
+      userAnswerId: number;
+      questionId: number;
+      questionName: string;
+      scoreValue: number;
+      answerContent: string;
+      feedbackForEachQuestion: string;
+    }
+  ];
+}
 export interface updatePeerReview {
   reviewerId: number;
   scorePeerReviewer: number;

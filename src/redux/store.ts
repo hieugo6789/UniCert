@@ -82,6 +82,7 @@ import createPeerReviewReducer from "./slice/PeerReview/createPeerReviewSlice";
 import peerReviewExamByScoreIdReducer from "./slice/PeerReview/peerReviewByScoreIdSlice";
 import peerReviewExamByExamIdReducer from "./slice/PeerReview/peerReviewByExamIdSlice";
 import deletePeerReviewReducer from "./slice/PeerReview/deletePeerReviewSlice";
+import peerReviewDetailReducer from "./slice/PeerReview/peerReviewDetailSlice";
 
 export const store = configureStore({
   reducer: {
@@ -167,6 +168,7 @@ export const store = configureStore({
     peerReviewByScoreId: peerReviewExamByScoreIdReducer,
     peerReviewByExamId: peerReviewExamByExamIdReducer,
     deletePeerReview: deletePeerReviewReducer,
+    peerReviewDetail: peerReviewDetailReducer,
   },
 });
 
