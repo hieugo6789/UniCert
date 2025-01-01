@@ -403,6 +403,16 @@ const peerReview = {
   postPeerReview(input: createPeerReview) {
     return requests.post("/api/v1/peer-review", input);
   },
+  getPeerReviewByExamId(examId: number) {
+    return requests.get(
+      `api/v1/peer-review/peer_review_for_reviewer/${examId}`
+    );
+  },
+  getPeerReviewByScoreId(scoreId: number) {
+    return requests.get(
+      `api/v1/peer-review/peer_review_for_reviewed/${scoreId}`
+    );
+  },
 };
 const agent = {
   Major,
