@@ -9,7 +9,7 @@ import DailyRevenue from "../../components/Dashboard/DailyRevenue";
 // import CustomSale from "../../components/Dashboard/CustomSale";
 
 const Dashboard = () => {
-  const [year, setYear] = useState<number>(2024);
+  const [year, setYear] = useState<number>(2025);
   const { revenue, loading, refetchRevenues } = useMonthlyRevenue({ year });
 
   const handleYearChange = (newYear: number) => {

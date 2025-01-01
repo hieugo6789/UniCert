@@ -12,7 +12,7 @@ import { Spin } from "antd";
 import useDailyRevenue from "../../hooks/Dashboard/useDailyRevenue";
 
 const DailyRevenue = () => {
-  const [year, setYear] = useState<number>(2024); // Default year
+  const [year, setYear] = useState<number>(2025); // Default year
   const [month, setMonth] = useState<number>(1); // Default month (January)
   const { revenue, loading, refetchRevenues } = useDailyRevenue({
     year,
