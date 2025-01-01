@@ -2,6 +2,8 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import agent from "../../../utils/agent";
+import { useCreatePeerReview } from "../../../hooks/PeerReview/useCreatePeerReview";
+import { showToast } from "../../../utils/toastUtils";
 
 interface Question {
     questionId: number;
@@ -23,17 +25,35 @@ interface ExamData {
 }
 
 const PreviewExam = () => {
-    const userId = Cookies.get("userId")?.toString() || "";
+    const userId = Cookies.get("userId") || "";
     const { id: examId, scoreId } = useParams();
     const [examData, setExamData] = useState<ExamData | null>(null);
+    const { handleCreatePeerReview } = useCreatePeerReview();    
     const navigate = useNavigate();
+
+    const postPeerReview = async () => {
+        try {
+            const response = await handleCreatePeerReview({
+                reviewedUserId: Number(userId),
+                scoreId: Number(scoreId),
+            });             
+            if (response?.data.message){
+                showToast(response?.data.message, "error")  
+            }else{
+                showToast("Post peer review successfully", "success")           
+            }
+        } catch (error: any) {
+            showToast(`${error.response?.data?.message || "Unknown error"}`, "error");
+        }
+    };
+
     useEffect(() => {
         const fetchExamData = async () => {
             try {
                 const data = await agent.reviewExam.getReviewExam({
-                    userId,
-                    examId: examId || "",
-                    scoreId: scoreId || "",
+                    userId: Number(userId),
+                    examId: Number(examId),
+                    scoreId: Number(scoreId),
                 });
                 setExamData(data);
             } catch (error) {
@@ -62,7 +82,7 @@ const PreviewExam = () => {
                 Back to Exam
             </button>
             <div className="fixed flex top-24 left-5 items-right bg-gray-200 p-5 rounded-xl flex-col justify-center mt-4">
-                <p className="text-lg font-semibold text-gray-800 dark:text-gray-300 mb-2">Legend:</p>
+                <p className="text-lg font-semibold text-gray-800 dark:text-gray-300 mb-2">Note:</p>
                 <div className="flex items-center mr-4">
                     <div className="w-4 h-4 bg-green-100 rounded-md mr-2"></div>
                     <span className="text-sm text-gray-500 dark:text-gray-400">Correct Answer</span>
@@ -91,7 +111,7 @@ const PreviewExam = () => {
                     >
                         <div className="flex justify-between items-center">
                             <h1 className="text-lg font-semibold text-gray-800 dark:text-gray-300 mb-2"> Question {index + 1}</h1>
-                            <span className={`text-md font-bold text-gray-600 dark:text-gray-300 mb-2 ${question.isCorrectQuestion ? "text-green-500" : "text-red-500"}`}>
+                            <span className={`text-md font-bold text-gray-600 dark:text-gray-300 mb-2 ${question.isCorrectQuestion || question.scoreValue > 0 ? "text-green-500" : "text-red-500"}`}>
                                 Score: {question.scoreValue}
                             </span>
                         </div>
@@ -159,11 +179,16 @@ const PreviewExam = () => {
                                 Submitted At: {new Date(question.submittedAt).toLocaleString()}
                             </p>
 
-                        </div>
-
+                        </div>                        
                     </div>
-                ))}
-            </div>
+                ))}                
+                <button
+                    onClick={postPeerReview}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md mt-4"
+                >
+                    Post Peer Review
+                </button>                   
+            </div>            
         </div>
     );
 };

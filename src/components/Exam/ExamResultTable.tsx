@@ -101,7 +101,7 @@ const ExamResultTable = ({props} : any) => {
                                     <td className={`py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm font-medium ${
                                         result.scoreValue >= props.passingScore ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
                                     }`}>
-                                        {result.scoreValue.toFixed(0)}/100
+                                        {result.scoreValue}/100
                                     </td>
                                     <td className="py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                                         {formatVietnameseDateTime(result.createdAt)}

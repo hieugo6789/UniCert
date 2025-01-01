@@ -395,7 +395,7 @@ const selectedCert = {
   },
 };
 const reviewExam = {
-  getReviewExam(input: { userId: string; examId: string; scoreId: string }) {
+  getReviewExam(input: { userId: number; examId: number; scoreId: number }) {
     return requests.get(`api/v1/review-exam/review`, input);
   },
 };

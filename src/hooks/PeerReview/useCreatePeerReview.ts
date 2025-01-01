@@ -16,10 +16,16 @@ export function useCreatePeerReview() {
     dispatch(createPeerReviewStart());
     try {
       const response = await agent.peerReview.postPeerReview(input);
-      dispatch(createPeerReviewSuccess(response));
+      if (response) {
+        dispatch(createPeerReviewSuccess(response));
+        return response;
+      } else {
+        throw new Error("No response from server");
+      }
     } catch (error) {
       console.error("Error creating peer review:", error);
       dispatch(createPeerReviewFailure());
+      throw error;
     }
   };
 

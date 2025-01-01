@@ -9,6 +9,8 @@ import ExamResultTable from '../../../components/Exam/ExamResultTable';
 import Cookies from 'js-cookie';
 import { showToast } from '../../../utils/toastUtils';
 import AverageRating from '../../../components/Exam/AverageRating';
+import usePeerReviewByExamId from '../../../hooks/PeerReview/usePeerReviewByExamId';
+import { Modal } from 'antd';
 
 const ExamDetailPage = () => {
     const id = useParams().id || 0;
@@ -19,6 +21,10 @@ const ExamDetailPage = () => {
     const [isPurchased, setIsPurchased] = useState(false);
     const { state, getExamDetails } = useExamDetail();
     const { examEnrollment, refetchExamEnrollments } = useExamEnrollment({ userId: userId || "" });
+    const [peerReviews, setPeerReviews] = useState<any[]>([]);
+    const { peerReview, refetchPeerReviews } = usePeerReviewByExamId({examId: Number(id)});
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     useEffect(() => {
         if (!userId) {
             showToast("Please login to access this page", "error");
@@ -69,6 +75,20 @@ const ExamDetailPage = () => {
         scrollToTop();
     }, []);
 
+    const handleFetchPeerReviews = async () => {
+        try {
+            await refetchPeerReviews();            
+            setPeerReviews(peerReview);
+            setIsModalOpen(true);
+        } catch (error) {
+            console.error("Error fetching peer reviews:", error);
+        }
+    };
+
+    const handleReviewClick = (reviewId: number) => {
+        navigate(`/peer-review/${reviewId}`);
+    };
+
     if (!isPurchased) {
         return (
             <div className="max-w-7xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
@@ -101,7 +121,7 @@ const ExamDetailPage = () => {
                         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
                 </div>
-                <div className="w-full md:w-2/3 space-y-6">
+                <div className="w-full md:w-2/3 space-y-3">
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div className="flex items-center gap-3 bg-blue-50/80 dark:bg-blue-900/30 backdrop-blur px-4 py-3 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors duration-300 shadow-sm">
                             <svg className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,17 +152,26 @@ const ExamDetailPage = () => {
                         <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{exam?.examDescription}</p>
                     </div>
 
-                    <CustomButton
-                        label='Start Exam'
-                        onClick={() => navigate("./simulation")}
-                        className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-3"
-                    >
-                        <svg className="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        Start Exam
-                    </CustomButton>
+                    <div className="flex gap-4">
+                        <CustomButton
+                            label='Start Exam'
+                            onClick={() => navigate("./simulation")}
+                            className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-3"
+                        >
+                            <svg className="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Start Exam
+                        </CustomButton>
+
+                        <CustomButton
+                            onClick={handleFetchPeerReviews}
+                            className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-3"
+                        >
+                            View Peer Reviews
+                        </CustomButton>
+                    </div>
                 </div>
             </div>
 
@@ -175,7 +204,32 @@ const ExamDetailPage = () => {
                         </div>
                     )}
                 </div>
-            </div>
+            </div>            
+
+            <Modal
+                title="Peer Reviews"
+                visible={isModalOpen}
+                onCancel={() => setIsModalOpen(false)}
+                footer={null}
+            >
+                <ul>
+                    {peerReviews.map((review) => (
+                        <li key={review.peerReviewId} className="mb-2">
+                            <div className="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow">
+                                <p><strong>Reviewed User:</strong> {review.reviewedUserName}</p>
+                                <p><strong>Exam:</strong> {review.examName}</p>
+                                <p><strong>Max Question Score:</strong> {review.maxQuestionScore}</p>
+                                <button
+                                    onClick={() => handleReviewClick(review.peerReviewId)}
+                                    className="text-blue-500 hover:underline mt-2"
+                                >
+                                    Peer Review
+                                </button>
+                            </div>
+                        </li>
+                    ))} 
+                </ul>
+            </Modal>
         </div>
     );
 };

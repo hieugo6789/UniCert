@@ -15,8 +15,8 @@ const usePeerReviewByExamId = ({ examId }: UsePeerReviewByExamIdProps) => {
   const fetchPeerReviews = async (examId: number) => {
     setLoading(true);
     try {
-      const response = await dispatch(fetchPeerReviewByExamId(examId));
-      setPeerReview(response.payload.data || []);
+      const response = await dispatch(fetchPeerReviewByExamId(examId));      
+      setPeerReview(response.payload || []);      
     } catch (error) {
       console.error("Error fetching transactions:", error);
     } finally {
