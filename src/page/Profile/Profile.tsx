@@ -27,6 +27,7 @@ const Profile = () => {
     role: "Admin",
     status: true,
     userCreatedAt: new Date(),
+    userLevel: "bronze",
     userImage: "string",
     userOffenseCount: 0,
   });
