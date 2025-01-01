@@ -81,6 +81,7 @@ import updateSelectedCert from "./slice/Certification/updateSelectedCertSlice";
 import createPeerReviewReducer from "./slice/PeerReview/createPeerReviewSlice";
 import peerReviewExamByScoreIdReducer from "./slice/PeerReview/peerReviewByScoreIdSlice";
 import peerReviewExamByExamIdReducer from "./slice/PeerReview/peerReviewByExamIdSlice";
+import deletePeerReviewReducer from "./slice/PeerReview/deletePeerReviewSlice";
 
 export const store = configureStore({
   reducer: {
@@ -165,6 +166,7 @@ export const store = configureStore({
     createPeerReview: createPeerReviewReducer,
     peerReviewByScoreId: peerReviewExamByScoreIdReducer,
     peerReviewByExamId: peerReviewExamByExamIdReducer,
+    deletePeerReview: deletePeerReviewReducer,
   },
 });
 

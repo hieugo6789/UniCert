@@ -8,7 +8,7 @@ export interface peerReviewByExamId {
   reviewedUserName: string;
   examName: string;
   scoreId: number;
-  maxQuestionScore: 10;
+  maxQuestionScore: number;
 }
 export interface peerReviewByScoreId {
   peerReviewId: number;
@@ -21,4 +21,20 @@ export interface peerReviewByScoreId {
   feedbackPeerReviewer: string;
   reviewDate: Date;
   maxQuestionScore: number;
+}
+export interface updatePeerReview {
+  reviewerId: number;
+  scorePeerReviewer: number;
+  feedbackPeerReviewer: string;
+  peerReviewQuestionScores: [
+    {
+      questionId: number;
+      userAnswerId: number;
+      feedBackForQuestion: string;
+      scoreForQuestion: number;
+    }
+  ];
+}
+export interface deletePeerReview {
+  reviewerId: number;
 }

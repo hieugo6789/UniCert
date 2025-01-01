@@ -38,7 +38,7 @@ import {
 } from "../models/SimulationExam/question";
 import { createScore } from "../models/score";
 import { CreateEmployeeAccount } from "../models/authentication";
-import { createPeerReview } from "../models/peerReview";
+import { createPeerReview, updatePeerReview } from "../models/peerReview";
 
 const responseBody = (response: AxiosResponse) => response.data;
 const requests = {
@@ -412,6 +412,15 @@ const peerReview = {
     return requests.get(
       `api/v1/peer-review/peer_review_for_reviewed/${scoreId}`
     );
+  },
+  deletePeerReview(peerReviewId: number) {
+    return requests.del(`api/v1/peer-review/${peerReviewId}`);
+  },
+  getPeerDetailById(peerReviewId: number) {
+    return requests.get(`api/v1/peer-review/${peerReviewId}`);
+  },
+  updatePeerDetail(peerReviewId: number, input: updatePeerReview) {
+    return requests.put(`api/v1/peer-review/${peerReviewId}`, input);
   },
 };
 const agent = {
