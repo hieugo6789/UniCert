@@ -1,6 +1,8 @@
 import { message, Modal, Pagination, Spin, Table, Tag } from "antd";
 import useVoucher from "../../hooks/Voucher/useVoucher";
 import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
   DeleteOutlined,
   ExclamationCircleOutlined,
   EyeOutlined,
@@ -162,24 +164,69 @@ const Voucher = () => {
         {state.isLoading ? (
           <Spin />
         ) : state.currentVoucher ? (
-          <div className="text-lg">
+          <div className="text-lg space-y-4">
+            {/* Name */}
             <p>
-              <strong>Name: </strong> {state.currentVoucher.voucherName}
+              <strong>Name: </strong>
+              <span className="text-blue-500">
+                {state.currentVoucher.voucherName}
+              </span>
             </p>
             <p>
-              <strong>Description: </strong>{" "}
+              <strong>Description: </strong>
               {state.currentVoucher.voucherDescription}
             </p>
             <p>
-              <strong>Percentage: </strong> {state.currentVoucher.percentage}%
+              <strong>Percentage: </strong>
+              <Tag color="green">{state.currentVoucher.percentage}%</Tag>
             </p>
             <p>
-              <strong>Start date: </strong>
-              {new Date(state.currentVoucher.creationDate).toLocaleDateString()}
+              <strong>Start Date: </strong>
+              <Tag
+                icon={<CheckCircleOutlined />}
+                color="blue"
+              >
+                {new Date(
+                  state.currentVoucher.creationDate
+                ).toLocaleDateString()}
+              </Tag>
             </p>
             <p>
-              <strong>Expire date: </strong>
-              {new Date(state.currentVoucher.expiryDate).toLocaleDateString()}
+              <strong>Expire Date: </strong>
+              <Tag
+                icon={
+                  new Date(state.currentVoucher.expiryDate) > new Date() ? (
+                    <CheckCircleOutlined />
+                  ) : (
+                    <CloseCircleOutlined />
+                  )
+                }
+                color={
+                  new Date(state.currentVoucher.expiryDate) > new Date()
+                    ? "red"
+                    : "gray"
+                }
+              >
+                {new Date(state.currentVoucher.expiryDate).toLocaleDateString()}
+              </Tag>
+            </p>
+
+            <p>
+              <strong>Voucher Level: </strong>
+              {(() => {
+                switch (state.currentVoucher.voucherLevel) {
+                  case "Bronze":
+                    return <Tag color="default">Bronze</Tag>;
+                  case "Silver":
+                    return <Tag color="silver">Silver</Tag>;
+                  case "Gold":
+                    return <Tag color="gold">Gold</Tag>;
+                  case "Diamond":
+                    return <Tag color="purple">Diamond</Tag>;
+                  default:
+                    return <Tag color="default">Unknown</Tag>;
+                }
+              })()}
             </p>
           </div>
         ) : (
