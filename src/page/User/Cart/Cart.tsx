@@ -28,6 +28,8 @@ const Cart = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [vouchers, setVouchers] = useState<currentVoucher[]>([]);
   const [selectedVoucher, setSelectedVoucher] = useState<currentVoucher | null>(null);
+  const [totalNonVoucher, setTotalNonVoucher] = useState<number>(0);
+  const [total, setTotal] = useState<number>(0);
 
   const [selectedCourses, setSelectedCourses] = useState<any[]>([]);
   const [selectedExams, setSelectedExams] = useState<any[]>([]);
@@ -58,19 +60,6 @@ const Cart = () => {
 
     const applyVoucher = (voucher: currentVoucher) => {
       if (!voucher || !histoyCarts) return;
-      const updatedExams = histoyCarts?.examDetails?.map((exam) => ({
-        ...exam,
-        examDiscountFee: lamTronLen(exam.examDiscountFee - (exam.examDiscountFee * voucher.percentage) / 100),
-      })) || [];
-    
-      setCarts((prev: any) => {
-        if (!prev) return null;
-    
-        return {
-          ...prev,
-          examDetails: updatedExams,
-        };
-      });
     
       const updatedSelectedExams = selectedExams.map((exam) => {
         const historyExam = histoyCarts?.examDetails?.find((e) => e.examId === exam.examId);
@@ -83,6 +72,12 @@ const Cart = () => {
         return exam;
       });
       setSelectedExams(updatedSelectedExams);
+      // tính giá gốc trong history exam
+      const totalNonVoucher = histoyCarts?.examDetails?.filter((exam) => selectedExams.some((selectedExam) => selectedExam.examId === exam.examId)).reduce((acc, exam) => acc + exam.examDiscountFee, 0);
+      setTotalNonVoucher(totalNonVoucher);
+      // setTotalNonVoucher(updatedSelectedExams.reduce((acc, exam) => acc + exam.examDiscountFee, 0));
+      const total = updatedSelectedExams.reduce((acc, exam) => acc + exam.examDiscountFee, 0) + selectedCourses.reduce((acc, course) => acc + course.courseDiscountFee, 0);
+      setTotal(total);
     };
 
     console.log(selectedVoucher)
@@ -95,6 +90,14 @@ const Cart = () => {
     }
   };
 
+  // refresh lại khi có thay đổi selectedExams hoặc selectedCourses
+  useEffect(() => {
+    const totalNonVoucher = histoyCarts?.examDetails?.filter((exam) => selectedExams.some((selectedExam) => selectedExam.examId === exam.examId)).reduce((acc, exam) => acc + exam.examDiscountFee, 0);
+    setTotalNonVoucher(totalNonVoucher||0);
+    // setTotalNonVoucher(selectedExams.reduce((acc, exam) => acc + exam.examDiscountFee, 0));
+    const total = selectedExams.reduce((acc, exam) => acc + exam.examDiscountFee, 0) + selectedCourses.reduce((acc, course) => acc + course.courseDiscountFee, 0);
+    setTotal(total);
+  }, [selectedExams, selectedCourses]);
 
 
   useEffect(() => {
@@ -214,7 +217,7 @@ const Cart = () => {
     showToast("Exam removed from cart successfully", "success");
   };
 
-  const total = selectedCourses.reduce((acc, course) => acc + course.courseDiscountFee, 0) + selectedExams.reduce((acc, exam) => acc + exam.examDiscountFee, 0);
+  // const total = selectedCourses.reduce((acc, course) => acc + course.courseDiscountFee, 0) + selectedExams.reduce((acc, exam) => acc + exam.examDiscountFee, 0);
   const handlePopupAction = async (continueAction: boolean) => {
     setIsPopupOpen(false);
     if (continueAction) {
@@ -397,6 +400,22 @@ const Cart = () => {
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-gray-600 dark:text-gray-300">Total Amount</span>
                   <span className="flex items-center gap-2 text-lg font-bold text-purple-600 dark:text-purple-400">
+                    {totalNonVoucher}
+                    <img src={coin} alt="coin" className="h-5" />
+                  </span>
+                </div>
+                {/* số tiền giảm */}
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-600 dark:text-gray-300">Discount Amount</span>
+                  <span className="flex items-center gap-2 text-lg font-bold text-purple-400 dark:text-purple-400 line-through">
+                    {totalNonVoucher - total}
+                    <img src={coin} alt="coin" className="h-5" />
+                  </span>
+                </div>
+                {/* giá sau giảm */}
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-600 dark:text-gray-300">Total Amount After Discount</span>
+                  <span className="flex items-center gap-2 text-lg font-bold text-purple-600 dark:text-purple-400">
                     {total}
                     <img src={coin} alt="coin" className="h-5" />
                   </span>
@@ -413,8 +432,8 @@ const Cart = () => {
                         handleChangeVoucher(e);
                       } else {
                         setCarts(histoyCarts);
-                        // set selected exam, find exam have id in history exam
                         setSelectedExams((prev) => prev.map((exam) => histoyCarts?.examDetails?.find((e) => e.examId === exam.examId) || exam));
+
                       }
                     }}
                   >
