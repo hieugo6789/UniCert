@@ -455,7 +455,13 @@ const Cart = () => {
                 {/* voucher discount total */}
                 <div className="flex justify-between items-center text-sm mt-2">
                   <span className="text-gray-500 dark:text-gray-400">Balance After Purchase</span>
-                  <span className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                  <span
+                    className={`flex items-center gap-2 ${
+                      userId && wallets[userId]?.point - total < 0
+                        ? "text-red-600"
+                        : "text-gray-600 dark:text-gray-300"
+                    }`}
+                  >
                     {userId ? wallets[userId]?.point - total : 0}
                     <img src={coin} alt="coin" className="h-4" />
                   </span>
