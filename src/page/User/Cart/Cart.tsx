@@ -60,27 +60,18 @@ const Cart = () => {
       if (!voucher || !histoyCarts) return;
       const updatedExams = histoyCarts?.examDetails?.map((exam) => ({
         ...exam,
-        // examDiscountFee: exam.examDiscountFee -
-        //   (exam.examDiscountFee * voucher.percentage) / 100,
-        // nếu có phần thập phân thì làm tròn lên (vd: 0.01 thì là 1, 0.5 là 1)
         examDiscountFee: lamTronLen(exam.examDiscountFee - (exam.examDiscountFee * voucher.percentage) / 100),
       })) || [];
-
-
+    
       setCarts((prev: any) => {
         if (!prev) return null;
-
+    
         return {
           ...prev,
-          examDetails: updatedExams, // Đảm bảo truyền vào array
+          examDetails: updatedExams,
         };
       });
-      // setSelectedExams((prev) => prev.map((exam) => ({
-      //   ...exam,
-      //   examDiscountFee: (exam.examDiscountFee -
-      //     (exam.examDiscountFee * voucher.percentage) / 100),
-      // })));
-      // tìm selectedExam có id trong historyExam, tính toán lại discount fee
+    
       const updatedSelectedExams = selectedExams.map((exam) => {
         const historyExam = histoyCarts?.examDetails?.find((e) => e.examId === exam.examId);
         if (historyExam) {
@@ -194,11 +185,11 @@ const Cart = () => {
       const updateCourseId = carts?.courseDetails
         ?.filter((course) => !selectedCourses.includes(course))
         .map((course) => course.courseId) || [];
-
+      
       const updateExamId = carts?.examDetails
-        ?.filter((exam) => !selectedExams.includes(exam))
+        ?.filter((exam) => !selectedExams.some((selectedExam) => selectedExam.examId === exam.examId))
         .map((exam) => exam.examId) || [];
-
+      console.log("updateCourseId", updateExamId);
       await updateCart(userId?.toString() || "", {
         courseId: updateCourseId,
         examId: updateExamId
