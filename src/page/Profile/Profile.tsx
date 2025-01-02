@@ -12,7 +12,10 @@ import { UserDetail } from "../../models/user";
 import axios from "axios";
 import { useChangePassword } from "../../hooks/Password/useChangePassword";
 import { showToast } from "../../utils/toastUtils";
-
+import bronze from "../../assets/userLevel/bronze.png";
+import silver from "../../assets/userLevel/silver.png";
+import gold from "../../assets/userLevel/star.png";
+import diamond from "../../assets/userLevel/diamond.png";
 
 const Profile = () => {
   const [form, setForm] = useState<UserDetail>({
@@ -225,7 +228,7 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex">
+    <div className="min-h-[85vh] bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex">
       <div className="flex flex-col lg:flex-row max-w-7xl w-full mx-auto my-auto py-4 lg:py-8 px-4 gap-4 lg:gap-8">
         {/* Sidebar */}
         <div className="w-full lg:w-1/4">          
@@ -261,9 +264,25 @@ const Profile = () => {
 
         {/* Main Content */}
         <div className="w-full lg:w-3/4 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 lg:p-8">
-          <div className="mb-4">
+          <div className="mb-4 flex items-center justify-between">
+            <div>
             <h2 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-gray-200">Public Profile</h2>
             <p className="text-gray-500 dark:text-gray-400">Manage your profile information</p>
+            </div>
+            <div>
+                {form.userLevel === 'Gold' && (
+                <img src={gold} alt="Gold Level" className="size-14" />
+                  )}
+                {form.userLevel === 'Bronze' && (
+                      <img src={bronze} alt="Bronze Level" className="size-14" />
+                )}
+                {form.userLevel === 'Silver' && (
+                      <img src={silver} alt="Bronze Level" className="size-14" />
+                )}
+                {form.userLevel === 'Diamond' && (
+                      <img src={diamond} alt="Bronze Level" className="size-14" />
+                )}
+              </div>
           </div>
 
           <Formik
