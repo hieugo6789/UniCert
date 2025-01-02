@@ -17,6 +17,10 @@ import defaultAvatar from "../../assets/images/Avatar/DefaultAvatar.jpg";
 import AvatarAdmin from "../../components/Header/AvatarAdmin";
 import AdminNotification from "../../components/Notification/AdminNotification";
 import AdminRefund from "../../components/Wallet/AdminRefund";
+import bronze from "../../assets/userLevel/bronze.png";
+import silver from "../../assets/userLevel/silver.png";
+import gold from "../../assets/userLevel/star.png";
+import diamond from "../../assets/userLevel/diamond.png";
 
 const Students = () => {
   const {
@@ -89,6 +93,32 @@ const Students = () => {
           {offenseCount}
         </span>
       ),
+    },
+    {
+      title: "Level",
+      dataIndex: "userLevel",
+      key: "userLevel",
+      width: 10,
+      render: (userLevel: string) => {
+        const levelImages: { [key: string]: string } = {
+          Bronze: bronze,
+          Silver: silver,
+          Gold: gold,
+          Diamond: diamond,
+        };
+
+        return (
+          <div className="flex items-center">
+            {levelImages[userLevel] && (
+              <img
+                src={levelImages[userLevel]}
+                alt={userLevel}
+                className="size-8"
+              />
+            )}
+          </div>
+        );
+      },
     },
     {
       title: "Status",
@@ -204,12 +234,12 @@ const Students = () => {
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
-        width={800}
+        width={900}
       >
         {state.isLoading ? (
           <Spin />
         ) : state.currentUser ? (
-          <div className="flex flex-col items-center  w-full">
+          <div className="flex flex-col items-center w-full">
             <div className="w-full border-b border-gray-400 pb-6 mb-4 flex flex-col items-center">
               <img
                 className="rounded-full w-48 h-48"
@@ -228,7 +258,7 @@ const Students = () => {
                 column={1}
                 className="mb-4"
                 labelStyle={{ width: "180px", fontWeight: "bold" }} // Cố định độ dài label
-                contentStyle={{ width: "500px", textAlign: "left" }}
+                contentStyle={{ width: "600px", textAlign: "left" }}
               >
                 <Descriptions.Item label="Username">
                   <span>{state.currentUser.username}</span>

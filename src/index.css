@@ -74,7 +74,7 @@
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
-.ant-descriptions-view {
+.custom-antd-view .ant-descriptions-view {
   border-radius: 10px 0 0 10px !important;
 }
 @media (min-width: 1800px) {
@@ -82,7 +82,7 @@
     min-width: 850px;
   }
 }
-@media (min-width: 1024px)and (max-width: 1800px) {
+@media (min-width: 1024px) and (max-width: 1800px) {
   .ant-descriptions-view {
     min-width: 630px;
   }

@@ -82,7 +82,7 @@ const DetailCertificate: React.FC = () => {
               column={1}
               labelStyle={{ fontWeight: "bold" }}
               contentStyle={{ textAlign: "left" }}
-              className="ant-descriptions min-w-10000 "
+              className="ant-descriptions min-w-10000 custom-antd-view"
             >
               <Descriptions.Item label="Name">
                 <span className="text-blue-700">{cert?.certName}</span>
