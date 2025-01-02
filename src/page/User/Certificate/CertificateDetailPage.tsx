@@ -11,6 +11,7 @@ import { allSchedulePaginationData } from "../../../models/schedule";
 import useCourse from "../../../hooks/Course/useCourse";
 import { allCoursePaginationData } from "../../../models/course";
 import Feedback from "../../../components/Certifications/Feedback";
+import dangerIcon from "../../../assets/icons/danger.png";
 
 const CertificateDetailPage = () => {
   const [activeTab, setActiveTab] = useState("Description");
@@ -27,7 +28,7 @@ const CertificateDetailPage = () => {
     allCoursePaginationData[]
   >([]);
   const { course, refetchCourses } = useCourse();
-  
+
   const [showAllMajors, setShowAllMajors] = useState(false);
   const [showAllJobPositions, setShowAllJobPositions] = useState(false);
   const navigate = useNavigate();
@@ -46,8 +47,11 @@ const CertificateDetailPage = () => {
   }, [id]);
 
   useEffect(() => {
-    if (state.currentCert.permission === "Pending" || state.currentCert.permission === "Reject"){
-      navigate('/certificate');
+    if (
+      state.currentCert.permission === "Pending" ||
+      state.currentCert.permission === "Reject"
+    ) {
+      navigate("/certificate");
     }
   }, [state, navigate]);
 
@@ -143,35 +147,26 @@ const CertificateDetailPage = () => {
                       />
                     </svg>
                     <span className="relative group flex items-center">
-                      Fee:{" "}
-                      {cert?.certCost
-                        ? `${cert.certCost}$`
-                        : "Free"}
+                      Fee: {cert?.certCost ? `${cert.certCost}$` : "Free"}
                       {cert?.certCost != 0 && (
                         <>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4 ml-1.5 text-white-400 dark:text-white-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          <img
+                            src={dangerIcon}
+                            className="size-5 ml-2"
                           />
-                        </svg>
-                        {/* Tooltip */}
-                        <span className="absolute hidden group-hover:block bg-white text-black text-xs rounded-lg px-4 py-2 w-48 right-0 transform translate-x-full shadow-lg transition-opacity duration-200 opacity-0 group-hover:opacity-100">
-                          This is the minimum cost to own this certificate.
-                        </span>
-                      </>
+                          {/* Tooltip */}
+                          <span className=" ml-2 absolute hidden group-hover:block bg-gradient-to-r bg-indigo-500  text-white text-sm rounded-lg px-4 py-2 w-72 left-full top-1/2 transform -translate-y-1/2 translate-x-2 shadow-xl transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
+                            • This is the minimum cost to own this certificate.{" "}
+                            <br />• For some certificates, you may have to pay
+                            additional fees or extra charges for retakes or
+                            practice exams.
+                            <span className="absolute -left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-purple-600  rotate-45"></span>
+                          </span>
+                        </>
                       )}
                     </span>
                   </div>
-                  <div className="flex items-center">                    
+                  <div className="flex items-center">
                     <svg
                       className="w-5 h-5 mr-2"
                       fill="none"
@@ -184,10 +179,14 @@ const CertificateDetailPage = () => {
                         strokeWidth="2"
                         d="M12 6v6l4 2"
                       />
-                      <circle cx="12" cy="12" r="10" />
-                    </svg>                                          
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10"
+                      />
+                    </svg>
                     <span>
-                      Validity Period:{" "} 
+                      Validity Period:{" "}
                       {cert?.certValidity || "Permanent certificate"}
                     </span>
                   </div>
@@ -208,10 +207,17 @@ const CertificateDetailPage = () => {
                       <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
                         Prerequisites
                       </h3>
-                      {cert?.certPrerequisite && cert?.certPrerequisiteId && cert.certPrerequisite.length > 0 ? (
+                      {cert?.certPrerequisite &&
+                      cert?.certPrerequisiteId &&
+                      cert.certPrerequisite.length > 0 ? (
                         <div className="flex flex-wrap gap-2">
                           {cert.certPrerequisite
-                            .slice(0, showAllPrerequisites ? cert.certPrerequisite.length : 2)
+                            .slice(
+                              0,
+                              showAllPrerequisites
+                                ? cert.certPrerequisite.length
+                                : 2
+                            )
                             .map((name: string, index: number) => {
                               const id = cert.certPrerequisiteId[index];
                               if (!name || !id) return null;
@@ -265,38 +271,52 @@ const CertificateDetailPage = () => {
                           No prerequisites certificate
                         </p>
                       )}
-                      {cert?.certPrerequisite && cert.certPrerequisite.length > 2 && (
-                        <button
-                          onClick={() => setShowAllPrerequisites(!showAllPrerequisites)}
-                          className="mt-3 flex items-center text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline transition-all duration-200"
-                        >
-                          {showAllPrerequisites ? "Show Less" : "Show More"}
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 ml-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
+                      {cert?.certPrerequisite &&
+                        cert.certPrerequisite.length > 2 && (
+                          <button
+                            onClick={() =>
+                              setShowAllPrerequisites(!showAllPrerequisites)
+                            }
+                            className="mt-3 flex items-center text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline transition-all duration-200"
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d={showAllPrerequisites ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
-                            />
-                          </svg>
-                        </button>
-                      )}
+                            {showAllPrerequisites ? "Show Less" : "Show More"}
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4 ml-1"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d={
+                                  showAllPrerequisites
+                                    ? "M5 15l7-7 7 7"
+                                    : "M19 9l-7 7-7-7"
+                                }
+                              />
+                            </svg>
+                          </button>
+                        )}
                     </div>
 
                     <div>
                       <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
                         Next Level
                       </h3>
-                      {cert?.certSubsequentNames && cert?.certSubsequentIds && cert.certSubsequentNames.length > 0 ? (
+                      {cert?.certSubsequentNames &&
+                      cert?.certSubsequentIds &&
+                      cert.certSubsequentNames.length > 0 ? (
                         <div className="flex flex-wrap gap-2">
                           {cert.certSubsequentNames
-                            .slice(0, showAllNextLevel ? cert.certSubsequentNames.length : 2)
+                            .slice(
+                              0,
+                              showAllNextLevel
+                                ? cert.certSubsequentNames.length
+                                : 2
+                            )
                             .map((name: string, index: number) => {
                               const id = cert.certSubsequentIds[index];
                               if (!name || !id) return null;
@@ -336,28 +356,35 @@ const CertificateDetailPage = () => {
                           Don't have next level certificate yet
                         </p>
                       )}
-                      {cert?.certSubsequentNames && cert.certSubsequentNames.length > 2 && (
-                        <button
-                          onClick={() => setShowAllNextLevel(!showAllNextLevel)}
-                          className="mt-3 flex items-center text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline transition-all duration-200"
-                        >
-                          {showAllNextLevel ? "Show Less" : "Show More"}
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 ml-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
+                      {cert?.certSubsequentNames &&
+                        cert.certSubsequentNames.length > 2 && (
+                          <button
+                            onClick={() =>
+                              setShowAllNextLevel(!showAllNextLevel)
+                            }
+                            className="mt-3 flex items-center text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline transition-all duration-200"
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d={showAllNextLevel ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
-                            />
-                          </svg>
-                        </button>
-                      )}
+                            {showAllNextLevel ? "Show Less" : "Show More"}
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4 ml-1"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d={
+                                  showAllNextLevel
+                                    ? "M5 15l7-7 7 7"
+                                    : "M19 9l-7 7-7-7"
+                                }
+                              />
+                            </svg>
+                          </button>
+                        )}
                     </div>
 
                     {/* Majors Section */}
@@ -431,7 +458,7 @@ const CertificateDetailPage = () => {
                                     <path
                                       strokeLinecap="round"
                                       strokeLinejoin="round"
-                                      strokeWidth={2}                                      
+                                      strokeWidth={2}
                                       d="M19 9l-7 7-7-7"
                                     />
                                   </svg>
@@ -522,7 +549,7 @@ const CertificateDetailPage = () => {
                                     <path
                                       strokeLinecap="round"
                                       strokeLinejoin="round"
-                                      strokeWidth={2}                                      
+                                      strokeWidth={2}
                                       d="M19 9l-7 7-7-7"
                                     />
                                   </svg>
@@ -537,7 +564,6 @@ const CertificateDetailPage = () => {
                         </p>
                       )}
                     </div>
-                    
                   </div>
                 </div>
               </div>

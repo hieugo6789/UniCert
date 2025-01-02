@@ -47,7 +47,7 @@ const ScheduleForCert = () => {
       if (data.succeeded) {
         setSessions(data.data);
       } else {
-        setError("Failed to fetch sessions.");
+        // setError("This exam has no schedule");
       }
     } catch (err) {
       setError("An error occurred while fetching sessions.");
