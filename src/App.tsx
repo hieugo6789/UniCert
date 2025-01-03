@@ -72,6 +72,9 @@ import ManageJobDetail from "./page/Manager/Detail/ManageJobDetail";
 import ManageMajorDetail from "./page/Manager/Detail/ManageMajorDetail";
 import ManageOrganizeDetail from "./page/Manager/Detail/ManageOrganizeDetail";
 import PreviewExam from "./page/User/Exam/PreviewExam";
+import PeerReviewPage from "./page/User/Peer/PeerReviewPage";
+import PeerDetailPage from "./page/User/Peer/PeerDetailPage";
+import Peer from "./page/User/Peer/Peer";
 const Layout = () => {
   return (
     <>
@@ -119,6 +122,9 @@ function App() {
         { path: "/exam/:id", element: <ExamDetailPage /> },
         // { path: "/exam/:id/simulation", element: <SimulationExamPage /> },
         // { path: "/exam/:id/simulation/submit", element: <SubmitExamPage /> },
+        { path: "/peer-review/:examId/:id", element: <PeerReviewPage /> },
+        { path: "/peer-detail/:examId/:id", element: <PeerDetailPage /> },
+        { path: "/peer/:examId/:id", element: <Peer /> },
         { path: "/exam/:id/simulation/result", element: <ExamResultPage /> },
         {path:"/exam/:id/:scoreId", element: <PreviewExam />},
         { path: "/enrollment/:id", element: <CourseEnrollDetailPage /> },
