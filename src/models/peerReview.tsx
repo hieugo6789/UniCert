@@ -44,7 +44,7 @@ export interface peerReviewById {
 }
 export interface updatePeerReview {
   reviewerId: number;
-  scorePeerReviewer: number;
+  // scorePeerReviewer: number;
   feedbackPeerReviewer: string;
   peerReviewQuestionScores: [
     {
