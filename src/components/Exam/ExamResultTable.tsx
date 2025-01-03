@@ -107,11 +107,18 @@ const ExamResultTable = ({props} : any) => {
                                         {formatVietnameseDateTime(result.createdAt)}
                                     </td>
                                     <td className="py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm">
+                                        <div className="space-x-4">
                                         <button className="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none" >
                                             <Link to={`/exam/${examId}/${result.scoreId}`}>
                                             View Details
                                             </Link>
                                         </button>
+                                        <button className="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none" >
+                                            <Link to={`/peer-detail/${examId}/${result.scoreId}`}>
+                                            View Peers
+                                            </Link>
+                                        </button>
+                                        </div>
                                     </td>
                                 </tr>
                         ))}
