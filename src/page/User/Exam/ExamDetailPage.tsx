@@ -77,8 +77,11 @@ const ExamDetailPage = () => {
 
     const handleFetchPeerReviews = async () => {
         try {
-            await refetchPeerReviews();            
-            setPeerReviews(peerReview);
+            await refetchPeerReviews();  
+            //   lọc peerReview có reviewdUserId trùng với userId ra khỏi danh sách
+            const per = peerReview.filter((review) => review.reviewedUserId !== Number(userId));
+
+            setPeerReviews(per);
             setIsModalOpen(true);
         } catch (error) {
             console.error("Error fetching peer reviews:", error);
@@ -86,7 +89,7 @@ const ExamDetailPage = () => {
     };
 
     const handleReviewClick = (reviewId: number) => {
-        navigate(`/peer-review/${reviewId}`);
+        navigate(`/peer-review/${id}/${reviewId}`);
     };
 
     if (!isPurchased) {
