@@ -52,10 +52,13 @@ const ExamResultTable = ({ props, onScoreChange }: any) => {
             hour12: false
         });
     };
-    const highestScore = examResults? examResults.reduce((max, result) => 
+    const highestScore = Array.isArray(examResults) 
+    ? examResults.reduce((max, result) => 
         result.scoreValue > max ? result.scoreValue : max, 
         0
-    ) : 0;
+    ) 
+    : 0;
+
     
     return (
         <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg w-full p-4 sm:p-6">
