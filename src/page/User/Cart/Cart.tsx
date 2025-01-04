@@ -12,6 +12,8 @@ import useWalletDetail from "../../../hooks/Wallet/useWalletDetail";
 import { showToast } from "../../../utils/toastUtils";
 import { currentVoucher } from "../../../models/voucher";
 import agent from "../../../utils/agent";
+import { Modal } from "antd";
+
 const ITEMS_PER_PAGE = 10;
 
 const Cart = () => {
@@ -33,6 +35,8 @@ const Cart = () => {
 
   const [selectedCourses, setSelectedCourses] = useState<any[]>([]);
   const [selectedExams, setSelectedExams] = useState<any[]>([]);
+  const [isVoucherModalOpen, setIsVoucherModalOpen] = useState(false);
+
   const lamTronLen = (a: number) => {
     return a % 1 > 0 ? Math.ceil(a) : a;
   };
@@ -51,44 +55,44 @@ const Cart = () => {
     }
   }
     , [userId]);
-  const handleChangeVoucher = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const voucherId = parseInt(e.target.value, 10);
-    const selectedVoucher = vouchers.find((v) => v.voucherId === voucherId);
-    console.log(e.target.value)
-    setSelectedVoucher(selectedVoucher || null);
+  const applyVoucher = (voucher: currentVoucher) => {
+    if (!voucher || !histoyCarts) return;
 
-
-    const applyVoucher = (voucher: currentVoucher) => {
-      if (!voucher || !histoyCarts) return;
-
-      const updatedSelectedExams = selectedExams.map((exam) => {
-        const historyExam = histoyCarts?.examDetails?.find((e) => e.examId === exam.examId);
-        if (historyExam) {
-          return {
-            ...exam,
-            examDiscountFee: lamTronLen(historyExam.examDiscountFee - (historyExam.examDiscountFee * voucher.percentage) / 100),
-          };
-        }
-        return exam;
-      });
-      setSelectedExams(updatedSelectedExams);
-      // tính giá gốc trong history exam
-      const totalNonVoucher = histoyCarts?.examDetails?.filter((exam) => selectedExams.some((selectedExam) => selectedExam.examId === exam.examId)).reduce((acc, exam) => acc + exam.examDiscountFee, 0);
-      setTotalNonVoucher(totalNonVoucher);
-      // setTotalNonVoucher(updatedSelectedExams.reduce((acc, exam) => acc + exam.examDiscountFee, 0));
-      const total = updatedSelectedExams.reduce((acc, exam) => acc + exam.examDiscountFee, 0) + selectedCourses.reduce((acc, course) => acc + course.courseDiscountFee, 0);
-      setTotal(total);
-    };
-
-    console.log(selectedVoucher)
-
-    if (selectedVoucher) {
-      applyVoucher(selectedVoucher as currentVoucher);
-    }
-    else if (selectedVoucher === null) {
-      setCarts(histoyCarts);
-    }
+    const updatedSelectedExams = selectedExams.map((exam) => {
+      const historyExam = histoyCarts?.examDetails?.find((e) => e.examId === exam.examId);
+      if (historyExam) {
+        return {
+          ...exam,
+          examDiscountFee: lamTronLen(historyExam.examDiscountFee - (historyExam.examDiscountFee * voucher.percentage) / 100),
+        };
+      }
+      return exam;
+    });
+    setSelectedExams(updatedSelectedExams);
+    
+    const totalNonVoucher = histoyCarts?.examDetails?.filter((exam) => 
+      selectedExams.some((selectedExam) => selectedExam.examId === exam.examId)
+    ).reduce((acc, exam) => acc + exam.examDiscountFee, 0);
+    
+    setTotalNonVoucher(totalNonVoucher || 0);
+    const total = updatedSelectedExams.reduce((acc, exam) => acc + exam.examDiscountFee, 0);
+    setTotal(total);
   };
+
+  // const handleChangeVoucher = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const voucherId = parseInt(e.target.value, 10);
+  //   const selectedVoucher = vouchers.find((v) => v.voucherId === voucherId);
+  //   console.log(e.target.value)
+  //   setSelectedVoucher(selectedVoucher || null);
+
+
+  //   if (selectedVoucher) {
+  //     applyVoucher(selectedVoucher as currentVoucher);
+  //   }
+  //   else if (selectedVoucher === null) {
+  //     setCarts(histoyCarts);
+  //   }
+  // };
 
   // refresh lại khi có thay đổi selectedExams hoặc selectedCourses
   useEffect(() => {
@@ -253,6 +257,42 @@ const Cart = () => {
       setSelectedExams([]);
     }
   };
+
+  const handleVoucherClick = (voucher: currentVoucher) => {
+    if (selectedVoucher?.voucherId === voucher.voucherId) {
+      // If clicking the same voucher, reset everything
+      setSelectedVoucher(null);
+      setCarts(histoyCarts);
+      setSelectedExams((prev) => 
+        prev.map((exam) => {
+          const originalExam = histoyCarts?.examDetails?.find(
+            (e) => e.examId === exam.examId
+          );
+          return originalExam || exam;
+        })
+      );
+      const total = selectedExams.reduce((acc, exam) => acc + exam.examDiscountFee, 0);
+      setTotal(total);
+    } else {
+      // If clicking a different voucher, apply it
+      setSelectedVoucher(voucher);
+      applyVoucher(voucher);
+    }
+    setIsVoucherModalOpen(false);
+  };
+
+  // Add this effect to reset voucher when exam selection changes
+  useEffect(() => {
+    if (selectedExams.length === 0) {
+      setSelectedVoucher(null);
+    }
+    // Reset voucher when changing exam selection
+    setSelectedVoucher(null);
+    setCarts(histoyCarts);
+    const total = selectedExams.reduce((acc, exam) => acc + exam.examDiscountFee, 0);
+    setTotal(total);
+  }, [selectedExams.length]);
+
   return (
     <div className="container mx-auto p-2 sm:p-4 md:p-6 min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Popup Xác nhận */}
@@ -280,6 +320,86 @@ const Cart = () => {
           </div>
         </div>
       )}
+
+      {/* Voucher Selection Modal */}
+      <Modal
+        title={
+          <div className="text-xl font-bold text-gray-800 dark:text-white">
+            Select Voucher
+          </div>
+        }
+        visible={isVoucherModalOpen}
+        onCancel={() => setIsVoucherModalOpen(false)}
+        footer={null}
+        width={600}
+        className="voucher-modal"
+      >
+        <div className="space-y-4 max-h-[60vh] overflow-y-auto p-2">
+          {vouchers.length > 0 ? (
+            vouchers.map((voucher) => (
+              <div
+                key={voucher.voucherId}
+                className={`relative group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 ${
+                  selectedVoucher?.voucherId === voucher.voucherId
+                    ? 'border-2 border-purple-500 dark:border-purple-400'
+                    : 'border border-gray-200 dark:border-gray-700'
+                }`}
+                onClick={() => handleVoucherClick(voucher)}
+              >
+                <div className="flex items-stretch">
+                  {/* Left side - Discount Badge */}
+                  <div className="flex items-center justify-center w-24 bg-gradient-to-br from-purple-500 to-blue-500 text-white p-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold">{voucher.percentage}%</div>
+                      <div className="text-xs">OFF</div>
+                    </div>
+                  </div>
+
+                  {/* Right side - Voucher Details */}
+                  <div className="flex-1 p-4 bg-white dark:bg-gray-800">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="font-semibold text-gray-800 dark:text-white text-lg">
+                          {voucher.voucherName} - {voucher.voucherLevel}
+                        </h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                          Valid until: {new Date(voucher.expiryDate).toLocaleDateString('vi-VN')}
+                        </p>
+                      </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedVoucher(voucher);
+                          applyVoucher(voucher);
+                          setIsVoucherModalOpen(false);
+                        }}
+                        className={`mt-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                          selectedVoucher?.voucherId === voucher.voucherId
+                            ? 'bg-purple-500 text-white hover:bg-purple-600'
+                            : 'bg-purple-50 text-purple-600 hover:bg-purple-100'
+                        }`}
+                      >
+                        {selectedVoucher?.voucherId === voucher.voucherId ? 'Selected' : 'Select'}
+                      </button>
+                    </div>
+
+                    {/* Decorative dots */}
+                    <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-4 h-4 bg-gray-200 dark:bg-gray-700 rounded-full" />
+                    <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-4 h-4 bg-gray-200 dark:bg-gray-700 rounded-full" />
+                  </div>
+                </div>
+
+                {/* Hover effect */}
+                <div className="absolute inset-0 bg-purple-500/10 dark:bg-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            ))
+          ) : (
+            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+              No vouchers available
+            </div>
+          )}
+        </div>
+      </Modal>
 
       <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
         {/* Main Content */}
@@ -426,29 +546,22 @@ const Cart = () => {
                 {/* select voucher */}
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-gray-600 dark:text-gray-300">Voucher</span>
-                  {/* nếu selectedExam.lengh lớn hơn 0 thì mới hiển thị select */}
-
                   {selectedExams.length > 0 && (
-                    <select
-                      className="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-lg focus:ring-purple-500"
-                      onChange={(e) => {
-                        const voucherId = parseInt(e.target.value, 10);
-                        const voucher = vouchers.find((v) => v.voucherId === voucherId);
-                        if (voucher) {
-                          handleChangeVoucher(e);
-                        } else {
-                          setCarts(histoyCarts);
-                          setSelectedExams((prev) => prev.map((exam) => histoyCarts?.examDetails?.find((e) => e.examId === exam.examId) || exam));
-                        }
-                      }}
+                    <button
+                      onClick={() => setIsVoucherModalOpen(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-all duration-300 font-medium"
                     >
-                      <option value="0">Select Voucher</option>
-                      {vouchers.map((voucher) => (
-                        <option key={voucher.voucherId} value={voucher.voucherId}>
-                          {voucher.voucherName}
-                        </option>
-                      ))}
-                    </select>
+                      {selectedVoucher ? (
+                        <>
+                          <span>{selectedVoucher.voucherName}</span>
+                          <span className="text-sm bg-purple-200 dark:bg-purple-800 px-2 py-1 rounded">
+                            -{selectedVoucher.percentage}%
+                          </span>
+                        </>
+                      ) : (
+                        'Select Voucher'
+                      )}
+                    </button>
                   )}
                 </div>
                 <div className="flex justify-between items-center text-sm">

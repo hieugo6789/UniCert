@@ -26,6 +26,8 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment, onStat
   const { wallets, getWalletDetails } = useWalletDetail();
   const [vouchers, setVouchers] = useState<currentVoucher[]>([]);
   const [selectedVoucher, setSelectedVoucher] = useState<currentVoucher | null>(null);
+  const [isVoucherModalOpen, setIsVoucherModalOpen] = useState(false);
+
   useEffect(() => {
     const fetchVouchers = async () => {
       const response = await agent.Voucher.getVoucherByUserId(userId || "");
@@ -82,11 +84,14 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment, onStat
     }
   };
 
-  // log ra xem có voucher nào được chọn không
-  // useEffect(() => {
-  //   console.log(selectedVoucher);
-  // }
-  //   , [selectedVoucher]);
+  const handleVoucherClick = (voucher: currentVoucher) => {
+    if (selectedVoucher?.voucherId === voucher.voucherId) {
+      setSelectedVoucher(null);
+    } else {
+      setSelectedVoucher(voucher);
+    }
+    setIsVoucherModalOpen(false);
+  };
 
   return (
     <div className={`shadow-lg rounded-lg bg-white dark:bg-gray-800 p-4 sm:p-6 md:p-8 h-full flex flex-col
@@ -229,25 +234,23 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment, onStat
             </div>
 
             {/* select chọn voucher */}
-            <div className="flex flex-col space-y-2">
-
-
-              <label htmlFor="voucher" className="text-gray-600 dark:text-gray-300">Select Voucher:</label>
-              <select
-                id="voucher"
-                value={selectedVoucher?.voucherId || ""}
-                onChange={(e) => {
-                  setSelectedVoucher(vouchers.find((voucher) => voucher.voucherId.toString() === e.target.value) || null);
-                }}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-gray-600 dark:text-gray-300">Voucher</span>
+              <button
+                onClick={() => setIsVoucherModalOpen(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-all duration-300 font-medium"
               >
-                <option value="" disabled>Select a voucher</option>
-                {vouchers?.map((voucher) => (
-                  <option key={voucher.voucherId} value={voucher.voucherId}>
-                    {voucher.voucherName} - {voucher.percentage}% off
-                  </option>
-                ))}
-              </select>
+                {selectedVoucher ? (
+                  <>
+                    <span>{selectedVoucher.voucherName}</span>
+                    <span className="text-sm bg-purple-200 dark:bg-purple-800 px-2 py-1 rounded">
+                      -{selectedVoucher.percentage}%
+                    </span>
+                  </>
+                ) : (
+                  'Select Voucher'
+                )}
+              </button>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-600 dark:text-gray-300">Your Balance:</span>
@@ -276,6 +279,82 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment, onStat
           </div>
         </div>
       </Modal >
+      <Modal
+        title={
+          <div className="text-xl font-bold text-gray-800 dark:text-white">
+            Select Voucher
+          </div>
+        }
+        visible={isVoucherModalOpen}
+        onCancel={() => setIsVoucherModalOpen(false)}
+        footer={null}
+        width={600}
+        className="voucher-modal"
+      >
+        <div className="space-y-4 max-h-[60vh] overflow-y-auto p-2">
+          {vouchers.length > 0 ? (
+            vouchers.map((voucher) => (
+              <div
+                key={voucher.voucherId}
+                className={`relative group cursor-pointer rounded-xl overflow-hidden transition-all duration-300 ${
+                  selectedVoucher?.voucherId === voucher.voucherId
+                    ? 'border-2 border-purple-500 dark:border-purple-400'
+                    : 'border border-gray-200 dark:border-gray-700'
+                }`}
+                onClick={() => handleVoucherClick(voucher)}
+              >
+                <div className="flex items-stretch">
+                  {/* Left side - Discount Badge */}
+                  <div className="flex items-center justify-center w-24 bg-gradient-to-br from-purple-500 to-blue-500 text-white p-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold">{voucher.percentage}%</div>
+                      <div className="text-xs">OFF</div>
+                    </div>
+                  </div>
+
+                  {/* Right side - Voucher Details */}
+                  <div className="flex-1 p-4 bg-white dark:bg-gray-800">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="font-semibold text-gray-800 dark:text-white text-lg">
+                          {voucher.voucherName} - {voucher.voucherLevel}
+                        </h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                          Valid until: {new Date(voucher.expiryDate).toLocaleDateString('vi-VN')}
+                        </p>
+                      </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleVoucherClick(voucher);
+                        }}
+                        className={`mt-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                          selectedVoucher?.voucherId === voucher.voucherId
+                            ? 'bg-purple-500 text-white hover:bg-purple-600'
+                            : 'bg-purple-50 text-purple-600 hover:bg-purple-100'
+                        }`}
+                      >
+                        {selectedVoucher?.voucherId === voucher.voucherId ? 'Selected' : 'Select'}
+                      </button>
+                    </div>
+
+                    {/* Decorative dots */}
+                    <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-4 h-4 bg-gray-200 dark:bg-gray-700 rounded-full" />
+                    <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-4 h-4 bg-gray-200 dark:bg-gray-700 rounded-full" />
+                  </div>
+                </div>
+
+                {/* Hover effect */}
+                <div className="absolute inset-0 bg-purple-500/10 dark:bg-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            ))
+          ) : (
+            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+              No vouchers available
+            </div>
+          )}
+        </div>
+      </Modal>
     </div >
   );
 };
