@@ -416,8 +416,8 @@ const peerReview = {
   deletePeerReview(peerReviewId: number) {
     return requests.del(`api/v1/peer-review/${peerReviewId}`);
   },
-  getPeerDetailById(peerReviewId: number) {
-    return requests.get(`api/v1/peer-review/${peerReviewId}`);
+  getPeerDetailById(peerReviewId: number,peerType:number) {
+    return requests.get(`api/v1/peer-review/${peerReviewId}?peerType=${peerType}`);
   },
   updatePeerDetail(peerReviewId: number, input: updatePeerReview) {
     return requests.put(`api/v1/peer-review/${peerReviewId}`, input);
