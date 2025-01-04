@@ -4,7 +4,7 @@ import useScoreDetail from "../../hooks/Score/useScoreDetail";
 import Cookies from "js-cookie";
 import { Link, useParams } from "react-router-dom";
 
-const ExamResultTable = ({props} : any) => {
+const ExamResultTable = ({ props, onScoreChange }: any) => {
     const userId = Cookies.get("userId") || 0;
     const examId = useParams().id;
     const [examResults, setExamResults] = useState<score[]>([]);
@@ -26,7 +26,11 @@ const ExamResultTable = ({props} : any) => {
 
     useEffect(() => {
         setExamResults(state);
-        console.log("state", state)
+        console.log("state", state);
+        
+        // Check if any scoreValue is greater than or equal to passingScore
+        const hasPassed = state.some(result => result.scoreValue >= props.passingScore);
+        onScoreChange(hasPassed); // Call the callback with the result
     }, [state]);
 
     // const averageScore = examResults.length > 0 

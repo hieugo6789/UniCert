@@ -24,6 +24,7 @@ const ExamDetailPage = () => {
     const [peerReviews, setPeerReviews] = useState<any[]>([]);
     const { peerReview, refetchPeerReviews } = usePeerReviewByExamId({examId: Number(id)});
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isPeerReviewEnabled, setIsPeerReviewEnabled] = useState(false);
 
     useEffect(() => {
         if (!userId) {
@@ -90,6 +91,10 @@ const ExamDetailPage = () => {
 
     const handleReviewClick = (reviewId: number) => {
         navigate(`/peer-review/${id}/${reviewId}`);
+    };
+
+    const handleScoreChange = (hasPassed: boolean) => {
+        setIsPeerReviewEnabled(hasPassed);
     };
 
     if (!isPurchased) {
@@ -168,12 +173,20 @@ const ExamDetailPage = () => {
                             Start Exam
                         </CustomButton>
 
-                        <CustomButton
-                            onClick={handleFetchPeerReviews}
-                            className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-3"
-                        >
-                            View Peer Reviews
-                        </CustomButton>
+                        <div className="relative group">
+                            <CustomButton
+                                onClick={handleFetchPeerReviews}
+                                disabled={!isPeerReviewEnabled}
+                                className={`w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-3 ${!isPeerReviewEnabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            >
+                                View Peer Reviews
+                            </CustomButton>
+                            {!isPeerReviewEnabled && (
+                                <div className="ml-2 absolute hidden group-hover:block bg-gradient-to-r bg-indigo-500 text-white text-sm rounded-lg px-4 py-2 w-full left-full top-1/2 transform -translate-y-1/2 translate-x-2 shadow-xl transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
+                                    You didn't pass this exam.
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -198,7 +211,7 @@ const ExamDetailPage = () => {
                 <div className="p-6">
                     {activeTab === "Detail" && (
                         <div className="space-y-8 animate-fadeIn">
-                            <ExamResultTable props={exam} />
+                            <ExamResultTable props={exam} onScoreChange={handleScoreChange} />
                         </div>
                     )}
                     {activeTab === "Feedback" && (

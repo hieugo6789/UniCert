@@ -16,8 +16,9 @@ const PeerDetailPage: React.FC = () => {
                 console.log(response);
                 setPeerReviews(response); // Assuming response is in the format as described in the question
                 setLoading(false);
-            } catch (err) {
-                setError("Failed to fetch peer reviews");
+            } catch (err: any) {
+                console.log("Test", err)
+                setError(err.response.data.message);
                 setLoading(false);
             }
         };
