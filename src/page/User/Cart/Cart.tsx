@@ -60,7 +60,7 @@ const Cart = () => {
 
     const applyVoucher = (voucher: currentVoucher) => {
       if (!voucher || !histoyCarts) return;
-    
+
       const updatedSelectedExams = selectedExams.map((exam) => {
         const historyExam = histoyCarts?.examDetails?.find((e) => e.examId === exam.examId);
         if (historyExam) {
@@ -93,7 +93,7 @@ const Cart = () => {
   // refresh lại khi có thay đổi selectedExams hoặc selectedCourses
   useEffect(() => {
     const totalNonVoucher = histoyCarts?.examDetails?.filter((exam) => selectedExams.some((selectedExam) => selectedExam.examId === exam.examId)).reduce((acc, exam) => acc + exam.examDiscountFee, 0);
-    setTotalNonVoucher(totalNonVoucher||0);
+    setTotalNonVoucher(totalNonVoucher || 0);
     // setTotalNonVoucher(selectedExams.reduce((acc, exam) => acc + exam.examDiscountFee, 0));
     const total = selectedExams.reduce((acc, exam) => acc + exam.examDiscountFee, 0) + selectedCourses.reduce((acc, course) => acc + course.courseDiscountFee, 0);
     setTotal(total);
@@ -188,7 +188,7 @@ const Cart = () => {
       const updateCourseId = carts?.courseDetails
         ?.filter((course) => !selectedCourses.includes(course))
         .map((course) => course.courseId) || [];
-      
+
       const updateExamId = carts?.examDetails
         ?.filter((exam) => !selectedExams.some((selectedExam) => selectedExam.examId === exam.examId))
         .map((exam) => exam.examId) || [];
@@ -405,45 +405,51 @@ const Cart = () => {
                   </span>
                 </div>
                 {/* số tiền giảm */}
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-600 dark:text-gray-300">Discount Amount</span>
-                  <span className="flex items-center gap-2 text-lg font-bold text-purple-400 dark:text-purple-400 line-through">
-                    {totalNonVoucher - total}
-                    <img src={coin} alt="coin" className="h-5" />
-                  </span>
-                </div>
-                {/* giá sau giảm */}
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-600 dark:text-gray-300">Total Amount After Discount</span>
-                  <span className="flex items-center gap-2 text-lg font-bold text-purple-600 dark:text-purple-400">
-                    {total}
-                    <img src={coin} alt="coin" className="h-5" />
-                  </span>
-                </div>
+                {totalNonVoucher - total > 0 && (
+                  <>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-gray-600 dark:text-gray-300">Discount Amount</span>
+                      <span className="flex items-center gap-2 text-lg font-bold text-purple-400 dark:text-purple-400 line-through">
+                        {totalNonVoucher - total}
+                        <img src={coin} alt="coin" className="h-5" />
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-gray-600 dark:text-gray-300">Total Amount After Discount</span>
+                      <span className="flex items-center gap-2 text-lg font-bold text-purple-600 dark:text-purple-400">
+                        {total}
+                        <img src={coin} alt="coin" className="h-5" />
+                      </span>
+                    </div>
+                  </>)}
+
                 {/* select voucher */}
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-gray-600 dark:text-gray-300">Voucher</span>
-                  <select
-                    className="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-lg focus:ring-purple-500"
-                    onChange={(e) => {
-                      const voucherId = parseInt(e.target.value, 10);
-                      const voucher = vouchers.find((v) => v.voucherId === voucherId);
-                      if (voucher) {
-                        handleChangeVoucher(e);
-                      } else {
-                        setCarts(histoyCarts);
-                        setSelectedExams((prev) => prev.map((exam) => histoyCarts?.examDetails?.find((e) => e.examId === exam.examId) || exam));
+                  {/* nếu selectedExam.lengh lớn hơn 0 thì mới hiển thị select */}
 
-                      }
-                    }}
-                  >
-                    <option value="0">Select Voucher</option>
-                    {vouchers.map((voucher) => (
-                      <option key={voucher.voucherId} value={voucher.voucherId}>
-                        {voucher.voucherName}
-                      </option>
-                    ))}
-                  </select>
+                  {selectedExams.length > 0 && (
+                    <select
+                      className="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-lg focus:ring-purple-500"
+                      onChange={(e) => {
+                        const voucherId = parseInt(e.target.value, 10);
+                        const voucher = vouchers.find((v) => v.voucherId === voucherId);
+                        if (voucher) {
+                          handleChangeVoucher(e);
+                        } else {
+                          setCarts(histoyCarts);
+                          setSelectedExams((prev) => prev.map((exam) => histoyCarts?.examDetails?.find((e) => e.examId === exam.examId) || exam));
+                        }
+                      }}
+                    >
+                      <option value="0">Select Voucher</option>
+                      {vouchers.map((voucher) => (
+                        <option key={voucher.voucherId} value={voucher.voucherId}>
+                          {voucher.voucherName}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-gray-500 dark:text-gray-400">Wallet Balance</span>
@@ -456,11 +462,10 @@ const Cart = () => {
                 <div className="flex justify-between items-center text-sm mt-2">
                   <span className="text-gray-500 dark:text-gray-400">Balance After Purchase</span>
                   <span
-                    className={`flex items-center gap-2 ${
-                      userId && wallets[userId]?.point - total < 0
-                        ? "text-red-600"
-                        : "text-gray-600 dark:text-gray-300"
-                    }`}
+                    className={`flex items-center gap-2 ${userId && wallets[userId]?.point - total < 0
+                      ? "text-red-600"
+                      : "text-gray-600 dark:text-gray-300"
+                      }`}
                   >
                     {userId ? wallets[userId]?.point - total : 0}
                     <img src={coin} alt="coin" className="h-4" />
