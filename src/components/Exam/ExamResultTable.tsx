@@ -10,7 +10,7 @@ const ExamResultTable = ({ props, onScoreChange }: any) => {
     const [examResults, setExamResults] = useState<score[]>([]);
     const { state, getScoreDetails } = useScoreDetail();
 
-    console.log("Test", props.passingScore)
+    // console.log("Test", props.passingScore)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,7 +30,7 @@ const ExamResultTable = ({ props, onScoreChange }: any) => {
         
         // Check if any scoreValue is greater than or equal to passingScore
         const hasPassed = Array.isArray(state) 
-        ? state.some(result => result.scoreValue >= props.passingScore) 
+        ? state.some(result => result.scoreValue >= (props?.passingScore? props.passingScore : 0)) 
         : false;
             onScoreChange(hasPassed); // Call the callback with the result
     }, [state]);
@@ -63,7 +63,7 @@ const ExamResultTable = ({ props, onScoreChange }: any) => {
     return (
         <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg w-full p-4 sm:p-6">
             <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 dark:text-gray-100">Exam Results</h2>
-            <p className="text-lg sm:text-lg font-bold text-center mb-4 text-gray-800 dark:text-gray-100">The minimum score required to pass the exam is {props.passingScore}.</p>
+            <p className="text-lg sm:text-lg font-bold text-center mb-4 text-gray-800 dark:text-gray-100">The minimum score required to pass the exam is {props?.passingScore? props.passingScore : 0}.</p>
             {/* {averageScore && (
                 <div className="text-center mb-6">
                     <p className={`font-semibold text-base sm:text-lg ${Number(averageScore) >= props.passingScore ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>
@@ -121,7 +121,7 @@ const ExamResultTable = ({ props, onScoreChange }: any) => {
                                         {examResults.length - index}
                                     </td>
                                     <td className={`py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm font-medium ${
-                                        result.scoreValue >= props.passingScore ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
+                                        result.scoreValue >= (props?.passingScore? props.passingScore : 0) ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
                                     }`}>
                                         {result.scoreValue}/100
                                     </td>
