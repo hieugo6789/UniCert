@@ -181,13 +181,17 @@ const PreviewExam = () => {
 
                         </div>                        
                     </div>
-                ))}                
-                <button
+                ))}
+                <p className="mt-6 font-semibold text-center text-gray-700 dark:text-gray-300">
+                    If you are not satisfied with the essay grading results, you can click this button to request cross-grading.
+                    <button
                     onClick={postPeerReview}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md mt-4"
-                >
-                    Post Peer Review
-                </button>                   
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition duration-200 mt-2"
+                    >
+                        Post Peer Review
+                    </button>  
+                </p>                
+                                 
             </div>            
         </div>
     );

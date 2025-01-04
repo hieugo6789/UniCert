@@ -262,7 +262,7 @@ const Cart = () => {
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">Confirm Payment</h2>
             <p className="text-gray-600 dark:text-gray-300">Are you sure you want to proceed with this payment?</p>
             {/* Note chỉ có giới hạn 3 ngày */}
-            <p className="text-gray-400 dark:text-gray-200 mt-2">Note: Valid for 3 days only.</p>
+            <p className="text-red-500 dark:text-red-500 mt-2">Note: Students can take simulation exams within 3 days after purchase. Please plan accordingly.</p>
             <div className="mt-8 flex justify-end gap-4">
               <button
                 onClick={() => handlePopupAction(false)}

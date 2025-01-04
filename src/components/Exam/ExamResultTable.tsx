@@ -29,9 +29,9 @@ const ExamResultTable = ({props} : any) => {
         console.log("state", state)
     }, [state]);
 
-    const averageScore = examResults.length > 0 
-        ? (examResults.reduce((acc, cur) => acc + cur.scoreValue, 0) / examResults.length).toFixed(0)
-        : null;
+    // const averageScore = examResults.length > 0 
+    //     ? (examResults.reduce((acc, cur) => acc + cur.scoreValue, 0) / examResults.length).toFixed(0)
+    //     : null;
 
     const formatVietnameseDateTime = (utcDate: string) => {
         const date = new Date(utcDate);        
@@ -51,7 +51,7 @@ const ExamResultTable = ({props} : any) => {
         <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg w-full p-4 sm:p-6">
             <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 dark:text-gray-100">Exam Results</h2>
             <p className="text-lg sm:text-lg font-bold text-center mb-4 text-gray-800 dark:text-gray-100">The minimum score required to pass the exam is {props.passingScore}.</p>
-            {averageScore && (
+            {/* {averageScore && (
                 <div className="text-center mb-6">
                     <p className={`font-semibold text-base sm:text-lg ${Number(averageScore) >= props.passingScore ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>
                         Average Score: {averageScore}/100
@@ -62,9 +62,9 @@ const ExamResultTable = ({props} : any) => {
                         </p>
                     )}
                 </div>
-            )}
+            )} */}
 
-            {examResults.length > 0 && (
+            {/* {examResults.length > 0 && (
                 <div className={`text-center mb-6 p-3 rounded-lg ${
                     examResults[0].scoreValue >= props.passingScore 
                         ? "bg-green-50 dark:bg-green-900/50 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800" 
@@ -76,7 +76,7 @@ const ExamResultTable = ({props} : any) => {
                             : "You have not passed the exam yet. Keep practicing!"}
                     </p>
                 </div>
-            )}
+            )} */}
 
             <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">

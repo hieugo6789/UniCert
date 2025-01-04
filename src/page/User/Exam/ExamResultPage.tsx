@@ -175,7 +175,7 @@ const ExamResultPage = () => {
                                 : "bg-yellow-500 dark:bg-yellow-400"
                                 }`}>
                                 <span className="text-4xl font-bold text-white">
-                                    {scoreValue.toFixed(0)}
+                                    {scoreValue}
                                 </span>
                             </div>
                             

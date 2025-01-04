@@ -100,7 +100,7 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment, onStat
               Enrollment #{enrollment.examEnrollmentId}
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              Enrolled on {new Date(enrollment.examEnrollmentDate).toLocaleDateString()}
+              Enrolled on {new Date(enrollment.examEnrollmentDate).toLocaleDateString('vi-VN')}
             </p>
           </div>
           <div className="w-full sm:w-auto text-left sm:text-right">
@@ -113,17 +113,17 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment, onStat
               <img src={Coin} alt="coin" className="h-5 w-5"/>
             </p> */}
             {/* nếu có totalPriceVoucher thì gạch totalPrice hiển thị thêm totalPriceVoucher còn không thì hiển thị totalPrice thôi */}
-            {enrollment.totalPriceVoucher ? (
+            {enrollment.totalPriceVoucher === enrollment.totalPrice || !enrollment.totalPriceVoucher ? (
+              <p className="text-lg font-bold text-gray-900 dark:text-gray-100 mt-2 flex items-center sm:justify-end gap-2">
+                {enrollment.totalPrice}
+              <img src={Coin} alt="coin" className="h-5 w-5" />
+            </p>
+            ) : (              
               <p className="text-lg font-bold text-gray-900 dark:text-gray-100 mt-2 flex items-center sm:justify-end gap-2">
                 <span className="line-through text-gray-500">{enrollment.totalPrice}</span>
                 <span>{enrollment.totalPriceVoucher}</span>
-                <img src={Coin} alt="coin" className="h-5 w-5" />
-              </p>
-            ) : (
-              <p className="text-lg font-bold text-gray-900 dark:text-gray-100 mt-2 flex items-center sm:justify-end gap-2">
-                {enrollment.totalPrice}
-                <img src={Coin} alt="coin" className="h-5 w-5" />
-              </p>
+              <img src={Coin} alt="coin" className="h-5 w-5" />
+            </p>
             )}
           </div>
         </div>

@@ -217,7 +217,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
       >
         <div className="p-4">
           <div className="space-y-4">
-          <p className="text-gray-400 dark:text-gray-200 mt-2">Note: Valid for 3 days only.</p>
+          <p className="text-red-500 dark:text-red-500 mt-2">Note: Students can take simulation exams within 3 days after purchase. Please plan accordingly.</p>
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Exam Price:</span>
               <span className="flex items-center gap-2 font-medium">
