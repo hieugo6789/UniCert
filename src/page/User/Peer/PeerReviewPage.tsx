@@ -37,18 +37,18 @@ const PeerReviewPage: React.FC = () => {
         const fetchData = async () => {
             if (!id) return;
             try {
-                const data = await agent.peerReview.getPeerDetailById(Number(id));
+                const data = await agent.peerReview.getPeerDetailById(Number(id),1);
                 const resp = await agent.peerReview.getPeerReviewByScoreId(data.scoreId);
                 console.log(resp)
-                if (data.reviewedUserId === Number(Cookies.get('userId'))) {
+                if (data.reviewedUserId === Number(Cookies.get('userId')) ) {
                     setError('You cannot review your own exam!');
                     return;
                 }
-                if (!resp.some((review: any) => review.reviewerId === Number(Cookies.get('userId')))) {
+                // if (!resp.some((review: any) => review.reviewerId === Number(Cookies.get('userId')))) {
                     setPeerReview(data);
-                } else {
-                    setError('You are reviewed this exam!');
-                }
+                // } else {
+                    // setError('You are reviewed this exam!');
+                // }
                 console.log(error)
                 // setPeerReview(data);
             } catch (error) {
