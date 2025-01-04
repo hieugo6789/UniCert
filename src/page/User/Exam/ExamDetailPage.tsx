@@ -11,6 +11,7 @@ import { showToast } from '../../../utils/toastUtils';
 import AverageRating from '../../../components/Exam/AverageRating';
 import usePeerReviewByExamId from '../../../hooks/PeerReview/usePeerReviewByExamId';
 import { Modal } from 'antd';
+import Loading from '../../../components/UI/Loading';
 
 const ExamDetailPage = () => {
     const id = useParams().id || 0;
@@ -18,13 +19,14 @@ const ExamDetailPage = () => {
     const userId = Cookies.get("userId");
     const [activeTab, setActiveTab] = useState("Detail");
     const [exam, setExam] = useState<any>(undefined);
-    const [isPurchased, setIsPurchased] = useState(false);
+    const [isPurchased, setIsPurchased] = useState(true);
     const { state, getExamDetails } = useExamDetail();
     const { examEnrollment, refetchExamEnrollments } = useExamEnrollment({ userId: userId || "" });
     const [peerReviews, setPeerReviews] = useState<any[]>([]);
     const { peerReview, refetchPeerReviews } = usePeerReviewByExamId({examId: Number(id)});
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isPeerReviewEnabled, setIsPeerReviewEnabled] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (!userId) {
@@ -37,6 +39,11 @@ const ExamDetailPage = () => {
 
     useEffect(() => {
         const checkExamPurchase = () => {
+            setLoading(true);
+            console.log(examEnrollment)
+            if (examEnrollment.length==0) return;
+            if (!userId) return;
+            if(!id) return;
             const purchased = examEnrollment.some(
                 (e) => e.examEnrollmentStatus === "Completed" &&
                     e.simulationExamDetail.some(
@@ -45,25 +52,30 @@ const ExamDetailPage = () => {
             );
             console.log("Test", purchased);
             setIsPurchased(purchased);
+            setLoading(false);
         };
 
         checkExamPurchase();
-    }, [userId, id, examEnrollment]);
+    }, [userId,id, examEnrollment]);
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             try {
                 getExamDetails(Number(id));
+                setLoading(false);
             } catch (error) {
                 console.error("Error fetching exam details:", error);
                 showToast("Error loading exam details", "error");
-            }
+                setLoading(false);
+            } 
         };
         fetchData();
     }, [id]);
 
     useEffect(() => {
         setExam(state.currentExam);
+        
     }, [state]);
 
     useEffect(() => {
@@ -77,7 +89,9 @@ const ExamDetailPage = () => {
     }, []);
 
     const handleFetchPeerReviews = async () => {
+        setLoading(true);
         try {
+            
             await refetchPeerReviews();  
             //   lọc peerReview có reviewdUserId trùng với userId ra khỏi danh sách
             const per = peerReview.filter((review) => review.reviewedUserId !== Number(userId));
@@ -86,6 +100,9 @@ const ExamDetailPage = () => {
             setIsModalOpen(true);
         } catch (error) {
             console.error("Error fetching peer reviews:", error);
+        }
+        finally {
+            setLoading(false);
         }
     };
 
@@ -122,7 +139,7 @@ const ExamDetailPage = () => {
                 <div className="w-full md:w-1/3">
                     <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg group">
                         <img
-                            src={exam?.examImage || 'placeholder.jpg'}
+                            src={exam?.examImage || 'https://img.idesign.vn/2018/10/23/id-loading-1.gif'}
                             alt={exam?.examName || 'Exam Thumbnail'}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
@@ -136,7 +153,7 @@ const ExamDetailPage = () => {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <span className="text-gray-600 dark:text-gray-300 whitespace-nowrap">Duration:</span>
-                            <span className="font-medium text-blue-600 dark:text-blue-400 ml-auto">{exam?.duration} minutes</span>
+                            <span className="font-medium text-blue-600 dark:text-blue-400 ml-auto">{exam?.duration || "..." } minutes</span>
                         </div>
                         <div className="flex items-center gap-3 bg-green-50/80 dark:bg-green-900/30 backdrop-blur px-4 py-3 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/50 transition-colors duration-300 shadow-sm">
                             <svg className="w-5 h-5 text-green-600 dark:text-green-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -150,7 +167,7 @@ const ExamDetailPage = () => {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <span className="text-gray-600 dark:text-gray-300 whitespace-nowrap">Fee:</span>
-                            <span className="font-medium text-yellow-600 dark:text-yellow-400 ml-auto">{exam?.examDiscountFee}</span>
+                            <span className="font-medium text-yellow-600 dark:text-yellow-400 ml-auto">{exam?.examDiscountFee || "..."}</span>
                             <img src={coin} alt="Coin" className="w-6 h-6 animate-bounce" />
                         </div>
                         <AverageRating examId={exam?.examId} />
@@ -163,6 +180,7 @@ const ExamDetailPage = () => {
                     <div className="flex gap-4">
                         <CustomButton
                             label='Start Exam'
+                            disabled={!isPurchased}
                             onClick={() => navigate("./simulation")}
                             className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-3"
                         >
@@ -176,7 +194,7 @@ const ExamDetailPage = () => {
                         <div className="relative group">
                             <CustomButton
                                 onClick={handleFetchPeerReviews}
-                                disabled={!isPeerReviewEnabled}
+                                disabled={!isPeerReviewEnabled && !isPurchased}
                                 className={`w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-3 ${!isPeerReviewEnabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                             >
                                 View Peer Reviews
@@ -246,6 +264,7 @@ const ExamDetailPage = () => {
                     ))} 
                 </ul>
             </Modal>
+            {loading && (<Loading />)}
         </div>
     );
 };
