@@ -13,7 +13,7 @@ const usePeerReviewDetail = () => {
   const getPeerReviewDetails = async (id: number) => {
     dispatch(PeerReviewDetailsStart());
     try {
-      const response = await agent.peerReview.getPeerDetailById(id);
+      const response = await agent.peerReview.getPeerDetailById(id, 1);
       dispatch(PeerReviewDetailSuccess(response.data));
     } catch (error) {
       console.error("Error fetching PeerReview details:", error);
