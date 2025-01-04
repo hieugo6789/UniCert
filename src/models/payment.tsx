@@ -40,4 +40,5 @@ export interface payNow {
   userId: number;
   simulation_Exams: number[];
   courses: number[];
+  voucherIds: number[];
 }
