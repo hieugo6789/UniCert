@@ -15,6 +15,8 @@ import { usePayNow } from "../../hooks/Payment/usePayNow";
 import Coin from "../../assets/images/Coin.png";
 import useWalletDetail from "../../hooks/Wallet/useWalletDetail";
 import { useNavigate } from "react-router-dom";
+import { currentVoucher } from "../../models/voucher";
+import agent from "../../utils/agent";
 
 const GetExamSimulation = ({ certId }: { certId: number }) => {
   const userId = Cookies.get("userId");
@@ -31,6 +33,17 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const { wallets, getWalletDetails } = useWalletDetail();
   const navigate = useNavigate();
+  const [vouchers, setVouchers] = useState<currentVoucher[]>([]);
+    const [selectedVoucher, setSelectedVoucher] = useState<currentVoucher | null>(null);
+  
+  useEffect(() => {
+    const fetchVouchers = async () => {
+      const response = await agent.Voucher.getVoucherByUserId(userId || "");
+      setVouchers(response.data);
+      console.log(response)
+    };
+    fetchVouchers();
+  }, [userId]);
 
   // Lấy cart và các kỳ thi đã mua
   useEffect(() => {
@@ -40,7 +53,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
     refetchExamEnrollments(userId || "");
   }, [userId]);
 
-  // Lọc các kỳ thi đã hoàn tất
+  // Lọc các kỳ thi đã hoàn tất 
   useEffect(() => {
     const successfulExams = examEnrollment.filter((exam) => exam.examEnrollmentStatus === "Completed");
     setPurchasedExams(successfulExams);
@@ -122,6 +135,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
         userId: Number(userId),
         simulation_Exams: [selectedExam.examId],
         courses: [],
+        voucherIds: selectedVoucher ? [selectedVoucher.voucherId] : [],
       });
 
       showToast("Payment successful", "success");
@@ -226,9 +240,47 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
               </span>
             </div>
             <div className="flex justify-between items-center">
+              <span className="text-gray-600 dark:text-gray-300">Discounted Price:</span>
+              <span className="flex items-center gap-2 font-medium">
+                {selectedVoucher
+                  ? Math.ceil(selectedExam?.examDiscountFee - (selectedExam?.examDiscountFee * selectedVoucher.percentage) / 100)
+                  : selectedExam?.examDiscountFee}
+                <img src={Coin} alt="coin" className="h-5" />
+              </span>
+            </div>
+
+            {/* select chọn voucher */}
+            <div className="flex flex-col space-y-2">
+
+
+              <label htmlFor="voucher" className="text-gray-600 dark:text-gray-300">Select Voucher:</label>
+              <select
+                id="voucher"
+                value={selectedVoucher?.voucherId || ""}
+                onChange={(e) => {
+                  setSelectedVoucher(vouchers.find((voucher) => voucher.voucherId.toString() === e.target.value) || null);
+                }}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              >
+                <option value="" disabled>Select a voucher</option>
+                {vouchers?.map((voucher) => (
+                  <option key={voucher.voucherId} value={voucher.voucherId}>
+                    {voucher.voucherName} - {voucher.percentage}% off
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex justify-between items-center">
               <span className="text-gray-600">Your Balance:</span>
               <span className="flex items-center gap-2 font-medium">
                 {userId ? wallets[userId]?.point || 0 : 0}
+                <img src={Coin} alt="coin" className="h-5" />
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600 dark:text-gray-300">Remaining Balance:</span>
+              <span className="flex items-center gap-2 font-medium">
+                {userId ? wallets[userId]?.point - Math.ceil(Math.ceil(selectedExam?.examDiscountFee - (selectedExam?.examDiscountFee * (selectedVoucher?.percentage || 0)) / 100)) || 0 : 0}
                 <img src={Coin} alt="coin" className="h-5" />
               </span>
             </div>
