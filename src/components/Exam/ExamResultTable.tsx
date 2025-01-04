@@ -29,8 +29,10 @@ const ExamResultTable = ({ props, onScoreChange }: any) => {
         console.log("state", state);
         
         // Check if any scoreValue is greater than or equal to passingScore
-        const hasPassed = state.some(result => result.scoreValue >= props.passingScore);
-        onScoreChange(hasPassed); // Call the callback with the result
+        const hasPassed = Array.isArray(state) 
+        ? state.some(result => result.scoreValue >= props.passingScore) 
+        : false;
+            onScoreChange(hasPassed); // Call the callback with the result
     }, [state]);
 
     // const averageScore = examResults.length > 0 
@@ -50,7 +52,11 @@ const ExamResultTable = ({ props, onScoreChange }: any) => {
             hour12: false
         });
     };
-
+    const highestScore = examResults? examResults.reduce((max, result) => 
+        result.scoreValue > max ? result.scoreValue : max, 
+        0
+    ) : 0;
+    
     return (
         <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg w-full p-4 sm:p-6">
             <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 dark:text-gray-100">Exam Results</h2>
@@ -81,6 +87,15 @@ const ExamResultTable = ({ props, onScoreChange }: any) => {
                     </p>
                 </div>
             )} */}
+            {/* điểm cao nhất */}
+            {examResults.length > 0 && (
+                <div className={`text-center mb-6 p-3 rounded-lg bg-green-50 dark:bg-green-900/50 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800
+                `}>
+                    <p className="font-semibold text-sm sm:text-base">
+                        Highest Score: {highestScore}/100
+                    </p>
+                </div>
+            )}
 
             <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -119,7 +134,7 @@ const ExamResultTable = ({ props, onScoreChange }: any) => {
                                         </button>
                                         <button className="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none" >
                                             <Link to={`/peer-detail/${examId}/${result.scoreId}`}>
-                                            View Peers
+                                            Reviews
                                             </Link>
                                         </button>
                                         </div>
