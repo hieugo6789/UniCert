@@ -33,7 +33,8 @@ const Peer: React.FC = () => {
   useEffect(() => {
     const fetchPeerReviewDetail = async () => {
       try {
-        const response = await agent.peerReview.getPeerDetailById(Number(id));
+        const response = await agent.peerReview.getPeerDetailById(Number(id),1);
+        console.log(response)
         setPeerReviewDetail(response); // Assuming response is in the format as described in the question
         setLoading(false);
       } catch (err) {
