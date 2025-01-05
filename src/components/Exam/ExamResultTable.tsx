@@ -92,8 +92,11 @@ const ExamResultTable = ({ props, onScoreChange }: any) => {
             )} */}
             {/* điểm cao nhất */}
             {examResults.length > 0 && (
-                <div className={`text-center mb-6 p-3 rounded-lg bg-green-50 dark:bg-green-900/50 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800
-                `}>
+                <div className={`text-center mb-6 p-3 rounded-lg ${
+                    highestScore >= (props?.passingScore? props.passingScore : 0)
+                        ? "bg-green-50 dark:bg-green-900/50 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800" 
+                        : "bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800"
+                }`}>
                     <p className="font-semibold text-sm sm:text-base">
                         Highest Score: {highestScore}/100
                     </p>
