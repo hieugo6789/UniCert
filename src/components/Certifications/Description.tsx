@@ -7,8 +7,9 @@ interface DescriptionProps {
   props: allCertificationData;
   schedule: allSchedulePaginationData[];
   course: allCoursePaginationData[];
+  contact: string;
 }
-const Description = ({ props, schedule, course }: DescriptionProps) => (
+const Description = ({ props, schedule, course,contact }: DescriptionProps) => (
   <div className="space-y-8">
     {/* Description Section */}
     <div className=" p-6 rounded-lg">
@@ -37,7 +38,8 @@ const Description = ({ props, schedule, course }: DescriptionProps) => (
             d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
           />
         </svg>
-        Organization: {props.organizeName}
+        <p >
+          Organization: <a href={'https://'+contact} className="text-blue-500 hover:underline duration-300">{props.organizeName}</a></p>
       </h2>
     </div>
 
@@ -89,19 +91,19 @@ const Description = ({ props, schedule, course }: DescriptionProps) => (
                     />
                   </svg>
                   <span>
-                  {new Date(
-                    new Date(session.sessionDate).setHours(
-                      new Date(session.sessionDate).getHours() + 0
+                    {new Date(
+                      new Date(session.sessionDate).setHours(
+                        new Date(session.sessionDate).getHours() + 0
+                      )
                     )
-                  )
-                    .toLocaleString("vi-VN", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })
-                    .replace(",", "")}
+                      .toLocaleString("vi-VN", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                      .replace(",", "")}
                   </span>
                 </div>
 
@@ -194,7 +196,7 @@ const Description = ({ props, schedule, course }: DescriptionProps) => (
           {course.map((course) => (
             <CourseCard
               key={course.courseId}
-              course={course}              
+              course={course}
               isPurchased={false}
               hideButton={true}
             />
