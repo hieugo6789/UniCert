@@ -12,6 +12,7 @@ import useCourse from "../../../hooks/Course/useCourse";
 import { allCoursePaginationData } from "../../../models/course";
 import Feedback from "../../../components/Certifications/Feedback";
 import dangerIcon from "../../../assets/icons/danger.png";
+import agent from "../../../utils/agent";
 
 const CertificateDetailPage = () => {
   const [activeTab, setActiveTab] = useState("Description");
@@ -34,6 +35,19 @@ const CertificateDetailPage = () => {
   const navigate = useNavigate();
   const [showAllPrerequisites, setShowAllPrerequisites] = useState(false);
   const [showAllNextLevel, setShowAllNextLevel] = useState(false);
+  const [organization, setOrganization] = useState<any>();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const resp = await agent.Organization.getOrganizationDetail(cert?.organizeId.toString() || "0");
+        console.log(resp);
+        setOrganization(resp.data);
+      } catch (error) {
+        console.error("Error fetching certificate details:", error);
+      }
+    };
+    fetchData();
+  }, [cert]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -605,6 +619,7 @@ const CertificateDetailPage = () => {
                 props={cert}
                 schedule={filteredSchedule}
                 course={filteredCourses}
+                contact = {organization?.organizeContact? organization.organizeContact : ""}
               />
             )}
             {activeTab === "Point system" && cert && <ExamDetails {...cert} />}
