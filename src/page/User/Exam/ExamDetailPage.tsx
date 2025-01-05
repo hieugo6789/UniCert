@@ -197,7 +197,7 @@ const ExamDetailPage = () => {
                                 disabled={!isPeerReviewEnabled && !isPurchased}
                                 className={`w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-3 ${!isPeerReviewEnabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                             >
-                                View Peer Reviews
+                                Peer Reviews
                             </CustomButton>
                             {!isPeerReviewEnabled && (
                                 <div className="ml-2 absolute hidden group-hover:block bg-gradient-to-r bg-indigo-500 text-white text-sm rounded-lg px-4 py-2 w-full left-full top-1/2 transform -translate-y-1/2 translate-x-2 shadow-xl transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
@@ -263,6 +263,11 @@ const ExamDetailPage = () => {
                         </li>
                     ))} 
                 </ul>
+                {peerReviews.length === 0 && (
+                <div className="text-center py-8 text-gray-500 dark:text-gray-400 text-sm sm:text-base">
+                    No peer review requests have been submitted yet.
+                </div>
+            )}
             </Modal>
             {loading && (<Loading />)}
         </div>
