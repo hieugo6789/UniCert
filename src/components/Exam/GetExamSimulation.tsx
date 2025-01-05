@@ -180,6 +180,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
         footer={null}
         width={1030}
         destroyOnClose={true}
+        zIndex={999}
       >
         {loading ? (
           <Loading />
@@ -238,6 +239,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
         onCancel={() => setShowPaymentModal(false)}
         footer={null}
         destroyOnClose
+        zIndex={1000}
       >
         <div className="p-4">
           <div className="space-y-4">
@@ -249,6 +251,8 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
                 <img src={Coin} alt="coin" className="h-5" />
               </span>
             </div>
+            {selectedVoucher && (
+            <>
             <div className="flex justify-between items-center">
               <span className="text-gray-600 dark:text-gray-300">Discounted Price:</span>
               <span className="flex items-center gap-2 font-medium">
@@ -258,6 +262,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
                 <img src={Coin} alt="coin" className="h-5" />
               </span>
             </div>
+            </>)}
 
             <div className="flex justify-between items-center mb-2">
               <span className="text-gray-600 dark:text-gray-300">Voucher</span>
@@ -316,6 +321,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
         footer={null}
         width={600}
         className="voucher-modal"
+        zIndex={1001}
       >
         <div className="space-y-4 max-h-[60vh] overflow-y-auto p-2">
           {vouchers.length > 0 ? (

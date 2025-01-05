@@ -211,10 +211,11 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment, onStat
         onCancel={() => setShowPaymentModal(false)}
         footer={null}
         destroyOnClose
+        zIndex={1000}
       >
         <div className="p-4">
           <div className="space-y-4">
-            <p className="text-gray-400 dark:text-gray-200 mt-2">Note: Valid for 3 days only.</p>
+          <p className="text-red-500 dark:text-red-500 mt-2">Note: Students can take simulation exams within 3 days after purchase. Please plan accordingly.</p>
             <div className="flex justify-between items-center">
               <span className="text-gray-600 dark:text-gray-300">Enrollment Price:</span>
               <span className="flex items-center gap-2 font-medium">
@@ -223,6 +224,8 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment, onStat
               </span>
             </div>
             {/* giá sau khi áp voucher */}
+            {selectedVoucher && (
+            <>
             <div className="flex justify-between items-center">
               <span className="text-gray-600 dark:text-gray-300">Discounted Price:</span>
               <span className="flex items-center gap-2 font-medium">
@@ -232,7 +235,7 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment, onStat
                 <img src={Coin} alt="coin" className="h-5" />
               </span>
             </div>
-
+            </>)}
             {/* select chọn voucher */}
             <div className="flex justify-between items-center mb-2">
               <span className="text-gray-600 dark:text-gray-300">Voucher</span>
@@ -290,6 +293,7 @@ const HistoryExamCard: React.FC<ExamEnrollmentCardProps> = ({ enrollment, onStat
         footer={null}
         width={600}
         className="voucher-modal"
+        zIndex={1001}
       >
         <div className="space-y-4 max-h-[60vh] overflow-y-auto p-2">
           {vouchers.length > 0 ? (
