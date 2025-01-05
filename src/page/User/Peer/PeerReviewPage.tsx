@@ -100,30 +100,22 @@ const PeerReviewPage: React.FC = () => {
 
         const payload: updatePeerReview = {
             reviewerId: Cookies.get('userId') ? Number(Cookies.get('userId')) : 0,
-            // scorePeerReviewer: peerReview.scorePeerReviewer,
             feedbackPeerReviewer: peerReview.feedbackPeerReviewer,
-            peerReviewQuestionScores: peerReview.userAnswers.length > 0
-                ? [{
-                    questionId: peerReview.userAnswers[0].questionId,
-                    userAnswerId: peerReview.userAnswers[0].userAnswerId,
-                    feedBackForQuestion: peerReview.userAnswers[0].feedbackForEachQuestion || '',
-                    scoreForQuestion: peerReview.userAnswers[0].scoreValue
-                }]
-                : [{
-                    questionId: 0,
-                    userAnswerId: 0,
-                    feedBackForQuestion: '',
-                    scoreForQuestion: 0
-                }]
+            peerReviewQuestionScores: peerReview.userAnswers.map(answer => ({
+                questionId: answer.questionId,
+                userAnswerId: answer.userAnswerId,
+                feedBackForQuestion: answer.feedbackForEachQuestion || '',
+                scoreForQuestion: answer.scoreValue
+            }))
         };
-        console.log(payload)
+
         try {
             await agent.peerReview.updatePeerDetail(peerReview.peerReviewId, payload);
             navigate("/exam/" + examId);
             showToast('Feedback saved successfully.','success');
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error updating peer review:', error);
-            showToast('Failed to save feedback.','error');
+            showToast(`${error?.response?.data?.message || "Unknown error"}`, "error");
         }
     };
 
@@ -179,11 +171,11 @@ const PeerReviewPage: React.FC = () => {
                             <label className="block font-medium">Score:</label>
                             <input
                                 type="number"
-                                value={answer.scoreValue}
+                                value={answer.scoreValue === 0 ? '' : answer.scoreValue}
                                 onChange={(e) => handleAnswerChange(answer.userAnswerId, 'scoreValue', Number(e.target.value))}
                                 max={peerReview.maxQuestionScore}
                                 min={0}
-                                className="w-full p-2 border rounded-md dark:border-gray-700 dark:bg-gray-700"
+                                className="w-full p-2 border rounded-md dark:border-gray-700 dark:bg-gray-700"                                
                             />
                             {answer.error && (
                                 <p className="text-red-500 text-sm mt-1">{answer.error}</p>

@@ -126,6 +126,7 @@ const Peer: React.FC = () => {
         ))} */}
 
         {questions.map((question, index) => {
+          if (question.questionType.toLowerCase() !== "essay") return null;
           const userAnswerFeedback = peerReviewDetail?.userAnswers.find(
             (userAnswer) => userAnswer.questionId === question.questionId
           );

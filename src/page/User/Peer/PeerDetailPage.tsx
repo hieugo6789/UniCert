@@ -58,8 +58,8 @@ const PeerDetailPage: React.FC = () => {
                         <h2 className="text-xl font-semibold text-blue-500">{review.examName}</h2>
                         <p className="mt-2 text-gray-600">Reviewer: {review.reviewerName}</p>
                         <p className="mt-2 text-gray-500">Feedback: {review.feedbackPeerReviewer}</p>
-                        <p className="mt-2 text-gray-400">Review Date: {new Date(review.reviewDate).toLocaleString()}</p>
-                        <p className="mt-2 text-gray-500">Score: {review.scorePeerReviewer}</p>
+                        <p className="mt-2 text-gray-400">Review Date: {new Date(new Date(review.reviewDate).getTime() + 7 * 60 * 60 * 1000).toLocaleString()}</p>
+                        {/* <p className="mt-2 text-gray-500">Score: {review.scorePeerReviewer}</p> */}
                         <p className="mt-2 text-gray-500">Max Question Score: {review.maxQuestionScore}</p>
 
                         <div className="mt-4">
