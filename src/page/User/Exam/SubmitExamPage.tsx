@@ -4,6 +4,8 @@ import { createScore } from "../../../models/score";
 import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
 import { useCreateScore } from "../../../hooks/Score/useCreateScore";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { showToast } from "../../../utils/toastUtils";
 
 type Answer = {
     questionId: number;
@@ -27,6 +29,7 @@ const SubmitExamPage = () => {
     const timeLeft: number = location.state?.timeLeft || 0;
     const { state, handleCreateScore, clearCreateScore } = useCreateScore();
     const [currentTimeLeft, setCurrentTimeLeft] = useState(timeLeft);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         if (currentTimeLeft === 0) {
@@ -47,8 +50,9 @@ const SubmitExamPage = () => {
         return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
     };
     const handleSubmitResults = async () => {
+        if (isSubmitting) return;
+        setIsSubmitting(true);
         try {
-            
             const sendInput: createScore = {
                 userId: Number(Cookie.get("userId") || 0),
                 examId: id,
@@ -59,12 +63,11 @@ const SubmitExamPage = () => {
                     questionType: answer.essayAnswer ? 2 : 1
                 }))
             };
-            console.log(sendInput)
-
             await handleCreateScore(sendInput);
         } catch (error) {
             console.error("Error submitting exam results:", error);
-            alert("Failed to submit results. Please try again.");
+            showToast("Failed to submit results. Please try again.", "error");
+            setIsSubmitting(false);
         }
     };
 
@@ -152,15 +155,21 @@ const SubmitExamPage = () => {
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <CustomButton 
                             onClick={handleBackToExam}
-                            label="Return to Exam"
                             className="px-8 py-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-black dark:text-white rounded-lg font-medium transition-colors duration-200"
                             variant="secondary"
-                        />
+                        >
+                            Return to Exam
+                        </CustomButton>
                         <CustomButton
                             onClick={handleSubmitResults}
-                            label="Submit Exam"
-                            className="px-8 py-3 bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-lg font-medium transition-colors duration-200"
-                        />
+                            disabled={isSubmitting}
+                            className="px-8 py-3 bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-lg font-medium transition-colors duration-200 disabled:opacity-50"
+                        >
+                            <div className="flex items-center justify-center gap-2">
+                                {isSubmitting && <AiOutlineLoading3Quarters className="animate-spin" />}
+                                {isSubmitting ? 'Submitting...' : 'Submit Exam'}
+                            </div>
+                        </CustomButton>
                     </div>
                 </div>
             </div>
