@@ -38,8 +38,9 @@ const PeerReviewPage: React.FC = () => {
             if (!id) return;
             try {
                 const data = await agent.peerReview.getPeerDetailById(Number(id),1);
-                const resp = await agent.peerReview.getPeerReviewByScoreId(data.scoreId);
-                console.log(resp)
+                console.log("Test sieu cap", data)
+                //const resp = await agent.peerReview.getPeerReviewByScoreId(data.scoreId);
+                //console.log(resp)
                 if (data.reviewedUserId === Number(Cookies.get('userId')) ) {
                     setError('You cannot review your own exam!');
                     return;
