@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 import { showToast } from '../../../utils/toastUtils';
 import useExamEnrollment from '../../../hooks/Enrollment/useExam';
 import EssayQuestion from "./EssayQuestion";
+import Loading from '../../../components/UI/Loading';
 
 type Answer = {
   questionId: number;
@@ -36,6 +37,8 @@ const SimulationExamPage = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const { examEnrollment, refetchExamEnrollments } = useExamEnrollment({ userId: userId || "" });
   const [isPurchased, setIsPurchased] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isCheckingPurchase, setIsCheckingPurchase] = useState(true);
 
   useEffect(() => {
     const fetchExamDetails = async () => {
@@ -55,6 +58,12 @@ const SimulationExamPage = () => {
 
   useEffect(() => {
     const checkExamPurchase = () => {
+      setLoading(true);
+      console.log(examEnrollment);
+      if (examEnrollment.length === 0) return;
+      if (!userId) return;
+      if (!id) return;
+      
       const purchased = examEnrollment.some(
         (e) => e.examEnrollmentStatus === "Completed" &&
           e.simulationExamDetail.some(
@@ -63,6 +72,8 @@ const SimulationExamPage = () => {
       );
       console.log("Test", purchased);
       setIsPurchased(purchased);
+      setIsCheckingPurchase(false);
+      setLoading(false);
     };
 
     checkExamPurchase();
@@ -286,6 +297,14 @@ const SimulationExamPage = () => {
     (currentPage - 1) * questionsPerPage,
     currentPage * questionsPerPage
   );
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (isCheckingPurchase) {
+    return <div>Loading...</div>;
+  }
 
   if (!isPurchased) {
     return (
