@@ -4,16 +4,15 @@ import ForbiddenPage from "../page/Forbidden/ForbiddenPage";
 import Cookies from "js-cookie";
 
 interface PrivateRoutesProps {
-  token: string | null;
   requiredRole?: string;
   children: React.ReactNode;
 }
 
 const PrivateRoutes: React.FC<PrivateRoutesProps> = ({
-  token,
   requiredRole,
   children,
 }) => {
+  const token = localStorage.getItem("token");
   const role = Cookies.get("role");
 
   if (!token) {
@@ -25,7 +24,6 @@ const PrivateRoutes: React.FC<PrivateRoutesProps> = ({
     );
   }
   if (requiredRole && role !== requiredRole) {
-    console.log(requiredRole, role);
     return <ForbiddenPage />;
   }
 

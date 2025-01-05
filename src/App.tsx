@@ -86,7 +86,6 @@ const Layout = () => {
 };
 
 function App() {
-  const token = localStorage.getItem("token");
   const router = createBrowserRouter([
     {
       path: "/",
@@ -141,7 +140,6 @@ function App() {
       path: "/admin",
       element: (
         <PrivateRoutes
-          token={token}
           requiredRole="Admin"
         >
           <LayoutAdmin />
@@ -160,7 +158,6 @@ function App() {
       path: "/manager",
       element: (
         <PrivateRoutes
-          token={token}
           requiredRole="Manager"
         >
           <LayoutManager />
@@ -185,7 +182,6 @@ function App() {
       path: "/staff",
       element: (
         <PrivateRoutes
-          token={token}
           requiredRole="Staff"
         >
           <LayoutStaff />
