@@ -10,6 +10,7 @@ import {
   LuWallet,
   LuHistory,
   LuArrowLeft,
+  LuBook,
 } from "react-icons/lu";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 
@@ -82,6 +83,15 @@ const AvatarImage = ({
               className="flex items-center gap-3 px-6 py-4  hover:bg-gray-200 dark:hover:bg-gray-900"
             >
               <LuHistory size={20} /> My Purchases
+            </button>
+
+            <button
+              onClick={() =>
+                handleItemClick(`/courses`)
+              }
+              className="flex items-center gap-3 px-6 py-4  hover:bg-gray-200 dark:hover:bg-gray-900"
+            >
+              <LuHistory size={20} /> Courses
             </button>
 
             <button
@@ -165,10 +175,16 @@ const AvatarImage = ({
           >
             <Link to={`/history/${state.profile.userId}`}>My Purchases</Link>
           </Menu.Item>
+          <Menu.Item
+            key="4"
+            icon={<LuBook />}
+          >
+            <Link to={`/courses`}>Courses</Link>
+          </Menu.Item>
         </>
       )}
       <Menu.Item
-        key="4"
+        key="5"
         onClick={handleLogout}
         icon={<LuLogOut />}
       >

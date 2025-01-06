@@ -47,10 +47,9 @@ const Header = () => {
   useEffect(() => {
     const path = location.pathname;
     if (path.includes("certificate")) setActiveTab("certificate");
-    else if (path.includes("courses")) setActiveTab("courses");
+    else if (path.includes("job")) setActiveTab("job");
     else if (path.includes("majors")) setActiveTab("majors");
-    else if (
-      path.includes("job") ||
+    else if (      
       path.includes("organization") ||
       path.includes("myPathway")
     )
@@ -84,7 +83,7 @@ const Header = () => {
           <SearchDropdown />
         </div>
         <nav className="flex items-center space-x-4">
-          {["certificate", "pathway", "majors", "courses", "about"].map(
+          {["certificate", "pathway", "majors", "job", "about"].map(
             (tab) => (
               <div
                 key={tab}
@@ -112,21 +111,12 @@ const Header = () => {
                     ? "Pathway"
                     : tab === "majors"
                     ? "Majors"                    
-                    : tab === "courses"
-                    ? "Courses"
+                    : tab === "job"
+                    ? "Job Positions"
                     : "About Us"}
                 </Link>
                 {tab === "pathway" && isPathwayOpen && (
-                  <div className="absolute left-0 w-32 bg-white dark:bg-gray-800 shadow-lg rounded-md z-10">
-                    <Link
-                      to="./job"
-                      className="block px-4 py-2 text-sm text-gray-700 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      onClick={() => {
-                        setIsPathwayOpen(false);
-                      }}
-                    >
-                      Job Position
-                    </Link>
+                  <div className="absolute left-0 w-32 bg-white dark:bg-gray-800 shadow-lg rounded-md z-10">                    
                     <Link
                       to="./organization"
                       className="block px-4 py-2 text-sm text-gray-700 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -270,7 +260,7 @@ const Header = () => {
                   />
                 </div>
               )}
-              {["certificate", "pathway", "majors", "courses", "about"].map(
+              {["certificate", "pathway", "majors", "job", "about"].map(
                 (tab) => (
                   <div
                     key={tab}
@@ -298,8 +288,8 @@ const Header = () => {
                         ? "Pathway"
                         : tab === "majors"
                         ? "Majors"                        
-                        : tab === "courses"
-                        ? "Courses"
+                        : tab === "job"
+                        ? "Job Positions"
                         : "About Us"}
                       {tab === "pathway" && (
                         <DownOutlined
@@ -310,14 +300,7 @@ const Header = () => {
                       )}
                     </Link>
                     {tab === "pathway" && isPathwayOpen && (
-                      <div className="pl-8 py-2 space-y-2 bg-gray-50 dark:bg-gray-900">
-                        <Link
-                          to="./job"
-                          className="block text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md px-4 py-2"
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          Job Position
-                        </Link>
+                      <div className="pl-8 py-2 space-y-2 bg-gray-50 dark:bg-gray-900">                        
                         <Link
                           to="./organization"
                           className="block text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md px-4 py-2"
