@@ -38,9 +38,25 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
     const [isVoucherModalOpen, setIsVoucherModalOpen] = useState(false);
   
   useEffect(() => {
+    const sortVouchers = (vouchers: currentVoucher[]) => {
+      const rankOrder: Record<string, number> = {
+          bronze: 1,
+          silver: 2,
+          gold: 3,
+          diamond: 4,
+      };
+  
+      return vouchers.sort((a, b) => {
+          const rankA = rankOrder[a.voucherLevel.toLowerCase()] || 0;
+          const rankB = rankOrder[b.voucherLevel.toLowerCase()] || 0;
+          return rankA - rankB;
+      });
+    };
+
     const fetchVouchers = async () => {
       const response = await agent.Voucher.getVoucherByUserId(userId || "");
-      setVouchers(response.data);
+      const sortedVouchers = sortVouchers(response.data);
+      setVouchers(sortedVouchers);
       console.log(response)
     };
     fetchVouchers();

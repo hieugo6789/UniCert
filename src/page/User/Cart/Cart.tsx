@@ -40,12 +40,29 @@ const Cart = () => {
   const lamTronLen = (a: number) => {
     return a % 1 > 0 ? Math.ceil(a) : a;
   };
+
+  const sortVouchers = (vouchers: currentVoucher[]) => {
+    const rankOrder: Record<string, number> = {
+        bronze: 1,
+        silver: 2,
+        gold: 3,
+        diamond: 4,
+    };
+
+    return vouchers.sort((a, b) => {
+        const rankA = rankOrder[a.voucherLevel.toLowerCase()] || 0;
+        const rankB = rankOrder[b.voucherLevel.toLowerCase()] || 0;
+        return rankA - rankB;
+    });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await agent.Voucher.getVoucherByUserId(userId || "");
         console.log("Vouchers:", response.data);
-        setVouchers(response.data);
+        const sortedVouchers = sortVouchers(response.data); // Sắp xếp voucher
+        setVouchers(sortedVouchers);
       } catch (error) {
         console.error("Error fetching vouchers:", error);
       }
@@ -53,8 +70,8 @@ const Cart = () => {
     if (userId) {
       fetchData();
     }
-  }
-    , [userId]);
+  }, [userId]);
+
   const applyVoucher = (voucher: currentVoucher) => {
     if (!voucher || !histoyCarts) return;
 
