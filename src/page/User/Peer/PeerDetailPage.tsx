@@ -79,13 +79,13 @@ const PeerDetailPage: React.FC = () => {
                                     </div>
                                     <div className="flex items-start gap-2">
                                         <MessageOutlined className="text-gray-400 mt-1" />
-                                        <p className="text-gray-600 dark:text-gray-400 line-clamp-2">
+                                        <p className="text-gray-700 dark:text-gray-300 line-clamp-2">
                                             {review.feedbackPeerReviewer || "No feedback provided"}
                                         </p>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <CalendarOutlined className="text-gray-400" />
-                                        <p className="text-gray-500 dark:text-gray-400 text-sm">
+                                        <p className="text-gray-700 dark:text-gray-300">
                                             {new Date(new Date(review.reviewDate).getTime() + 7 * 60 * 60 * 1000).toLocaleString()}
                                         </p>
                                     </div>

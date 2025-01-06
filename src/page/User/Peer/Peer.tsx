@@ -47,8 +47,12 @@ const Peer: React.FC = () => {
       try {
         const response = await agent.peerReview.getPeerDetailById(Number(id), 1);
         const data = await agent.peerReview.getPeerDetailById(Number(id), 2);
-        setQuestions(data.questionReviews);
-        console.log(data)
+        // Filter questions to only include those with questionType "essay"
+        const filteredQuestions = data.questionReviews.filter(
+          (question: Question) => question.questionType.toLowerCase() === "essay"
+        );
+        setQuestions(filteredQuestions); // Set the filtered questions
+        console.log(data);
         setPeerReviewDetail(response); // Assuming response is in the format as described in the question
         setLoading(false);
       } catch (err) {
@@ -90,8 +94,7 @@ const Peer: React.FC = () => {
         </div>        
 
         <div className="max-w-4xl mx-auto">
-            {questions.map((question, index) => {
-                if (question.questionType.toLowerCase() !== "essay") return null;
+            {questions.map((question, index) => {                
                 const userAnswerFeedback = peerReviewDetail?.userAnswers.find(
                     (userAnswer) => userAnswer.questionId === question.questionId
                 );

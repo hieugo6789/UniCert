@@ -168,7 +168,7 @@ const PeerReviewPage: React.FC = () => {
                             className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 space-y-4 border border-gray-200 dark:border-gray-600"
                         >
                             <div className="flex justify-between items-center">
-                                <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
+                                <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
                                     Question {index + 1}
                                 </h3>
                                 {answer.error && (
@@ -176,7 +176,7 @@ const PeerReviewPage: React.FC = () => {
                                 )}
                             </div>
 
-                            <div className="prose prose-sm dark:prose-invert max-w-none">
+                            <div className="prose prose-lg dark:prose-invert max-w-none">
                                 <div dangerouslySetInnerHTML={{ __html: answer.questionName }} />
                             </div>
 
