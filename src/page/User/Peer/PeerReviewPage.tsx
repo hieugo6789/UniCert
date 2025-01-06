@@ -4,6 +4,8 @@ import agent from '../../../utils/agent';
 import { updatePeerReview } from '../../../models/peerReview';
 import Cookies from 'js-cookie';
 import { showToast } from '../../../utils/toastUtils';
+import { TrophyOutlined } from '@ant-design/icons';
+
 interface UserAnswer {
     userAnswerId: number;
     questionId: number;
@@ -137,72 +139,97 @@ const PeerReviewPage: React.FC = () => {
         );
     }
 
-
     return (
-        <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold mb-4">Peer Review Details</h1>
-            <div className="mb-4">
-                <p><strong>Max Question Score:</strong> {peerReview.maxQuestionScore}</p>
-            </div>
-
-            {/* Feedback chung cho toàn bài */}
-            <div className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">Overall Feedback</h2>
-                <textarea
-                    value={peerReview.feedbackPeerReviewer}
-                    onChange={handleFeedbackChange}
-                    placeholder="Enter overall feedback"
-                    className="w-full p-2 border rounded-md dark:border-gray-700 dark:bg-gray-700"
-                    rows={3}
-                />
-            </div>
-
-            {/* Danh sách câu trả lời */}
-            <h2 className="text-xl font-semibold mb-2">User Answers</h2>
-            <div>
-                {peerReview.userAnswers.map((answer) => (
-                    <div key={answer.userAnswerId} className="p-4 mb-4 border rounded-lg dark:border-gray-700">
-                        <p>
-                            <strong>Question:</strong>{' '}
-                            <span dangerouslySetInnerHTML={{ __html: answer.questionName }} />
-                        </p>
-                        <p><strong>Answer:</strong> {answer.answerContent}</p>
-                        <div className="mt-2">
-                            <label className="block font-medium">Score:</label>
-                            <input
-                                type="number"
-                                value={answer.scoreValue === 0 ? '' : answer.scoreValue}
-                                onChange={(e) => handleAnswerChange(answer.userAnswerId, 'scoreValue', Number(e.target.value))}
-                                max={peerReview.maxQuestionScore}
-                                min={0}
-                                className="w-full p-2 border rounded-md dark:border-gray-700 dark:bg-gray-700"                                
-                            />
-                            {answer.error && (
-                                <p className="text-red-500 text-sm mt-1">{answer.error}</p>
-                            )}
-                        </div>
-                        <div className="mt-2">
-                            <label className="block font-medium">Feedback:</label>
-                            <textarea
-                                value={answer.feedbackForEachQuestion || ''}
-                                onChange={(e) => handleAnswerChange(answer.userAnswerId, 'feedbackForEachQuestion', e.target.value)}
-                                placeholder="Enter feedback for this question"
-                                className="w-full p-2 border rounded-md dark:border-gray-700 dark:bg-gray-700"
-                                rows={2}
-                            />
-                        </div>
+        <div className="max-w-7xl mx-auto p-6 min-h-screen bg-gray-50 dark:bg-gray-900">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <div className="flex justify-between items-center mb-8">
+                    <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Peer Review Form</h1>
+                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                        <TrophyOutlined />
+                        <span>Max Score: {peerReview?.maxQuestionScore}</span>
                     </div>
-                ))}
-            </div>
+                </div>
 
-            {/* Nút Submit */}
-            <div className="mt-6">
-                <button
-                    onClick={handleSubmit}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                >
-                    Save Feedback
-                </button>
+                <div className="mb-8">
+                    <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Overall Feedback</h2>
+                    <textarea
+                        value={peerReview?.feedbackPeerReviewer}
+                        onChange={handleFeedbackChange}
+                        placeholder="Enter your overall feedback for this exam..."
+                        className="w-full p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        rows={4}
+                    />
+                </div>
+
+                <div className="space-y-6">
+                    <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300">Question Reviews</h2>
+                    {peerReview?.userAnswers.map((answer, index) => (
+                        <div key={answer.userAnswerId} 
+                            className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 space-y-4 border border-gray-200 dark:border-gray-600"
+                        >
+                            <div className="flex justify-between items-center">
+                                <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
+                                    Question {index + 1}
+                                </h3>
+                                {answer.error && (
+                                    <span className="text-red-500 text-sm">{answer.error}</span>
+                                )}
+                            </div>
+
+                            <div className="prose prose-sm dark:prose-invert max-w-none">
+                                <div dangerouslySetInnerHTML={{ __html: answer.questionName }} />
+                            </div>
+
+                            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg">
+                                <p className="font-medium text-gray-700 dark:text-gray-300">Student's Answer:</p>
+                                <p className="mt-2 text-gray-600 dark:text-gray-400">{answer.answerContent}</p>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Score (0-{peerReview.maxQuestionScore})
+                                    </label>
+                                    <input
+                                        type="number"
+                                        value={answer.scoreValue || ''}
+                                        onChange={(e) => handleAnswerChange(answer.userAnswerId, 'scoreValue', Number(e.target.value))}
+                                        max={peerReview.maxQuestionScore}
+                                        min={0}
+                                        className="w-full p-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded-lg"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Feedback
+                                    </label>
+                                    <textarea
+                                        value={answer.feedbackForEachQuestion || ''}
+                                        onChange={(e) => handleAnswerChange(answer.userAnswerId, 'feedbackForEachQuestion', e.target.value)}
+                                        placeholder="Provide feedback for this answer..."
+                                        className="w-full p-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded-lg"
+                                        rows={3}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="mt-8 flex justify-end gap-4">
+                    <Link
+                        to={`/exam/${examId}`}
+                        className="px-6 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200"
+                    >
+                        Cancel
+                    </Link>
+                    <button
+                        onClick={handleSubmit}
+                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                    >
+                        Submit Review
+                    </button>
+                </div>
             </div>
         </div>
     );
