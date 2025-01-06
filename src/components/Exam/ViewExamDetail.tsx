@@ -98,7 +98,7 @@ const ViewExamDetail: React.FC<ViewExamDetailProps> = ({ examId }) => {
                   />
                 </div>
               </Descriptions.Item>
-              <Descriptions.Item label="Discount Fee">
+              {/* <Descriptions.Item label="Discount Fee">
                 <div className="flex items-center">
                   {state.currentExam.examDiscountFee}
                   <img
@@ -107,8 +107,8 @@ const ViewExamDetail: React.FC<ViewExamDetailProps> = ({ examId }) => {
                     className="size-5 ml-2"
                   />
                 </div>
-              </Descriptions.Item>
-              <Descriptions.Item label="Vouchers">
+              </Descriptions.Item> */}
+              {/* <Descriptions.Item label="Vouchers">
                 {state.currentExam.voucherDetails?.length ? (
                   state.currentExam.voucherDetails.map((v, index) => (
                     <div
@@ -127,7 +127,7 @@ const ViewExamDetail: React.FC<ViewExamDetailProps> = ({ examId }) => {
                 ) : (
                   <span>No vouchers available</span>
                 )}
-              </Descriptions.Item>
+              </Descriptions.Item> */}
               <Descriptions.Item label="Certifications">
                 {approvedCertification?.length ? (
                   approvedCertification.map((cert, index) => (

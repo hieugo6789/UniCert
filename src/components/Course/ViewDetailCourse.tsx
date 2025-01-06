@@ -85,7 +85,7 @@ const ViewDetailCourse: React.FC<ViewCourseDetailProps> = ({ courseId }) => {
                 />
               </div>
             </Descriptions.Item>
-            <Descriptions.Item label="Discount Fee">
+            {/* <Descriptions.Item label="Discount Fee">
               <div className="flex items-center">
                 {state.currentCourse.courseDiscountFee}
                 <img
@@ -94,7 +94,7 @@ const ViewDetailCourse: React.FC<ViewCourseDetailProps> = ({ courseId }) => {
                   className="size-5 ml-3"
                 />
               </div>
-            </Descriptions.Item>
+            </Descriptions.Item> */}
             <Descriptions.Item label="Vouchers">
               {state.currentCourse.voucherDetails?.length ? (
                 state.currentCourse.voucherDetails.map((v, index) => (

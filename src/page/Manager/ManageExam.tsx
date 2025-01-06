@@ -5,7 +5,7 @@ import UpdatePermission from "../../components/Permission/UpdatePermission";
 import usePermissionExam from "../../hooks/SimulationExam/usePermissionExam";
 import Coin from "../../assets/images/Coin.png";
 import ViewExamDetail from "../../components/Exam/ViewExamDetail";
-import UpdateVoucherExam from "../../components/Voucher/UpdateVoucherExam";
+// import UpdateVoucherExam from "../../components/Voucher/UpdateVoucherExam";
 import { useNavigate } from "react-router-dom";
 
 const ManageExam = () => {
@@ -39,20 +39,20 @@ const ManageExam = () => {
         </span>
       ),
     },
-    {
-      title: "Discount Fee",
-      dataIndex: "examDiscountFee",
-      key: "examDiscountFee",
-      render: (fee: number) => (
-        <span className="text-yellow-600 flex justify-between items-center w-16">
-          {fee}{" "}
-          <img
-            src={Coin}
-            className="size-7"
-          />
-        </span>
-      ),
-    },
+    // {
+    //   title: "Discount Fee",
+    //   dataIndex: "examDiscountFee",
+    //   key: "examDiscountFee",
+    //   render: (fee: number) => (
+    //     <span className="text-yellow-600 flex justify-between items-center w-16">
+    //       {fee}{" "}
+    //       <img
+    //         src={Coin}
+    //         className="size-7"
+    //       />
+    //     </span>
+    //   ),
+    // },
     {
       title: "Certification",
       dataIndex: "certificationDetails",
@@ -124,10 +124,10 @@ const ManageExam = () => {
                 refetch={refetchExams}
                 updateFunction={updatePermissionExamDetails}
               />
-              <UpdateVoucherExam
+              {/* <UpdateVoucherExam
                 examId={record.examId}
                 refetchExams={refetchExams}
-              />
+              /> */}
             </div>
           </div>
         </>

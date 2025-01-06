@@ -4,7 +4,7 @@ import useCourse from "../../hooks/Course/useCourse";
 import UpdatePermission from "../../components/Permission/UpdatePermission";
 import useCoursePermission from "../../hooks/Course/useCoursePermission";
 import Coin from "../../assets/images/Coin.png";
-import UpdateVoucherCourse from "../../components/Voucher/UpdateVoucherCourse";
+// import UpdateVoucherCourse from "../../components/Voucher/UpdateVoucherCourse";
 
 const ManageCourse = () => {
   const { course, loading, refetchCourses } = useCourse();
@@ -37,20 +37,20 @@ const ManageCourse = () => {
         </span>
       ),
     },
-    {
-      title: "Discount",
-      dataIndex: "courseDiscountFee",
-      key: "courseDiscountFee",
-      render: (fee: number) => (
-        <span className="text-yellow-600 flex justify-between items-center w-16">
-          {fee}{" "}
-          <img
-            src={Coin}
-            className="size-7"
-          />
-        </span>
-      ),
-    },
+    // {
+    //   title: "Discount",
+    //   dataIndex: "courseDiscountFee",
+    //   key: "courseDiscountFee",
+    //   render: (fee: number) => (
+    //     <span className="text-yellow-600 flex justify-between items-center w-16">
+    //       {fee}{" "}
+    //       <img
+    //         src={Coin}
+    //         className="size-7"
+    //       />
+    //     </span>
+    //   ),
+    // },
     {
       title: "Certification",
       dataIndex: "certificationDetails",
@@ -120,10 +120,10 @@ const ManageCourse = () => {
             refetch={refetchCourses}
             updateFunction={updatePermissionCourseDetails}
           />
-          <UpdateVoucherCourse
+          {/* <UpdateVoucherCourse
             courseId={record.courseId}
             refetchCourses={refetchCourses}
-          />
+          /> */}
         </div>
       ),
     },
