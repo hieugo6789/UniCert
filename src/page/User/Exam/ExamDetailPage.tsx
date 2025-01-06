@@ -255,7 +255,7 @@ const ExamDetailPage = () => {
                                 <p><strong>Max Question Score:</strong> {review.maxQuestionScore}</p>
                                 <button
                                     onClick={() => handleReviewClick(review.peerReviewId)}
-                                    className="text-blue-500 hover:underline mt-2"
+                                    className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition duration-300 ease-in-out mt-2"
                                 >
                                     Peer Review
                                 </button>

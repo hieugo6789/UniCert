@@ -132,13 +132,13 @@ const ExamResultTable = ({ props, onScoreChange }: any) => {
                                         {formatVietnameseDateTime(result.createdAt)}
                                     </td>
                                     <td className="py-3 sm:py-4 px-4 sm:px-6 text-center text-xs sm:text-sm">
-                                        <div className="space-x-4">
-                                        <button className="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none" >
+                                        <div className="space-x-2">
+                                        <button className="bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow hover:bg-blue-700 transition duration-200" >
                                             <Link to={`/exam/${examId}/${result.scoreId}`}>
                                             View Details
                                             </Link>
                                         </button>
-                                        <button className="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none" >
+                                        <button className="bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow hover:bg-blue-700 transition duration-200" >
                                             <Link to={`/peer-detail/${examId}/${result.scoreId}`}>
                                             Reviews
                                             </Link>
