@@ -5,6 +5,7 @@ import { updatePeerReview } from '../../../models/peerReview';
 import Cookies from 'js-cookie';
 import { showToast } from '../../../utils/toastUtils';
 import { TrophyOutlined } from '@ant-design/icons';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 interface UserAnswer {
     userAnswerId: number;
@@ -35,6 +36,8 @@ const PeerReviewPage: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     useEffect(() => {
         const fetchData = async () => {
             if (!id) return;
@@ -93,10 +96,13 @@ const PeerReviewPage: React.FC = () => {
     };
     const handleSubmit = async () => {
         if (!peerReview) return;
+        if (isSubmitting) return;
+        setIsSubmitting(true);
 
         const hasError = peerReview.userAnswers.some((answer) => answer.error);
         if (hasError) {
             showToast('Please fix the errors before submitting.','error');
+            setIsSubmitting(false);
             return;
         }
 
@@ -113,11 +119,13 @@ const PeerReviewPage: React.FC = () => {
 
         try {
             await agent.peerReview.updatePeerDetail(peerReview.peerReviewId, payload);
+            showToast('Peer review saved successfully.','success');
             navigate("/exam/" + examId);
-            showToast('Feedback saved successfully.','success');
         } catch (error: any) {
             console.error('Error updating peer review:', error);
             showToast(`${error?.response?.data?.message || "Unknown error"}`, "error");
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -170,10 +178,7 @@ const PeerReviewPage: React.FC = () => {
                             <div className="flex justify-between items-center">
                                 <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
                                     Question {index + 1}
-                                </h3>
-                                {answer.error && (
-                                    <span className="text-red-500 text-sm">{answer.error}</span>
-                                )}
+                                </h3>                                
                             </div>
 
                             <div className="prose prose-lg dark:prose-invert max-w-none">
@@ -191,13 +196,16 @@ const PeerReviewPage: React.FC = () => {
                                         Score (0-{peerReview.maxQuestionScore})
                                     </label>
                                     <input
-                                        type="number"
-                                        value={answer.scoreValue || ''}
+                                        type="number"  
+                                        value={answer.scoreValue}                                      
                                         onChange={(e) => handleAnswerChange(answer.userAnswerId, 'scoreValue', Number(e.target.value))}
                                         max={peerReview.maxQuestionScore}
-                                        min={0}
+                                        min={0}                                        
                                         className="w-full p-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded-lg"
                                     />
+                                    {answer.error && (
+                                    <span className="text-red-500 text-sm">{answer.error}</span>
+                                )}
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -225,9 +233,13 @@ const PeerReviewPage: React.FC = () => {
                     </Link>
                     <button
                         onClick={handleSubmit}
+                        disabled={isSubmitting}
                         className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
                     >
-                        Submit Review
+                        <div className="flex items-center justify-center gap-2">
+                            {isSubmitting && <AiOutlineLoading3Quarters className="animate-spin" />}
+                            {isSubmitting ? 'Submitting...' : 'Submit Review'}
+                        </div>                        
                     </button>
                 </div>
             </div>
