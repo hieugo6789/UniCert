@@ -33,13 +33,22 @@ const UpdateVoucher: React.FC<UpdateVoucherProps> = ({
   useEffect(() => {
     if (voucherDetailState.currentVoucher) {
       const currentVoucher = voucherDetailState.currentVoucher;
+  
+      // Mapping voucherLevel string to number
+      const levelMapping: { [key: string]: number } = {
+        Bronze: 0,
+        Silver: 1,
+        Gold: 2,
+        Diamond: 3,
+      };
+  
       const examIds = Array.isArray(currentVoucher.examDetails)
         ? currentVoucher.examDetails.map((exam) => exam.examId)
         : [];
       const courseIds = Array.isArray(currentVoucher.courseDetails)
         ? currentVoucher.courseDetails.map((course) => course.courseId)
         : [];
-
+  
       form.setFieldsValue({
         voucherImage: currentVoucher.voucherImage,
         voucherName: currentVoucher.voucherName,
@@ -51,12 +60,13 @@ const UpdateVoucher: React.FC<UpdateVoucherProps> = ({
         expiryDate: currentVoucher.expiryDate
           ? new Date(currentVoucher.expiryDate).toISOString().split("T")[0]
           : "",
-        voucherLevel: currentVoucher.voucherLevel,
+        voucherLevel: levelMapping[currentVoucher.voucherLevel], // Convert to number
         examId: examIds,
         courseId: courseIds,
       });
     }
   }, [voucherDetailState.currentVoucher, voucherId, form]);
+  
 
   const handleUpdate = async () => {
     try {

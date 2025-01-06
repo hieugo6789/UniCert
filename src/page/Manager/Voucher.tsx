@@ -12,6 +12,10 @@ import useDeleteVoucher from "../../hooks/Voucher/useDeleteVoucher";
 import CreateVoucher from "../../components/Voucher/CreateVoucher";
 import UpdateVoucher from "../../components/Voucher/UpdateVoucher";
 import useVoucherDetail from "../../hooks/Voucher/useVoucherDetail";
+import bronze from "../../assets/userLevel/bronze.png";
+import silver from "../../assets/userLevel/silver.png";
+import gold from "../../assets/userLevel/star.png";
+import diamond from "../../assets/userLevel/diamond.png";
 
 const { confirm } = Modal;
 
@@ -57,7 +61,26 @@ const Voucher = () => {
       title: "Level",
       dataIndex: "voucherLevel",
       key: "voucherLevel",
-      render: (voucherLevel: string) => <Tag>{voucherLevel}</Tag>,
+      render: (voucherLevel: string) => {
+        const levelImages: { [key: string]: string } = {
+          Bronze: bronze,
+          Silver: silver,
+          Gold: gold,
+          Diamond: diamond,
+        };
+
+        return (
+          <div className="flex items-center">
+            {levelImages[voucherLevel] && (
+              <img
+                src={levelImages[voucherLevel]}
+                alt={voucherLevel}
+                className="size-8"
+              />
+            )}
+          </div>
+        );
+      },
     },
     {
       title: "Status",
