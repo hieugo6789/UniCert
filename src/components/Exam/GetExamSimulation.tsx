@@ -17,6 +17,9 @@ import useWalletDetail from "../../hooks/Wallet/useWalletDetail";
 import { useNavigate } from "react-router-dom";
 import { currentVoucher } from "../../models/voucher";
 import agent from "../../utils/agent";
+import dangerIcon from "../../assets/icons/danger.png";
+import useUserDetail from "../../hooks/Account/useUserDetail";
+
 
 const GetExamSimulation = ({ certId }: { certId: number }) => {
   const userId = Cookies.get("userId");
@@ -36,6 +39,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
   const [vouchers, setVouchers] = useState<currentVoucher[]>([]);
     const [selectedVoucher, setSelectedVoucher] = useState<currentVoucher | null>(null);
     const [isVoucherModalOpen, setIsVoucherModalOpen] = useState(false);
+  const { state: userState, getUserDetails } =useUserDetail();
   
   useEffect(() => {
     const sortVouchers = (vouchers: currentVoucher[]) => {
@@ -68,6 +72,11 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
       getCart(userId);
     }
     refetchExamEnrollments(userId || "");
+  }, [userId]);
+  useEffect(() => {
+    if (userId) {
+      getUserDetails(userId);
+    }
   }, [userId]);
 
   // Lọc các kỳ thi đã hoàn tất 
@@ -328,10 +337,27 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
       </Modal>
       <Modal
         title={
-          <div className="text-xl font-bold text-gray-800 dark:text-white">
-            Select Voucher
+          <div className="flex items-center">
+            <div className="text-xl font-bold text-gray-800 dark:text-white">
+              Select Voucher
+            </div>
+            <div className="relative group flex items-center ml-2">
+              <img
+                src={dangerIcon}
+                className="w-5 h-5"
+                alt="Warning"
+              />
+              <div className="ml-2 absolute hidden group-hover:block bg-purple-600 text-white text-sm rounded-lg px-4 py-2 w-80 left-full top-1/2 transform -translate-y-1/2 translate-x-2 shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
+              Your current level: {userState.currentUser.userLevel} <br />
+              • Silver accounts need to spend 100 to apply more vouchers. <br/>
+              • Gold accounts need to spend 300 to apply more vouchers.<br/>
+              • Diamond accounts need to spend 500 to apply more vouchers.
+                <span className="absolute -left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-purple-600 rotate-45"></span>
+              </div>
+            </div>
           </div>
         }
+        
         visible={isVoucherModalOpen}
         onCancel={() => setIsVoucherModalOpen(false)}
         footer={null}
@@ -340,6 +366,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
         zIndex={1001}
       >
         <div className="space-y-4 max-h-[60vh] overflow-y-auto p-2">
+        
           {vouchers.length > 0 ? (
             vouchers.map((voucher) => (
               <div
@@ -353,6 +380,7 @@ const GetExamSimulation = ({ certId }: { certId: number }) => {
               >
                 <div className="flex items-stretch">
                   {/* Left side - Discount Badge */}
+                  
                   <div className="flex items-center justify-center w-24 bg-gradient-to-br from-purple-500 to-blue-500 text-white p-4">
                     <div className="text-center">
                       <div className="text-2xl font-bold">{voucher.percentage}%</div>

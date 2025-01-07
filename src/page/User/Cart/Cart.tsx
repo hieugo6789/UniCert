@@ -13,6 +13,8 @@ import { showToast } from "../../../utils/toastUtils";
 import { currentVoucher } from "../../../models/voucher";
 import agent from "../../../utils/agent";
 import { Modal } from "antd";
+import dangerIcon from "../../../assets/icons/danger.png";
+import useUserDetail from "../../../hooks/Account/useUserDetail";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -36,11 +38,15 @@ const Cart = () => {
   const [selectedCourses, setSelectedCourses] = useState<any[]>([]);
   const [selectedExams, setSelectedExams] = useState<any[]>([]);
   const [isVoucherModalOpen, setIsVoucherModalOpen] = useState(false);
-
+  const { state: userState, getUserDetails } =useUserDetail();
   const lamTronLen = (a: number) => {
     return a % 1 > 0 ? Math.ceil(a) : a;
   };
-
+  useEffect(() => {
+    if (userId) {
+      getUserDetails(userId);
+    }
+  }, [userId]);
   const sortVouchers = (vouchers: currentVoucher[]) => {
     const rankOrder: Record<string, number> = {
         bronze: 1,
@@ -341,8 +347,24 @@ const Cart = () => {
       {/* Voucher Selection Modal */}
       <Modal
         title={
-          <div className="text-xl font-bold text-gray-800 dark:text-white">
-            Select Voucher
+          <div className="flex items-center">
+            <div className="text-xl font-bold text-gray-800 dark:text-white">
+              Select Voucher
+            </div>
+            <div className="relative group flex items-center ml-2">
+              <img
+                src={dangerIcon}
+                className="w-5 h-5"
+                alt="Warning"
+              />
+              <div className="ml-2 absolute hidden group-hover:block bg-purple-600 text-white text-sm rounded-lg px-4 py-2 w-80 left-full top-1/2 transform -translate-y-1/2 translate-x-2 shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
+              Your current level: {userState.currentUser.userLevel} <br />
+              • Silver accounts need to spend 100 to apply more vouchers. <br/>
+              • Gold accounts need to spend 300 to apply more vouchers.<br/>
+              • Diamond accounts need to spend 500 to apply more vouchers.
+                <span className="absolute -left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-purple-600 rotate-45"></span>
+              </div>
+            </div>
           </div>
         }
         visible={isVoucherModalOpen}
