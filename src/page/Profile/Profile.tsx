@@ -16,6 +16,7 @@ import bronze from "../../assets/userLevel/bronze.png";
 import silver from "../../assets/userLevel/silver.png";
 import gold from "../../assets/userLevel/star.png";
 import diamond from "../../assets/userLevel/diamond.png";
+import agent from "../../utils/agent";
 
 const Profile = () => {
   const [form, setForm] = useState<UserDetail>({
@@ -227,6 +228,42 @@ const Profile = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
+  const [totalPoints, setTotalPoints] = useState<number>(0);
+  const userId = Cookies.get("userId");
+  
+  useEffect(() => {
+    const fetchUserPayment = async () => {
+      try {
+        const response = await agent.Payment.userPayment(userId || "");
+        console.log("Test", response)
+        setTotalPoints(response.data.totalPaymentPoints);
+      } catch (error) {
+        console.error("Error fetching user payment:", error);
+      }
+    };
+    if (userId) {
+      fetchUserPayment();
+    }
+  }, [userId]);
+
+  const getRankInfo = () => {
+    if (totalPoints >= 500) return { rank: "Diamond", color: "text-blue-500", progress: 100 };
+    if (totalPoints >= 300) return { rank: "Gold", color: "text-yellow-500", progress: (totalPoints - 300) / 2 };
+    if (totalPoints >= 100) return { rank: "Silver", color: "text-gray-400", progress: totalPoints - 100 };
+    return { rank: "Bronze", color: "text-orange-500", progress: totalPoints };
+  };
+
+  // For the Field component's render prop
+  interface FieldRenderProps {
+    field: {
+      value: string;
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    };
+    form: {
+      setFieldValue: (field: string, value: string | null) => void;
+    };
+  }
+
   return (
     <div className="min-h-[85vh] bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex">
       <div className="flex flex-col lg:flex-row max-w-7xl w-full mx-auto my-auto py-4 lg:py-8 px-4 gap-4 lg:gap-8">
@@ -246,6 +283,9 @@ const Profile = () => {
               </div>
               <p className="font-bold text-lg lg:text-xl mt-4 text-gray-800 dark:text-gray-200">{form.fullname}</p>
               <p className="text-gray-500 dark:text-gray-400 text-sm break-all text-center">{form.email}</p>
+              
+              {/* Points Progress Section */}
+              
             </div>
 
             <nav className="space-y-3">
@@ -277,10 +317,10 @@ const Profile = () => {
                       <img src={bronze} alt="Bronze Level" className="size-14" />
                 )}
                 {form.userLevel === 'Silver' && (
-                      <img src={silver} alt="Bronze Level" className="size-14" />
+                      <img src={silver} alt="Silver Level" className="size-14" />
                 )}
                 {form.userLevel === 'Diamond' && (
-                      <img src={diamond} alt="Bronze Level" className="size-14" />
+                      <img src={diamond} alt="Diamond Level" className="size-14" />
                 )}
               </div>
           </div>
@@ -362,7 +402,7 @@ const Profile = () => {
                         Date of Birth
                       </label>
                       <Field name="dob">
-                        {({ field, form }: any) => {
+                        {({ field, form }: FieldRenderProps) => {
                           const formatDateToInput = (date: string | null) => {
                             if (!date) return '';
                             try {
@@ -495,9 +535,122 @@ const Profile = () => {
               </Form>
             )}
           </Formik>
+          <div className="mt-6 w-full">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">Points Progress</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-purple-600 dark:text-purple-400 font-bold">{totalPoints}</span>
+                    <span className="text-gray-500 dark:text-gray-400 text-sm">points</span>
+                  </div>
+                </div>
+
+                {/* Rank Progress Bar */}
+                <div className="relative">
+                  <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-purple-500 to-purple-600 transition-all duration-500"
+                      style={{ width: `${Math.min(100, (totalPoints / 500) * 100)}%` }}
+                    />
+                  </div>
+                  
+                  {/* Rank Markers */}
+                  <div className="flex justify-between mt-2">
+                    <div className="flex flex-col items-center">
+                      <img src={bronze} alt="Bronze" className="w-8 h-8" />
+                      <span className="text-xs text-gray-600 dark:text-gray-400 mt-1">0</span>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <img src={silver} alt="Silver" className="w-8 h-8" />
+                      <span className="text-xs text-gray-600 dark:text-gray-400 mt-1">100</span>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <img src={gold} alt="Gold" className="w-8 h-8" />
+                      <span className="text-xs text-gray-600 dark:text-gray-400 mt-1">300</span>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <img src={diamond} alt="Diamond" className="w-8 h-8" />
+                      <span className="text-xs text-gray-600 dark:text-gray-400 mt-1">500</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Current Rank Display */}
+                <div className="mt-4 grid grid-cols-2 gap-4">
+                  {/* Current Rank Card */}
+                  <div className="bg-purple-50 dark:bg-purple-900/30 p-4 rounded-xl">
+                    <span className="text-sm text-gray-600 dark:text-gray-300">Current Rank</span>
+                    <div className="flex items-center gap-3 mt-2">
+                      <img 
+                        src={
+                          totalPoints >= 500 ? diamond :
+                          totalPoints >= 300 ? gold :
+                          totalPoints >= 100 ? silver :
+                          bronze
+                        } 
+                        alt="Current Rank" 
+                        className="w-8 h-8" 
+                      />
+                      <div>
+                        <span className={`font-bold text-lg ${getRankInfo().color}`}>
+                          {getRankInfo().rank}
+                        </span>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                          {totalPoints} points earned
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Next Rank Card */}
+                  <div className="bg-purple-50 dark:bg-purple-900/30 p-4 rounded-xl">
+                    <span className="text-sm text-gray-600 dark:text-gray-300">Next Rank</span>
+                    {totalPoints < 500 ? (
+                      <div className="flex items-center gap-3 mt-2">
+                        <img 
+                          src={
+                            totalPoints >= 300 ? diamond :
+                            totalPoints >= 100 ? gold :
+                            silver
+                          } 
+                          alt="Next Rank" 
+                          className="w-8 h-8" 
+                        />
+                        <div>
+                          <span className={`font-bold text-lg ${
+                            totalPoints >= 300 ? "text-blue-500" :
+                            totalPoints >= 100 ? "text-yellow-500" :
+                            "text-gray-400"
+                          }`}>
+                            {totalPoints >= 300 ? "Diamond" :
+                             totalPoints >= 100 ? "Gold" :
+                             "Silver"}
+                          </span>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                            Need {
+                              totalPoints >= 300 ? 500 - totalPoints :
+                              totalPoints >= 100 ? 300 - totalPoints :
+                              100 - totalPoints
+                            } more points
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-3 mt-2">
+                        <img src={diamond} alt="Max Rank" className="w-8 h-8" />
+                        <div>
+                          <span className="font-bold text-lg text-blue-500">Diamond</span>
+                          <div className="text-sm text-green-500 dark:text-green-400">
+                            Maximum Rank Achieved!
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
         </div>
       </div>
-
+            
       <CustomModal
         isOpen={isOpenPasswordModal}
         onClose={handleChangePassword}

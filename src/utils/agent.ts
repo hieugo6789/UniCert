@@ -336,6 +336,8 @@ const Payment = {
   coursePayment: (userId: string) =>
     requests.get(`api/v1/payment/get-CourseEnrollment-by-userId/${userId}`),
   payNow: (input: payNow) => requests.post("api/v1/payment/pay-now", input),
+  userPayment: (userId: string) =>
+    requests.put(`api/v1/payment/update-user-level/${userId}`, userId),
 };
 
 const Score = {
