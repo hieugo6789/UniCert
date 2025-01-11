@@ -132,7 +132,7 @@ const MajorDetailPage: React.FC = () => {
           </div>
           <div className="mt-6">
             <h2 className="text-xl font-semibold mb-2">About this Major</h2>
-            <div className="prose prose-invert"
+            <div className="prose prose-invert max-w-none"
               dangerouslySetInnerHTML={{
                 __html: state.currentMajor.majorDescription || "",
               }}
