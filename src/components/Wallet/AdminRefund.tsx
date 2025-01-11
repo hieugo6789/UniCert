@@ -65,7 +65,11 @@ const AdminRefund: React.FC<AdminRefundProps> = ({ walletId, onSuccess }) => {
         onClick={handleOpenModal}
       />
       <Modal
-        title="Process Refund"
+        title={
+          <span className="text-blue-500 text-lg font-semibold">
+            Process Refund - WalletID: {walletId}
+          </span>
+        }
         open={isModalOpen}
         onCancel={handleCloseModal}
         footer={null}

@@ -69,6 +69,17 @@ const Transaction = () => {
       title: "Wallet ID",
       dataIndex: "walletId",
       key: "walletId",
+      filters: historyTransaction
+        .map((transaction) => transaction.walletId)
+        .filter((value, index, self) => self.indexOf(value) === index) 
+        .map((walletId) => ({
+          text: walletId.toString(),
+          value: walletId, 
+        })),
+      onFilter: (value: any, record: any) => {
+        const walletId = Number(value);  
+        return record.walletId === walletId;
+      },
     },
     {
       title: "Description",
