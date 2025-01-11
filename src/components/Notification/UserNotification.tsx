@@ -57,15 +57,6 @@ const UserNotification = () => {
     setDropdownVisible(visible);
   };
 
-  //   const handleMarkAllAsRead = async () => {
-  //     try {
-  //       await agent.Notification.updateIsRead(role);
-  //       refetch(role);
-  //       setDropdownVisible(false);
-  //     } catch (err) {
-  //       console.log("Error updating notifications as read:", err);
-  //     }
-  //   };
   const handleReadNotification = async (notificationId: number) => {
     try {
       await agent.Notification.readNotification(notificationId);
@@ -94,9 +85,13 @@ const UserNotification = () => {
     <div className="max-w-md bg-white shadow-lg rounded-lg overflow-y-auto max-h-[82vh] border border-gray-200 custom-scrollbar">
       {loading ? (
         <p className="text-center text-gray-500">Loading...</p>
+      ) : notification.length === 0 ? (
+        <div className="p-4 text-center text-gray-500">
+          No notifications
+        </div>
       ) : (
         <>
-          <div className="ml-5 text-xl font-bold text-gray-800  mt-4 flex justify-between">
+          <div className="ml-5 text-xl font-bold text-gray-800 mt-4 flex justify-between">
             <span>Notification</span>
           </div>
           <List
@@ -147,9 +142,7 @@ const UserNotification = () => {
                                   <Menu.Item
                                     key="read"
                                     onClick={() =>
-                                      handleReadNotification(
-                                        notif.notificationId
-                                      )
+                                      handleReadNotification(notif.notificationId)
                                     }
                                   >
                                     Mark as read
@@ -190,6 +183,7 @@ const UserNotification = () => {
       )}
     </div>
   );
+  
 
   return (
     <Dropdown
