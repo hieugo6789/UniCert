@@ -24,20 +24,28 @@ const Schedule: React.FC = () => {
   const [selectedSchedule, setSelectedSchedule] = useState<any>(null);
 
   useEffect(() => {
-    const formattedEvents = schedule.map((session) => ({
-      id: session.sessionId.toString(),
-      sessionId: session.sessionId,
-      title: session.sessionCode,
-      sessionName: session.sessionName,
-      start: session.sessionDate, // Ensure sessionDate is a Date or ISO string
-      end: session.sessionDate, // Use end if there is an end time
-      sessionDate: session.sessionDate,
-      location: session.sessionAddress,
-      time: session.sessionTime,
-      certId: session.certId,
-    }));
+    const formattedEvents = schedule.map((session) => {
+      const startDate = new Date(session.sessionDate); // Parse sessionDate
+      if (isNaN(startDate.getTime())) {
+        console.error("Invalid sessionDate:", session.sessionDate);
+        return null; // Skip invalid dates
+      }
+      return {
+        id: session.sessionId.toString(),
+        sessionId: session.sessionId,
+        title: session.sessionCode,
+        sessionName: session.sessionName,
+        start: startDate.toISOString(), // Use a valid ISO string
+        end: startDate.toISOString(), // Use same date for end if no range
+        sessionDate: session.sessionDate,
+        location: session.sessionAddress,
+        time: session.sessionTime,
+        certId: session.certId,
+      };
+    }).filter(Boolean); // Remove null events
     setEvents(formattedEvents);
   }, [schedule]);
+  
 
   const handleEventClick = (eventInfo: any) => {
     const sessionId = eventInfo.event.extendedProps.sessionId;
