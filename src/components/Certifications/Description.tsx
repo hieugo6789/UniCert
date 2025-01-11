@@ -109,7 +109,7 @@ const Description = ({ props, schedule, course,contact }: DescriptionProps) => (
 
                 <div className="flex items-center dark:text-gray-300 text-gray-600">
                   <svg
-                    className="w-8 h-8 mr-3 text-purple-500"
+                    className="w-5 h-6 mr-3 text-purple-500"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

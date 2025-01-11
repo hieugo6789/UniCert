@@ -64,6 +64,20 @@ const Peer: React.FC = () => {
     fetchPeerReviewDetail();
   }, [id]);
 
+  const formatVietnameseDateTime = (utcDate: string) => {
+    const date = new Date(utcDate);        
+    const vietnamTime = new Date(date.getTime() + 7 * 60 * 60 * 1000);
+    
+    return vietnamTime.toLocaleString("vi-VN", {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    });
+  };
+
   if (loading) {
     return <div className="text-center text-blue-600">Loading...</div>;
   }
@@ -137,7 +151,7 @@ const Peer: React.FC = () => {
                             )}
 
                             <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-                                Submitted: {new Date(question.submittedAt).toLocaleString()}
+                                Submitted: {formatVietnameseDateTime(question.submittedAt)}
                             </div>
                         </div>
                     </div>

@@ -64,6 +64,30 @@ const PreviewExam = () => {
         fetchExamData();
     }, [userId, examId, scoreId]);
 
+    const formatVietnameseDateTime = (utcDate: string) => {
+        const date = new Date(utcDate);        
+        const vietnamTime = new Date(date.getTime() + 7 * 60 * 60 * 1000);
+        
+        return vietnamTime.toLocaleString("vi-VN", {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
+    };
+    
+    useEffect(() => {        
+        const scrollToTop = () => {
+            window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+            });
+        };
+        scrollToTop();          
+      });
+
     if (!examData) {
         return (
             <div className="flex items-center justify-center h-screen">
@@ -176,7 +200,7 @@ const PreviewExam = () => {
                         <div className="flex justify-between items-center mt-4">
 
                             <p className="mt-4 text-xs text-gray-500 dark:text-gray-400">
-                                Submitted At: {new Date(question.submittedAt).toLocaleString()}
+                                Submitted At: {formatVietnameseDateTime(question.submittedAt)}
                             </p>
 
                         </div>                        

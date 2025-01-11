@@ -27,17 +27,23 @@ const JobDetail = () => {
   const { cost, isLoading, fetchCost } = useTotalCost(); // Lấy tổng chi phí từ hook
   const [thisCost, setThisCost] = useState<number>(0);
   const [selectedOrganization, setSelectedOrganization] = useState<number | undefined>(undefined);
+  const [showCostPopup, setShowCostPopup] = useState<boolean>(false); // State to manage popup visibility
 
   const handleCertToggle = (certId: number) => {
     setSelectedCertIds((prevSelected) => {
-      // Nếu đã tồn tại trong danh sách, loại bỏ
-      if (prevSelected.includes(certId)) {
-        return prevSelected.filter((id) => id !== certId);
-      }
-      // Nếu chưa tồn tại, thêm vào danh sách
-      return [...prevSelected, certId];
+        if (prevSelected.includes(certId)) {
+            const updatedSelected = prevSelected.filter((id) => id !== certId);
+            // Hide the popup if no certificates are selected
+            if (updatedSelected.length === 0) {
+                setShowCostPopup(false);
+            }
+            return updatedSelected;
+        }
+        setShowCostPopup(true); // Show popup when a certificate is selected
+        return [...prevSelected, certId];
     });
   };
+
   useEffect(() => {
     if (selectedCertIds.length > 0) {
       fetchCost(selectedCertIds);
@@ -136,18 +142,14 @@ const JobDetail = () => {
           <div dangerouslySetInnerHTML={{
             __html: jobDetail?.jobPositionDescription || ""
           }} />
-        </div>
-        <div className="fade-in mt-6 text-2xl font-bold text-gray-900 dark:text-white">
-          You need to pay ${isLoading ? "Loading..." : thisCost} to obtain these certificates.
-        </div>
-        <p className=" fade-in mt-4 text-gray-500 text-xl">Please select checkbox in the top of certification!</p>                
+        </div>              
       </header>
 
       {/* Certificates Grid */}
       <main className="max-w-7xl mx-auto px-4 py-12">
         <div className="mb-4 p-4 bg-blue-50 dark:bg-gray-800 rounded-lg shadow-md text-center">
           <p className="text-sm text-gray-700 dark:text-gray-300">
-            <strong>Instructions:</strong> Click on the <span className="text-blue-500">certificate image</span> to filter by organization. Click the <FaEye className="inline text-blue-500" /> icon to view certificate details.
+            <strong>Instructions:</strong> Click on the <span className="text-blue-500">certificate image</span> to filter by organization. Click the <FaEye className="inline text-blue-500" /> icon to view certificate details. Select the checkbox at the top of the certification to view the total amount of money.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -236,6 +238,15 @@ const JobDetail = () => {
           />
         </div>
       </main>
+
+      {/* Popup for displaying cost */}
+      {showCostPopup && thisCost > 0 && ( // Ensure popup only shows if thisCost is greater than 0
+        <div className="fixed bottom-4 right-4 bg-white shadow-lg rounded-lg p-4 z-50 border border-gray-300 transition-transform transform hover:scale-105">
+            <div className="text-lg font-bold text-gray-900 dark:text-white">
+                You need to pay ${isLoading ? "Loading..." : thisCost} to obtain these certificates.
+            </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -156,18 +156,7 @@ const PeerReviewPage: React.FC = () => {
                         <TrophyOutlined />
                         <span>Max Score: {peerReview?.maxQuestionScore}</span>
                     </div>
-                </div>
-
-                <div className="mb-8">
-                    <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Overall Feedback</h2>
-                    <textarea
-                        value={peerReview?.feedbackPeerReviewer}
-                        onChange={handleFeedbackChange}
-                        placeholder="Enter your overall feedback for this exam..."
-                        className="w-full p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                        rows={4}
-                    />
-                </div>
+                </div>                
 
                 <div className="space-y-6">
                     <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300">Question Reviews</h2>
@@ -222,6 +211,17 @@ const PeerReviewPage: React.FC = () => {
                             </div>
                         </div>
                     ))}
+                </div>
+
+                <div className="mt-8">
+                    <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Overall Feedback</h2>
+                    <textarea
+                        value={peerReview?.feedbackPeerReviewer}
+                        onChange={handleFeedbackChange}
+                        placeholder="Enter your overall feedback for this exam..."
+                        className="w-full p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        rows={4}
+                    />
                 </div>
 
                 <div className="mt-8 flex justify-end gap-4">

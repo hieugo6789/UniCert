@@ -540,7 +540,7 @@ const Profile = () => {
                   <span className="text-gray-700 dark:text-gray-300 font-medium">Points Progress</span>
                   <div className="flex items-center gap-2">
                     <span className="text-purple-600 dark:text-purple-400 font-bold">{totalPoints}</span>
-                    <span className="text-gray-500 dark:text-gray-400 text-sm">points</span>
+                    <span className="text-gray-500 dark:text-gray-400 text-sm">coin</span>
                   </div>
                 </div>
 
@@ -549,29 +549,45 @@ const Profile = () => {
                   <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-purple-500 to-purple-600 transition-all duration-500"
-                      style={{ width: `${Math.min(100, (totalPoints / 500) * 100)}%` }}
+                      style={{ 
+                        width: `${(() => {
+                          if (totalPoints >= 500) return 100;
+                          if (totalPoints >= 300) {
+                            return 66.67 + ((totalPoints - 300) / 200) * 33.33;
+                          }
+                          if (totalPoints >= 100) {
+                            return 33.33 + ((totalPoints - 100) / 200) * 33.34;
+                          }
+                          return (totalPoints / 100) * 33.33;
+                        })()}%`
+                      }}
                     />
                   </div>
                   
-                  {/* Rank Markers */}
-                  <div className="flex justify-between mt-2">
-                    <div className="flex flex-col items-center">
+                  {/* Rank Markers with equal spacing */}
+                  <div className="flex justify-between mt-2" style={{ position: 'relative' }}>
+                    <div className="flex flex-col items-center" style={{ position: 'absolute', left: '0%', transform: 'translateX(-50%)' }}>
+                      <div className="absolute -top-8 w-px h-4 bg-gray-300 dark:bg-gray-600 left-1/2 transform -translate-x-1/2"></div>
                       <img src={bronze} alt="Bronze" className="w-8 h-8" />
                       <span className="text-xs text-gray-600 dark:text-gray-400 mt-1">0</span>
                     </div>
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center" style={{ position: 'absolute', left: '33.33%', transform: 'translateX(-50%)' }}>
+                      <div className="absolute -top-8 w-px h-4 bg-gray-300 dark:bg-gray-600 left-1/2 transform -translate-x-1/2"></div>
                       <img src={silver} alt="Silver" className="w-8 h-8" />
                       <span className="text-xs text-gray-600 dark:text-gray-400 mt-1">100</span>
                     </div>
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center" style={{ position: 'absolute', left: '66.67%', transform: 'translateX(-50%)' }}>
+                      <div className="absolute -top-8 w-px h-4 bg-gray-300 dark:bg-gray-600 left-1/2 transform -translate-x-1/2"></div>
                       <img src={gold} alt="Gold" className="w-8 h-8" />
                       <span className="text-xs text-gray-600 dark:text-gray-400 mt-1">300</span>
                     </div>
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center" style={{ position: 'absolute', left: '100%', transform: 'translateX(-50%)' }}>
+                      <div className="absolute -top-8 w-px h-4 bg-gray-300 dark:bg-gray-600 left-1/2 transform -translate-x-1/2"></div>
                       <img src={diamond} alt="Diamond" className="w-8 h-8" />
                       <span className="text-xs text-gray-600 dark:text-gray-400 mt-1">500</span>
                     </div>
                   </div>
+                  <div style={{ height: '60px' }}></div>
                 </div>
 
                 {/* Current Rank Display */}
@@ -595,7 +611,7 @@ const Profile = () => {
                           {getRankInfo().rank}
                         </span>
                         <div className="text-sm text-gray-500 dark:text-gray-400">
-                          {totalPoints} points earned
+                          {totalPoints} coin earned
                         </div>
                       </div>
                     </div>
@@ -630,7 +646,7 @@ const Profile = () => {
                               totalPoints >= 300 ? 500 - totalPoints :
                               totalPoints >= 100 ? 300 - totalPoints :
                               100 - totalPoints
-                            } more points
+                            } more coin
                           </div>
                         </div>
                       </div>
