@@ -238,7 +238,7 @@ const CreateCert = ({
           </Form.Item>
 
           <Form.Item
-            label="Cost"
+            label="Cost (Minimum value, in $)"
             name="certCost"
           >
             <InputNumber
@@ -297,6 +297,30 @@ const CreateCert = ({
           </Form.Item>
 
           <Form.Item
+            label="Organization"
+            name="organizeId"
+            rules={[
+              { required: true, message: "Please select an organization" },
+            ]}
+          >
+            <Select
+              placeholder="Select Organization"
+              onChange={handleSelectChange}
+              style={{ width: "100%" }}
+              value={formData.organizeId}
+            >
+              {organization.map((org) => (
+                <Select.Option
+                  key={org.organizeId}
+                  value={org.organizeId}
+                >
+                  {org.organizeName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item
             label="Level"
             name="typeId"
             rules={[
@@ -318,30 +342,6 @@ const CreateCert = ({
                   value={ct.typeId}
                 >
                   {ct.typeName}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            label="Organization"
-            name="organizeId"
-            rules={[
-              { required: true, message: "Please select an organization" },
-            ]}
-          >
-            <Select
-              placeholder="Select Organization"
-              onChange={handleSelectChange}
-              style={{ width: "100%" }}
-              value={formData.organizeId}
-            >
-              {organization.map((org) => (
-                <Select.Option
-                  key={org.organizeId}
-                  value={org.organizeId}
-                >
-                  {org.organizeName}
                 </Select.Option>
               ))}
             </Select>
