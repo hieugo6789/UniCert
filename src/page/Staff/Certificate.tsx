@@ -144,8 +144,8 @@ const Certificate = () => {
   return (
     <>
       <div className="h-[10vh] flex justify-between items-center">
-        <div className="flex items-center w-full ml-10">
-          <div className="relative flex items-center border-2 border-transparent focus-within:border-blue-500 rounded-full w-1/5">
+        <div className="flex items-center w-fit ml-10">
+          <div className="relative flex items-center border-2 border-transparent focus-within:border-blue-500 rounded-full">
             <Input
               placeholder="Search"
               value={searchTerm}
